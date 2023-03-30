@@ -26,19 +26,21 @@ class Bomb extends Entity {
   constructor(x, y, hidden = true, flagged = false) {
     super(x, y, hidden, flagged)
   }
+  render = () => {
+    if (this.hidden === false) {
+      console.log("ciao")
+      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
+      return
+    }
+    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellClicked(${this.x}, ${this.y})"> </div>`
+  }
   click = () => {
     console.log(this)
     if (this.hidden === true) {
       this.hidden = false
-      alert("hai perso")
       this.render()
+      alert("hai perso")
     }
-  }
-  render = () => {
-    if (this.hidden === false) {
-      return `<div id="cell_${this.x}_${this.y}" class="Bomb Shown" onclick="cellClicked(${this.x}, ${this.y})"> </div>`
-    }
-    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellClicked(${this.x}, ${this.y})"> </div>`
   }
 }
 
@@ -47,221 +49,54 @@ class NumberCell extends Entity {
     super(x, y, hidden, flagged)
     this.number = number
   }
+  render = () => {
+    if (this.hidden === false) {
+      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = this.number
+    }
+    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})"> <div>`
+  }
 
   click = () => {
     console.log(this)
-    if (this.hidden === true && this.numberCheck() === 0) {
+    if (this.hidden === true) {
+      if (this.numberCheck() === 0) {
+        this.hidden = false
+        for (let counterY = -1; counterY <= 1; counterY++) {
+          for (let counterX = -1; counterX <= 1; counterX++) {
+            try {
+              if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
+                memoryTable[this.y - counterY][this.x - counterX].click()
+              }
+            } catch (error) {
+            }
+          }
+        }
+      }
       this.hidden = false
-      try {
-        if (memoryTable[this.y - 1][this.x - 1].constructor.name !== "Bomb") {
-          memoryTable[this.y - 1][this.x - 1].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y - 1][this.x].constructor.name !== "Bomb") {
-          memoryTable[this.y - 1][this.x].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y - 1][this.x + 1].constructor.name !== "Bomb") {
-          memoryTable[this.y - 1][this.x + 1].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y][this.x - 1].constructor.name !== "Bomb") {
-          memoryTable[this.y][this.x - 1].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y][this.x + 1].constructor.name !== "Bomb") {
-          memoryTable[this.y][this.x + 1].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y + 1][this.x - 1].constructor.name !== "Bomb") {
-          memoryTable[this.y + 1][this.x - 1].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y + 1][this.x].constructor.name !== "Bomb") {
-          memoryTable[this.y + 1][this.x].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
-      try {
-        if (memoryTable[this.y + 1][this.x + 1].constructor.name !== "Bomb") {
-          memoryTable[this.y + 1][this.x + 1].click()
-        }
-      } catch (error) {
-        // console.log(error)
-      }
+      this.render()
     }
-  }
-  render = () => {
-    if (this.hidden === false) {
-      return `<div id="cell__${this.x}_${this.y}" class="NumberCell Shown" onclick="cellClicked(${this.x}, ${this.y})"> <div>${this.numberCheck()}</div> </div>`
-    }
-    return `<div id="cell__${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})"> <div>`
   }
   numberCheck = () => {
     let counter = 0
-    try {
-      if (memoryTable[this.y - 1][this.x - 1].constructor.name === "Bomb") {
-        counter++
+    for (let counterY = -1; counterY <= 1; counterY++) {
+      for (let counterX = -1; counterX <= 1; counterX++) {
+        try {
+          if (memoryTable[this.y - counterY][this.x - counterX].constructor.name === "Bomb") {
+            counter ++
+          }
+        } catch (error) {
+
+        }
       }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y - 1][this.x].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y - 1][this.x + 1].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y][this.x - 1].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y][this.x + 1].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y + 1][this.x - 1].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y + 1][this.x].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
-    }
-    try {
-      if (memoryTable[this.y + 1][this.x + 1].constructor.name === "Bomb") {
-        counter++
-      }
-    } catch (error) {
-      // console.log(error)
     }
     this.number = counter
     this.render()
     return counter
   }
 }
-/*
-  class VoidCell extends Entity {
-	constructor(x, y, hidden = true, flagged = false){
-	  super(x, y, hidden, flagged)
-	  this.click = () => {
-		if (this.hidden === true) {
-		  this.hidden = false
-		  try {
-			if (memoryTable[this.y-1][this.x-1].constructor.name !== "Bomb") {
-			  memoryTable[this.y-1][this.x-1].click()
-			}
-		  } catch (error) {
-			// console.log(error)
 
-		  }
-		  try {
-			if (memoryTable[this.y-1][this.x].constructor.name !== "Bomb") {
-			  memoryTable[this.y-1][this.x].click()
-			}
-		  } catch (error) {
-			// console.log(error)
-
-		  }
-		  try {
-			if (memoryTable[this.y-1][this.x+1].constructor.name !== "Bomb") {
-			  memoryTable[this.y-1][this.x+1].click()
-			}
-		  }
-		  catch (error) {
-			// console.log(error)
-
-		  }
-		  try {
-			if (memoryTable[this.y][this.x-1].constructor.name !== "Bomb") {
-			  memoryTable[this.y][this.x-1].click()
-			}
-		  }
-		  catch (error) {
-			// console.log(error)
-
-		  }
-		  try {
-			if (memoryTable[this.y][this.x+1].constructor.name !== "Bomb") {
-			  memoryTable[this.y][this.x+1].click()
-			}
-		  }
-		  catch (error) {
-			// console.log(error)
-
-		  }
-		  try {
-			if (memoryTable[this.y+1][this.x-1].constructor.name !== "Bomb") {
-			  memoryTable[this.y+1][this.x-1].click()
-			}
-		  }
-		  catch (error) {
-			// console.log(error)
-
-		  }
-		  try {
-			if (memoryTable[this.y+1][this.x].constructor.name !== "Bomb") {
-			  memoryTable[this.y+1][this.x].click()
-			}
-		  }
-		  catch (error) {
-			// console.log(error)
-
-		  }
-		  try {
-			if (memoryTable[this.y+1][this.x+1].constructor.name !== "Bomb") {
-			  memoryTable[this.y+1][this.x+1].click()
-			}
-		  }
-		  catch (error) {
-			// console.log(error)
-
-		  }
-		}
-	  }
-	}
-  }
-*/
-
+// eslint-disable-next-line no-unused-vars
 const tableGenerator = () => {
   memoryTable.forEach((e, indY) => {
     e.forEach((elem, indX) => {
@@ -269,11 +104,6 @@ const tableGenerator = () => {
     })
   })
 
-  /* 	memoryTable.forEach( (e, i) => {
-		  e.forEach((elem, ind) => {
-			  memoryTable[i][ind] = tempMemoryTable[i][ind]
-		  });
-	  }); */
   const container = document.getElementById("container")
   container.innerHTML = ""
 
@@ -297,18 +127,11 @@ const bombGenerator = (x, y) => {
   }
 }
 
-/* const bombDrawControl = (x, y) => {
-	  console.log(memoryTable[y], memoryTable[y][x])
-	  if (memoryTable[y][x] == -1) {
-		  return true
-	  } else {
-		  return false
-	  }
-} */
-
+// eslint-disable-next-line no-unused-vars
 const prova = () => {
   console.log(memoryTable)
 }
+// eslint-disable-next-line no-unused-vars
 const cellClicked = (x, y) => {
   console.log(x, y)
   memoryTable[y][x].click()
