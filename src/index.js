@@ -52,7 +52,7 @@ class NumberCell extends Entity {
   render = () => {
     if (this.hidden === false) {
       document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = this.number
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="img/number_${this.number}.svg" width="40" height="30" class="NumberImg">`
     }
     return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})"> <div>`
   }
