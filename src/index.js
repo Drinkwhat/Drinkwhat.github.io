@@ -11,6 +11,8 @@ const memoryTable = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
 
+let firstclick = true
+
 class Entity {
   constructor(x, y, hidden, flagged) {
     this.x = x
@@ -30,13 +32,20 @@ class Bomb extends Entity {
     if (this.hidden === false) {
       console.log("ciao")
       document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/bomb.svg"  width="45" height="45" class="Img">`
       return
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellClicked(${this.x}, ${this.y})"> </div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="memoryTable[${this.y}][${this.x}].click()"> </div>`
   }
   click = () => {
     console.log(this)
-    if (this.hidden === true) {
+    if (firstclick === true) {
+      do {
+        tableGenerator()
+        memoryTable[this.y][this.x].click()
+      } while (memoryTable[this.y][this.x].constructor.name === "Bomb" || memoryTable[this.y][this.x].numberCheck() !== 0)
+      firstclick = false
+    } else if (this.hidden === true) {
       this.hidden = false
       this.render()
       alert("hai perso")
@@ -52,16 +61,21 @@ class NumberCell extends Entity {
   render = () => {
     if (this.hidden === false) {
       document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="img/number_${this.number}.svg" width="40" height="30" class="NumberImg">`
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/number_${this.number}.svg" width="45" height="45" class="Img">`
+      return
     }
-    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="memoryTable[${this.y}][${this.x}].click()"> <div>`
   }
 
   click = () => {
     console.log(this)
-    if (this.hidden === true) {
+    if (firstclick === true && memoryTable[this.y][this.x].numberCheck() !== 0) {
+      do {
+        tableGenerator()
+        memoryTable[this.y][this.x].click()
+      } while (memoryTable[this.y][this.x].constructor.name === "Bomb" || memoryTable[this.y][this.x].numberCheck() !== 0)
+    } else if (this.hidden === true) {
       if (this.numberCheck() === 0) {
-        this.hidden = false
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
             try {
@@ -73,6 +87,7 @@ class NumberCell extends Entity {
           }
         }
       }
+      firstclick = false
       this.hidden = false
       this.render()
     }
@@ -119,7 +134,6 @@ const tableGenerator = () => {
 
 const bombGenerator = (x, y) => {
   const bombChance = Math.floor(Math.random() * 10)
-
   if (bombChance <= 2) {
     return new Bomb(x, y)
   } else {
@@ -132,7 +146,3 @@ const prova = () => {
   console.log(memoryTable)
 }
 // eslint-disable-next-line no-unused-vars
-const cellClicked = (x, y) => {
-  console.log(x, y)
-  memoryTable[y][x].click()
-}
