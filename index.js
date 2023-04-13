@@ -68,26 +68,26 @@ class NumberCell extends Entity {
         for (let counterX = -1; counterX <= 1; counterX++) {
           firstGenCoord.push(`${this.y - counterY}_${this.x - counterX}`)
         }}
-      firstClick = false
-    } else if (this.hiiden === true) {
-        if (this.numberCheck() === 0) {
-          this.hidden = false
-          for (let counterY = -1; counterY <= 1; counterY++) {
-            for (let counterX = -1; counterX <= 1; counterX++) {
-              try {
-                if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
-                  memoryTable[this.y - counterY][this.x - counterX].click()
-                }
-              } catch (error) {
+    }
+
+    if (this.hidden === true) {
+      if (this.numberCheck() === 0) {
+        this.hidden = false
+        for (let counterY = -1; counterY <= 1; counterY++) {
+          for (let counterX = -1; counterX <= 1; counterX++) {
+            try {
+              if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
+                memoryTable[this.y - counterY][this.x - counterX].click()
               }
+            } catch (error) {
             }
           }
         }
-        this.hidden = false
-        this.render()
       }
+      this.hidden = false
+      this.render()
     }
-    
+  }
   numberCheck = () => {
     let counter = 0
     for (let counterY = -1; counterY <= 1; counterY++) {
@@ -111,7 +111,7 @@ const onLoadTableGenerator = () => {
   // crea solo celle
   memoryTable.forEach((e, indY) => {
     e.forEach((elem, indX) => {
-      memoryTable[indY][indX] = new NumberCell(indX, indY) 
+      memoryTable[indY][indX] = new NumberCell(x, y) 
     })
   })
 
