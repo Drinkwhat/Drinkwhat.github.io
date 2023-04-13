@@ -31,11 +31,15 @@ class Bomb extends Entity {
     super(x, y, hidden, flagged)
   }
   render = () => {
-    if (this.hidden === false) {
+    if (this.flagged === true) {
+      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Flag")
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/flag.svg" width="45" height="45" class="Img">`
+    } else if (this.hidden === false) {
       document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/bomb.svg"  width="45" height="45"    class="Img">`
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/bomb.svg" width="45" height="45" class="Img">`
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellClicked(${this.x}, ${this.y})" oncontextmenu="cellRightClicked(${this.x}, ${this.y})"> </div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellClicked(${this.x}, ${this.y})" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+
   }
   click = () => {
     console.log(this)
@@ -53,12 +57,14 @@ class NumberCell extends Entity {
     this.number = number
   }
   render = () => {
-    if (this.hidden === false) {
+    if (this.flagged === true) {
+      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Flag")
+      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/flag.svg" width="45" height="45" class="Img">`
+    } else if (this.hidden === false) {
       document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
       document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/number_${this.number}.svg" width="45" height="45" class="Img">`
     }
-    /*return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})" oncontextmenu="cellRightClicked(${this.x}, ${this.y})"> <div>`*/
-    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})" <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
 
   click = () => {
@@ -67,9 +73,12 @@ class NumberCell extends Entity {
       for (let counterY = -1; counterY <= 1; counterY++) {
         for (let counterX = -1; counterX <= 1; counterX++) {
           firstGenCoord.push(`${this.y - counterY}_${this.x - counterX}`)
-        }}
+        }
+      }
+      tableGenerator()
       firstClick = false
-    } else if (this.hiiden === true) {
+      cellClicked(this.x, this.y)
+    } else if (this.hidden === true) {
         if (this.numberCheck() === 0) {
           this.hidden = false
           for (let counterY = -1; counterY <= 1; counterY++) {
@@ -144,33 +153,10 @@ const tableGenerator = () => {
     container.innerHTML += `<div id="row_${i}" class="row"> </div>`
     e.forEach(elem => {
       const row = document.getElementById(`row_${i}`)
-      row.innerHTML += elem.render()
+      row.innerHTML += elem.render()      
     })
   })
 }
-/*
-const tableGenerator = () => {
-  memoryTable.forEach((e, indY) => {
-    e.forEach((elem, indX) => {
-      memoryTable[indY][indX] = bombGenerator(indX, indY)
-    })
-  })
-
-  const container = document.getElementById("container")
-  container.innerHTML = ""
-
-  memoryTable.forEach((e, i) => {
-    container.innerHTML += `<div id="row_${i}" class="row"> </div>`
-    e.forEach(elem => {
-      const row = document.getElementById(`row_${i}`)
-      row.innerHTML += elem.render()
-    })
-  })
-  console.log(memoryTable)
-} */
-
-// eslint-disable-next-line no-unused-vars
-
 
 const bombGenerator = (x, y) => {
   const bombChance = Math.floor(Math.random() * 10)
@@ -182,17 +168,18 @@ const bombGenerator = (x, y) => {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-const prova = () => {
-  console.log(memoryTable)
-}
-// eslint-disable-next-line no-unused-vars
 const cellClicked = (x, y) => {
-  console.log(x, y)
+  console.log(x, y, "clicked")
   memoryTable[y][x].click()
 }
-/*
-const cellRightClicked = (x, y) => {
 
-  console.log(x, y, "right clcked")
-}*/
+const cellRightClicked = (e, x, y) => {
+  e.preventDefault()
+  if (memoryTable[y][x].flagged === false) {
+    memoryTable[y][x].flagged = true
+  } else {
+    memoryTable[y][x].flagged = false
+  }
+  memoryTable[y][x].render()
+  console.log(x, y, "right clicked")
+}
