@@ -31,22 +31,35 @@ class Bomb extends Entity {
     super(x, y, hidden, flagged)
   }
   render = () => {
-    if (this.flagged === true) {
-      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Flag")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/flag.svg" width="45" height="45" class="Img">`
+    const div = document.getElementById(`cell_${this.x}_${this.y}`)
+    if (this.flagged === true && this.hidden === true) {
+      div.classList.add("Flag")
+    } else if (this.hidden === true && this.flagged === false) {
+      try {
+        div.classList.remove("Flag")
+      } catch (error) {
+      }
     } else if (this.hidden === false) {
-      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/bomb.svg" width="45" height="45" class="Img">`
+      div.classList.add("Shown", "Bomb")
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellClicked(${this.x}, ${this.y})" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell Bomb" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
 
   }
   click = () => {
-    console.log(this)
-    if (this.hidden === true) {
+    if (this.flagged === false && this.hidden === true) {
       this.hidden = false
       this.render()
       alert("hai perso")
+      memoryTable.forEach(e => {
+        e.forEach(elem => {
+          elem.hidden = false
+          elem.render()
+        })
+      })
+      /* setTimeout(() => {
+        location.reload()
+      }, 10000) */
     }
   }
 }
@@ -57,14 +70,20 @@ class NumberCell extends Entity {
     this.number = number
   }
   render = () => {
-    if (this.flagged === true) {
-      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Flag")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/flag.svg" width="45" height="45" class="Img">`
+    const div = document.getElementById(`cell_${this.x}_${this.y}`)
+    if (this.flagged === true && this.hidden === true) {
+      div.classList.add("Flag")
+    } else if (this.hidden === true && this.flagged === false) {
+      try {
+        div.classList.remove("Flag")
+      } catch (error) {
+      }
     } else if (this.hidden === false) {
-      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = `<img src="./img/number_${this.number}.svg" width="45" height="45" class="Img">`
+      div.classList.add("Shown")
+      this.numberCheck()
+      div.innerHTML = `<img src="./img/number_${this.number}.svg">`
     }
-    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellClicked(${this.x}, ${this.y})" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
 
   click = () => {
@@ -77,7 +96,7 @@ class NumberCell extends Entity {
       }
       tableGenerator()
       firstClick = false
-      cellClicked(this.x, this.y)
+      memoryTable[this.y][this.x].click()
     } else if (this.hidden === true) {
         if (this.numberCheck() === 0) {
           this.hidden = false
@@ -111,7 +130,6 @@ class NumberCell extends Entity {
       }
     }
     this.number = counter
-    this.render()
     return counter
   }
 }
@@ -166,11 +184,6 @@ const bombGenerator = (x, y) => {
   } else {
     return new NumberCell(x, y)
   }
-}
-
-const cellClicked = (x, y) => {
-  console.log(x, y, "clicked")
-  memoryTable[y][x].click()
 }
 
 const cellRightClicked = (e, x, y) => {
