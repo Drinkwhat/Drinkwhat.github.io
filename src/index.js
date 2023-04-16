@@ -15,6 +15,10 @@ let firstClick = true
 
 const firstGenCoord = []
 
+const BOMBNUMBER = 20
+const cellGenerated = [] // per bombNumberCheck
+const bombGenerated = []
+
 class Entity {
   constructor(x, y, hidden, flagged) {
     this.x = x
@@ -43,7 +47,6 @@ class Bomb extends Entity {
       div.classList.add("Shown", "Bomb")
     }
     return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
-    return `<div id="cell_${this.x}_${this.y}" class="Cell Bomb" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
 
   }
   click = () => {
@@ -138,7 +141,8 @@ const onLoadTableGenerator = () => {
   // crea solo celle
   memoryTable.forEach((e, indY) => {
     e.forEach((elem, indX) => {
-      memoryTable[indY][indX] = new NumberCell(indX, indY) 
+      memoryTable[indY][indX] = new NumberCell(indX, indY)
+      cellGenerated.push(memoryTable[indY][indX])
     })
   })
 
@@ -160,9 +164,20 @@ const tableGenerator = () => {
     e.forEach((elem, indX) => {
       if(!firstGenCoord.includes(`${indY}_${indX}`)) {
         memoryTable[indY][indX] = bombGenerator(indX, indY)
+      } else {
+        let oldCellIndex = cellGenerated.findIndex((cell) => {
+          if(cell.x == indX && cell.y == indY) {
+            return true
+          } else {
+            return false
+          }
+        })
+        cellGenerated.splice(oldCellIndex, 1)
       }
     })
   })
+
+  bombNumberCheck()
 
   container = document.getElementById("container")
   container.innerHTML = ""
@@ -177,12 +192,45 @@ const tableGenerator = () => {
 }
 
 const bombGenerator = (x, y) => {
-  const bombChance = Math.floor(Math.random() * 10)
-
+  let bombChance = Math.floor(Math.random() * 10)
   if (bombChance <= 2) {
+    bombGenerated.push(memoryTable[y][x])
+        let oldCellIndex = cellGenerated.findIndex((cell) => {
+          if(cell.x == x && cell.y == y) {
+            return true
+          } else {
+            return false
+          }
+        })
+        if (oldCellIndex != -1) {
+          cellGenerated.splice(oldCellIndex, 1)
+        }
     return new Bomb(x, y)
   } else {
     return new NumberCell(x, y)
+  }
+}
+
+const bombNumberCheck = () => {
+  if (BOMBNUMBER > bombGenerated.length) {
+    // meno bombe del dovuto
+    let cellSurplusIndex = Math.floor(Math.random() * cellGenerated.length)
+    let x = cellGenerated[cellSurplusIndex].x
+    let y = cellGenerated[cellSurplusIndex].y
+    memoryTable[y][x] = new Bomb(x, y)
+    bombGenerated.push(memoryTable[y][x])
+    cellGenerated.splice(cellSurplusIndex, 1)
+    bombNumberCheck()
+
+  } else if (BOMBNUMBER < bombGenerated.length) {
+    // più bombe del dovuto
+    let bombSurplusIndex = Math.floor(Math.random() * bombGenerated.length)
+    let x = bombGenerated[bombSurplusIndex].x
+    let y = bombGenerated[bombSurplusIndex].y
+    memoryTable[y][x] = new NumberCell(x, y)
+    cellGenerated.push(memoryTable[y][x])
+    bombGenerated.splice(bombSurplusIndex, 1)
+    bombNumberCheck()
   }
 }
 
