@@ -1,4 +1,7 @@
 /* eslint-disable no-console */
+import gameover from "./gameover.js"
+import { timerInit } from "./timer.js"
+
 const memoryTable = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -13,6 +16,8 @@ const memoryTable = [
 
 let firstClick = true
 const firstGenCoord = []
+
+let cellRevealed = 0
 
 const BOMBNUMBER = 20
 const cellGenerated = [] // per bombNumberCheck
@@ -45,19 +50,13 @@ class Bomb extends Entity {
     } else if (this.hidden === false) {
       div.classList.add("Bomb")
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell Bomb " onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
   click = () => {
     if (this.flagged === false && this.hidden === true) {
       this.hidden = false
       this.render()
-      alert("hai perso")
-      setTimeout((memoryTable.forEach(e => {
-        e.forEach(elem => {
-          elem.hidden = false
-          elem.render()
-        })
-      })), 10000)
+      gameover("bomb")
       /*  memoryTable.forEach(e => {
         e.forEach(elem => {
           elem.hidden = false
@@ -102,6 +101,7 @@ class NumberCell extends Entity {
         }
       }
       tableGenerator()
+      timerInit()
       firstClick = false
       this.click()
       memoryTable.forEach(e => {
@@ -112,6 +112,10 @@ class NumberCell extends Entity {
       })
     } else if (this.hidden === true) {
       this.hidden = false
+      cellRevealed++
+      if (cellGenerated.length === cellRevealed) { // issue
+        gameover("win")
+      }
       if (this.numberCheck() === 0) {
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
