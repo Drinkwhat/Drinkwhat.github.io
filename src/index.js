@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 const memoryTable = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -12,6 +13,8 @@ const memoryTable = [
 ]
 
 let firstClick = true
+
+let cellRevealed = 0
 
 const firstGenCoord = []
 
@@ -46,19 +49,13 @@ class Bomb extends Entity {
     } else if (this.hidden === false) {
       div.classList.add("Shown", "Bomb")
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell Bomb " onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
   click = () => {
     if (this.flagged === false && this.hidden === true) {
       this.hidden = false
       this.render()
-      alert("hai perso")
-      setTimeout((memoryTable.forEach(e => {
-        e.forEach(elem => {
-          elem.hidden = false
-          elem.render()
-        })
-      })), 10000)
+      gameover("bomb")
       /*  memoryTable.forEach(e => {
         e.forEach(elem => {
           elem.hidden = false
@@ -103,10 +100,15 @@ class NumberCell extends Entity {
         }
       }
       tableGenerator()
+      timerInit()
       firstClick = false
       memoryTable[this.y][this.x].click()
     } else if (this.hidden === true) {
       this.hidden = false
+      cellRevealed++
+      if (cellGenerated.length === cellRevealed) { // issue
+        gameover("win")
+      }
       if (this.numberCheck() === 0) {
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
