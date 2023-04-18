@@ -12,7 +12,6 @@ const memoryTable = [
 ]
 
 let firstClick = true
-
 const firstGenCoord = []
 
 const BOMBNUMBER = 20
@@ -44,7 +43,7 @@ class Bomb extends Entity {
       } catch (error) {
       }
     } else if (this.hidden === false) {
-      div.classList.add("Shown", "Bomb")
+      div.classList.add("Bomb")
     }
     return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
@@ -104,7 +103,13 @@ class NumberCell extends Entity {
       }
       tableGenerator()
       firstClick = false
-      memoryTable[this.y][this.x].click()
+      this.click()
+      memoryTable.forEach(e => {
+        e.forEach(elem => {
+          elem.flagged = false
+          elem.render()
+        })
+      })
     } else if (this.hidden === true) {
       this.hidden = false
       if (this.numberCheck() === 0) {
@@ -132,7 +137,6 @@ class NumberCell extends Entity {
           }
         }
       }
-      console.log(flagCounter, this.numberCheck())
       if (flagCounter === this.numberCheck()) {
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
@@ -182,6 +186,24 @@ class NumberCell extends Entity {
       }
       this.render()
     }
+    // check vittoria
+    /* let hiddenCounter = 0
+    memoryTable.forEach(e => {
+      e.forEach(elem => {
+        if (elem.hidden === true) {
+          hiddenCounter++
+        }
+      })
+    })
+    if (hiddenCounter === BOMBNUMBER) {
+      alert("hai vinto")
+      /* setTimeout((memoryTable.forEach(e => {
+        e.forEach(elem => {
+          elem.hidden = false
+          elem.render()
+        })
+      })), 10000)
+    } */
   }
 
   numberCheck = () => {
@@ -255,7 +277,6 @@ const tableGenerator = () => {
       row.innerHTML += elem.render()
     })
   })
-  console.log(memoryTable)
 }
 
 const bombGenerator = (x, y) => {
@@ -286,7 +307,6 @@ const bombNumberCheck = () => {
     bombGenerated.push(memoryTable[y][x])
     cellGenerated.splice(cellSurplusIndex, 1)
     bombNumberCheck()
-
   } else if (BOMBNUMBER < bombGenerated.length) {
     // più bombe del dovuto
     const bombSurplusIndex = Math.floor(Math.random() * bombGenerated.length)
@@ -307,5 +327,4 @@ const cellRightClicked = (e, x, y) => {
   }
   memoryTable[y][x].flagged = !memoryTable[y][x].flagged
   memoryTable[y][x].render()
-  console.log(x, y, "right clicked")
 }
