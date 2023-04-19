@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-console */
 
 const memoryTable = [
@@ -47,9 +48,9 @@ class Bomb extends Entity {
       } catch (error) {
       }
     } else if (this.hidden === false) {
-      div.classList.add("Shown", "Bomb")
+      div.classList.add("Bomb")
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Cell Bomb " onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
   click = () => {
     if (this.flagged === false && this.hidden === true) {
@@ -93,11 +94,17 @@ class NumberCell extends Entity {
       tableGenerator()
       timerInit()
       firstClick = false
-      memoryTable[this.y][this.x].click()
+      this.click()
+      memoryTable.forEach(e => {
+        e.forEach(elem => {
+          elem.flagged = false
+          elem.render()
+        })
+      })
     } else if (this.hidden === true) {
       this.hidden = false
       cellRevealed++
-      console.log(cellRevealed, cellGenerated.length)
+      // console.log(cellRevealed, cellGenerated.length)
       if (cellGenerated.length + 9 === cellRevealed) { // issue
         gameover("win")
       }
@@ -116,7 +123,7 @@ class NumberCell extends Entity {
       this.render()
     } else if (this.hidden === false && this.numberCheck() !== 0 && this.flagged === false) {
       let flagCounter = 0
-      for (let counterY = -1; counterY <= 1; counterY++) { 
+      for (let counterY = -1; counterY <= 1; counterY++) {
         for (let counterX = -1; counterX <= 1; counterX++) {
           try {
             if (memoryTable[this.y - counterY][this.x - counterX].flagged === true) {
@@ -303,4 +310,16 @@ const cellRightClicked = (e, x, y) => {
   }
   memoryTable[y][x].flagged = !memoryTable[y][x].flagged
   memoryTable[y][x].render()
+}
+
+// eslint-disable-next-line no-unused-vars
+const mostraBombe = () => {
+  memoryTable.forEach((e, y) => {
+    e.forEach((elem, x) => {
+      if (elem.constructor.name === "Bomb") {
+        document.getElementById(`cell_${x}_${y}`).classList.add("Bomb")
+        elem.render()
+      }
+    })
+  })
 }
