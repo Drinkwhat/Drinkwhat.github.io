@@ -1,8 +1,13 @@
+/* eslint-disable no-unused-vars */
 let timerId
 let hour = 0
 let min = 0
 let sec = 0
 const timerInit = () => {
+  hour = 0
+  min = 0
+  sec = 0
+  clearInterval(timerId)
   timerId = setInterval(() => {
     if (sec === 60) {
       min ++

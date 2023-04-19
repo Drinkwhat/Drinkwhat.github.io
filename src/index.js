@@ -1,13 +1,3 @@
-let firstClick = true
-
-let cellRevealed = 0
-
-const firstGenCoord = []
-
-const BOMBNUMBER = 20
-const cellGenerated = [] // per bombNumberCheck
-const bombGenerated = []
-
 class Entity {
   constructor(x, y, hidden, flagged) {
     this.x = x
@@ -89,8 +79,8 @@ class NumberCell extends Entity {
     } else if (this.hidden === true) {
       this.hidden = false
       cellRevealed++
-      // console.log(cellRevealed, cellGenerated.length)
-      if (cellGenerated.length + 9 === cellRevealed) { // issue
+      console.log(cellRevealed, memoryTable.length ** 2 - BOMBNUMBER)
+      if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) {
         gameover("win")
       }
       if (this.numberCheck() === 0) {
@@ -132,7 +122,8 @@ class NumberCell extends Entity {
                     memoryTable[this.y - counterY][this.x - counterX].hidden = false
                     memoryTable[this.y - counterY][this.x - counterX].render()
                     cellRevealed++
-                    if (cellGenerated.length + 9 === cellRevealed) { // issue
+                    console.log(cellRevealed, memoryTable.length ** 2 - BOMBNUMBER)
+                    if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) { // issue
                       gameover("win")
                     }
                   }
