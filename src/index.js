@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-import gameover from "./gameover.js"
-import { timerInit } from "./timer.js"
+/* eslint-disable no-undef */
 
 const memoryTable = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -16,9 +15,6 @@ const memoryTable = [
 
 let firstClick = true
 const firstGenCoord = []
-
-let cellRevealed = 0
-
 const BOMBNUMBER = 20
 const cellGenerated = [] // per bombNumberCheck
 const bombGenerated = []
@@ -50,7 +46,7 @@ class Bomb extends Entity {
     } else if (this.hidden === false) {
       div.classList.add("Bomb")
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Cell Bomb " onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
   click = () => {
     if (this.flagged === false && this.hidden === true) {
@@ -112,10 +108,10 @@ class NumberCell extends Entity {
       })
     } else if (this.hidden === true) {
       this.hidden = false
-      cellRevealed++
-      if (cellGenerated.length === cellRevealed) { // issue
+      // cellRevealed++
+      /* if (cellGenerated.length === cellRevealed) { // issue
         gameover("win")
-      }
+      } */
       if (this.numberCheck() === 0) {
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
@@ -130,6 +126,7 @@ class NumberCell extends Entity {
       }
       this.render()
     } else if (this.hidden === false && this.numberCheck() !== 0 && this.flagged === false) {
+      // s
       let flagCounter = 0
       for (let counterY = -1; counterY <= 1; counterY++) {
         for (let counterX = -1; counterX <= 1; counterX++) {
@@ -191,23 +188,7 @@ class NumberCell extends Entity {
       this.render()
     }
     // check vittoria
-    /* let hiddenCounter = 0
-    memoryTable.forEach(e => {
-      e.forEach(elem => {
-        if (elem.hidden === true) {
-          hiddenCounter++
-        }
-      })
-    })
-    if (hiddenCounter === BOMBNUMBER) {
-      alert("hai vinto")
-      /* setTimeout((memoryTable.forEach(e => {
-        e.forEach(elem => {
-          elem.hidden = false
-          elem.render()
-        })
-      })), 10000)
-    } */
+
   }
 
   numberCheck = () => {
@@ -332,3 +313,104 @@ const cellRightClicked = (e, x, y) => {
   memoryTable[y][x].flagged = !memoryTable[y][x].flagged
   memoryTable[y][x].render()
 }
+
+// eslint-disable-next-line no-unused-vars
+const win = () => {
+  memoryTable.forEach(e => {
+    e.forEach(elem => {
+      if (elem.constructor.name === "Bomb") {
+        elem.flagged = true
+        elem.render()
+      } else {
+        elem.click()
+      }
+    })
+  }
+  )
+}
+
+// eslint-disable-next-line no-unused-vars
+const mostraBombe = () => {
+  memoryTable.forEach((e, y) => {
+    e.forEach((elem, x) => {
+      if (elem.constructor.name === "Bomb") {
+        document.getElementById(`cell_${x}_${y}`).classList.add("Bomb")
+        elem.render()
+      }
+    })
+  })
+}
+
+// eslint-disable-next-line no-unused-vars
+/* const checkWin = () =>  {
+  let hiddenCounter = 0
+  memoryTable.forEach(e => {
+    e.forEach(elem => {
+      if (elem.hidden === true) {
+        hiddenCounter++
+      }
+    })
+  })
+  if (hiddenCounter === BOMBNUMBER) {
+    alert("hai vinto")
+    return true
+  /* setTimeout((memoryTable.forEach(e => {
+    e.forEach(elem => {
+      elem.hidden = false
+      elem.render()
+    })
+  })), 10000)
+  }
+  return false
+}
+ */
+
+// eslint-disable-next-line no-unused-vars
+/* const checkWin = () => {
+  let flaggedBomb = true
+  let hiddenNumber = false
+  let caso1 = 0
+  let caso2 = 0
+  let caso3 = 0
+  let caso4 = 0
+  memoryTable.forEach(e => {
+    e.forEach(elem => {
+      if (elem.hidden === true) {
+        if (elem.constructor.name === "Bomb" && flaggedBomb === true && elem.flagged === true) {
+          flaggedBomb = true
+          caso1++
+          console.log("caso 1")
+        } else if (elem.constructor.name === "Bomb" && elem.flagged === false) {
+          flaggedBomb = false
+          caso2++
+          console.log("caso 2")
+        } else if (elem.constructor.name === "Number") {
+          hiddenNumber = true
+          caso3++
+          console.log("caso 3")
+        /* else if (elem.constructor.name === "Number" && elem.flagged === true) {
+          flaggedNumber = true
+          hiddenNumber = true
+          console.log("caso 3")
+        }
+        }
+      } else {
+        caso4++
+        console.log("caso 4")
+      }
+    })
+  })
+  console.log(caso1, caso2, caso3, caso4)
+  console.log(flaggedBomb, hiddenNumber)
+
+  if ((flaggedBomb === true && hiddenNumber === false) || hiddenNumber === false) {
+    console.log(flaggedBomb === true, hiddenNumber === false)
+    console.log("win")
+    /* setTimeout((memoryTable.forEach(e => {
+        e.forEach(elem => {
+          elem.hidden = false
+          elem.render()
+        })
+      })), 10000)
+  }
+} */
