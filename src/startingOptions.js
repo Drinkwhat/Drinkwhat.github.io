@@ -1,5 +1,5 @@
 let memoryTable = []
-let flag = 0
+
 let firstClick = true
 let firstGenCoord = []
 let cellRevealed = 0
@@ -8,7 +8,12 @@ let cellGenerated = []
 let bombGenerated = []
 
 const start = () => {
-  flag = 0  
+  //location.replace("../view/index.html")
+  firstClick = true
+  firstGenCoord = []
+  cellRevealed = 0
+  cellGenerated = []
+  bombGenerated = []
   memoryTable = []
   const difficulty = document.getElementById("difficultyInput").value
   const tableSize = document.getElementById("tableSizeInput").value
@@ -19,15 +24,13 @@ const start = () => {
       memoryTable[y].push(x)
     }
   }
+  console.log("ciao")
   onLoadTableGenerator()
   console.log(memoryTable)
-  BOMBNUMBER = difficulty
-
-  firstClick = true
-  firstGenCoord = []
-
-  cellRevealed = 0
-
-  cellGenerated = []
-  bombGenerated = []
+  if (difficulty <= tableSize ** 2 - 9) {
+    BOMBNUMBER = difficulty
+  } else {
+    BOMBNUMBER = tableSize ** 2 - 9
+    alert ("inserite tante bombe quanto possibile: " + BOMBNUMBER)
+  }
 }

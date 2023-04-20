@@ -53,7 +53,7 @@ class NumberCell extends Entity {
     } else if (this.hidden === false) {
       div.classList.add("Shown")
       this.numberCheck()
-      div.innerHTML = `<img src="./img/number_${this.number}.svg">`
+      div.innerHTML = `<img src="../img/number_${this.number}.svg">`
     }
     return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
@@ -66,6 +66,7 @@ class NumberCell extends Entity {
           firstGenCoord.push(`${this.y - counterY}_${this.x - counterX}`)
         }
       }
+      console.log(BOMBNUMBER)
       tableGenerator()
       timerInit()
       firstClick = false
@@ -79,7 +80,6 @@ class NumberCell extends Entity {
     } else if (this.hidden === true) {
       this.hidden = false
       cellRevealed++
-      console.log(cellRevealed, memoryTable.length ** 2 - BOMBNUMBER)
       if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) {
         gameover("win")
       }
@@ -122,7 +122,6 @@ class NumberCell extends Entity {
                     memoryTable[this.y - counterY][this.x - counterX].hidden = false
                     memoryTable[this.y - counterY][this.x - counterX].render()
                     cellRevealed++
-                    console.log(cellRevealed, memoryTable.length ** 2 - BOMBNUMBER)
                     if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) { // issue
                       gameover("win")
                     }
@@ -259,6 +258,7 @@ const bombNumberCheck = () => {
   if (BOMBNUMBER > bombGenerated.length) {
     // meno bombe del dovuto
     const cellSurplusIndex = Math.floor(Math.random() * cellGenerated.length)
+    console.log(cellGenerated)
     const x = cellGenerated[cellSurplusIndex].x
     const  y = cellGenerated[cellSurplusIndex].y
     memoryTable[y][x] = new Bomb(x, y)
@@ -281,19 +281,10 @@ const bombNumberCheck = () => {
 // eslint-disable-next-line no-unused-vars
 const cellRightClicked = (e, x, y) => {
   e.preventDefault()
-  const div = document.getElementById("numeroFlag")
-  if (memoryTable[y][x].hidden === false) {
+  if (memoryTable[y][x].hidden === false  || firstClick === true) {
     return
   }
-  if (memoryTable[y][x].flagged === true) {
-    memoryTable[y][x].flagged = false
-    div.value = --flag
-
-  } else {
-    memoryTable[y][x].flagged = true
-    div.value = ++flag
-  }
-  
+  memoryTable[y][x].flagged = !memoryTable[y][x].flagged
   memoryTable[y][x].render()
 }
 
