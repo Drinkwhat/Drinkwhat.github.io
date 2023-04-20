@@ -1,5 +1,5 @@
 let memoryTable = []
-
+let flag = 0
 let firstClick = true
 let firstGenCoord = []
 let cellRevealed = 0
@@ -8,7 +8,7 @@ let cellGenerated = []
 let bombGenerated = []
 
 const start = () => {
-  //location.replace("../view/index.html")
+  flag = 0
   firstClick = true
   firstGenCoord = []
   cellRevealed = 0
@@ -33,4 +33,26 @@ const start = () => {
     BOMBNUMBER = tableSize ** 2 - 9
     alert ("inserite tante bombe quanto possibile: " + BOMBNUMBER)
   }
+  flag = BOMBNUMBER
+  document.getElementById("txtRighe").classList.add("Hidden")
+  document.getElementById("tableSizeInput").classList.add("Hidden")
+  document.getElementById("txtBombe").classList.add("Hidden")
+  document.getElementById("difficultyInput").classList.add("Hidden")
+  document.getElementById("start").innerHTML = "RICOMINCIA"
+  document.getElementById("restart").classList.remove("Hidden")
+  clearInterval(timerId)
+  document.getElementById("timer").innerHTML = ""
+}
+
+const restart = () => {
+  document.getElementById("txtRighe").classList.remove("Hidden")
+  document.getElementById("tableSizeInput").classList.remove("Hidden")
+  document.getElementById("txtBombe").classList.remove("Hidden")
+  document.getElementById("difficultyInput").classList.remove("Hidden")
+  document.getElementById("container").innerHTML = ""
+  document.getElementById("restart").classList.add("Hidden")
+  document.getElementById("start").innerHTML = "INIZIAMO!"
+  clearInterval(timerId)
+  document.getElementById("timer").innerHTML = ""
+
 }

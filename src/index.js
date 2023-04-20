@@ -9,6 +9,8 @@ class Entity {
   render = () => {}
 }
 
+let noFlag = false
+
 class Bomb extends Entity {
   constructor(x, y, hidden = true, flagged = false) {
     super(x, y, hidden, flagged)
@@ -87,9 +89,11 @@ class NumberCell extends Entity {
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
             try {
-              if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
+              //if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
+                noFlag = true
                 memoryTable[this.y - counterY][this.x - counterX].click()
-              }
+                noFlag = false
+              //}
             } catch (error) {
             }
           }
@@ -122,7 +126,7 @@ class NumberCell extends Entity {
                     memoryTable[this.y - counterY][this.x - counterX].hidden = false
                     memoryTable[this.y - counterY][this.x - counterX].render()
                     cellRevealed++
-                    if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) { // issue
+                    if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) {
                       gameover("win")
                     }
                   }
@@ -138,7 +142,7 @@ class NumberCell extends Entity {
         for (let counterX = -1; counterX <= 1; counterX++) {
           try {
             if (memoryTable[this.y - counterY][this.x - counterX].hidden === true) {
-              hiddenCounter ++
+              hiddenCounter++
             }
           } catch (error) {
           }
@@ -149,7 +153,7 @@ class NumberCell extends Entity {
           for (let counterX = -1; counterX <= 1; counterX++) {
             if (counterY !== 0 || counterX !== 0) {
               try {
-                if (memoryTable[this.y - counterY][this.x - counterX].hidden === true) {
+                if (memoryTable[this.y - counterY][this.x - counterX].hidden === true && noFlag === false) {
                   memoryTable[this.y - counterY][this.x - counterX].flagged = true
                   memoryTable[this.y - counterY][this.x - counterX].render()
                 }
@@ -258,7 +262,6 @@ const bombNumberCheck = () => {
   if (BOMBNUMBER > bombGenerated.length) {
     // meno bombe del dovuto
     const cellSurplusIndex = Math.floor(Math.random() * cellGenerated.length)
-    console.log(cellGenerated)
     const x = cellGenerated[cellSurplusIndex].x
     const  y = cellGenerated[cellSurplusIndex].y
     memoryTable[y][x] = new Bomb(x, y)
@@ -284,7 +287,12 @@ const cellRightClicked = (e, x, y) => {
   if (memoryTable[y][x].hidden === false  || firstClick === true) {
     return
   }
-  memoryTable[y][x].flagged = !memoryTable[y][x].flagged
+  //memoryTable[y][x].flagged = !memoryTable[y][x].flagged
+   if (memoryTable[y][x].flagged === true) {
+    memoryTable[y][x].flagged = false
+  } else {
+    memoryTable[y][x].flagged = true
+  }
   memoryTable[y][x].render()
 }
 
