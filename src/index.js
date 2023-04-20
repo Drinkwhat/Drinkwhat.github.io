@@ -281,10 +281,19 @@ const bombNumberCheck = () => {
 // eslint-disable-next-line no-unused-vars
 const cellRightClicked = (e, x, y) => {
   e.preventDefault()
+  const div = document.getElementById("numeroFlag")
   if (memoryTable[y][x].hidden === false) {
     return
   }
-  memoryTable[y][x].flagged = !memoryTable[y][x].flagged
+  if (memoryTable[y][x].flagged === true) {
+    memoryTable[y][x].flagged = false
+    div.value = --flag
+
+  } else {
+    memoryTable[y][x].flagged = true
+    div.value = ++flag
+  }
+  
   memoryTable[y][x].render()
 }
 
