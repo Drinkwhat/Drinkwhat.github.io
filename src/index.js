@@ -53,7 +53,7 @@ class NumberCell extends Entity {
       } catch (error) {
       }
     } else if (this.hidden === false) {
-      div.classList.add("Shown")
+      div.classList.add("ShownCell")
       this.numberCheck()
       div.innerHTML = `<img src="../img/number_${this.number}.svg">`
     }

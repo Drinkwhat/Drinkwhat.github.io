@@ -40,6 +40,7 @@ const start = () => {
   document.getElementById("difficultyInput").classList.add("Hidden")
   document.getElementById("start").innerHTML = "RICOMINCIA"
   document.getElementById("restart").classList.remove("Hidden")
+  document.getElementById("timer").classList.remove("Hidden")
   clearInterval(timerId)
   document.getElementById("timer").innerHTML = ""
 }
@@ -49,10 +50,11 @@ const restart = () => {
   document.getElementById("tableSizeInput").classList.remove("Hidden")
   document.getElementById("txtBombe").classList.remove("Hidden")
   document.getElementById("difficultyInput").classList.remove("Hidden")
-  document.getElementById("container").innerHTML = ""
-  document.getElementById("restart").classList.add("Hidden")
   document.getElementById("start").innerHTML = "INIZIAMO!"
+  document.getElementById("restart").classList.add("Hidden")
+  document.getElementById("timer").classList.add("Hidden")
   clearInterval(timerId)
   document.getElementById("timer").innerHTML = ""
+  document.getElementById("container").innerHTML = ""
 
 }
