@@ -8,6 +8,7 @@ let cellGenerated = []
 let bombGenerated = []
 
 const start = () => {
+  document.getElementById("timer").innerHTML = ctx
   flag = 0
   firstClick = true
   firstGenCoord = []
@@ -24,9 +25,7 @@ const start = () => {
       memoryTable[y].push(x)
     }
   }
-  console.log("ciao")
   onLoadTableGenerator()
-  console.log(memoryTable)
   if (difficulty <= tableSize ** 2 - 9) {
     BOMBNUMBER = difficulty
   } else {
@@ -42,7 +41,10 @@ const start = () => {
   document.getElementById("restart").classList.remove("Hidden")
   document.getElementById("timer").classList.remove("Hidden")
   clearInterval(timerId)
-  document.getElementById("timer").innerHTML = ""
+  ctx = `<div id="container-timer"><img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
+          : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
+          : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"></img>`
+  document.getElementById("timer").innerHTML = ctx
 }
 
 const restart = () => {
@@ -54,7 +56,10 @@ const restart = () => {
   document.getElementById("restart").classList.add("Hidden")
   document.getElementById("timer").classList.add("Hidden")
   clearInterval(timerId)
-  document.getElementById("timer").innerHTML = ""
+  ctx = `<div id="container-timer"><img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
+          : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
+          : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"></img>`
+  document.getElementById("timer").innerHTML = ctx
   document.getElementById("container").innerHTML = ""
 
 }
