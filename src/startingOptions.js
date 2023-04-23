@@ -6,6 +6,7 @@ let cellRevealed = 0
 let BOMBNUMBER = 0
 let cellGenerated = []
 let bombGenerated = []
+let noFlag = false
 
 const start = () => {
   document.getElementById("timer").innerHTML = ctx
@@ -19,32 +20,40 @@ const start = () => {
   const difficulty = document.getElementById("difficultyInput").value
   const tableSize = document.getElementById("tableSizeInput").value
 
-  for (let y = 0; y < tableSize; y++) {
-    memoryTable.push(new Array)
-    for (let x = 0; x < tableSize; x++) {
-      memoryTable[y].push(x)
-    }
-  }
-  onLoadTableGenerator()
-  if (difficulty <= tableSize ** 2 - 9) {
-    BOMBNUMBER = difficulty
+  if (tableSize < 4) {
+    alert ("inserire dimensioni maggiori!")
   } else {
-    BOMBNUMBER = tableSize ** 2 - 9
-    alert ("inserite tante bombe quanto possibile: " + BOMBNUMBER)
+    for (let y = 0; y < tableSize; y++) {
+      memoryTable.push(new Array)
+      for (let x = 0; x < tableSize; x++) {
+        memoryTable[y].push(x)
+      }
+    }
+    onLoadTableGenerator()
+    if (difficulty <= tableSize ** 2 - 9) {
+      BOMBNUMBER = difficulty
+    } else {
+      BOMBNUMBER = tableSize ** 2 - 9
+      alert ("inserite tante bombe quanto possibile: " + BOMBNUMBER)
+    }
+    flag = BOMBNUMBER
+    console.log("ciao" + flag)
+    document.getElementById("txtRighe").classList.add("Hidden")
+    document.getElementById("tableSizeInput").classList.add("Hidden")
+    document.getElementById("txtBombe").classList.add("Hidden")
+    document.getElementById("difficultyInput").classList.add("Hidden")
+    document.getElementById("start").innerHTML = "RICOMINCIA"
+    document.getElementById("restart").classList.remove("Hidden")
+    document.getElementById("timer").classList.remove("Hidden")
+    document.getElementById("txtFlag").classList.remove("Hidden")
+    document.getElementById("numeroFlag").classList.remove("Hidden")
+    document.getElementById("numeroFlag").value = (flag)
+    clearInterval(timerId)
+    ctx = `<div id="container-timer"><img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
+    : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
+    : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"></img>`
+    document.getElementById("timer").innerHTML = ctx
   }
-  flag = BOMBNUMBER
-  document.getElementById("txtRighe").classList.add("Hidden")
-  document.getElementById("tableSizeInput").classList.add("Hidden")
-  document.getElementById("txtBombe").classList.add("Hidden")
-  document.getElementById("difficultyInput").classList.add("Hidden")
-  document.getElementById("start").innerHTML = "RICOMINCIA"
-  document.getElementById("restart").classList.remove("Hidden")
-  document.getElementById("timer").classList.remove("Hidden")
-  clearInterval(timerId)
-  ctx = `<div id="container-timer"><img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
-          : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
-          : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"></img>`
-  document.getElementById("timer").innerHTML = ctx
 }
 
 const restart = () => {
@@ -55,11 +64,12 @@ const restart = () => {
   document.getElementById("start").innerHTML = "INIZIAMO!"
   document.getElementById("restart").classList.add("Hidden")
   document.getElementById("timer").classList.add("Hidden")
+  document.getElementById("txtFlag").classList.add("Hidden")
+  document.getElementById("numeroFlag").classList.add("Hidden")
   clearInterval(timerId)
   ctx = `<div id="container-timer"><img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
           : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
           : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"></img>`
   document.getElementById("timer").innerHTML = ctx
   document.getElementById("container").innerHTML = ""
-
 }

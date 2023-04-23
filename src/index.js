@@ -9,7 +9,6 @@ class Entity {
   render = () => {}
 }
 
-let noFlag = false
 
 class Bomb extends Entity {
   constructor(x, y, hidden = true, flagged = false) {
@@ -18,7 +17,7 @@ class Bomb extends Entity {
   render = () => {
     const div = document.getElementById(`cell_${this.x}_${this.y}`)
     if (this.flagged === true && this.hidden === true) {
-      div.classList.add("Flag")
+      div.classList.add("Flag") 
     } else if (this.hidden === true && this.flagged === false) {
       try {
         div.classList.remove("Flag")
@@ -57,6 +56,7 @@ class NumberCell extends Entity {
       this.numberCheck()
       div.innerHTML = `<img src="../img/number_${this.number}.svg">`
     }
+    noFlag = false
     return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
 
@@ -68,7 +68,6 @@ class NumberCell extends Entity {
           firstGenCoord.push(`${this.y - counterY}_${this.x - counterX}`)
         }
       }
-      console.log(BOMBNUMBER)
       tableGenerator()
       timerInit()
       firstClick = false
@@ -92,7 +91,6 @@ class NumberCell extends Entity {
               //if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
                 noFlag = true
                 memoryTable[this.y - counterY][this.x - counterX].click()
-                noFlag = false
               //}
             } catch (error) {
             }
@@ -154,6 +152,10 @@ class NumberCell extends Entity {
             if (counterY !== 0 || counterX !== 0) {
               try {
                 if (memoryTable[this.y - counterY][this.x - counterX].hidden === true && noFlag === false) {
+                  if (memoryTable[this.y - counterY][this.x - counterX].flagged === false) {
+                    flag--
+                    document.getElementById("numeroFlag").value = (flag)
+                  }
                   memoryTable[this.y - counterY][this.x - counterX].flagged = true
                   memoryTable[this.y - counterY][this.x - counterX].render()
                 }
@@ -290,9 +292,12 @@ const cellRightClicked = (e, x, y) => {
   //memoryTable[y][x].flagged = !memoryTable[y][x].flagged
    if (memoryTable[y][x].flagged === true) {
     memoryTable[y][x].flagged = false
+    flag++
   } else {
     memoryTable[y][x].flagged = true
+    flag--
   }
+  document.getElementById("numeroFlag").value = (flag)
   memoryTable[y][x].render()
 }
 
