@@ -16,7 +16,7 @@ class Bomb extends Entity {
   }
   render = () => {
     const div = document.getElementById(`cell_${this.x}_${this.y}`)
-    if (this.flagged === true && this.hidden === true) {
+    if (this.hidden === true && this.flagged === true) {
       div.classList.add("Flag") 
     } else if (this.hidden === true && this.flagged === false) {
       try {
