@@ -78,7 +78,7 @@ class NumberCell extends Entity {
           elem.render()
         })
       })
-    } else if (this.hidden === true) {
+    } else if (this.hidden === true && this.flagged === false) {
       this.hidden = false
       cellRevealed++
       if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) {
