@@ -34,6 +34,12 @@ const estremo = () => {
 }
 
 const start = () => {
+  if (document.getElementById("music").paused || musicCheck === true) {
+    musicCheck = false
+    document.getElementById("music").loop = true
+    document.getElementById("music").setAttribute('src', '../music/game.mp3')
+  }
+
   document.getElementById("timer").innerHTML = ctx
   flag = 0
   firstClick = true
@@ -45,6 +51,11 @@ const start = () => {
   const tableSize = document.getElementById("tableSizeInput").value
   const difficulty = document.getElementById("difficultyInput").value
 
+  if(tableSize >= 25) {
+    document.body.style.zoom = "80%"
+  } else {
+    document.body.style.zoom = "100%"
+  }
   if (tableSize < 4) {
     alert ("inserire dimensioni maggiori!")
   } else {
@@ -62,7 +73,6 @@ const start = () => {
       alert ("inserite tante bombe quanto possibile: " + BOMBNUMBER)
     }
     flag = BOMBNUMBER
-    console.log("ciao" + flag)
 
     document.getElementById("txtRighe").classList.add("Hidden")
     document.getElementById("tableSizeInput").classList.add("Hidden")
@@ -77,6 +87,7 @@ const start = () => {
     document.getElementById("start").innerHTML = "RICOMINCIA"
     document.getElementById("restart").classList.remove("Hidden")
     document.getElementById("timer").classList.remove("Hidden")
+    document.getElementById("timer").style.color = "#000000"
     document.getElementById("txtFlag").classList.remove("Hidden")
     document.getElementById("numeroFlag").classList.remove("Hidden")
     document.getElementById("numeroFlag").value = (flag)
@@ -89,6 +100,11 @@ const start = () => {
 }
 
 const restart = () => {
+  if (document.getElementById("music").paused || musicCheck === true) {
+    musicCheck = false
+    document.getElementById("music").loop = true
+    document.getElementById("music").setAttribute('src', '../music/game.mp3')
+  }
   document.getElementById("txtRighe").classList.remove("Hidden")
   document.getElementById("tableSizeInput").classList.remove("Hidden")
   document.getElementById("txtBombe").classList.remove("Hidden")

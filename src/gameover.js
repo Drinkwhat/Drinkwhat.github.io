@@ -1,15 +1,18 @@
 /* eslint-disable no-undef */
 // eslint-disable-next-line no-unused-vars
+
+let musicCheck = false
 const gameover = (trigger) => {
   document.getElementById("textBG").classList.replace("InGameTextBG", "EndGameTextBG")
 
   if (trigger === "afk") {
     alert("spegni il computer")
   } else if (trigger === "bomb") {
-    document.getElementById("timer").innerHTML = ctx + "HAI PERSO OMG!!!"
-
-    memoryTable.forEach((e, y) => {
-      e.forEach((elem, x) => {
+    document.getElementById("music").setAttribute('src', '../music/lose.mp3')
+    document.getElementById("timer").innerHTML = ctx + "HAI PERSO"
+    document.getElementById("timer").style.color = "#8b0000"
+    memoryTable.forEach((e) => {
+      e.forEach((elem) => {
         if (elem.flagged === true) {
           elem.flagged = false
           elem.render()
@@ -17,8 +20,9 @@ const gameover = (trigger) => {
       })
     })
   } else if (trigger === "win") {
-    document.getElementById("timer").innerHTML = ctx + "HAI VINTO OMG!!!"
-
+    document.getElementById("music").setAttribute('src', '../music/win.mp3')
+    document.getElementById("timer").innerHTML = ctx + "HAI VINTO"
+    document.getElementById("timer").style.color = "#00008b"
     memoryTable.forEach((e, y ) => {
       e.forEach((elem, x) => {
         if (elem.hidden === true) {
@@ -38,7 +42,8 @@ const gameover = (trigger) => {
       elem.render()
     })
   })
-
+  document.getElementById("music").loop = false
+  musicCheck = true
   hour = 0
   hourDigitLeft = 0
   hourDigitRight = 0
@@ -51,4 +56,5 @@ const gameover = (trigger) => {
   ctx = `<div id="container-timer"><img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
           : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"> 
           : <img src="../img/number_zero.svg"><img src="../img/number_zero.svg"></img>`
+
 }

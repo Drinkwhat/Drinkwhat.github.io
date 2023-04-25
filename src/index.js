@@ -239,7 +239,6 @@ const tableGenerator = () => {
       row.innerHTML += elem.render()
     })
   })
-  console.log(memoryTable)
 }
 
 const bombGenerator = (x, y) => {
@@ -301,14 +300,6 @@ const cellRightClicked = (e, x, y) => {
   memoryTable[y][x].render()
 }
 
-// eslint-disable-next-line no-unused-vars
-const mostraBombe = () => {
-  memoryTable.forEach((e, y) => {
-    e.forEach((elem, x) => {
-      if (elem.constructor.name === "Bomb") {
-        document.getElementById(`cell_${x}_${y}`).classList.add("Bomb")
-        elem.render()
-      }
-    })
-  })
+const carica = () => {
+  document.getElementById("music").volume = 0.2
 }
