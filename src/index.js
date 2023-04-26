@@ -1,16 +1,3 @@
-/* eslint-disable no-console */
-const memoryTable = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
-
 class Entity {
   constructor(x, y, hidden, flagged) {
     this.x = x
@@ -22,24 +9,30 @@ class Entity {
   render = () => {}
 }
 
+
 class Bomb extends Entity {
   constructor(x, y, hidden = true, flagged = false) {
     super(x, y, hidden, flagged)
   }
   render = () => {
-    if (this.hidden === false) {
-      console.log("ciao")
-      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      return
+    const div = document.getElementById(`cell_${this.x}_${this.y}`)
+    if (this.hidden === true && this.flagged === true) {
+      div.classList.add("Flag") 
+    } else if (this.hidden === true && this.flagged === false) {
+      try {
+        div.classList.remove("Flag")
+      } catch (error) {
+      }
+    } else if (this.hidden === false) {
+      div.classList.add("Bomb")
     }
-    return `<div id="cell_${this.x}_${this.y}" class="Bomb" onclick="cellLeftClicked(${this.x}, ${this.y})" contexmenu="cellRightClicked(${this.x}, ${this.y})"> </div>`
+    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
   click = () => {
-    console.log(this)
-    if (this.hidden === true) {
+    if (this.flagged === false && this.hidden === true) {
       this.hidden = false
       this.render()
-      alert("hai perso")
+      gameover("bomb")
     }
   }
 }
@@ -50,33 +43,132 @@ class NumberCell extends Entity {
     this.number = number
   }
   render = () => {
-    if (this.hidden === false) {
-      document.getElementById(`cell_${this.x}_${this.y}`).classList.add("Shown")
-      document.getElementById(`cell_${this.x}_${this.y}`).innerHTML = this.number
+    const div = document.getElementById(`cell_${this.x}_${this.y}`)
+    if (this.flagged === true && this.hidden === true) {
+      div.classList.add("Flag")
+    } else if (this.hidden === true && this.flagged === false) {
+      try {
+        div.classList.remove("Flag")
+      } catch (error) {
+      }
+    } else if (this.hidden === false) {
+      div.classList.add("ShownCell")
+      this.numberCheck()
+      div.innerHTML = `<img src="../img/number_${this.number}.svg">`
     }
-    return `<div id="cell_${this.x}_${this.y}" class="NumberCell" onclick="cellLeftClicked(${this.x}, ${this.y})" contexmenu="cellRightClicked(${this.x}, ${this.y})"> <div>`
+    noFlag = false
+    return `<div id="cell_${this.x}_${this.y}" class="Cell" onclick="memoryTable[${this.y}][${this.x}].click()" oncontextmenu="cellRightClicked(event, ${this.x}, ${this.y})"> <div>`
   }
 
   click = () => {
-    console.log(this)
-    if (this.hidden === true) {
+    // coordinate celle prima generazione
+    if (firstClick === true) {
+      for (let counterY = -1; counterY <= 1; counterY++) {
+        for (let counterX = -1; counterX <= 1; counterX++) {
+          firstGenCoord.push(`${this.y - counterY}_${this.x - counterX}`)
+        }
+      }
+      tableGenerator()
+      timerInit()
+      firstClick = false
+      this.click()
+      memoryTable.forEach(e => {
+        e.forEach(elem => {
+          elem.flagged = false
+          elem.render()
+        })
+      })
+    } else if (this.hidden === true && this.flagged === false) {
+      this.hidden = false
+      cellRevealed++
+      if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) {
+        gameover("win")
+      }
       if (this.numberCheck() === 0) {
-        this.hidden = false
         for (let counterY = -1; counterY <= 1; counterY++) {
           for (let counterX = -1; counterX <= 1; counterX++) {
             try {
-              if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
+              //if (memoryTable[this.y - counterY][this.x - counterX].constructor.name !== "Bomb") {
+                noFlag = true
                 memoryTable[this.y - counterY][this.x - counterX].click()
-              }
+              //}
             } catch (error) {
             }
           }
         }
       }
-      this.hidden = false
+      this.render()
+    } else if (this.hidden === false && this.numberCheck() !== 0 && this.flagged === false) {
+      let flagCounter = 0
+      for (let counterY = -1; counterY <= 1; counterY++) {
+        for (let counterX = -1; counterX <= 1; counterX++) {
+          try {
+            if (memoryTable[this.y - counterY][this.x - counterX].flagged === true) {
+              flagCounter++
+            }
+          } catch (error) {
+          }
+        }
+      }
+      if (flagCounter === this.numberCheck()) {
+        for (let counterY = -1; counterY <= 1; counterY++) {
+          for (let counterX = -1; counterX <= 1; counterX++) {
+            if (counterY !== 0 || counterX !== 0) {
+              try {
+                if (memoryTable[this.y - counterY][this.x - counterX].flagged === false && memoryTable[this.y - counterY][this.x - counterX].hidden === true) {
+                  if (memoryTable[this.y - counterY][this.x - counterX].constructor.name === "Bomb") {
+                    memoryTable[this.y - counterY][this.x - counterX].click()
+                  } else if (memoryTable[this.y - counterY][this.x - counterX].numberCheck() === 0) {
+                    memoryTable[this.y - counterY][this.x - counterX].click()
+                  } else {
+                    memoryTable[this.y - counterY][this.x - counterX].hidden = false
+                    memoryTable[this.y - counterY][this.x - counterX].render()
+                    cellRevealed++
+                    if (memoryTable.length ** 2 - BOMBNUMBER === cellRevealed) {
+                      gameover("win")
+                    }
+                  }
+                }
+              } catch (error) {
+              }
+            }
+          }
+        }
+      }
+      let hiddenCounter = 0
+      for (let counterY = -1; counterY <= 1; counterY++) {
+        for (let counterX = -1; counterX <= 1; counterX++) {
+          try {
+            if (memoryTable[this.y - counterY][this.x - counterX].hidden === true) {
+              hiddenCounter++
+            }
+          } catch (error) {
+          }
+        }
+      }
+      if (hiddenCounter === this.number) {
+        for (let counterY = -1; counterY <= 1; counterY++) {
+          for (let counterX = -1; counterX <= 1; counterX++) {
+            if (counterY !== 0 || counterX !== 0) {
+              try {
+                if (memoryTable[this.y - counterY][this.x - counterX].hidden === true && noFlag === false) {
+                  if (memoryTable[this.y - counterY][this.x - counterX].flagged === false) {
+                    flag--
+                    document.getElementById("numeroFlag").value = (flag)
+                  }
+                  memoryTable[this.y - counterY][this.x - counterX].flagged = true
+                  memoryTable[this.y - counterY][this.x - counterX].render()
+                }
+              } catch (error) {
+              }
+            }
+          }
+        }
+      }
       this.render()
     }
   }
+
   numberCheck = () => {
     let counter = 0
     for (let counterY = -1; counterY <= 1; counterY++) {
@@ -91,18 +183,51 @@ class NumberCell extends Entity {
       }
     }
     this.number = counter
-    this.render()
     return counter
   }
 }
 
 // eslint-disable-next-line no-unused-vars
+const onLoadTableGenerator = () => {
+  // crea solo celle
+  memoryTable.forEach((e, indY) => {
+    e.forEach((elem, indX) => {
+      memoryTable[indY][indX] = new NumberCell(indX, indY)
+      cellGenerated.push(memoryTable[indY][indX])
+    })
+  })
+
+  // crea div con solo celle
+  const container = document.getElementById("container")
+  container.innerHTML = ""
+
+  memoryTable.forEach((e, i) => {
+    container.innerHTML += `<div id="row_${i}" class="row"> </div>`
+    e.forEach(elem => {
+      const row = document.getElementById(`row_${i}`)
+      row.innerHTML += elem.render()
+    })
+  })
+}
+
 const tableGenerator = () => {
   memoryTable.forEach((e, indY) => {
     e.forEach((elem, indX) => {
-      memoryTable[indY][indX] = bombGenerator(indX, indY)
+      if (!firstGenCoord.includes(`${indY}_${indX}`)) {
+        memoryTable[indY][indX] = bombGenerator(indX, indY)
+      } else {
+        const oldCellIndex = cellGenerated.findIndex((cell) => {
+          if (cell.x === indX && cell.y === indY) {
+            return true
+          }
+          return false
+        })
+        cellGenerated.splice(oldCellIndex, 1)
+      }
     })
   })
+
+  bombNumberCheck()
 
   const container = document.getElementById("container")
   container.innerHTML = ""
@@ -114,30 +239,67 @@ const tableGenerator = () => {
       row.innerHTML += elem.render()
     })
   })
-  console.log(memoryTable)
 }
 
 const bombGenerator = (x, y) => {
-  const bombChance = Math.floor(Math.random() * 10)
-
+  const  bombChance = Math.floor(Math.random() * 10)
   if (bombChance <= 2) {
+    bombGenerated.push(memoryTable[y][x])
+    const oldCellIndex = cellGenerated.findIndex((cell) => {
+      if (cell.x === x && cell.y === y) {
+        return true
+      }
+      return false
+    })
+    if (oldCellIndex !== -1) {
+      cellGenerated.splice(oldCellIndex, 1)
+    }
     return new Bomb(x, y)
-  } else {
-    return new NumberCell(x, y)
+  }
+  return new NumberCell(x, y)
+}
+
+const bombNumberCheck = () => {
+  if (BOMBNUMBER > bombGenerated.length) {
+    // meno bombe del dovuto
+    const cellSurplusIndex = Math.floor(Math.random() * cellGenerated.length)
+    const x = cellGenerated[cellSurplusIndex].x
+    const  y = cellGenerated[cellSurplusIndex].y
+    memoryTable[y][x] = new Bomb(x, y)
+    bombGenerated.push(memoryTable[y][x])
+    cellGenerated.splice(cellSurplusIndex, 1)
+    bombNumberCheck()
+
+  } else if (BOMBNUMBER < bombGenerated.length) {
+    // più bombe del dovuto
+    const bombSurplusIndex = Math.floor(Math.random() * bombGenerated.length)
+    const x = bombGenerated[bombSurplusIndex].x
+    const y = bombGenerated[bombSurplusIndex].y
+    memoryTable[y][x] = new NumberCell(x, y)
+    cellGenerated.push(memoryTable[y][x])
+    bombGenerated.splice(bombSurplusIndex, 1)
+    bombNumberCheck()
   }
 }
 
 // eslint-disable-next-line no-unused-vars
-const prova = () => {
-  console.log(memoryTable)
-}
-// eslint-disable-next-line no-unused-vars
-const cellLeftClicked = (x, y) => {
-  console.log(x, y, "sinistro")
-  memoryTable[y][x].click()
+const cellRightClicked = (e, x, y) => {
+  e.preventDefault()
+  if (memoryTable[y][x].hidden === false  || firstClick === true) {
+    return
+  }
+  //memoryTable[y][x].flagged = !memoryTable[y][x].flagged
+   if (memoryTable[y][x].flagged === true) {
+    memoryTable[y][x].flagged = false
+    flag++
+  } else {
+    memoryTable[y][x].flagged = true
+    flag--
+  }
+  document.getElementById("numeroFlag").value = (flag)
+  memoryTable[y][x].render()
 }
 
-const cellRightClicked = (x, y) => {
-  Event.preventDefault()
-  console.log(x, y, "destro")
+const carica = () => {
+  document.getElementById("music").volume = 0.2
 }
