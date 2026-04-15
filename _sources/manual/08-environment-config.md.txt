@@ -1,0 +1,153 @@
+# Environment Configuration
+
+Guida aggiornata alle variabili d’ambiente per Restrackit.
+
+## Come vengono caricate le variabili
+
+L’app usa `pydantic-settings` e legge automaticamente da:
+
+- variabili d’ambiente (priorità più alta)
+- file `.env` nella root del progetto
+- valori espliciti forniti dall’utente (nessun fallback implicito per le variabili obbligatorie)
+
+Implementazione: {mod}`app.core.config`
+
+## File `.env`
+
+Per iniziare:
+
+```bash
+cp .env.example .env
+```
+
+Il file `.env.example` contiene anche variabili usate dagli stack Docker in `deploy/`.
+
+## Variabili applicative (lette dall’app)
+
+### Google / AI
+
+- `GOOGLE_API_KEY` (obbligatoria): API key per Gemini.
+- `GOOGLE_APPLICATION_CREDENTIALS` (obbligatoria): path al service account JSON per Google Vision.
+
+Riferimenti: {mod}`app.core.clients`, {mod}`app.core.config`
+
+### Database
+
+- `DATABASE_URL` (obbligatoria): URL DB (PostgreSQL o SQLite).
+
+Esempi:
+
+```text
+postgresql://user:password@host:5432/dbname
+```
+
+### Keycloak (OIDC)
+
+Obbligatorie:
+
+- `KEYCLOAK_URL` (include il path relativo se usato, es. `https://example.com/auth`)
+- `KEYCLOAK_REALM`
+- `KEYCLOAK_CLIENT_ID`
+
+Opzionale:
+
+- `KEYCLOAK_INTERNAL_URL` (per chiamate server-to-server, es. `http://keycloak:8080`). Se non impostato, l'app usa `KEYCLOAK_URL`. Negli stack Docker locali il default è `http://keycloak:8080`; in staging viene usato `KEYCLOAK_URL` come fallback.
+
+Dettagli: [09-auth.md](09-auth.md)
+
+### CORS
+
+- `CORS_ORIGINS` (obbligatoria): lista JSON di origini per CORS.
+- `CORS_ALLOW_CREDENTIALS` (obbligatoria): abilita credenziali cross-origin.
+
+Esempio:
+
+```bash
+CORS_ORIGINS='["http://localhost:3000","https://app.example.com"]'
+CORS_ALLOW_CREDENTIALS=false
+```
+
+## Logging (lette dal modulo logging)
+
+Il logging legge direttamente da env (per evitare dipendenze circolari con Settings):
+
+- `LOG_LEVEL` (default `INFO`)
+- `LOG_FORMAT` (`json` o `text`, default `json`)
+
+Opzionali per filtrare `uvicorn.access`:
+
+- `UVICORN_ACCESS_LOG_FILTER_ENABLED` (default `true`)
+- `UVICORN_ACCESS_LOG_EXCLUDE_PREFIXES` (default `/health`)
+- `UVICORN_ACCESS_LOG_INCLUDE_PREFIXES` (default vuoto)
+- `UVICORN_ACCESS_LOG_EXCLUDE_STATUS_BELOW` (default `400`)
+- `UVICORN_ACCESS_LOG_KEEP_LEVEL_AT_LEAST` (default `WARNING`)
+
+Riferimenti: {mod}`app.core.logging`
+
+## Variabili “infrastrutturali” (Docker Compose)
+
+Gli stack Docker in `deploy/` usano anche variabili per Postgres e Keycloak (non lette direttamente dall’app, ma dal compose file), ad esempio:
+
+- `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+- `KEYCLOAK_DB_NAME`, `KEYCLOAK_DB_USER`, `KEYCLOAK_DB_PASSWORD`
+- `KEYCLOAK_ADMIN`, `KEYCLOAK_ADMIN_PASSWORD`
+
+Riferimento: [deploy/local/docker-compose.yml](https://github.com/Restrackit/restrackit-core/blob/main/deploy/local/docker-compose.yml)
+
+## Best practice
+
+- Non committare mai `.env` e `service_account.json`.
+- Usa GitHub Secrets/secret manager in staging/prod.
+
+**Kubernetes**:
+
+```yaml
+env:
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: restrackit-secrets
+        key: database-url
+```
+
+### Secrets Management
+
+```bash
+# Store secrets securely
+# Option 1: AWS Secrets Manager
+# Option 2: Azure Key Vault
+# Option 3: HashiCorp Vault
+# Option 4: GitHub Encrypted Secrets
+
+# Never log secrets
+# Never commit to repo
+# Use short-lived credentials
+```
+
+---
+
+## Environment Variables Summary
+
+| Variable                        | Required  | Example                  | Notes                      |
+| ------------------------------- | --------- | -------------------------| ---------------------------|
+| `GOOGLE_API_KEY`                | Yes       | `AIzaSy...`              | Google Cloud API key       |
+| `GOOGLE_APPLICATION_CREDENTIALS`| Yes       | `./service_account.json` | Path to JSON file          |
+| `DATABASE_URL`                  | Yes       | `postgresql://...`       | Database connection string |
+| `DB_USER`                       | Dev/Docker| `app_user`               | Database username          |
+| `DB_PASSWORD`                   | Dev/Docker| `password123`            | Database password          |
+| `DB_NAME`                       | Dev/Docker| `app_db`                 | Database name              |
+| `IMAGE_NAME`                    | Docker    | `ghcr.io/restrackit/restrackit-core` | Required; no default |
+| `IMAGE_TAG`                     | Docker    | `main`                   | Required; no default       |
+| `KEYCLOAK_URL`                  | Yes       | `https://example.com/auth` | Public Keycloak URL       |
+| `KEYCLOAK_REALM`                | Yes       | `restrackit`             | Keycloak realm name        |
+| `KEYCLOAK_CLIENT_ID`            | Yes       | `restrackit-backend`     | Keycloak client ID         |
+| `KEYCLOAK_INTERNAL_URL`         | No        | `http://keycloak:8080`   | Internal URL for Docker; defaults to `KEYCLOAK_URL` |
+| `CORS_ORIGINS`                  | Yes       | `http://localhost:3000`  | JSON list of allowed origins |
+| `CORS_ALLOW_CREDENTIALS`        | Yes       | `false`                  | Allow credentials on CORS requests |
+| `TAILSCALE_HOSTNAME`            | Prod Docker| `my-host.example.ts.net`| Required for prod compose Traefik/Keycloak routing |
+| `LOG_LEVEL`                     | No        | `INFO`                   | Logging level (default: `INFO`) |
+| `LOG_FORMAT`                    | No        | `json`                   | Log format: `json` or `text` (default: `json`) |
+
+---
+
+For setup instructions: See [Installation Guide](02-setup.md)

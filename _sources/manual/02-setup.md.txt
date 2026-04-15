@@ -1,0 +1,116 @@
+# Installation & Setup Guide
+
+## Prerequisiti
+
+Standard interno: **Docker Compose + Makefile** (stack completo) oppure **uv + Makefile** (solo backend).
+
+- **Docker Desktop** (Mac/Windows) o Docker Engine (Linux)
+- **Make** (standard su Linux/Mac, installabile su Windows)
+- **Google Cloud Credentials**: Vision API + Gemini API (file `service_account.json`)
+
+## Setup Rapido (Consigliato)
+
+### 1. Clona il repo
+
+```bash
+git clone https://github.com/Restrackit/restrackit-core
+cd restrackit-core
+```
+
+### 2. Configura Environment
+
+```bash
+# Copia il template
+cp .env.example .env
+
+# Modifica .env con le tue chiavi:
+# - GOOGLE_API_KEY (per Gemini)
+# - GOOGLE_APPLICATION_CREDENTIALS (path relativo al container, es. /app/service_account.json)
+# - KEYCLOAK_URL, KEYCLOAK_REALM, KEYCLOAK_CLIENT_ID (OIDC)
+```
+
+**Nota**: Assicurati di mettere il file `service_account.json` nella root del progetto.
+
+### 3. Avvia con Docker
+
+```bash
+make up-local
+```
+
+Questo comando:
+
+1. Avvia lo stack `deploy/local/docker-compose.yml` (app + Postgres + Keycloak).
+2. Attende l'healthcheck dei servizi e applica le migrazioni Alembic.
+3. Espone API su `http://localhost:8000` e Keycloak su `http://localhost:8080`.
+
+Server attivo su: `http://localhost:8000`
+
+### 4. Verifica
+
+- **Swagger UI**: <http://localhost:8000/docs>
+- **Health Check**: <http://localhost:8000/health>
+
+---
+
+## Comandi Utili (Makefile)
+
+Vedi `Makefile` per la lista completa.
+
+| Comando | Descrizione |
+| --- | --- |
+| `make up-local` | Avvia i container (senza rebuild). |
+| `make up-local-build` | Ricostruisce e avvia i container (utile dopo modifiche a dipendenze). |
+| `make down-local` | Ferma i container. |
+| `make logs-local` | Mostra i log dell'app in tail -f. |
+| `make test-docker` | Esegue la suite di test dentro il container Docker. |
+| `make migrate` | Esegue `alembic upgrade head` nel container attivo. |
+| `make make-migration MSG="desc"` | Crea una nuova migrazione DB. |
+| `make destroy-db` | **PERICOLO**: Cancella il volume del DB (reset totale). |
+| `make shell` | Apre una bash dentro il container app. |
+
+---
+
+## Setup Locale (Senza Docker)
+
+Solo per debug rapido o sviluppo di script. Richiede Python 3.13+ e [uv](https://docs.astral.sh/uv/).
+
+```bash
+# 1. Installa uv (se non già installato)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Sincronizza dipendenze
+make sync
+
+# 3. Avvia server (richiede DB locale o tunnel)
+make serve
+```
+
+---
+
+## Troubleshooting
+
+### Port 8000 in uso
+
+```bash
+lsof -i :8000
+kill -9 <PID>
+```
+
+### Errori Database
+
+Se vedi errori di connessione o tabelle mancanti:
+
+```bash
+# Controlla che il DB sia su
+docker compose ps
+
+# Esegue le migrazioni
+make migrate
+```
+
+### Credenziali Google
+
+Se Vision API fallisce:
+
+1. Verifica che `service_account.json` sia nella root.
+2. Verifica che `.env` abbia `GOOGLE_APPLICATION_CREDENTIALS=/app/service_account.json` (path interno al container).

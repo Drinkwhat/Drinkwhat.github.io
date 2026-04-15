@@ -1,0 +1,32 @@
+# Catalogo Codici Errore Restrackit
+
+| Codice | Messaggio | Severity | HTTP Status | Azione Consigliata |
+|--------|-----------|----------|-------------|--------------------|
+| **ERR_AUTH_001** | Header di autenticazione '{header}' mancante. | error | 401 | Verifica di aver incluso l'header richiesto nella richiesta. |
+| **ERR_AUTH_002** | Token di autenticazione non valido o scaduto. | error | 401 | Effettua nuovamente il login per ottenere un nuovo token. |
+| **ERR_AUTH_003** | Utente '{user_id}' non trovato. | error | 403 | Controlla l'ID utente o contatta l'amministratore. |
+| **ERR_AUTH_004** | Permessi insufficienti per questa operazione. | warning | 403 | Richiedi l'accesso al tuo amministratore. |
+| **ERR_AUTH_005** | Accesso negato allo store {store_id}. | warning | 403 | Verifica di aver selezionato lo store corretto. |
+| **ERR_VAL_001** | Dati di input non validi: {details} | warning | 400 | Correggi i dati inviati secondo la documentazione API. |
+| **ERR_VAL_002** | Campo obbligatorio mancante: {field} | warning | 400 | Assicurati di includere tutti i campi obbligatori nella richiesta. |
+| **ERR_VAL_003** | Formato non valido per il campo {field}. | warning | 400 | Verifica il formato del campo secondo la documentazione API. |
+| **ERR_VAL_004** | Il file caricato è vuoto. | warning | 400 | Carica un file valido non vuoto. |
+| **ERR_VAL_005** | Nessun testo trovato nell'immagine. | warning | 400 | Assicurati che l'immagine sia chiara e contenga testo leggibile. |
+| **ERR_VAL_006** | Errore nell'elaborazione dell'immagine: {details} | warning | 400 | Verifica il formato dell'immagine (supportati: JPG, PNG, HEIC). |
+| **ERR_BUS_001** | La risorsa richiesta '{resource}' non è stata trovata. | warning | 404 | Verifica l'ID o i parametri di ricerca della risorsa. |
+| **ERR_BUS_002** | Il prodotto '{product}' non è presente nell'anagrafica di questo store. | warning | 404 | Aggiungi il prodotto all'anagrafica prima di utilizzarlo in una ricetta o inventario. |
+| **ERR_BUS_003** | Il lotto specificato '{batch}' non è stato trovato. | warning | 404 | Verifica il codice del lotto o l'ID interno. |
+| **ERR_BUS_004** | Esiste già una risorsa '{resource}' con questi dati. | warning | 409 | Utilizza un identificativo diverso o modifica la risorsa esistente. |
+| **ERR_BUS_005** | Operazione non consentita: {details} | warning | 400 | Verifica che lo stato della risorsa permetta questa operazione (es. lotto non vuoto). |
+| **ERR_BUS_006** | Impossibile interpretare i dati dall'immagine. | warning | 422 | Prova con un'immagine più chiara o inserisci i dati manualmente. |
+| **ERR_BUS_007** | Conflitto di modifica per '{resource}': versione attesa {expected}, versione attuale {current}. | warning | 409 | Ricarica la risorsa e riprova l'operazione. |
+| **ERR_DB_001** | Errore di connessione al database. | critical | 503 | Riprova più tardi o contatta il supporto tecnico. |
+| **ERR_DB_002** | Violazione di integrità del database: {details} | error | 409 | Verifica che i dati non siano duplicati o violino vincoli. |
+| **ERR_DB_003** | Errore nell'esecuzione della query: {details} | error | 500 | Verifica i parametri della richiesta o contatta il supporto. |
+| **ERR_EXT_001** | Servizio esterno non disponibile. | error | 503 | Riprova più tardi. |
+| **ERR_EXT_002** | Timeout del servizio esterno. | error | 504 | Riprova più tardi o contatta il supporto. |
+| **ERR_EXT_003** | Errore nel servizio esterno {service}: {details} | error | 502 | Riprova più tardi o contatta il supporto. |
+| **ERR_EXT_004** | Errore nel servizio Google Vision: {details} | error | 502 | Verifica la qualità dell'immagine o riprova più tardi. |
+| **ERR_EXT_005** | Errore nel servizio AI Gemini: {details} | error | 502 | Riprova più tardi o contatta il supporto tecnico. |
+| **ERR_SYS_001** | Errore interno del sistema. ID richiesta: {request_id} | critical | 500 | Contatta il supporto tecnico fornendo l'ID della richiesta. |
+| **ERR_SYS_002** | Funzionalità non ancora implementata. | info | 501 | Questa funzionalità sarà disponibile in una versione futura. |

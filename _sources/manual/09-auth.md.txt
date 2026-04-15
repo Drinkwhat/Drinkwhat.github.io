@@ -1,0 +1,70 @@
+# Authentication & Authorization
+
+Questa sezione descrive il modello di sicurezza **attuale** del progetto: **Keycloak (OIDC)** con token JWT e controllo permessi a livello di endpoint.
+
+## Flusso di autenticazione (OIDC)
+
+- Il client ottiene un token JWT da Keycloak.
+- Le chiamate API includono `Authorization: Bearer <token>`.
+- L'app verifica firma e claim usando JWKS del realm configurato.
+
+Riferimenti nel codice:
+
+- Schema OAuth2 per Swagger UI: {mod}`app.core.security`
+- Validazione token, mapping ruoli/permessi e selezione store: {mod}`app.modules.auth.dependencies`
+
+## Configurazione Keycloak
+
+Le variabili minime per l’integrazione sono definite in {mod}`app.core.config`:
+
+- `KEYCLOAK_URL` (pubblico, include il path relativo se usato)
+- `KEYCLOAK_INTERNAL_URL` (opzionale, per chiamate server-to-server)
+- `KEYCLOAK_REALM`
+- `KEYCLOAK_CLIENT_ID`
+
+Nota architetturale: Keycloak è esposto sotto path `/auth` (non subdomain). Di conseguenza `KEYCLOAK_URL` include `/auth`.
+
+## Ruoli e permessi
+
+Il modello è basato su:
+
+- **Role** (derivato dai realm roles del token)
+- **Permission** (gate per endpoint tramite `RequirePermission(...)`)
+
+Esempi di permessi per endpoint:
+
+- Inventory: `INVENTORY_READ`, `INVENTORY_WRITE`, `INVENTORY_DELETE`
+- Products: `PRODUCTS_READ`, `PRODUCTS_WRITE`, `PRODUCTS_DELETE`
+- Kitchen: `KITCHEN_READ`, `KITCHEN_MANAGE_RECIPES`, `KITCHEN_WRITE_PREPARATION`
+
+Implementazione: {mod}`app.modules.auth.dependencies`
+
+## Multi-tenancy e selezione store
+
+Ogni request opera in un contesto `store_id` (isolamento dati). Lo `store_id` effettivo deriva:
+
+- dalle claim del token (lista store consentiti o accesso globale),
+- opzionalmente dall’header `x-target-store` quando l’utente ha accesso a più store.
+
+Il controllo di `store_id` è applicato in query e service layer (es. filtri `Batch.store_id == store_id`).
+
+## Esempi (curl)
+
+```bash
+TOKEN="<bearer-token>"
+
+# Lista lotti (serve INVENTORY_READ)
+curl -H "Authorization: Bearer ${TOKEN}" \
+  http://localhost:8000/inventory/list
+
+# Se il token consente più store, seleziona lo store target
+curl -H "Authorization: Bearer ${TOKEN}" \
+  -H "x-target-store: 1" \
+  http://localhost:8000/inventory/list
+```
+
+## Endpoint utili
+
+- OpenAPI/Swagger UI: `GET /docs`
+- ReDoc: `GET /redoc`
+- Logout (Keycloak): `GET /auth/logout` (redirect)

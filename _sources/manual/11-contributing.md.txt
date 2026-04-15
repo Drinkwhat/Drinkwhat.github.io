@@ -1,0 +1,471 @@
+# Guida Team (contribuzioni)
+
+Questa guida è per il team interno. Linguaggio semplice, niente formalità.
+
+## Getting Started
+
+### 1. Clona il repo
+
+```bash
+git clone https://github.com/Restrackit/restrackit-core
+cd restrackit-core
+```
+
+### 2. Setup ambiente
+
+```bash
+# Installa uv (se non già installato)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Sincronizza dipendenze
+make sync
+
+# Config
+cp .env.example .env
+# Edita .env con i tuoi dati
+```
+
+### 3. Crea branch dalla issue
+
+```bash
+# Parti da main
+git checkout main
+git pull origin main
+
+# Branch nuova (da issue)
+# formato: <issueId>-<tipo>_<descrizione>
+# es: 123-fix_login
+git checkout -b 123-fix_login
+```
+
+---
+
+## Dev workflow (pratico)
+
+### Regole base
+
+#### Stile
+
+Usiamo **ruff** per check e format:
+
+```bash
+# Check code
+ruff check app tests
+
+# Fix issues
+ruff check app tests --fix
+
+# Format code
+ruff format app tests
+```
+
+#### Naming
+
+```python
+# Variables & functions
+user_id = 1
+def get_batch_by_id(batch_id: int):
+    pass
+
+# Classes
+class ProductMaster:
+    pass
+
+# Constants
+MAX_FILE_SIZE = 10485760  # 10MB
+OPERATORS_AUTORIZZATI = {...}
+```
+
+#### Type hints
+
+Usali sempre:
+
+```python
+# ✅ Good
+def get_product(name: str, store_id: int) -> ProductMaster:
+    pass
+
+# ❌ Bad
+def get_product(name, store_id):
+    pass
+```
+
+### Commit Messages
+
+Usiamo conventional commits (commit piccoli e chiari):
+
+```text
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types principali**:
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Code formatting
+- `refactor`: Code restructuring
+- `test`: Tests
+- `chore`: Maintenance
+
+**Examples**:
+
+```text
+feat(carico): Add batch confirmation endpoint
+fix(auth): Fix operator permission check
+docs(api): Update API reference
+test(carico): Add tests for batch deletion
+```
+
+---
+
+## Test
+
+### Write Tests
+
+```python
+import pytest
+
+def test_analyze_photo_success(client):
+    """Test successful image analysis"""
+    response = client.post(
+        "/inventory/analyze",
+        headers={"Authorization": "Bearer token_chef_marco"},
+        files={"file": open("test_image.jpg", "rb")}
+    )
+    assert response.status_code == 200
+    assert "data" in response.json()
+
+def test_analyze_empty_file(client):
+    """Test error handling for empty file"""
+    response = client.post(
+        "/inventory/analyze",
+        headers={"Authorization": "Bearer token_chef_marco"},
+        files={"file": b""}
+    )
+    assert response.json()["error"]["code"] == "ERR_VAL_004"
+```
+
+### Run Tests
+
+```bash
+# All tests
+pytest tests/ -v
+
+# With coverage
+pytest tests/ -v --cov=app
+
+# Specific test file
+pytest tests/integration/test_carico_routes.py -v
+
+# Specific test
+pytest tests/integration/test_carico_routes.py::test_analyze_photo_success -v
+```
+
+### Test Coverage
+
+Maintain >80% coverage:
+
+```bash
+pytest tests/ --cov=app --cov-report=html
+open htmlcov/index.html
+```
+
+---
+
+## Pull Request
+
+### 1. Push branch
+
+```bash
+git push origin 123-fix_login
+```
+
+### 2. Apri PR
+
+- Titolo chiaro e corto
+- Descrizione: cosa cambia e perché
+- Link issue se c’è
+
+### PR Title
+
+```text
+[FEATURE] Add batch confirmation endpoint
+[BUG] Fix operator permission check
+[DOCS] Update API reference
+```
+
+### PR Description
+
+```markdown
+## Description
+Brief description of changes
+
+## Type of Change
+- [ ] New feature
+- [ ] Bug fix
+- [ ] Documentation update
+
+## Testing
+How to test these changes:
+- [ ] Ran unit tests
+- [ ] Added new tests
+- [ ] Manual testing on dev
+
+## Checklist
+- [ ] Code follows style guidelines
+- [ ] Documentation updated
+- [ ] Tests pass
+- [ ] No breaking changes
+```
+
+### 3. Review
+
+- Rispondi ai commenti
+- Aggiorna se serve
+
+### 4. Merge
+
+Quando la CI passa e il review è ok, si mergea.
+
+---
+
+## Adding Features
+
+### New API Endpoint
+
+1. **Create schema** (`app/schemas/`):
+
+```python
+# app/schemas/custom.py
+from pydantic import BaseModel
+
+class CustomRequest(BaseModel):
+    field1: str
+    field2: int
+
+class CustomResponse(BaseModel):
+    status: str
+    data: dict
+```
+
+1. **Create route** (`app/api/routes/`):
+
+```python
+# app/api/routes/custom.py
+from fastapi import APIRouter, Depends
+from app.schemas.custom import CustomRequest, CustomResponse
+
+router = APIRouter(prefix="/custom", tags=["custom"])
+
+@router.post("/", response_model=CustomResponse)
+async def create_custom(
+    data: CustomRequest,
+    user: dict = Depends(get_current_user_data),
+    db: Session = Depends(get_db)
+):
+    """Create custom resource"""
+    # Implementation
+    return CustomResponse(status="success", data={})
+```
+
+1. **Register route** (`app/main.py`):
+
+```python
+from app.modules.custom.router import router as custom_router
+
+app.include_router(custom_router)
+```
+
+1. **Write tests** (`tests/integration/test_custom_routes.py`):
+
+```python
+def test_create_custom(client):
+    response = client.post(
+        "/custom/",
+        headers={"Authorization": "Bearer token_chef_marco"},
+        json={"field1": "value", "field2": 123}
+    )
+    assert response.status_code == 200
+```
+
+### Database Migration
+
+```bash
+# Make changes to models (app/modules/<module>/models.py)
+
+# Generate migration
+make make-migration MSG="add_new_field"
+
+# Review migration (alembic/versions/)
+
+# Apply migration
+make migrate
+```
+
+---
+
+## Documentation
+
+### Update Docs
+
+1. **Edit files** in `docs/`
+2. **Follow markdown** format
+3. **Link between** docs
+4. **Test links** locally
+
+### Add to Index
+
+```markdown
+# README.md / docs/README.md
+- [New Topic](new-topic.md)
+```
+
+### DocStrings
+
+```python
+def get_batch_by_id(batch_id: int, store_id: int) -> Optional[Batch]:
+    """
+    Retrieve a batch record from the database.
+
+    Args:
+        batch_id (int): The unique batch identifier
+        store_id (int): The store ID for multi-tenancy
+
+    Returns:
+        Optional[Batch]: The batch object if found, None otherwise
+
+    Raises:
+        ResourceNotFoundError: If batch not in store
+
+    Example:
+        batch = get_batch_by_id(42, store_id=1)
+    """
+    pass
+```
+
+---
+
+## Common Tasks
+
+### Setup Local Development
+
+```bash
+git clone https://github.com/Restrackit/restrackit-core
+cd restrackit-core
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+make sync
+cp .env.example .env
+# Edit .env
+uv run alembic upgrade head
+make serve
+```
+
+### Run All Checks
+
+```bash
+# Lint
+uv run ruff check app tests --fix
+
+# Test
+uv run pytest tests/ -v --cov=app
+
+# Type check (optional)
+uv run mypy app
+```
+
+### Update Dependencies
+
+```bash
+# Aggiungi una dipendenza runtime
+uv add nome-pacchetto
+
+# Aggiungi una dipendenza di sviluppo
+uv add --dev nome-pacchetto
+
+# Aggiorna tutte le dipendenze bloccate nel lockfile
+uv lock --upgrade
+uv sync
+```
+
+### Build Docker Image
+
+```bash
+docker build -t restrackit-app .
+docker run -p 8000:8000 restrackit-app
+```
+
+---
+
+## Issues
+
+Per una guida dettagliata su come strutturare, nominare e suddividere le issue, consulta [Gestione Issue](12-issue-management.md).
+
+### Report Bug
+
+Create GitHub issue with:
+
+- Title: Clear and concise
+- Description: Reproduce steps
+- Expected behavior
+- Actual behavior
+- Screenshots/logs
+
+### Request Feature
+
+Create GitHub issue with:
+
+- Title: Feature description
+- Use case: Why it's needed
+- Proposed solution
+- Alternative solutions
+
+---
+
+## Code Review Checklist
+
+Before submitting PR, ensure:
+
+- [ ] Code follows style guide (ruff)
+- [ ] Tests written and passing
+- [ ] Coverage maintained (>80%)
+- [ ] Documentation updated
+- [ ] Commit messages clear
+- [ ] No breaking changes
+- [ ] All CI checks pass
+- [ ] Ready for production (no debugging code)
+
+---
+
+## Community
+
+### Communication
+
+- GitHub Issues: Bug reports, features
+- GitHub Discussions: Q&A, ideas
+- Pull Requests: Code review, feedback
+
+### Code of Conduct
+
+- Be respectful
+- Be constructive
+- No harassment
+- Help others
+
+---
+
+## Resources
+
+- [Git Workflow](https://git-scm.com/book/en/v2)
+- [Python Style Guide (PEP 8)](https://pep8.org/)
+- [FastAPI Contributing](https://fastapi.tiangolo.com/contributing/)
+- [GitHub Guides](https://guides.github.com/)
+
+---
+
+Thank you for contributing! 🎉

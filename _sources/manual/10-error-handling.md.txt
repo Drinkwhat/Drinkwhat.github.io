@@ -1,0 +1,677 @@
+# Error Handling
+
+Comprehensive error handling and exception management.
+
+## Overview
+
+The error handling system is built around three components:
+
+- **`app/core/error_catalog.py`** — defines `ErrorCode` (enum), `ErrorSeverity` (enum), `ErrorInfo` (TypedDict), and the `ERROR_CATALOG` mapping
+- **`app/core/errors.py`** — defines `AppError` and typed subclasses; uses `ErrorPayload` and `ErrorResponse` TypedDicts for type-safe serialization
+- **`app/core/i18n.py`** — translates error messages (Italian default, English supported)
+
+## Exception Hierarchy
+
+```text
+AppError (base)
+├── AuthenticationError   (401 / 403)
+├── ValidationError       (400 Bad Request)
+├── BusinessLogicError    (404 / 409 / 422)
+├── DatabaseError         (503 / 409 / 500)
+├── ExternalServiceError  (503 / 504 / 502)
+└── SystemError           (500 / 501)
+```
+
+---
+
+## Type Definitions
+
+### `ErrorInfo` (TypedDict)
+
+Each entry in `ERROR_CATALOG` is a typed dictionary:
+
+```python
+class ErrorInfo(TypedDict):
+    message: str           # Italian message template (may contain {param} placeholders)
+    severity: ErrorSeverity
+    http_status: int
+    action: str            # Recommended user action
+```
+
+### `ErrorPayload` / `ErrorResponse` (TypedDict)
+
+`AppError.to_dict()` returns an `ErrorResponse`, whose `"error"` key is an `ErrorPayload`:
+
+```python
+class ErrorPayload(TypedDict):
+    code: ErrorCode        # The ErrorCode enum value
+    message: str           # Formatted, translated message
+    severity: ErrorSeverity
+    action: str
+    details: str | None    # str(original_exc) or None
+
+class ErrorResponse(TypedDict):
+    error: ErrorPayload
+```
+
+---
+
+## Exception Classes
+
+### `AppError` (Base)
+
+**File**: `app/core/errors.py`
+
+```python
+class AppError(Exception):
+    def __init__(
+        self,
+        code: ErrorCode,
+        params: dict[str, Any] | None = None,
+        original_exc: Exception | None = None,
+        lang: str = "it",
+    ):
+        self.code = code
+        self.params = params or {}
+        self.original_exc = original_exc
+        # ... (metadata from ERROR_CATALOG)
+```
+
+**Purpose**: Base for all custom exceptions with structured error codes
+
+**Usage**:
+
+```python
+raise AppError(
+    ErrorCode.SYS_INTERNAL_ERROR,
+    params={"request_id": "req-12345"}
+)
+```
+
+---
+
+### `ValidationError` (400)
+
+**When**: Input data is invalid
+
+**Error Codes**:
+
+- `VAL_INVALID_INPUT` - Invalid input data
+- `VAL_EMPTY_FILE` - Empty file upload
+- `VAL_NO_TEXT_FOUND` - No text detected in image
+- `VAL_IMAGE_ERROR` - Image processing error
+
+**Examples**:
+
+- Empty file upload
+- Invalid date format
+- Missing required field
+- No text found in image
+
+**Usage**:
+
+```python
+from app.core.errors import ValidationError, ErrorCode
+
+if not file_bytes:
+    raise ValidationError(ErrorCode.VAL_EMPTY_FILE)
+
+if not text_annotations:
+    raise ValidationError(ErrorCode.VAL_NO_TEXT_FOUND)
+```
+
+**Response**:
+
+```json
+{
+  "error": {
+    "code": "ERR_VAL_004",
+    "message": "Il file caricato è vuoto.",
+    "severity": "warning",
+    "action": "Carica un file valido non vuoto."
+  }
+}
+```
+
+---
+
+### `ExternalServiceError` (502)
+
+**When**: A call to an external service fails (Vision, Gemini, other APIs)
+
+**Causes**:
+
+- API quota exceeded
+- Invalid credentials
+- Network error
+- API temporarily unavailable
+
+**Usage**:
+
+```python
+try:
+    text = ocr_service.extract_text(file_bytes)
+except Exception as e:
+    logger.error(f"Vision API failed: {e}")
+    raise ExternalServiceError(
+        ErrorCode.EXT_VISION_ERROR,
+        params={"details": str(e)},
+    )
+```
+
+**Response**:
+
+```json
+{
+  "error": {
+    "code": "ERR_EXT_004",
+    "message": "Errore nel servizio Google Vision: quota superata",
+    "severity": "error",
+    "action": "Verifica la qualità dell'immagine o riprova più tardi.",
+    "details": "quota superata"
+  },
+  "request_id": "..."
+}
+```
+
+---
+
+### `ParsingError` (422)
+
+**When**: LLM fails to parse data
+
+try:
+    response = client.document_text_detection(image=image)
+except Exception as exc:
+    logger.error(f"Vision API call failed: {exc}")
+    raise ExternalServiceError(
+        ErrorCode.EXT_VISION_ERROR,
+        params={"details": str(exc)},
+        original_exc=exc
+    )
+
+```
+
+**Response**:
+
+```json
+{
+  "error": {
+    "code": "ERR_EXT_004",
+    "message": "Errore nel servizio Google Vision: API quota exceeded",
+    "severity": "error",
+    "action": "Verifica la qualità dell'immagine o riprova più tardi.",
+    "details": "API quota exceeded"
+  }
+}
+```
+
+---
+
+### `BusinessLogicError` (404/409/422)
+
+**When**: Business rule violations
+
+**Error Codes**:
+
+- `BUS_PRODUCT_NOT_FOUND` - Product not in catalog (404)
+- `BUS_RESOURCE_NOT_FOUND` - Resource doesn't exist (404)
+- `BUS_ALREADY_EXISTS` - Duplicate resource (409)
+- `BUS_PARSING_ERROR` - AI parsing failed (422)
+- `BUS_OPERATION_NOT_ALLOWED` - Operation not permitted (400)
+
+**Usage**:
+
+```python
+from app.core.errors import BusinessLogicError, ErrorCode
+
+if not product:
+    raise BusinessLogicError(
+        ErrorCode.BUS_PRODUCT_NOT_FOUND,
+        params={"product": product_name}
+    )
+```
+
+**Response**:
+
+```json
+{
+  "error": {
+    "code": "ERR_BUS_002",
+    "message": "Prodotto 'Latte Intero' non trovato in questo store.",
+    "severity": "warning",
+    "action": "Aggiungi il prodotto all'anagrafica prima di procedere."
+  }
+}
+```
+
+---
+
+### `DatabaseError` (409/500)
+
+**When**: Database operations fail
+
+**Error Codes**:
+
+- `DB_INTEGRITY_ERROR` - Constraint violation (409)
+- `DB_CONNECTION_ERROR` - Connection failed (500)
+- `DB_QUERY_ERROR` - Query execution error (500)
+
+**Causes**:
+
+- Duplicate records
+- Foreign key violations
+- Unique constraint violated
+- Connection issues
+
+**Usage**:
+
+```python
+from app.core.errors import DatabaseError, ErrorCode
+
+try:
+    db.add(product)
+    db.commit()
+except IntegrityError as exc:
+    db.rollback()
+    raise DatabaseError(
+        ErrorCode.DB_INTEGRITY_ERROR,
+        params={"details": str(exc)}
+    )
+```
+
+**Response**:
+
+```json
+{
+  "error": {
+    "code": "ERR_DB_002",
+    "message": "Violazione di integrità del database: duplicate key",
+    "severity": "error",
+    "action": "Verifica che i dati non siano duplicati o violino vincoli."
+  }
+}
+```
+
+---
+
+### `SystemError` (500)
+
+**When**: Unexpected system errors
+
+**Error Codes**:
+
+- `SYS_INTERNAL_ERROR` - Generic internal error
+- `SYS_NOT_IMPLEMENTED` - Feature not implemented
+
+**Usage**:
+
+```python
+from app.core.errors import SystemError, ErrorCode
+
+except Exception as exc:
+    logger.error(f"Unexpected error: {exc}", exc_info=True)
+    raise SystemError(
+        ErrorCode.SYS_INTERNAL_ERROR,
+        params={"request_id": request_id},
+        original_exc=exc
+    )
+```
+
+**Response**:
+
+```json
+{
+  "error": {
+    "code": "ERR_SYS_001",
+    "message": "Errore interno del sistema. ID richiesta: req-12345",
+    "severity": "critical",
+    "action": "Contatta il supporto tecnico fornendo l'ID della richiesta."
+  }
+}
+```
+
+---
+
+## Exception Handling Pattern
+
+### Try-Catch-Raise
+
+```python
+from app.core.errors import ValidationError, DatabaseError, ErrorCode
+from app.modules.auth.dependencies import AuthUser, Permission, RequirePermission
+
+@router.post("/inventory/confirm")
+async def confirm_batch(
+    data: BatchConfirm,
+    user: AuthUser = Depends(RequirePermission(Permission.INVENTORY_WRITE)),
+    db: Session = Depends(get_db)
+):
+    # Validate input
+    if not data.product_name:
+        raise ValidationError(ErrorCode.VAL_MISSING_FIELD)
+
+    try:
+        # Convert date
+        exp_dt = datetime.strptime(data.expiry_date, "%Y-%m-%d").date()
+    except ValueError:
+        raise ValidationError(ErrorCode.VAL_INVALID_FORMAT)
+
+    try:
+        # Database operation
+        db.add(new_batch)
+        db.commit()
+    except IntegrityError as exc:
+        db.rollback()
+        raise DatabaseError(
+            ErrorCode.DB_INTEGRITY_ERROR,
+            params={"details": str(exc)}
+        )
+    except Exception as exc:
+        db.rollback()
+        logger.error(f"Database error: {exc}")
+        raise SystemError(
+            ErrorCode.SYS_INTERNAL_ERROR,
+            original_exc=exc
+        )
+
+    return response
+```
+
+### Error Handler Pattern
+
+```python
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from app.core.errors import AppError
+
+app = FastAPI()
+
+@app.exception_handler(AppError)
+async def app_error_handler(request: Request, exc: AppError):
+    logger.error(
+        f"AppError: {exc.code}",
+        extra={
+            "code": exc.code,
+            "severity": exc.severity,
+            "http_status": exc.http_status
+        }
+    )
+    return JSONResponse(
+        status_code=exc.http_status,
+        content=exc.to_dict()
+    )
+```
+
+---
+
+## Logging Integration
+
+### Log on Error
+
+```python
+logger.warning(f"Validation failed: {str(e)}")
+raise ValidationError(ErrorCode.VAL_INVALID_INPUT, params={"details": str(e)})
+
+logger.error(f"Vision API error: {str(e)}", exc_info=True)
+raise ExternalServiceError(
+    ErrorCode.EXT_VISION_ERROR,
+    params={"details": str(e)},
+)
+
+logger.error(f"Database error: {exc}")
+raise DatabaseError(ErrorCode.DB_INTEGRITY_ERROR, params={"details": str(exc)})
+```
+
+### Log Levels
+
+| Level    | Use Case   | Condition                 |
+| -------- | ---------- | ------------------------- |
+| DEBUG    | Development| Detailed flow info        |
+| INFO     | Operations | Important events          |
+| WARNING  | Validation | Expected errors           |
+| ERROR    | Failures   | Unexpected issues         |
+| CRITICAL | System     | App cannot continue       |
+
+---
+
+## Best Practices
+
+### ✅ Do
+
+```python
+from app.core.errors import ValidationError, DatabaseError, ErrorCode
+
+# Use specific error codes
+raise ValidationError(
+    ErrorCode.VAL_EMPTY_FILE,
+    params={"details": "Product name cannot be empty"}
+)
+
+# Log before raising
+logger.warning(f"Invalid input: {error}")
+raise ValidationError(ErrorCode.VAL_INVALID_INPUT, params={"details": error})
+
+# Re-raise with context and preserve original exception
+except Exception as exc:
+    logger.error(f"Database operation failed: {exc}")
+    raise DatabaseError(
+        ErrorCode.DB_INTEGRITY_ERROR,
+        original_exc=exc
+    )
+```
+
+### ❌ Don't
+
+```python
+# Generic exception without error code
+raise Exception("Error")
+
+# Don't expose internal details
+raise AppError(ErrorCode.DB_QUERY_ERROR, params={"details": str(db_error)})  # ← Contains SQL details
+
+# Don't log and ignore
+try:
+    db.commit()
+except:
+    pass  # ← Silent failure
+
+# Don't catch too broadly without re-raising
+try:
+    ...
+except:  # ← Catches everything
+    ...
+```
+
+---
+
+## Testing Errors
+
+### pytest
+
+```python
+import pytest
+from app.core.errors import ValidationError, BusinessLogicError, DatabaseError, ErrorCode
+
+def test_invalid_date_format():
+    with pytest.raises(ValidationError) as exc_info:
+        # Code that should raise ValidationError
+        validate_date("invalid")
+    assert exc_info.value.code == ErrorCode.VAL_INVALID_FORMAT
+
+def test_missing_product():
+    with pytest.raises(BusinessLogicError) as exc_info:
+        get_product("nonexistent", store_id=1)
+    assert exc_info.value.code == ErrorCode.BUS_PRODUCT_NOT_FOUND
+
+def test_duplicate_product():
+    with pytest.raises(DatabaseError) as exc_info:
+        # Create duplicate
+        create_product("Latte", store_id=1)
+        create_product("Latte", store_id=1)  # Should raise
+    assert exc_info.value.code == ErrorCode.DB_INTEGRITY_ERROR
+```
+
+### With Client
+
+```python
+def test_empty_file_upload(client):
+    response = client.post(
+        "/inventory/analyze",
+        headers={"Authorization": "Bearer token_chef_marco"},
+        files={"file": b""}  # Empty
+    )
+    data = response.json()
+    assert data["error"]["code"] == "ERR_VAL_004"
+    assert "vuoto" in data["error"]["message"].lower()
+
+def test_product_not_found(client):
+    response = client.post(
+        "/inventory/confirm",
+        headers={"Authorization": "Bearer token_chef_marco"},
+        json={
+            "product_name": "Nonexistent Product",
+            "lot_code": "LOT123",
+            "expiry_date": "2024-12-31",
+            "confidence": 0.95
+        }
+    )
+    data = response.json()
+    assert data["error"]["code"] == "ERR_BUS_002"
+```
+
+---
+
+## Error Response Format
+
+### Standard Format
+
+```json
+{
+  "error": {
+    "code": "ERR_VAL_004",
+    "message": "Il file caricato è vuoto.",
+    "severity": "warning",
+    "action": "Carica un file valido non vuoto.",
+    "details": null
+  }
+}
+```
+
+### With Original Exception Details
+
+```json
+{
+  "error": {
+    "code": "ERR_EXT_004",
+    "message": "Errore nel servizio Google Vision: quota exceeded",
+    "severity": "error",
+    "action": "Verifica la qualità dell'immagine o riprova più tardi.",
+    "details": "429 Resource has been exhausted"
+  }
+}
+```
+
+---
+
+## HTTP Status Codes
+
+| Code | Meaning          | When                        |
+| ---- | ---------------- | --------------------------- |
+| 400  | Bad Request      | Invalid input data          |
+| 403  | Forbidden        | Unauthorized access         |
+| 404  | Not Found        | Resource doesn't exist      |
+| 409  | Conflict         | Data conflict               |
+| 422  | Unprocessable    | Parsing failed              |
+| 500  | Server Error     | Unexpected error            |
+| 502  | Bad Gateway      | External API error          |
+
+---
+
+## Production Considerations
+
+### Error Code Usage
+
+```python
+from app.core.errors import SystemError, ErrorCode
+
+# ✅ Production - Use error codes, avoid exposing internal details
+raise SystemError(
+    ErrorCode.SYS_INTERNAL_ERROR,
+    params={"request_id": request_id}
+)
+
+# ❌ Development - Don't expose SQL/internal details in production
+raise SystemError(
+    ErrorCode.SYS_INTERNAL_ERROR,
+    params={"details": f"SQL Error: {exc.sqlstate}: {exc.diag.message_primary}"}
+)
+```
+
+### Error Tracking
+
+```python
+import sentry_sdk
+from app.core.errors import SystemError, ErrorCode
+
+sentry_sdk.init("https://key@sentry.io/project")
+
+try:
+    ...
+except Exception as exc:
+    sentry_sdk.capture_exception(exc)
+    raise SystemError(
+        ErrorCode.SYS_INTERNAL_ERROR,
+        original_exc=exc
+    )
+```
+
+### Monitoring
+
+- Track error rates
+- Alert on error spikes
+- Monitor specific errors
+- Trend analysis
+
+---
+
+## Internationalization (i18n)
+
+Error messages support multiple languages. The default language is **Italian** (from `ERROR_CATALOG`). **English** is fully supported via `app/core/i18n.py`.
+
+### Usage
+
+Pass `lang` when constructing an `AppError`:
+
+```python
+# Italian (default)
+err = AppError(ErrorCode.AUTH_INVALID_TOKEN)
+
+# English
+err = AppError(ErrorCode.AUTH_INVALID_TOKEN, lang="en")
+```
+
+### `get_message()`
+
+```python
+from app.core.i18n import get_message
+from app.core.error_catalog import ErrorCode
+
+msg_it = get_message(ErrorCode.AUTH_INVALID_TOKEN)         # Italian
+msg_en = get_message(ErrorCode.AUTH_INVALID_TOKEN, "en")  # English
+```
+
+### Coverage
+
+All `ErrorCode` values have both an Italian entry in `ERROR_CATALOG` and an English translation in `TRANSLATIONS["en"]`. Regression tests in `tests/unit/test_errors_system.py` enforce this:
+
+- `test_all_error_codes_have_catalog_entries` — verifies every `ErrorCode` has an `ERROR_CATALOG` entry
+- `test_all_error_codes_have_en_translations` — verifies every `ErrorCode` has an English translation
+
+---
+
+For implementation details, see:
+
+- `app/core/errors.py` - Exception classes and TypedDicts
+- `app/core/error_catalog.py` - Error codes, catalog, and type definitions
+- `app/core/i18n.py` - Internationalization support

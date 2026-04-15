@@ -1,0 +1,134 @@
+# Sistema di Versionamento Automatico
+
+Questo progetto utilizza un sistema di versionamento automatico basato su [Semantic Versioning](https://semver.org/) e [Conventional Commits](https://www.conventionalcommits.org/).
+
+## Come funziona
+
+Il sistema utilizza [Commitizen](https://commitizen-tools.github.io/commitizen/) per gestire automaticamente:
+
+1. L'incremento della versione (Major, Minor, Patch).
+2. L'aggiornamento del file `CHANGELOG.md`.
+3. La creazione di tag Git.
+4. Il rilascio su GitHub.
+
+### Convenzioni dei Commit
+
+Affinché il sistema funzioni correttamente, i messaggi di commit devono seguire la specifica **Conventional Commits**:
+
+```text
+<tipo>[ambito facoltativo]: <descrizione>
+
+[corpo facoltativo]
+
+[piede facoltativo]
+```
+
+**Tipi principali:**
+
+- `fix`: corregge un bug (incrementa **PATCH**).
+- `feat`: introduce una nuova funzionalità (incrementa **MINOR**).
+- `BREAKING CHANGE`: introduce una modifica che rompe la retrocompatibilità (incrementa **MAJOR**).
+  - Può essere indicato nel piede del messaggio o aggiungendo un `!` dopo il tipo (es. `feat!: nuova api`).
+
+**Altri tipi (non incrementano la versione, a meno di breaking change):**
+
+- `docs`: modifiche alla documentazione.
+- `style`: modifiche allo stile del codice (spazi, formattazione, ecc).
+- `refactor`: rifattorizzazione del codice senza nuove funzionalità o fix.
+- `perf`: miglioramenti delle prestazioni.
+- `test`: aggiunta o correzione di test.
+- `chore`: attività di manutenzione, build, tool, ecc.
+
+### Esempi
+
+- **Patch (Bug Fix):**
+
+    ```bash
+    git commit -m "fix(auth): correzione validazione token scaduto"
+    ```
+
+* **Minor (Feature):**
+
+    ```bash
+    git commit -m "feat(inventory): aggiunta API per ricerca prodotti"
+    ```
+
+* **Major (Breaking Change):**
+
+    ```bash
+    git commit -m "feat!: rimozione supporto API v1"
+    ```
+
+## Configurazione Locale
+
+Per facilitare la scrittura dei commit, è possibile utilizzare `commitizen` localmente.
+
+1. **Installazione delle dipendenze:**
+    Assicurati di aver installato le dipendenze del progetto:
+
+    ```bash
+    uv sync --group dev
+    ```
+
+2. **Creare un commit guidato (opzionale):**
+    Puoi usare il comando `cz commit` per avviare un wizard interattivo:
+
+    ```bash
+    uv run cz commit
+    ```
+
+## Pipeline di Rilascio (CI/CD)
+
+Il versionamento e il rilascio avvengono automaticamente tramite **GitHub Actions**.
+
+### Bump automatico su `dev`
+
+Workflow: `.github/workflows/dev-version-bump.yml`
+
+1. Dopo un push su `dev`, la CI (`ci.yml`) esegue lint + test.
+2. Se la CI termina con successo, viene calcolata la prossima versione in base ai **Conventional Commits**:
+   - `fix` → PATCH
+   - `feat` → MINOR
+   - `BREAKING CHANGE` / `!` → MAJOR
+3. Vengono aggiornati i file di versione e `CHANGELOG.md` (senza creare tag).
+4. Viene fatto push su `dev` del commit di bump.
+
+### Tag e Release automatici su `main`
+
+Workflow: `.github/workflows/release.yml`
+
+1. Dopo un push su `main`, la CI (`ci.yml`) esegue lint + test.
+2. Se la CI termina con successo, viene letto `pyproject.toml` e creato automaticamente il tag `vX.Y.Z` (se non esiste già).
+3. Viene creata la **GitHub Release** usando le note estratte dalla sezione `## vX.Y.Z ...` in `CHANGELOG.md`.
+
+### Rilascio Manuale / Forzatura
+
+In casi eccezionali, è possibile forzare un rilascio:
+
+1. **Da GitHub Actions:**
+    Andare su "Actions" -> "Release" -> "Run workflow".
+    Questo eseguirà il bump basandosi sui commit esistenti.
+
+2. **Manualmente in locale (sconsigliato):**
+
+    ```bash
+    cz bump
+    git push --follow-tags
+    ```
+
+## Configurazione
+
+La configurazione si trova in `pyproject.toml` sotto `[tool.commitizen]`.
+
+- `name`: "cz_conventional_commits"
+- `version`: Versione corrente del progetto.
+- `version_files`: File dove la versione è scritta (attualmente `pyproject.toml`).
+- `tag_format`: Formato del tag (es. `v1.2.3`).
+
+## Validazioni (pre-commit + CI)
+
+- Pre-commit: `.pre-commit-config.yaml`
+  - ruff (lint + format)
+  - commitizen (validazione messaggio commit, stage `commit-msg`)
+  - controllo coerenza versione tra moduli/manifest (`scripts/sync_versions.py --check`)
+- CI: fallisce se rileva incongruenze di versione tra file/moduli (`scripts/sync_versions.py --check`)

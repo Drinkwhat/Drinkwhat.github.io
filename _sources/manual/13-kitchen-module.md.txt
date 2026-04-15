@@ -1,0 +1,136 @@
+# 🍳 Kitchen Module Documentation
+
+## 1. Overview
+
+The **Kitchen Module** (`app/modules/kitchen`) is responsible for managing culinary operations within the restaurant. It allows chefs and kitchen staff to:
+- Define standard **Recipes** (Ricette) with specific ingredients.
+- Check **Ingredient Availability** in real-time based on active inventory batches.
+- Record **Preparations** (Preparazioni), linking them to the specific batches used for traceability.
+
+This module ensures that every dish prepared can be traced back to the specific lots of raw materials used, maintaining food safety standards and inventory accuracy.
+
+---
+
+## 2. Data Models
+
+### 📖 Recipe (`recipes`)
+Defines a standard culinary preparation.
+- `id`: Unique identifier.
+- `store_id`: Links the recipe to a specific store/restaurant.
+- `name`: Name of the dish (e.g., "Fajitas").
+- `description`: Optional instructions or notes.
+- **Relationships**:
+  - Has many `RecipeIngredient`.
+  - Has many `Preparation`.
+
+### 🥕 RecipeIngredient (`recipe_ingredients`)
+Links a recipe to a product from the master data.
+- `recipe_id`: Parent recipe.
+- `product_master_id`: The ingredient product (e.g., "Chicken Breast").
+- `standard_quantity`: Default amount used.
+- `unit`: Unit of measure (e.g., "kg", "l", "pcs").
+
+### 👨‍🍳 Preparation (`preparations`)
+Represents the execution of a recipe at a specific time.
+- `id`: Unique identifier.
+- `recipe_id`: The recipe being prepared.
+- `operator_id`: The chef/staff member who performed the preparation.
+- `created_at`: Timestamp of the preparation.
+- `notes`: Specific notes for this batch.
+- **Relationships**:
+  - Has many `PreparationItem`.
+
+### 📦 PreparationItem (`preparation_items`)
+The specific link between a preparation and the inventory batches used.
+- `preparation_id`: Parent preparation.
+- `batch_id`: The specific inventory lot used (e.g., Lot "L123" of Chicken).
+- `quantity_used`: Amount actually used from this batch.
+- `unit`: Unit of measure.
+
+---
+
+## 3. API Endpoints
+
+All endpoints are prefixed with `/kitchen` and require authentication.
+
+### Recipes Management
+- **POST** `/kitchen/recipes`: Create a new recipe.
+- **GET** `/kitchen/recipes`: List all recipes for the current store.
+- **GET** `/kitchen/recipes/{id}`: Get details of a specific recipe.
+
+### Availability Check
+- **GET** `/kitchen/recipes/{id}/availability`:
+  - Returns the list of ingredients for a recipe.
+  - For each ingredient, lists the **Active Batches** (not empty/expired) currently in stock.
+  - **Use Case**: Populating the UI dropdowns to let the chef select which specific lot they are using.
+
+### Preparation Recording
+- **POST** `/kitchen/preparations`: Record a new preparation.
+  - **Validation**: Verifies that the selected `batch_id` is **active** (`is_empty=False`).
+  - **Error Handling**: Returns `400 Bad Request` if a selected batch is already closed/empty.
+- **GET** `/kitchen/preparations`: List preparation history with filters (date, chef, recipe).
+- **GET** `/kitchen/preparations/{id}`: Get details of a specific preparation.
+
+---
+
+## 4. Usage Flow
+
+### Step 1: Define a Recipe
+The manager or head chef defines a standard recipe.
+```json
+POST /kitchen/recipes
+{
+  "name": "Tomato Soup",
+  "ingredients": [
+    {"product_master_id": 101, "standard_quantity": 5.0, "unit": "kg"},
+    {"product_master_id": 102, "standard_quantity": 0.5, "unit": "l"}
+  ]
+}
+```
+
+### Step 2: Check Availability
+When a cook wants to prepare "Tomato Soup", the frontend fetches available lots.
+```http
+GET /kitchen/recipes/1/availability
+```
+**Response:**
+```json
+{
+  "recipe_id": 1,
+  "ingredients": [
+    {
+      "product_name": "Tomatoes",
+      "active_batches": [
+        {"id": 501, "lot_code": "LOT-A-2023", "expiry_date": "2023-12-31"},
+        {"id": 502, "lot_code": "LOT-B-2024", "expiry_date": "2024-01-15"}
+      ]
+    }
+  ]
+}
+```
+
+### Step 3: Record Preparation
+The cook selects the specific lot used (e.g., `LOT-A-2023`) and records the preparation.
+```json
+POST /kitchen/preparations
+{
+  "recipe_id": 1,
+  "operator_id": "chef_mario",
+  "items": [
+    {"batch_id": 501, "quantity_used": 5.0, "unit": "kg"}
+  ]
+}
+```
+
+---
+
+## 5. Permissions
+
+The module introduces specific permissions in the RBAC system:
+- `kitchen:read`: Allows viewing recipes, ingredients, and preparations.
+- `kitchen:manage_recipes`: Allows creating, updating, and deleting recipes and their ingredients.
+- `kitchen:write_preparation`: Allows recording and editing preparations (linking them to specific batches).
+
+**Role Mapping:**
+- **Chef**: `kitchen:read`, `kitchen:write_preparation`
+- **Manager**: `kitchen:read`, `kitchen:manage_recipes`, `kitchen:write_preparation`

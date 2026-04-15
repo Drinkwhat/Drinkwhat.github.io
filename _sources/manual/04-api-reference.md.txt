@@ -1,0 +1,377 @@
+# API Reference
+
+Questa pagina riassume gli endpoint principali. Per la lista completa e sempre aggiornata, usa:
+
+- Swagger UI: `GET /docs`
+- OpenAPI JSON: `GET /openapi.json`
+
+## Authentication
+
+La sicurezza è basata su Keycloak (OIDC) con token JWT:
+
+```bash
+TOKEN="<bearer-token>"
+curl -H "Authorization: Bearer ${TOKEN}" http://localhost:8000/health
+```
+
+Se un utente ha accesso a più store, può selezionare lo store target tramite:
+
+```bash
+curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" http://localhost:8000/inventory/list
+```
+
+Dettagli: [09-auth.md](09-auth.md)
+
+---
+
+## Health
+
+### `GET /health`
+
+Health check endpoint (senza dipendenze di dominio).
+
+---
+
+## Inventory Module (`/inventory`)
+
+### `POST /inventory/analyze`
+
+Analyze a product image using Google Vision OCR and Gemini AI Agent.
+
+**Request**:
+
+```http
+POST /inventory/analyze
+Content-Type: multipart/form-data
+Authorization: Bearer <token>
+
+file=<image_file_bytes>
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "revision",
+  "data": {
+    "prodotto": "latte intero",
+    "lotto": "L12345",
+    "scadenza": "2024-12-31",
+    "confidence": 0.95
+  },
+  "warning": null,
+  "raw_ocr_debug": "LATTE INTERO L12345 SCAD 31/12/24"
+}
+```
+
+**Errors**:
+
+- `400 Bad Request`: File vuoto o dati non validi.
+- `422 Unprocessable Entity`: Parsing AI fallito.
+- `502 Bad Gateway`: Errore OCR/servizio esterno.
+
+---
+
+### `POST /inventory/confirm`
+
+Confirm and save a validated batch into the database.
+
+**Request**:
+
+```json
+POST /inventory/confirm
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "product_name": "latte intero",
+  "lot_code": "L12345",
+  "lotto_proposto_ai": "L12345",
+  "expiry_date": "2024-12-31",
+  "confidence": 0.95
+}
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "success",
+  "message": "Lotto registrato con successo",
+  "batch_id": 42,
+  "product_name": "latte intero",
+  "lot_code": "L12345",
+  "lot_code_ai": "L12345",
+  "expiry_date": "2024-12-31",
+  "store_id": 1,
+  "operator_id": "chef_marco",
+  "confidence": 0.95,
+  "created_at": "2024-02-05T10:00:00Z"
+}
+```
+
+---
+
+### `GET /inventory/list`
+
+List batches for the current store with optional filters.
+
+**Request**:
+
+```http
+GET /inventory/list?page=1&page_size=20&expired=false
+Authorization: Bearer <token>
+```
+
+**Query Parameters** (principali):
+
+- `page`: Numero pagina (default: 1)
+- `page_size`: Elementi per pagina (default: 20)
+- `product_name`: Filter by product name (partial match)
+- `is_empty`: Filter by empty status (true/false)
+- `expired`: Filter by expiration status (true=expired)
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "success",
+  "count": 1,
+  "items": [
+    {
+      "batch_id": 42,
+      "product_name": "latte intero",
+      "lot_code": "L12345",
+      "expiry_date": "2024-12-31",
+      "store_id": 1,
+      "operator_id": "chef_marco",
+      "confidence": 0.95,
+      "created_at": "2024-02-05T10:00:00Z",
+      "is_empty": false
+    }
+  ]
+}
+```
+
+---
+
+### `PUT /inventory/batch/{batch_id}`
+
+Update manual details of an existing batch. Note: `lot_code_ai` is immutable.
+
+**Request**:
+
+```json
+PUT /inventory/batch/42
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "version": 1,
+  "product_name": "latte parzialmente scremato",
+  "lot_code": "L12345-CORRECTED",
+  "expiry_date": "2024-12-31"
+}
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "success",
+  "message": "Dati aggiornati correttamente."
+}
+```
+
+---
+
+### `GET /inventory/batch/{batch_id}`
+
+Restituisce il dettaglio di un lotto per ID (scoped allo store corrente).
+
+```http
+GET /inventory/batch/42
+Authorization: Bearer <token>
+```
+
+---
+
+### `DELETE /inventory/batch/{batch_id}`
+
+Delete a batch record.
+
+**Request**:
+
+```http
+DELETE /inventory/batch/42?version=1
+Authorization: Bearer <token>
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "success",
+  "message": "Lotto rimosso dal magazzino."
+}
+```
+
+---
+
+## Products Module (`/products`)
+
+### `POST /products/bulk-load`
+
+Bulk upsert products (Idempotent).
+
+**Request**:
+
+```json
+POST /products/bulk-load
+Content-Type: application/json
+Authorization: Bearer <token>
+
+[
+  {
+    "name": "Latte Intero",
+    "category": "Latticini"
+  },
+  {
+    "name": "Farina 00",
+    "category": "Dispensa"
+  }
+]
+```
+
+**Response** (200 OK):
+
+Risposta: vedi schema `ProductBulkLoadResponse` nello Swagger (`/docs`).
+
+---
+
+### `GET /products/list`
+
+List all products for the store.
+
+**Request**:
+
+```http
+GET /products/list
+Authorization: Bearer <token>
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "success",
+  "count": 2,
+  "items": [
+    {
+      "id": 101,
+      "name": "Latte Intero",
+      "category": "Latticini",
+      "store_id": 1
+    }
+  ]
+}
+```
+
+---
+
+### `GET /products/{product_id}`
+
+Dettaglio prodotto.
+
+```http
+GET /products/101
+Authorization: Bearer <token>
+```
+
+---
+
+### `PUT /products/{product_id}`
+
+Aggiornamento prodotto (optimistic locking: `version` nel body).
+
+```json
+PUT /products/101
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "version": 1,
+  "name": "latte intero uht",
+  "category": "Latticini"
+}
+```
+
+---
+
+### `DELETE /products/{product_id}`
+
+Soft delete prodotto (optimistic locking: `version` query param).
+
+```http
+DELETE /products/101?version=1
+Authorization: Bearer <token>
+```
+
+---
+
+## Setup Module (`/setup`)
+
+### `POST /setup/test-products`
+
+Initialize the database with a default store and test products. Useful for first-run setup.
+
+**Request**:
+
+```http
+POST /setup/test-products
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "message": "Setup completato delegando a carica_anagrafica",
+  "result": {
+    "status": "success",
+    "imported_ids": [...]
+  }
+}
+```
+
+### `POST /setup/test-kitchen`
+
+Popola dati di test per il modulo kitchen (ricette e ingredienti).
+
+```http
+POST /setup/test-kitchen
+```
+
+Risposta: vedi schema `SetupKitchenResponse` nello Swagger (`/docs`).
+
+---
+
+## Common Error Codes
+
+Errors follow the standard schema:
+
+```json
+{
+  "error": {
+    "code": "ERR_VAL_001",
+    "message": "Dati di input non validi: ...",
+    "severity": "warning",
+    "action": "Correggi i dati inviati secondo la documentazione API.",
+    "details": null
+  },
+  "request_id": "..."
+}
+```
+
+La mappatura HTTP status è definita dal catalogo errori applicativo: {mod}`app.core.error_catalog`.
+
+Per l’elenco completo dei codici: [ERROR_CODES.md](ERROR_CODES.md)

@@ -1,0 +1,153 @@
+# Database Schema
+
+Complete database schema documentation for Restrackit.
+
+## Entity Relationship Diagram
+
+```text
+┌─────────────────────┐
+│      stores         │
+├─────────────────────┤
+│ id (PK)             │
+│ name                │
+│ address             │
+│ city                │
+│ phone               │
+│ email               │
+│ is_active           │
+│ created_at          │
+└──────────┬──────────┘
+           │
+           │ 1:N
+           │
+      ┌────┴─────────────────────┐
+      │                          │
+      ▼                          ▼
+┌────────────────┐      ┌─────────────────┐
+│products_master │      │    batches      │
+├────────────────┤      ├─────────────────┤
+│ id (PK)        │◄─────┤ product_master_id (FK)
+│ store_id (FK)  │      │ store_id (FK)   │
+│ name           │      │ operator_id     │
+│ category       │      │ lot_code        │
+│                │      │ lot_code_ai     │
+└────────────────┘      │ expiry_date     │
+                        │ confidence      │
+                        │ is_empty        │
+                        └─────────────────┘
+```
+
+## Table Definitions
+
+### `stores`
+
+Restaurant or chain locations. Supports multi-tenancy.
+
+```sql
+CREATE TABLE stores (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  address VARCHAR(500),
+  city VARCHAR(100),
+  phone VARCHAR(20),
+  email VARCHAR(255),
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+**Indexes**:
+
+- PRIMARY KEY on `id`
+
+---
+
+### `products_master`
+
+Product catalog scoped per store.
+
+```sql
+CREATE TABLE products_master (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  name VARCHAR NOT NULL,
+  category VARCHAR,
+
+  CONSTRAINT _store_product_name_uc UNIQUE (name, store_id)
+);
+```
+
+**Fields**:
+
+- `store_id`: Foreign key to `stores.id`.
+- `name`: Product name. Unique within the same store.
+
+**Indexes**:
+
+- INDEX on `store_id`
+- INDEX on `name`
+- UNIQUE CONSTRAINT on `(name, store_id)`
+
+---
+
+### `batches`
+
+Inventory batches (lotti).
+
+```sql
+CREATE TABLE batches (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  product_master_id INTEGER NOT NULL REFERENCES products_master(id),
+
+  lot_code VARCHAR NOT NULL,
+  lot_code_ai VARCHAR NOT NULL,
+  expiry_date DATE NOT NULL,
+  operator_id VARCHAR NOT NULL,
+
+  confidence FLOAT NOT NULL DEFAULT 0.0,
+  is_empty BOOLEAN NOT NULL DEFAULT FALSE,
+
+  created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, -- Stored in Rome Time
+  finished_at TIMESTAMP WITHOUT TIME ZONE
+);
+```
+
+**Fields**:
+
+- `lot_code`: The official lot code (confirmed by operator).
+- `lot_code_ai`: The original AI proposal (immutable audit trail).
+- `confidence`: AI confidence score (0.0 - 1.0).
+- `is_empty`: Logical deletion/consumption flag.
+
+**Indexes**:
+
+- INDEX on `store_id`
+- INDEX on `product_master_id`
+- INDEX on `lot_code`
+- INDEX on `operator_id`
+- INDEX on `is_empty`
+- INDEX on `created_at`
+
+---
+
+## Relationships
+
+1. **Store to Products**: One-to-Many (`stores.id` -> `products_master.store_id`).
+2. **Store to Batches**: One-to-Many (`stores.id` -> `batches.store_id`).
+3. **Product to Batches**: One-to-Many (`products_master.id` -> `batches.product_master_id`).
+
+## Data Integrity
+
+- **Multi-Tenancy**: All queries MUST filter by `store_id` to prevent data leaks between restaurants.
+- **Constraints**:
+  - Products must have unique names within a store.
+  - Batches must be linked to a valid Store and Product.
+
+## Migrations
+
+Managed via Alembic (`alembic/`).
+
+- `23ae1b6e7610`: Initial schema.
+- `4098d00978da`: Update inventory models and constraints.

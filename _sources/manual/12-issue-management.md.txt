@@ -1,0 +1,163 @@
+# Gestione delle Issue e Suddivisione del Lavoro
+
+Questo documento definisce gli standard per la creazione, gestione e suddivisione delle issue nel progetto. L'obiettivo è garantire chiarezza, tracciabilità e una granularità del lavoro che faciliti lo sviluppo parallelo e la review.
+
+---
+
+## 1. Gerarchia delle Issue
+
+Adottiamo una struttura a due livelli principali per organizzare il lavoro:
+
+### 🔹 Issue Principale (Epic / Feature / Macro-Bug)
+Rappresenta un obiettivo di alto livello o una funzionalità completa che richiede più giorni di lavoro o tocca diversi componenti del sistema.
+- **Ambito**: Ampio (es. "Implementare sistema di Autenticazione", "Refactoring modulo Inventory").
+- **Durata stimata**: > 2-3 giorni.
+- **Output**: Una funzionalità completa e utilizzabile dall'utente finale.
+
+### 🔸 Sub-Issue (Task / Sub-task)
+Unità di lavoro atomica, indivisibile e completabile da un singolo sviluppatore in un arco temporale ridotto.
+- **Ambito**: Ristretto e tecnico (es. "Creare tabella Users", "Implementare endpoint POST /login").
+- **Durata stimata**: 2-4 ore (max 1 giorno).
+- **Output**: Una Pull Request (PR) specifica che implementa una parte della funzionalità.
+
+---
+
+## 2. Criteri di Decomposizione
+
+Una Issue Principale deve essere scomposta in Sub-Issue quando:
+1.  **Complessità**: Coinvolge frontend e backend, o più servizi distinti.
+2.  **Dimensioni**: La stima supera 1 giorno di sviluppo.
+3.  **Parallelismo**: Diverse parti possono essere sviluppate contemporaneamente da persone diverse.
+
+### Regole d'Oro per la Scomposizione
+- **Atomicità**: Ogni sub-issue deve poter essere completata, testata e mergiata indipendentemente (dove possibile).
+- **Testabilità**: Ogni sub-issue deve avere criteri di accettazione verificabili.
+- **Verticalità**: Preferire "fette verticali" (DB + API + Test per una piccola feature) piuttosto che orizzontali (tutto il DB, poi tutte le API).
+
+---
+
+## 3. Nomenclatura e Etichettatura
+
+### Formato Titolo
+```text
+[TIPO] Titolo descrittivo breve
+```
+
+### Tipi (Prefissi)
+- `[FEAT]`: Nuova funzionalità.
+- `[FIX]`: Correzione di bug.
+- `[REFACTOR]`: Miglioramento del codice senza modifiche funzionali.
+- `[DOCS]`: Aggiornamento documentazione.
+- `[CHORE]`: Manutenzione, aggiornamento dipendenze, setup.
+- `[TEST]`: Aggiunta o fix di test.
+
+### Etichette (Labels)
+- **Priorità**: `priority:high`, `priority:medium`, `priority:low`, `priority:critical`.
+- **Stato**: `status:blocked`, `status:needs-info`.
+- **Area**: `area:backend`, `area:frontend`, `area:db`, `area:devops`.
+- **Grandezza**: `size:S` (<2h), `size:M` (2-4h), `size:L` (1d), `size:XL` (>1d - da scomporre).
+
+---
+
+## 4. Template Standardizzato Issue
+
+Copia questo template per ogni nuova Issue Principale.
+
+```markdown
+# Titolo Issue
+
+## Descrizione
+Descrizione chiara del problema da risolvere o della funzionalità da implementare.
+- **Contesto**: Perché serve?
+- **Obiettivo**: Cosa vogliamo ottenere?
+
+## Criteri di Accettazione (Definition of Done)
+- [ ] Il sistema deve permettere X...
+- [ ] L'API deve restituire Y in caso di errore...
+- [ ] Coverage dei test > 80% per i nuovi moduli.
+
+## Specifica Tecnica (Opzionale)
+- Endpoint: `POST /api/v1/resource`
+- Modelli DB coinvolti: `User`, `Order`
+
+## Suddivisione Sub-Tasks
+- [ ] [TASK] Setup database schema (stima: 2h)
+- [ ] [TASK] Implementazione Service Layer (stima: 4h)
+- [ ] [TASK] Implementazione API Router (stima: 2h)
+- [ ] [TASK] Unit & Integration Tests (stima: 3h)
+
+## Priorità
+- [ ] Alta
+- [ ] Media
+- [ ] Bassa
+
+## Stima Temporale Totale
+X giorni / ore
+```
+
+---
+
+## 5. Esempi Pratici di Suddivisione
+
+### Scenario A: Nuova Funzionalità (Sviluppo Auth)
+**Issue Principale**: `[FEAT] Implementazione Autenticazione JWT`
+
+**Sub-Issues**:
+1.  `[CHORE] Setup dipendenze (python-jose, passlib)` - 1h
+2.  `[FEAT] Creazione modello User e migrazione Alembic` - 2h
+3.  `[FEAT] Implementazione utility hashing password` - 1h
+4.  `[FEAT] Implementazione logica generazione Token JWT` - 2h
+5.  `[FEAT] API Endpoint Login (/token)` - 3h
+6.  `[FEAT] Middleware/Dependency get_current_user` - 2h
+7.  `[TEST] Unit test per flusso autenticazione` - 3h
+
+### Scenario B: Bug Fixing (Errore 500 su Upload)
+**Issue Principale**: `[BUG] Errore 500 durante upload immagini > 5MB`
+
+**Sub-Issues**:
+1.  `[ chore] Creazione test di riproduzione bug (failing test)` - 1h
+2.  `[FIX] Implementazione validazione size file in controller` - 1h
+3.  `[FIX] Ottimizzazione gestione memoria stream file` - 2h
+4.  `[TEST] Verifica fix e regression testing` - 1h
+
+### Scenario C: Refactoring (Pulizia Codice)
+**Issue Principale**: `[REFACTOR] Standardizzazione gestione errori API`
+
+**Sub-Issues**:
+1.  `[REFACTOR] Definizione nuove classi eccezioni custom` - 2h
+2.  `[REFACTOR] Aggiornamento middleware gestione eccezioni` - 2h
+3.  `[REFACTOR] Migrazione modulo Inventory a nuovi errori` - 4h
+4.  `[REFACTOR] Migrazione modulo Products a nuovi errori` - 4h
+
+---
+
+## 6. Workflow e Tracciamento
+
+1.  **Backlog**: L'issue viene creata e rimane in `To Do` finché non viene pianificata.
+2.  **Assignment**:
+    - Le **Issue Principali** sono assegnate a un *Lead* (responsabile della delivery).
+    - Le **Sub-Issue** sono assegnate allo *Sviluppatore* che scrive il codice.
+3.  **In Progress**:
+    - Spostare la card in `In Progress`.
+    - Creare un branch git dal task ID: `git checkout -b 123-feat_login_endpoint`.
+4.  **Review**:
+    - Aprire PR collegata alla issue (`Closes #123`).
+    - Spostare in `Review`.
+5.  **Done**:
+    - Al merge della PR, la sub-issue viene chiusa.
+    - Quando tutte le sub-issue sono chiuse, l'Issue Principale viene chiusa.
+
+---
+
+## 7. Checklist di Validazione (Definition of Ready)
+
+Prima di iniziare a lavorare su una issue, verifica che rispetti i criteri **INVEST**:
+
+- [ ] **I**ndependent: Può essere sviluppata con minime dipendenze da altri task?
+- [ ] **N**egotiable: I dettagli sono flessibili o c'è una specifica rigida?
+- [ ] **V**aluable: Porta valore all'utente o al progetto?
+- [ ] **E**stimable: È abbastanza chiara da poter essere stimata?
+- [ ] **S**mall: È abbastanza piccola da finire in un ciclo di lavoro? (Se no, **scomponi!**)
+- [ ] **T**estable: Ha criteri di accettazione chiari per il test?
+
+Se una issue non supera questa checklist, deve essere raffinata o ulteriormente suddivisa prima di entrare in sviluppo.
