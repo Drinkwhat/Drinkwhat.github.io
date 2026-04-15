@@ -1,0 +1,266 @@
+# Quick Reference Guide
+
+Fast lookup for common commands and workflows.
+
+## 🚀 Start/Stop (standard)
+
+```bash
+make up-local-build
+make up-local
+make down-local
+```
+
+## 🧪 Test
+
+```bash
+make test
+```
+
+## 🗄️ DB
+
+```bash
+make migrate
+make destroy-db
+```
+
+## 🚀 Development Server (solo locale)
+
+```bash
+# Start with auto-reload
+uvicorn app.main:app --reload
+
+# Start on custom port
+uvicorn app.main:app --port 8001
+
+# Production start
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+## 🗄️ Database Migrations
+
+```bash
+# Create new migration
+alembic revision --autogenerate -m "description of changes"
+
+# Apply migrations
+alembic upgrade head
+
+# Rollback one migration
+alembic downgrade -1
+
+# Show migration history
+alembic current
+alembic history
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ -v --cov=app --cov-report=html
+
+# Run specific test file
+pytest tests/test_carico.py -v
+
+# Run specific test function
+pytest tests/test_carico.py::test_conferma_carico_success -v
+
+# Run tests matching pattern
+pytest tests/ -k "carico" -v
+
+# Run tests with timing
+pytest tests/ -v --durations=10
+```
+
+## 🔍 Linting & Formatting
+
+```bash
+# Check code with ruff
+ruff check app tests
+
+# Fix issues automatically
+ruff check app tests --fix
+
+# Format code
+ruff format app tests
+
+# Check specific file
+ruff check app/modules/inventory/router.py
+```
+
+## 🐳 Docker Commands
+
+```bash
+# Build image
+docker build -t restrackit-app .
+
+# Run with compose
+make up-local
+make down-local
+make logs-local
+```
+
+## 🌿 Git Workflow (issue → branch → commit → PR)
+
+```bash
+# 1) Crea issue su GitHub
+# 2) Crea branch dalla issue (consigliato)
+#    formato: <issueId>-<tipo>_<descrizione>
+#    es: 123-fix_login
+
+git checkout main
+git pull origin main
+git checkout -b 123-fix_login
+
+# 3) Lavora e fai commit piccoli
+git add app/
+git commit -m "fix(auth): handle missing header"
+git commit -m "test(auth): add header test"
+
+# 4) Push e PR
+git push origin 123-fix_login
+# Apri PR su GitHub e linka la issue
+```
+
+## 📡 Common API Calls
+
+Prima ottieni un token da Keycloak e impostalo qui:
+
+```bash
+TOKEN="<bearer-token>"
+```
+
+### Health Check
+
+```bash
+curl http://localhost:8000/health
+```
+
+### Analyze Image
+
+```bash
+curl -X POST http://localhost:8000/inventory/analyze \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -F "file=@image.jpg"
+```
+
+### Confirm Batch
+
+```bash
+curl -X POST http://localhost:8000/inventory/confirm \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -d '{
+    "product_name": "Latte Intero",
+    "lot_code": "LOT123",
+    "lotto_proposto_ai": "LOT123",
+    "expiry_date": "2024-12-31",
+    "confidence": 0.95
+  }'
+```
+
+### Get Products
+
+```bash
+curl http://localhost:8000/products/list \
+  -H "Authorization: Bearer ${TOKEN}"
+```
+
+### Bulk Import Products
+
+```bash
+curl -X POST http://localhost:8000/products/bulk-load \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {"name": "Latte Intero", "category": "Dairy"},
+    {"name": "Mozzarella", "category": "Dairy"},
+    {"name": "Pomodori", "category": "Vegetables"}
+  ]'
+```
+
+## 🔐 Roles & Permissions
+
+### Chef
+
+- View products: ✅ GET `/products/list`
+- Analyze images: ✅ POST `/inventory/analyze`
+- Confirm batches: ✅ POST `/inventory/confirm`
+- Manage products: ❌
+- Edit batches: ❌
+
+### Manager
+
+- All chef permissions: ✅
+- Manage products: ✅ POST `/products/bulk-load`, PUT/DELETE `/products/{product_id}`
+- Edit batches: ✅ PUT `/inventory/batch/{batch_id}`
+- Delete batches: ✅ DELETE `/inventory/batch/{batch_id}?version=...`
+
+### Admin
+
+- All operations: ✅
+- All stores: ✅
+
+## 🌍 Environment Variables
+
+Vedi la guida completa: [08-environment-config.md](08-environment-config.md)
+
+## 🐛 Debugging
+
+### Enable Debug Logging
+
+Set in `.env`:
+
+```bash
+LOG_LEVEL=DEBUG
+```
+
+### View Logs
+
+```bash
+# Application logs
+tail -f logs/restrackit.log
+
+# Docker logs
+make logs-local
+
+# Database logs (PostgreSQL)
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs -f db
+```
+
+### Database Debug
+
+```bash
+# Connect to PostgreSQL
+psql -U ${DB_USER} -d ${DB_NAME} -h localhost
+
+# List tables
+\dt
+
+# Show table structure
+\d batch
+
+# Run query
+SELECT * FROM batch LIMIT 5;
+
+# SQLite
+sqlite3 ./restrackit.db
+.tables
+.schema batch
+```
+
+## 📚 Useful Links
+
+- **API Docs**: <http://localhost:8000/docs> (Swagger)
+- **Alternative**: <http://localhost:8000/redoc>
+- **Health**: <http://localhost:8000/health>
+- **Repository**: <https://github.com/Restrackit/restrackit-core>
+- **FastAPI**: <https://fastapi.tiangolo.com/>
+- **SQLAlchemy**: <https://docs.sqlalchemy.org/>
+
+---
+
+For detailed information, see full documentation in the docs folder.

@@ -1,0 +1,481 @@
+# CI/CD Pipeline
+
+Automated testing, building, and deployment with GitHub Actions.
+
+## Overview
+
+Three independent workflows handle different aspects:
+
+```text
+Code Push/PR
+    ↓
+┌───────────────────────────────────────┐
+│   Workflow: CI (ci.yml)               │
+│   ├─ Lint (ruff)                      │
+│   ├─ Unit Tests (pytest)              │
+│   └─ Coverage Reports (codecov)       │
+└───────────────────────────────────────┘
+    ↓ (only on main/dev push)
+┌───────────────────────────────────────┐
+│   Workflow: Docker Build (docker-build.yml) │
+│   ├─ Build Image                      │
+│   ├─ Tag Version                      │
+│   └─ Push to ghcr.io                  │
+└───────────────────────────────────────┘
+    ↓ (only on main/dev push)
+┌───────────────────────────────────────┐
+│   Workflow: CodeQL (codeql.yml)       │
+│   └─ Security Analysis                │
+└───────────────────────────────────────┘
+```
+
+## CI Workflow (`ci.yml`)
+
+Runs on every push and pull request.
+
+### CI Trigger Events
+
+```yaml
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+```
+
+### CI Jobs
+
+#### 1. Lint
+
+```yaml
+lint:
+  runs-on: ubuntu-latest
+  steps:
+    - Checkout code
+    - Setup Python 3.13
+    - Install ruff
+    - Run ruff check app tests
+```
+
+**Purpose**: Verify code quality and style
+
+**Command**: `ruff check app tests`
+
+**Output**: Fails if style issues found
+
+#### 2. Test
+
+```yaml
+test:
+  runs-on: ubuntu-latest
+  services:
+    postgres:
+      image: postgres:15
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: restrackit  # legacy name used in CI
+```
+
+**Purpose**: Run full test suite with database
+
+**Setup**:
+
+- Checkout code
+- Setup Python 3.13
+- Install dependencies
+- Run pytest with coverage
+- Upload coverage to codecov
+
+**Command**:
+
+```bash
+pytest tests/ -v --cov=app --cov-report=xml
+```
+
+**Output**:
+
+- Test results (pass/fail)
+- Coverage percentage
+- Coverage upload to codecov.io
+
+#### 3. Build (Removed)
+
+Previously built Docker image in CI, now removed for efficiency.
+
+Building only happens after lint + test pass on main/dev.
+
+---
+
+## Docker Build Workflow (`docker-build.yml`)
+
+Builds and publishes Docker images.
+
+### Docker Build Trigger Events
+
+```yaml
+on:
+  push:
+    branches: [ main, dev ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, dev ]
+```
+
+### Docker Build Jobs
+
+#### Build & Push
+
+```yaml
+build:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    packages: write
+  steps:
+    - Checkout repository
+    - Setup Docker Buildx
+    - Login to ghcr.io
+    - Extract metadata (tags, labels)
+    - Build and push image
+```
+
+**Registry**: `ghcr.io/restrackit/restrackit-core`
+
+**Tags**:
+
+- `branch` - Branch name (main, dev)
+- `v*` - Semantic version (v1.0.0)
+- `sha` - Short commit SHA
+
+**Push**:
+
+- PRs: Build only, don't push
+- main/dev: Build and push
+- Tags: Build and push with version
+
+---
+
+## CodeQL Workflow (`codeql.yml`)
+
+Security and code analysis.
+
+### CodeQL Trigger Events
+
+```yaml
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly
+```
+
+### Analysis
+
+- **Language**: Python
+- **Queries**: GitHub-provided security queries
+- **Results**: Uploaded to GitHub Security tab
+
+---
+
+## Workflow Files
+
+### `.github/workflows/ci.yml`
+
+```yaml
+name: CI
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      - run: pip install ruff
+      - run: ruff check app tests
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: restrackit  # legacy name used in CI
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: |
+          pytest tests/ -v --cov=app \
+            --cov-report=xml --cov-report=term-missing
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+```
+
+### `.github/workflows/docker-build.yml`
+
+```yaml
+name: Docker Build
+on:
+  push:
+    branches: [ main, dev ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, dev ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/login-action@v2
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=sha
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+---
+
+## Execution Flow
+
+### Pull Request
+
+```text
+Developer pushes to feature branch
+  ↓
+GitHub triggers CI workflow
+  ↓
+┌─────────────────────────┐
+│ lint (parallel)         │ ← ruff check
+│ test (parallel)         │ ← pytest + coverage
+└─────────────────────────┘
+  ↓
+Both pass? → ✅ Merge allowed
+Both pass? → ❌ Merge blocked
+```
+
+### Main Branch Push
+
+```text
+Developer merges PR to main
+  ↓
+GitHub triggers:
+  ├─ CI workflow (lint + test)
+  ├─ Docker Build workflow
+  └─ CodeQL workflow
+  ↓
+All pass → Image pushed to ghcr.io
+Fail → Notification to developer
+```
+
+### Version Tag
+
+```text
+Developer creates tag: v1.0.0
+  ↓
+GitHub triggers Docker Build
+  ↓
+Build image and tag with:
+  - ghcr.io/restrackit/restrackit-core:v1.0.0
+  - ghcr.io/restrackit/restrackit-core:1.0
+  - ghcr.io/restrackit/restrackit-core:latest
+  ↓
+Image pushed to registry
+```
+
+---
+
+## Status Checks
+
+### Required Checks (main branch)
+
+Add to branch protection rules:
+
+- ✅ CI / lint
+- ✅ CI / test
+- ✅ CodeQL
+
+### View Status
+
+```text
+GitHub UI:
+  Settings → Branches → Branch protection rules
+
+Pull Request:
+  Shows check status: ✅ or ❌
+```
+
+---
+
+## Debugging
+
+### View Workflow Runs
+
+```text
+GitHub UI:
+  Actions tab → Workflow runs
+```
+
+### Check Logs
+
+Click on workflow run → Click on job → View logs
+
+### Common Issues
+
+**Lint fails**: `ruff check app tests --fix` locally
+
+**Tests fail**: Run `pytest tests/ -v` locally
+
+**Docker push fails**: Check `secrets.GITHUB_TOKEN` permissions
+
+---
+
+## Environment Variables
+
+### GitHub Secrets
+
+```bash
+GITHUB_TOKEN  # Auto-provided, used for Docker push
+```
+
+### Required for Deployment
+
+Add to GitHub Settings → Secrets:
+
+```text
+REGISTRY_USERNAME    # If using private registry
+REGISTRY_PASSWORD    # If using private registry
+DEPLOYMENT_KEY       # SSH key for deployment
+```
+
+---
+
+## Performance Optimization
+
+### Caching
+
+**pip cache** (3.13 Linux):
+
+```yaml
+uses: actions/setup-python@v4
+with:
+  python-version: '3.13'
+  cache: 'pip'
+```
+
+**Docker layer cache** (ghcache):
+
+```yaml
+cache-from: type=gha
+cache-to: type=gha,mode=max
+```
+
+### Parallel Jobs
+
+Lint and test run simultaneously:
+
+- Lint: ~1 min
+- Test: ~2-3 min
+- Total: ~3 min (not 4-5 min)
+
+### Skip Workflows
+
+Add to commit message:
+
+```text
+[skip ci] - Skip CI
+[skip actions] - Skip all workflows
+```
+
+---
+
+## Best Practices
+
+### Branch Strategy
+
+1. **Feature branches** → PR triggers CI only
+2. **dev branch** → Passes CI → Docker build
+3. **main branch** → Stable releases
+
+### Semantic Versioning
+
+Tag format: `v1.2.3`
+
+- `1` = Major (breaking changes)
+- `2` = Minor (features)
+- `3` = Patch (fixes)
+
+### Commit Messages
+
+```text
+✨ feat: Add new feature
+🐛 fix: Fix bug
+📝 docs: Update documentation
+🔧 chore: Update dependencies
+🚀 ci: Update workflows
+```
+
+---
+
+## Monitoring
+
+### Notifications
+
+- ✉️ Failed workflow email
+- 🔔 GitHub notifications
+- Slack integration (optional)
+
+### Metrics
+
+Track in CI/CD dashboard:
+
+- Build time
+- Test coverage
+- Deployment frequency
+- Failure rate
+
+---
+
+For local testing: See [Quick Reference](01-quick-reference.md)

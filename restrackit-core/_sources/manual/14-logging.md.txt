@@ -1,0 +1,222 @@
+# Logging
+
+Structured logging system for centralized observability and production monitoring.
+
+## Overview
+
+The logging system provides:
+- **JSON-formatted output** for production (structured, machine-readable)
+- **Plain-text format** for development (human-readable)
+- **Stdout-only** output for container and cloud compatibility
+- **Configurable log level and format** via environment variables
+- **ISO 8601 timestamps** with proper timezone offsets (`+00:00`)
+- **Contextual metadata** in every log entry (module, line number, logger name)
+
+---
+
+## Configuration
+
+Logging is configured via two environment variables read directly from the environment (not from `Settings`) to avoid requiring credentials in contexts that don't need them (e.g., tests, CLI tools).
+
+| Variable     | Default | Options              | Description                              |
+| ------------ | ------- | -------------------- | ---------------------------------------- |
+| `LOG_LEVEL`  | `INFO`  | `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL` | Minimum severity level to emit |
+| `LOG_FORMAT` | `json`  | `json`, `text`       | Output format for log entries            |
+
+### Example `.env`
+
+```bash
+LOG_LEVEL=DEBUG
+LOG_FORMAT=text
+```
+
+---
+
+## Log Formats
+
+### JSON (Default – Production)
+
+Each log line is a single-line JSON object with standard fields:
+
+```json
+{
+  "timestamp": "2026-03-05T07:43:05.500000+00:00",
+  "level": "INFO",
+  "logger": "restrackit",
+  "module": "router",
+  "lineno": 42,
+  "message": "Request processed successfully"
+}
+```
+
+**Fields**:
+
+| Field       | Type   | Description                                      |
+| ----------- | ------ | ------------------------------------------------ |
+| `timestamp` | string | ISO 8601 with UTC offset (`record.created`)      |
+| `level`     | string | Uppercase severity level (`INFO`, `ERROR`, etc.) |
+| `logger`    | string | Logger name (always `restrackit`)                |
+| `module`    | string | Python module that emitted the log               |
+| `lineno`    | int    | Line number in source file                       |
+| `message`   | string | Log message                                      |
+
+### Text (Development)
+
+Human-readable format for local development:
+
+```text
+2026-03-05 07:43:05,500 - restrackit - INFO - [router:42] - Request processed successfully
+```
+
+---
+
+## Architecture
+
+### Module: `app/core/logging.py`
+
+The logging module exposes a single `logger` instance, pre-configured at import time:
+
+```python
+from app.core.logging import logger
+
+logger.info("Something happened")
+logger.warning("Watch out", extra={"user_id": user_id})
+logger.error("Failed", exc_info=True)
+```
+
+### `setup_logging()`
+
+Called automatically at module import. Safe to call multiple times (e.g., in tests) — existing handlers are properly closed and removed before new ones are attached.
+
+```python
+def setup_logging() -> logging.Logger:
+    """
+    Read LOG_LEVEL and LOG_FORMAT from environment.
+    Configure the 'restrackit' logger with a single StreamHandler on stdout.
+    """
+```
+
+### `CustomJsonFormatter`
+
+Extends `pythonjsonlogger.JsonFormatter` to guarantee a consistent JSON schema:
+- `timestamp` is derived from `record.created` (Unix timestamp) converted to ISO 8601 with UTC timezone — not from `datetime.now()`.
+- `level` is always uppercase.
+- `logger`, `module`, `lineno` are always present.
+
+---
+
+## Usage
+
+### Basic Logging
+
+```python
+from app.core.logging import logger
+
+logger.debug("Detailed debug info")
+logger.info("Processing started")
+logger.warning("Unexpected condition: %s", detail)
+logger.error("Operation failed: %s", error, exc_info=True)
+logger.critical("System cannot continue")
+```
+
+### Structured Extra Fields
+
+Pass additional context using `extra`:
+
+```python
+logger.info(
+    "User authenticated",
+    extra={
+        "user_id": user_id,
+        "store_id": store_id,
+    },
+)
+```
+
+In JSON format, extra fields are included at the top level of the JSON object alongside `timestamp`, `level`, etc.
+
+### Exception Logging
+
+```python
+try:
+    result = external_service.call()
+except Exception as exc:
+    logger.error("External service failed", exc_info=True)
+    raise ExternalServiceError(ErrorCode.EXT_API_ERROR, original_exc=exc)
+```
+
+`exc_info=True` appends the full stack trace to the log entry. In JSON format, exception info is embedded automatically by the formatter.
+
+---
+
+## Integration with Error Handling
+
+The logging module is designed to work alongside the error handling system (`app/core/errors.py`). A typical pattern:
+
+```python
+from app.core.logging import logger
+from app.core.errors import DatabaseError, ErrorCode
+
+try:
+    db.commit()
+except IntegrityError as exc:
+    db.rollback()
+    logger.warning(
+        "DB integrity error",
+        extra={"code": ErrorCode.DB_INTEGRITY_ERROR.value},
+        exc_info=True,
+    )
+    raise DatabaseError(
+        ErrorCode.DB_INTEGRITY_ERROR,
+        params={"details": str(exc)},
+        original_exc=exc,
+    )
+```
+
+---
+
+## Design Decisions
+
+### Why stdout only?
+
+Containers and cloud platforms (Docker, Kubernetes, AWS ECS, Azure App Service) collect logs from stdout/stderr. Writing to files inside a container creates hidden state, requires volume management, and is generally an antipattern in container-native deployments.
+
+### Why read env vars directly instead of using `Settings`?
+
+`Settings` (in `app/core/config.py`) requires `GOOGLE_API_KEY` at instantiation time. Importing `app.core.logging` from test code or CLI tools that don't need Google credentials would fail if logging depended on `Settings`. Reading `LOG_LEVEL` and `LOG_FORMAT` directly from the environment decouples logging initialization from application credentials.
+
+### Why derive `timestamp` from `record.created`?
+
+`record.created` is the float Unix timestamp recorded when the `LogRecord` is created — before any formatting occurs. Deriving the timestamp from it ensures the log entry reflects when the event actually happened, not when it was formatted. `datetime.now(UTC)` inside the formatter would be slightly later and inconsistent.
+
+---
+
+## Testing
+
+The logging module has unit tests in `tests/unit/test_logging.py`:
+
+```bash
+uv run pytest tests/unit/test_logging.py -v
+```
+
+Tests cover:
+- JSON format output structure and required fields
+- Text format output
+- Invalid `LOG_LEVEL` fallback to `INFO` with a warning
+- Handler cleanup to prevent duplicate handlers when `setup_logging()` is called multiple times
+- `CustomJsonFormatter` timestamp and level formatting
+
+---
+
+## Production Checklist
+
+- Set `LOG_LEVEL=INFO` (default) or `LOG_LEVEL=WARNING` to reduce noise
+- Set `LOG_FORMAT=json` (default) for structured log collection
+- Ensure log aggregation (e.g., Datadog, Loki, CloudWatch) is configured to parse JSON
+- Do **not** log sensitive data (passwords, tokens, PII) — use error codes instead
+
+---
+
+For related documentation:
+- [Environment Configuration](08-environment-config.md) — all environment variables
+- [Error Handling](10-error-handling.md) — exception hierarchy and error codes

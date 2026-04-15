@@ -1,0 +1,1188 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.modules.products.models &mdash; Restrackit 2.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        all_mermaids.forEach((el) => {
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+        await mermaid.run();
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? all_mermaids.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            if(all_mermaids.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else if(svgs.size() !== mermaids_to_add_zoom) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else {
+                svgs.each(function() {
+                    var svg = d3.select(this);
+                    svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+                    var inner = svg.select("g");
+                    var zoom = d3.zoom().on("zoom", function(event) {
+                        inner.attr("transform", event.transform);
+                    });
+                    svg.call(zoom);
+                });
+            }
+        }
+    } else if(all_mermaids.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Restrackit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">app</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../app.html">app package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.core.html">app.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.modules.html">app.modules package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.services.html">app.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.shared.html">app.shared package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.main">app.main module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../markdown_docs.html">Documentazione Manuale (Markdown)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/00-technical-manual.html">📘 Documentazione Tecnica - Restrackit Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#architettura-del-progetto">1. Architettura del Progetto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#struttura-ad-alto-livello">🏗️ Struttura ad Alto Livello</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#flusso-dei-dati-principale-analisi-etichetta">🔄 Flusso dei Dati Principale (Analisi Etichetta)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#struttura-delle-cartelle">2. Struttura delle Cartelle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#stack-tecnologico">3. Stack Tecnologico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#configurazione-ambientale">4. Configurazione Ambientale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#setup-locale">Setup Locale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#flussi-di-sviluppo">5. Flussi di Sviluppo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#standard-di-codice">Standard di Codice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#git-flow-branching">Git Flow &amp; Branching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#ci-cd-pipeline">CI/CD Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#setup-module-setup">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#system">🏥 System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#database-schema">7. Database Schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#tabelle-principali">Tabelle Principali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#testing-strategy">8. Testing Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#deployment-guide">9. Deployment Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#dockerfile-multi-stage">Dockerfile (Multi-stage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#procedura-di-deploy">Procedura di Deploy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#monitoraggio">Monitoraggio</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/01-quick-reference.html">Quick Reference Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#test">🧪 Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#db">🗄️ DB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#database-migrations">🗄️ Database Migrations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#testing">🧪 Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#linting-formatting">🔍 Linting &amp; Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#docker-commands">🐳 Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#roles-permissions">🔐 Roles &amp; Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#chef">Chef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#manager">Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#admin">Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#environment-variables">🌍 Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#debugging">🐛 Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#enable-debug-logging">Enable Debug Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#database-debug">Database Debug</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#setup-rapido-consigliato">Setup Rapido (Consigliato)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#configura-environment">2. Configura Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#avvia-con-docker">3. Avvia con Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#verifica">4. Verifica</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#comandi-utili-makefile">Comandi Utili (Makefile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#setup-locale-senza-docker">Setup Locale (Senza Docker)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#errori-database">Errori Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/03-architecture.html">Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#system-design">System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#technology-stack">Technology Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#backend">Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-data">AI &amp; Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#devops">DevOps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#key-components">Key Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/04-api-reference.html">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#health">Health</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#delete-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-products-product-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#delete-products-product-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/products/{product_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#common-error-codes">Common Error Codes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/05-database-schema.html">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#entity-relationship-diagram">Entity Relationship Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#table-definitions">Table Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#stores"><code class="docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#relationships">Relationships</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#migrations">Migrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/06-docker-deployment.html">Docker Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-architecture">Docker Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#files">Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#dockerfile"><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-compose-files-deploy">Docker Compose files (<code class="docutils literal notranslate"><span class="pre">deploy/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#build-locally">Build Locally</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#build-with-compose">Build with Compose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#running">Running</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#environment-configuration">Environment Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#env-for-docker"><code class="docutils literal notranslate"><span class="pre">.env</span></code> for Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#named-volumes">Named Volumes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#networking">Networking</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-compose-network">Docker Compose Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#port-mapping">Port Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#external-access">External Access</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#health-checks">Health Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#application">Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#manual-check">Manual Check</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#persistence">Persistence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#data-persistence">Data Persistence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#database-backup">Database Backup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#execute-commands">Execute Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#inspect-container">Inspect Container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#environment">Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#security">Security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#container-registry">Container Registry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#push-to-github-container-registry">Push to GitHub Container Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#container-won-t-start">Container Won’t Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#database-connection-issues">Database Connection Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#permission-errors">Permission Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html">CI/CD Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#ci-trigger-events">CI Trigger Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#ci-jobs">CI Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#docker-build-workflow-docker-build-yml">Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#docker-build-trigger-events">Docker Build Trigger Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#docker-build-jobs">Docker Build Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#codeql-workflow-codeql-yml">CodeQL Workflow (<code class="docutils literal notranslate"><span class="pre">codeql.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#codeql-trigger-events">CodeQL Trigger Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#workflow-files">Workflow Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#github-workflows-ci-yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#github-workflows-docker-build-yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/docker-build.yml</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#execution-flow">Execution Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#pull-request">Pull Request</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#main-branch-push">Main Branch Push</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#version-tag">Version Tag</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#status-checks">Status Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#required-checks-main-branch">Required Checks (main branch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#view-status">View Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#view-workflow-runs">View Workflow Runs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#check-logs">Check Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#common-issues">Common Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#github-secrets">GitHub Secrets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#required-for-deployment">Required for Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#caching">Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#parallel-jobs">Parallel Jobs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#skip-workflows">Skip Workflows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#branch-strategy">Branch Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#semantic-versioning">Semantic Versioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#monitoring">Monitoring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#notifications">Notifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#metrics">Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/08-environment-config.html">Environment Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/08-environment-config.html#google-ai">Google / AI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/08-environment-config.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/08-environment-config.html#keycloak-oidc">Keycloak (OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/08-environment-config.html#cors">CORS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#best-practice">Best practice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/08-environment-config.html#secrets-management">Secrets Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/09-auth.html#endpoint-utili">Endpoint utili</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/10-error-handling.html">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#type-definitions">Type Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#errorinfo-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorInfo</span></code> (TypedDict)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#errorpayload-errorresponse-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorPayload</span></code> / <code class="docutils literal notranslate"><span class="pre">ErrorResponse</span></code> (TypedDict)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#exception-classes">Exception Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#apperror-base"><code class="docutils literal notranslate"><span class="pre">AppError</span></code> (Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#validationerror-400"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> (400)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#externalserviceerror-502"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (502)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#parsingerror-422"><code class="docutils literal notranslate"><span class="pre">ParsingError</span></code> (422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#businesslogicerror-404-409-422"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code> (404/409/422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#databaseerror-409-500"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code> (409/500)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#systemerror-500"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code> (500)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#exception-handling-pattern">Exception Handling Pattern</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#try-catch-raise">Try-Catch-Raise</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-handler-pattern">Error Handler Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#logging-integration">Logging Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#log-on-error">Log on Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#log-levels">Log Levels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#do">✅ Do</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#don-t">❌ Don’t</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#testing-errors">Testing Errors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#pytest">pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#with-client">With Client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-response-format">Error Response Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#standard-format">Standard Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#with-original-exception-details">With Original Exception Details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#internationalization-i18n">Internationalization (i18n)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#get-message"><code class="docutils literal notranslate"><span class="pre">get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#coverage">Coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/11-contributing.html">Guida Team (contribuzioni)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#setup-ambiente">2. Setup ambiente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#crea-branch-dalla-issue">3. Crea branch dalla issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#dev-workflow-pratico">Dev workflow (pratico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#regole-base">Regole base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#test">Test</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#write-tests">Write Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#run-tests">Run Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#test-coverage">Test Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#pull-request">Pull Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#push-branch">1. Push branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#apri-pr">2. Apri PR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#pr-title">PR Title</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#pr-description">PR Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#review">3. Review</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#merge">4. Merge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#adding-features">Adding Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#new-api-endpoint">New API Endpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#database-migration">Database Migration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#documentation">Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#update-docs">Update Docs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#add-to-index">Add to Index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#docstrings">DocStrings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#common-tasks">Common Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#setup-local-development">Setup Local Development</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#run-all-checks">Run All Checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#update-dependencies">Update Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#build-docker-image">Build Docker Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#issues">Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#community">Community</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#communication">Communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/12-issue-management.html">Gestione delle Issue e Suddivisione del Lavoro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#gerarchia-delle-issue">1. Gerarchia delle Issue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#issue-principale-epic-feature-macro-bug">🔹 Issue Principale (Epic / Feature / Macro-Bug)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#sub-issue-task-sub-task">🔸 Sub-Issue (Task / Sub-task)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#criteri-di-decomposizione">2. Criteri di Decomposizione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#regole-d-oro-per-la-scomposizione">Regole d’Oro per la Scomposizione</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#nomenclatura-e-etichettatura">3. Nomenclatura e Etichettatura</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#formato-titolo">Formato Titolo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#tipi-prefissi">Tipi (Prefissi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#etichette-labels">Etichette (Labels)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#template-standardizzato-issue">4. Template Standardizzato Issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#esempi-pratici-di-suddivisione">5. Esempi Pratici di Suddivisione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#scenario-a-nuova-funzionalita-sviluppo-auth">Scenario A: Nuova Funzionalità (Sviluppo Auth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#scenario-b-bug-fixing-errore-500-su-upload">Scenario B: Bug Fixing (Errore 500 su Upload)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/12-issue-management.html#scenario-c-refactoring-pulizia-codice">Scenario C: Refactoring (Pulizia Codice)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#workflow-e-tracciamento">6. Workflow e Tracciamento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/12-issue-management.html#checklist-di-validazione-definition-of-ready">7. Checklist di Validazione (Definition of Ready)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/13-kitchen-module.html">🍳 Kitchen Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#overview">1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#data-models">2. Data Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#recipe-recipes">📖 Recipe (<code class="docutils literal notranslate"><span class="pre">recipes</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#recipeingredient-recipe-ingredients">🥕 RecipeIngredient (<code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparation-preparations">👨‍🍳 Preparation (<code class="docutils literal notranslate"><span class="pre">preparations</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#permissions">5. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/14-logging.html">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#example-env">Example <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#log-formats">Log Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#json-default-production">JSON (Default – Production)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#text-development">Text (Development)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#architecture">Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#module-app-core-logging-py">Module: <code class="docutils literal notranslate"><span class="pre">app/core/logging.py</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#setup-logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#customjsonformatter"><code class="docutils literal notranslate"><span class="pre">CustomJsonFormatter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#basic-logging">Basic Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#structured-extra-fields">Structured Extra Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#exception-logging">Exception Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/VERSIONING.html#convenzioni-dei-commit">Convenzioni dei Commit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/VERSIONING.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/VERSIONING.html#configurazione-locale">Configurazione Locale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/VERSIONING.html#pipeline-di-rilascio-ci-cd">Pipeline di Rilascio (CI/CD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/VERSIONING.html#bump-automatico-su-dev">Bump automatico su <code class="docutils literal notranslate"><span class="pre">dev</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/VERSIONING.html#tag-e-release-automatici-su-main">Tag e Release automatici su <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/VERSIONING.html#rilascio-manuale-forzatura">Rilascio Manuale / Forzatura</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/VERSIONING.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Restrackit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">app.modules.products.models</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for app.modules.products.models</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>  <span class="c1"># noqa: TC003</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">UniqueConstraint</span><span class="p">,</span> <span class="n">func</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapped</span><span class="p">,</span> <span class="n">mapped_column</span><span class="p">,</span> <span class="n">relationship</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Base</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.inventory.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Batch</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.store.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Store</span>
+
+
+<div class="viewcode-block" id="ProductMaster">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.models.ProductMaster">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductMaster</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Product master data for a specific store.</span>
+
+<span class="sd">    A ProductMaster represents the canonical product definition used by inventory batches</span>
+<span class="sd">    and kitchen recipes. Uniqueness is enforced per store (``UNIQUE(name, store_id)``).</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int): Primary key.</span>
+<span class="sd">        store_id (int): Foreign key to Store.</span>
+<span class="sd">        name (str): Normalized product name (stored in lowercase).</span>
+<span class="sd">        category (str | None): Optional category label.</span>
+<span class="sd">        created_at (datetime): Creation timestamp (UTC).</span>
+<span class="sd">        updated_at (datetime): Last update timestamp (UTC).</span>
+<span class="sd">        deleted_at (datetime | None): Soft-delete timestamp (UTC), if deleted.</span>
+<span class="sd">        version (int): Optimistic-locking version.</span>
+<span class="sd">        store (Store): Relationship to the owning store.</span>
+<span class="sd">        batches (list[Batch]): Relationship to inventory batches of this product.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;products_master&quot;</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">store_id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;stores.id&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">created_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">updated_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">onupdate</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">deleted_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Relationship</span>
+    <span class="n">store</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">Store</span><span class="p">]</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;products&quot;</span><span class="p">)</span>
+    <span class="n">batches</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Batch</span><span class="p">]]</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;product_master&quot;</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="s2">&quot;all, delete-orphan&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;version_id_col&quot;</span><span class="p">:</span> <span class="n">version</span><span class="p">}</span>  <span class="c1"># noqa: RUF012</span>
+
+    <span class="c1"># Vincolo: Il nome deve essere unico all&#39;interno dello stesso ristorante</span>
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">(</span><span class="n">UniqueConstraint</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;store_id&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;_store_product_name_uc&quot;</span><span class="p">),)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Restrackit Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

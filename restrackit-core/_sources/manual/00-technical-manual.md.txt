@@ -1,0 +1,301 @@
+# 📘 Documentazione Tecnica - Restrackit Project
+
+Questa documentazione fornisce una panoramica tecnica completa del progetto Restrackit, un'applicazione backend sviluppata con **FastAPI** per la gestione intelligente dell'inventario tramite OCR e AI.
+
+---
+
+## 1. Architettura del Progetto
+
+Il progetto segue un'architettura **Modular Monolith** basata su **FastAPI**, progettata per essere scalabile e manutenibile.
+
+### 🏗️ Struttura ad Alto Livello
+
+Il sistema è organizzato in **moduli di dominio** (`inventory`, `products`, `store`) che incapsulano la logica di business.
+
+**Diagramma Logico:**
+
+```mermaid
+graph TD
+    Client["Client (Frontend/Mobile)"] -->|HTTP/REST| Middleware
+    Middleware -->|Request ID, Logging| Router
+    Router -->|"Validation (Pydantic)"| Service
+    Service -->|ORM| Database[(PostgreSQL)]
+    Service -->|API Call| GoogleVision[Google Cloud Vision OCR]
+    Service -->|API Call| Gemini[Google Gemini AI]
+
+    subgraph "Core Services"
+        Middleware
+        Router
+        Service
+    end
+```
+
+### 🔄 Flusso dei Dati Principale (Analisi Etichetta)
+
+1. **Upload Immagine**: Il client invia una foto dell'etichetta del prodotto (`POST /inventory/analyze`).
+2. **Preprocessing**: L'immagine viene convertita e ottimizzata.
+3. **OCR (Google Vision)**: Estrazione del testo grezzo dall'immagine.
+4. **AI Parsing (Gemini Agent)**: L'agente AI analizza il testo OCR, cerca il prodotto nel DB (usando un tool personalizzato) ed estrae strutturati:
+   - Prodotto (convalidato sul DB)
+   - Lotto
+   - Data di scadenza
+   - Confidence score
+5. **Risposta**: I dati strutturati vengono restituiti al client per la conferma.
+
+---
+
+## 2. Struttura delle Cartelle
+
+La codebase è organizzata per separare chiaramente configurazione, logica di business e servizi esterni.
+
+```text
+/
+├── .github/workflows/   # CI/CD pipelines (Test, Lint, Build)
+├── alembic/             # Migrazioni Database
+├── app/
+│   ├── core/            # Configurazioni globali, Logger, Gestione Errori
+│   ├── modules/         # Moduli di dominio (Inventory, Products, Store, Setup)
+│   │   ├── [module]/
+│   │   │   ├── models.py    # Modelli SQLAlchemy
+│   │   │   ├── schemas.py   # Schemi Pydantic (DTO)
+│   │   │   ├── service.py   # Logica di business
+│   │   │   └── router.py    # Endpoint API
+│   ├── services/        # Integrazioni esterne (OCR, AI Agent)
+│   ├── shared/          # Schemi e utility condivise
+│   ├── database.py      # Configurazione SQLAlchemy e Sessioni
+│   └── main.py          # Entry point dell'applicazione
+├── tests/               # Suite di test (Unit e Integration)
+├── Dockerfile           # Definizione build immagine
+├── deploy/              # Stack Docker Compose (local/staging/prod)
+└── pyproject.toml       # Dipendenze e configurazione tool (Ruff, Pytest)
+```
+
+---
+
+## 3. Stack Tecnologico
+
+| Componente | Tecnologia | Versione | Motivazione |
+| ---------- | ---------- | -------- | ----------- |
+| **Linguaggio** | Python | 3.13+ | Typing moderno, performance e tooling aggiornato. |
+| **Framework Web** | FastAPI | 0.100+ | Prestazioni elevate, validazione automatica, Async I/O. |
+| **Database** | PostgreSQL | 16 (Alpine) | Affidabilità, supporto JSONB, standard industriale. |
+| **ORM** | SQLAlchemy | 2.0 | Mapping relazionale potente e flessibile. |
+| **Migrazioni** | Alembic | Latest | Gestione versionata dello schema DB. |
+| **OCR** | Google Cloud Vision | API v1 | Riconoscimento testo leader di mercato. |
+| **AI / LLM** | Google Gemini | Flash 2.0 | Parsing intelligente veloce ed economico. |
+| **Testing** | Pytest | Latest | Standard de-facto per testing Python. |
+| **Linting** | Ruff | Latest | Linter/Formatter estremamente veloce (sostituisce Black/Flake8). |
+| **Container** | Docker | - | Portabilità e coerenza tra ambienti. |
+
+---
+
+## 4. Configurazione Ambientale
+
+### Prerequisiti
+
+- Docker & Docker Compose
+- Python 3.13+ (opzionale se si usa solo Docker)
+- Account Google Cloud (per Vision e Gemini)
+
+### Setup Locale
+
+1. **Clona il repository**:
+
+   ```bash
+   git clone https://github.com/Restrackit/restrackit-core
+   cd restrackit-core
+   ```
+
+2. **Configura le variabili d'ambiente**:
+   Copia `.env.example` in `.env` e compila i campi necessari.
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   **Variabili Critiche**:
+   - `DATABASE_URL`: URL di connessione al DB (default per docker: `postgresql://user:password@db:5432/database`).
+   - `GOOGLE_API_KEY`: Chiave API per Gemini.
+   - `GOOGLE_APPLICATION_CREDENTIALS`: Path al file JSON della Service Account (per Vision API).
+
+3. **Service Account Google**:
+   Posiziona il file `service_account.json` nella root del progetto.
+
+4. **Avvia l'ambiente**:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   L'API sarà disponibile su `http://localhost:8000`.
+   Documentazione Swagger: `http://localhost:8000/docs`.
+
+---
+
+## 5. Flussi di Sviluppo
+
+### Standard di Codice
+
+- **Formatting/Linting**: Utilizziamo **Ruff**. Esegui `ruff check .` e `ruff format .` prima di ogni commit.
+- **Typing**: Tutto il codice deve essere tipizzato (Type Hints). `mypy` è configurato in `pyproject.toml`.
+
+### Git Flow & Branching
+
+- `main`: Codice di produzione stabile.
+- `dev`: Branch di integrazione principale.
+- `feature/*`: Nuove funzionalità.
+- `bugfix/*`: Correzione bug.
+- **PR Process**: Ogni PR deve passare la pipeline CI (Lint + Test) prima del merge.
+
+### CI/CD Pipeline
+
+Configurata via GitHub Actions (`.github/workflows/ci.yml`):
+
+1. **Lint**: Verifica stile e sicurezza (`ruff`, `bandit`).
+2. **Test**: Esegue `pytest` con un container Postgres effimero.
+3. **Build**: Verifica che l'immagine Docker si costruisca correttamente.
+
+---
+
+## 6. API Documentation
+
+Tutte le risposte di errore seguono lo schema standard con `error.code` (es. `ERR_VAL_001`) e metadati (`severity`, `action`, `details`, `request_id`).
+
+### 📦 Inventory Module (`/inventory`)
+
+- **POST** `/analyze`: Carica foto -> OCR -> AI -> Dati proposti.
+- **POST** `/confirm`: Conferma e salva un lotto nel DB.
+- **GET** `/list`: Elenco lotti con filtri (paginazione, data, prodotto).
+- **PUT** `/batch/{id}`: Aggiornamento manuale dati lotto.
+- **DELETE** `/batch/{id}`: Rimozione logica o fisica del lotto.
+
+### 🏷️ Products Module (`/products`)
+
+- **POST** `/bulk-load`: Caricamento massivo/upsert prodotti (idempotente).
+- **GET** `/list`: Elenco prodotti dello store corrente.
+- **PUT** `/{id}`: Modifica dettagli prodotto.
+- **DELETE** `/{id}`: Eliminazione prodotto (se non usato in lotti).
+
+### ⚙️ Setup Module (`/setup`)
+
+- **POST** `/test-products`: Popola il DB con dati di test e crea uno store di default.
+
+### 🍳 Kitchen Module (`/kitchen`)
+
+- **POST** `/recipes`: Creazione ricette standard.
+- **GET** `/recipes/{id}/availability`: Verifica lotti attivi per gli ingredienti.
+- **POST** `/preparations`: Registra preparazioni e scarico lotti.
+
+### 🏥 System
+
+- **GET** `/health`: Health check per orchestratori (k8s/docker).
+
+---
+
+## 7. Database Schema
+
+Il database utilizza **PostgreSQL** ed è strutturato per supportare la **Multi-Tenancy** (dati isolati per `store_id`).
+
+### Tabelle Principali
+
+1. **stores**
+   - `id`: PK
+   - `name`, `address`: Dettagli ristorante/punto vendita.
+   - *Relazioni*: 1 -> N con Products, 1 -> N con Batches.
+
+2. **products_master**
+   - `id`: PK
+   - `store_id`: FK -> stores.id
+   - `name`: Nome prodotto.
+   - `category`: Categoria merceologica.
+   - *Vincoli*: `UNIQUE(name, store_id)` per evitare duplicati nello stesso store.
+
+3. **batches**
+   - `id`: PK
+   - `store_id`: FK -> stores.id
+   - `product_master_id`: FK -> products_master.id
+   - `lot_code`: Lotto definitivo.
+   - `expiry_date`: Data scadenza.
+   - `confidence`: Score affidabilità AI (0.0 - 1.0).
+   - `operator_id`: Chi ha caricato il lotto.
+
+4. **recipes**
+   - `id`: PK
+   - `store_id`: FK -> stores.id
+   - `name`: Nome ricetta.
+
+5. **preparations**
+   - `id`: PK
+   - `recipe_id`: FK -> recipes.id
+   - `operator_id`: Chef esecutore.
+   - *Relazioni*: 1 -> N con preparation_items (link ai batches).
+
+---
+
+## 8. Testing Strategy
+
+I test si trovano nella cartella `tests/` e sono divisi in:
+
+1. **Unit Tests** (`tests/unit/`)
+   - Testano logica isolata (es. parser, utility).
+   - Mockano database e chiamate esterne.
+
+2. **Integration Tests** (`tests/integration/`)
+   - Testano l'intera catena API -> DB.
+   - Utilizzano un DB Postgres reale (via Docker Service in CI o locale).
+   - Mockano solo le chiamate AI/Vision per determinismo e costi.
+
+**Esecuzione Test:**
+
+```bash
+# Esegui tutti i test con coverage
+pytest tests/ -v --cov=app --cov-report=term-missing
+```
+
+---
+
+## 9. Deployment Guide
+
+Il deploy è basato su **Docker**.
+
+### Dockerfile (Multi-stage)
+
+1. **Builder**: Installa dipendenze di compilazione, compila wheel.
+2. **Runtime**: Immagine `slim`, copia solo l'essenziale, utente non-root per sicurezza.
+
+### Procedura di Deploy
+
+1. **Build**: `docker build -t restrackit-api:latest .`
+2. **Push**: Push su container registry (es. GCR, AWS ECR).
+3. **Run**:
+
+   ```bash
+   docker run -d \
+     -p 8000:8000 \
+     --env-file .env \
+     -v $(pwd)/service_account.json:/app/service_account.json \
+     restrackit-api:latest
+   ```
+
+### Monitoraggio
+
+- **Health Check**: Endpoint `/health` integrato nel Dockerfile.
+- **Logging**: Log strutturati su stdout/stderr (catturati da Docker/Cloud Logging).
+
+---
+
+## 10. Troubleshooting
+
+### Errori Comuni
+
+| Errore | Possibile Causa | Soluzione |
+| --- | --- | --- |
+| `500 Internal Server Error` | Errore non gestito o crash DB | Controlla i log per lo stack trace. |
+| `ExternalServiceError (Gemini)` | API Key invalida o quota superata | Verifica `GOOGLE_API_KEY` e quote Google Cloud. |
+| `ExternalServiceError (Vision)` | Credenziali JSON errate | Verifica path `GOOGLE_APPLICATION_CREDENTIALS` e permessi IAM. |
+| `DB Connection Refused` | Container DB non pronto | Attendi che il healthcheck del DB sia verde. |
+
+### Contatti Supporto
+
+- **Dev Team**: <dev@example.com>
+- **Infrastructure**: <ops@example.com>

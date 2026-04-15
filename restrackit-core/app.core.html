@@ -1,0 +1,1620 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.core package &mdash; Restrackit 2.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="app.modules package" href="app.modules.html" />
+    <link rel="prev" title="app package" href="app.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Restrackit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">app</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="app.html">app package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="app.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">app.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.html">app.modules package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html">app.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html">app.shared package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#module-app.main">app.main module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="markdown_docs.html">Documentazione Manuale (Markdown)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manual/00-technical-manual.html">📘 Documentazione Tecnica - Restrackit Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#architettura-del-progetto">1. Architettura del Progetto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#struttura-ad-alto-livello">🏗️ Struttura ad Alto Livello</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#flusso-dei-dati-principale-analisi-etichetta">🔄 Flusso dei Dati Principale (Analisi Etichetta)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#struttura-delle-cartelle">2. Struttura delle Cartelle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#stack-tecnologico">3. Stack Tecnologico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#configurazione-ambientale">4. Configurazione Ambientale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#setup-locale">Setup Locale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#flussi-di-sviluppo">5. Flussi di Sviluppo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#standard-di-codice">Standard di Codice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#git-flow-branching">Git Flow &amp; Branching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#ci-cd-pipeline">CI/CD Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#setup-module-setup">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#system">🏥 System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#database-schema">7. Database Schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#tabelle-principali">Tabelle Principali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#testing-strategy">8. Testing Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#deployment-guide">9. Deployment Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#dockerfile-multi-stage">Dockerfile (Multi-stage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#procedura-di-deploy">Procedura di Deploy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#monitoraggio">Monitoraggio</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/01-quick-reference.html">Quick Reference Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#test">🧪 Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#db">🗄️ DB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#database-migrations">🗄️ Database Migrations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#testing">🧪 Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#linting-formatting">🔍 Linting &amp; Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#docker-commands">🐳 Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#health-check">Health Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#get-products">Get Products</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#roles-permissions">🔐 Roles &amp; Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#chef">Chef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#manager">Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#admin">Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#environment-variables">🌍 Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#debugging">🐛 Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#enable-debug-logging">Enable Debug Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#database-debug">Database Debug</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#setup-rapido-consigliato">Setup Rapido (Consigliato)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#configura-environment">2. Configura Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#avvia-con-docker">3. Avvia con Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#verifica">4. Verifica</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#comandi-utili-makefile">Comandi Utili (Makefile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#setup-locale-senza-docker">Setup Locale (Senza Docker)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#errori-database">Errori Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/03-architecture.html">Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#system-design">System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#technology-stack">Technology Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#backend">Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-data">AI &amp; Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#devops">DevOps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#key-components">Key Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-products-product-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-products-product-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/products/{product_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#common-error-codes">Common Error Codes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/05-database-schema.html">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#entity-relationship-diagram">Entity Relationship Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#table-definitions">Table Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#stores"><code class="docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships">Relationships</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#migrations">Migrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/06-docker-deployment.html">Docker Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#docker-architecture">Docker Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#files">Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#dockerfile"><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-files-deploy">Docker Compose files (<code class="docutils literal notranslate"><span class="pre">deploy/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#build-locally">Build Locally</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#build-with-compose">Build with Compose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#running">Running</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#environment-configuration">Environment Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#env-for-docker"><code class="docutils literal notranslate"><span class="pre">.env</span></code> for Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#named-volumes">Named Volumes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#networking">Networking</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-network">Docker Compose Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#port-mapping">Port Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#external-access">External Access</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#health-checks">Health Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#application">Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#manual-check">Manual Check</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#persistence">Persistence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#data-persistence">Data Persistence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-backup">Database Backup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#execute-commands">Execute Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#inspect-container">Inspect Container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#environment">Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#security">Security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#container-registry">Container Registry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#push-to-github-container-registry">Push to GitHub Container Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#container-won-t-start">Container Won’t Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-connection-issues">Database Connection Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#permission-errors">Permission Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/07-cicd-pipeline.html">CI/CD Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-trigger-events">CI Trigger Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-jobs">CI Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#docker-build-workflow-docker-build-yml">Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#docker-build-trigger-events">Docker Build Trigger Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#docker-build-jobs">Docker Build Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#codeql-workflow-codeql-yml">CodeQL Workflow (<code class="docutils literal notranslate"><span class="pre">codeql.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#codeql-trigger-events">CodeQL Trigger Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#workflow-files">Workflow Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#github-workflows-ci-yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#github-workflows-docker-build-yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/docker-build.yml</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#execution-flow">Execution Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#pull-request">Pull Request</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#main-branch-push">Main Branch Push</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#version-tag">Version Tag</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#status-checks">Status Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#required-checks-main-branch">Required Checks (main branch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#view-status">View Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#view-workflow-runs">View Workflow Runs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#check-logs">Check Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#common-issues">Common Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#github-secrets">GitHub Secrets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#required-for-deployment">Required for Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#caching">Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#parallel-jobs">Parallel Jobs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#skip-workflows">Skip Workflows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#branch-strategy">Branch Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#semantic-versioning">Semantic Versioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#monitoring">Monitoring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#notifications">Notifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#metrics">Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/08-environment-config.html">Environment Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#google-ai">Google / AI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#keycloak-oidc">Keycloak (OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#cors">CORS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#best-practice">Best practice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#secrets-management">Secrets Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#endpoint-utili">Endpoint utili</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/10-error-handling.html">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#type-definitions">Type Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#errorinfo-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorInfo</span></code> (TypedDict)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#errorpayload-errorresponse-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorPayload</span></code> / <code class="docutils literal notranslate"><span class="pre">ErrorResponse</span></code> (TypedDict)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#exception-classes">Exception Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#apperror-base"><code class="docutils literal notranslate"><span class="pre">AppError</span></code> (Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#validationerror-400"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> (400)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#externalserviceerror-502"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (502)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#parsingerror-422"><code class="docutils literal notranslate"><span class="pre">ParsingError</span></code> (422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#businesslogicerror-404-409-422"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code> (404/409/422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#databaseerror-409-500"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code> (409/500)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#systemerror-500"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code> (500)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#exception-handling-pattern">Exception Handling Pattern</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#try-catch-raise">Try-Catch-Raise</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-handler-pattern">Error Handler Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#logging-integration">Logging Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#log-on-error">Log on Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#log-levels">Log Levels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#do">✅ Do</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#don-t">❌ Don’t</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#testing-errors">Testing Errors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#pytest">pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#with-client">With Client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#error-response-format">Error Response Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#standard-format">Standard Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#with-original-exception-details">With Original Exception Details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#internationalization-i18n">Internationalization (i18n)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#get-message"><code class="docutils literal notranslate"><span class="pre">get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#coverage">Coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/11-contributing.html">Guida Team (contribuzioni)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#setup-ambiente">2. Setup ambiente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#crea-branch-dalla-issue">3. Crea branch dalla issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#dev-workflow-pratico">Dev workflow (pratico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#regole-base">Regole base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#test">Test</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#write-tests">Write Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#run-tests">Run Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#test-coverage">Test Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#pull-request">Pull Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#push-branch">1. Push branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#apri-pr">2. Apri PR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#pr-title">PR Title</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#pr-description">PR Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#review">3. Review</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#merge">4. Merge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#adding-features">Adding Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#new-api-endpoint">New API Endpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#database-migration">Database Migration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#documentation">Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#update-docs">Update Docs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#add-to-index">Add to Index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#docstrings">DocStrings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#common-tasks">Common Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#setup-local-development">Setup Local Development</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#run-all-checks">Run All Checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#update-dependencies">Update Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#build-docker-image">Build Docker Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#issues">Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#report-bug">Report Bug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#community">Community</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#communication">Communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/12-issue-management.html">Gestione delle Issue e Suddivisione del Lavoro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#gerarchia-delle-issue">1. Gerarchia delle Issue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#issue-principale-epic-feature-macro-bug">🔹 Issue Principale (Epic / Feature / Macro-Bug)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#sub-issue-task-sub-task">🔸 Sub-Issue (Task / Sub-task)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#criteri-di-decomposizione">2. Criteri di Decomposizione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#regole-d-oro-per-la-scomposizione">Regole d’Oro per la Scomposizione</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#nomenclatura-e-etichettatura">3. Nomenclatura e Etichettatura</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#formato-titolo">Formato Titolo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#tipi-prefissi">Tipi (Prefissi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#etichette-labels">Etichette (Labels)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#template-standardizzato-issue">4. Template Standardizzato Issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#esempi-pratici-di-suddivisione">5. Esempi Pratici di Suddivisione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#scenario-a-nuova-funzionalita-sviluppo-auth">Scenario A: Nuova Funzionalità (Sviluppo Auth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#scenario-b-bug-fixing-errore-500-su-upload">Scenario B: Bug Fixing (Errore 500 su Upload)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#scenario-c-refactoring-pulizia-codice">Scenario C: Refactoring (Pulizia Codice)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#workflow-e-tracciamento">6. Workflow e Tracciamento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#checklist-di-validazione-definition-of-ready">7. Checklist di Validazione (Definition of Ready)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/13-kitchen-module.html">🍳 Kitchen Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#overview">1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#data-models">2. Data Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipe-recipes">📖 Recipe (<code class="docutils literal notranslate"><span class="pre">recipes</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipeingredient-recipe-ingredients">🥕 RecipeIngredient (<code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparation-preparations">👨‍🍳 Preparation (<code class="docutils literal notranslate"><span class="pre">preparations</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#permissions">5. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/14-logging.html">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#example-env">Example <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#log-formats">Log Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#json-default-production">JSON (Default – Production)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#text-development">Text (Development)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#architecture">Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#module-app-core-logging-py">Module: <code class="docutils literal notranslate"><span class="pre">app/core/logging.py</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#setup-logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#customjsonformatter"><code class="docutils literal notranslate"><span class="pre">CustomJsonFormatter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#basic-logging">Basic Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#structured-extra-fields">Structured Extra Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#exception-logging">Exception Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#convenzioni-dei-commit">Convenzioni dei Commit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#configurazione-locale">Configurazione Locale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#pipeline-di-rilascio-ci-cd">Pipeline di Rilascio (CI/CD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#bump-automatico-su-dev">Bump automatico su <code class="docutils literal notranslate"><span class="pre">dev</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#tag-e-release-automatici-su-main">Tag e Release automatici su <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#rilascio-manuale-forzatura">Rilascio Manuale / Forzatura</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Restrackit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">app</a></li>
+          <li class="breadcrumb-item"><a href="app.html">app package</a></li>
+      <li class="breadcrumb-item active">app.core package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/app.core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="app-core-package">
+<h1>app.core package<a class="headerlink" href="#app-core-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-app.core.clients">
+<span id="app-core-clients-module"></span><h2>app.core.clients module<a class="headerlink" href="#module-app.core.clients" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.clients.get_vision_client">
+<span class="sig-prename descclassname"><span class="pre">app.core.clients.</span></span><span class="sig-name descname"><span class="pre">get_vision_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/clients.html#get_vision_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.clients.get_vision_client" title="Link to this definition"></a></dt>
+<dd><p>Get Google Cloud Vision API client.</p>
+<p>Ensures Google Application Credentials are loaded from settings
+before initializing the Vision client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Google Cloud Vision API client</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>vision.ImageAnnotatorClient</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.clients.get_gemini_client">
+<span class="sig-prename descclassname"><span class="pre">app.core.clients.</span></span><span class="sig-name descname"><span class="pre">get_gemini_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/clients.html#get_gemini_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.clients.get_gemini_client" title="Link to this definition"></a></dt>
+<dd><p>Get Google Gemini LLM client with API key authentication.</p>
+<p>Retrieves API key from settings and initializes the GenAI client.
+Used for intelligent parsing of OCR text and data extraction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Google GenAI client configured with API key</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>genai.Client</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="app-core-config-module">
+<h2>app.core.config module<a class="headerlink" href="#app-core-config-module" title="Link to this heading"></a></h2>
+<p>Application configuration and settings management.</p>
+<p>This module manages:
+- Environment variables and .env file configuration
+- Google API credentials setup
+- Cached settings instance for singleton pattern</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.config.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_case_sensitive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_nested_model_default_partial_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_prefix_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_file_encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_ignore_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_nested_delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_nested_max_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_parse_none_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_parse_enums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_prog_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_parse_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_settings_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_parse_none_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_hide_none_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_avoid_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_enforce_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_use_class_docs_for_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_exit_on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_flag_prefix_char</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_implicit_flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_ignore_unknown_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_kebab_case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_shortcuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_secrets_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_build_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">google_api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">google_application_credentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_URL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_INTERNAL_URL</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_REALM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_CLIENT_ID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cors_origins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cors_allow_credentials</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#Settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
+<p>Application settings loaded from environment or .env file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_case_sensitive</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_nested_model_default_partial_update</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_prefix</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_prefix_target</strong> (<em>EnvPrefixTarget</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_file</strong> (<em>DotenvType</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_file_encoding</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_ignore_empty</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_nested_delimiter</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_nested_max_split</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_parse_none_str</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_env_parse_enums</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_prog_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_parse_args</strong> (<em>bool</em><em> | </em><em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>tuple</em><em>[</em><em>str</em><em>, </em><em>...</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>_cli_settings_source</strong> (<em>CliSettingsSource</em><em>[</em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>_cli_parse_none_str</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_hide_none_type</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_avoid_json</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_enforce_required</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_use_class_docs_for_groups</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_exit_on_error</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_prefix</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_flag_prefix_char</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_implicit_flags</strong> (<em>bool</em><em> | </em><em>Literal</em><em>[</em><em>'dual'</em><em>, </em><em>'toggle'</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>_cli_ignore_unknown_args</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_kebab_case</strong> (<em>bool</em><em> | </em><em>Literal</em><em>[</em><em>'all'</em><em>, </em><em>'no_enums'</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>_cli_shortcuts</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>_secrets_dir</strong> (<em>PathType</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_build_sources</strong> (<em>tuple</em><em>[</em><em>tuple</em><em>[</em><em>PydanticBaseSettingsSource</em><em>, </em><em>...</em><em>]</em><em>, </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>google_api_key</strong> (<em>str</em>)</p></li>
+<li><p><strong>google_application_credentials</strong> (<em>str</em>)</p></li>
+<li><p><strong>database_url</strong> (<em>str</em>)</p></li>
+<li><p><strong>KEYCLOAK_URL</strong> (<em>str</em>)</p></li>
+<li><p><strong>KEYCLOAK_INTERNAL_URL</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>KEYCLOAK_REALM</strong> (<em>str</em>)</p></li>
+<li><p><strong>KEYCLOAK_CLIENT_ID</strong> (<em>str</em>)</p></li>
+<li><p><strong>cors_origins</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>public_base_url</strong> (<em>str</em>)</p></li>
+<li><p><strong>cors_allow_credentials</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">google_api_key</span></span></dt>
+<dd><p>API key for Google Gemini LLM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">google_application_credentials</span></span></dt>
+<dd><p>Path to service account JSON for
+Google Cloud Vision API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">database_url</span></span></dt>
+<dd><p>Database connection URL (PostgreSQL or SQLite)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">google_api_key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">google_application_credentials</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">database_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KEYCLOAK_URL</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KEYCLOAK_INTERNAL_URL</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KEYCLOAK_REALM</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KEYCLOAK_CLIENT_ID</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cors_origins</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cors_origins_must_be_non_empty_strings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#Settings.cors_origins_must_be_non_empty_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Ensure every entry in cors_origins is a non-empty string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">public_base_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cors_allow_credentials</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">oidc_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd><p>Build the public OIDC base URL for the configured realm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The public realm URL in the form <code class="docutils literal notranslate"><span class="pre">{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">oidc_internal_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd><p>Build the internal OIDC base URL for the configured realm.</p>
+<p>This is used for server-to-server calls (e.g., JWKS fetch) and falls back to
+the public Keycloak URL when an internal URL is not provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal realm URL in the form <code class="docutils literal notranslate"><span class="pre">{base}/realms/{KEYCLOAK_REALM}</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">jwks_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd><p>Return the JWKS (JSON Web Key Set) endpoint URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The JWKS URL for the configured realm.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">token_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd><p>Return the OAuth2 token endpoint URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The token endpoint URL for the configured realm.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">authorization_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd><p>Return the OAuth2 authorization endpoint URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The authorization endpoint URL for the configured realm.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">app.core.config.</span></span><span class="sig-name descname"><span class="pre">get_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#get_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Get cached settings instance (singleton pattern).</p>
+<p>This function uses lru_cache to ensure only one Settings instance
+is created throughout the application lifecycle. It also sets up
+Google Cloud credentials path for the Vision API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Cached application settings instance</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.core.error_catalog">
+<span id="app-core-error-catalog-module"></span><h2>app.core.error_catalog module<a class="headerlink" href="#module-app.core.error_catalog" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorSeverity">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.error_catalog.</span></span><span class="sig-name descname"><span class="pre">ErrorSeverity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/error_catalog.html#ErrorSeverity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.error_catalog.ErrorSeverity" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Livelli di severità per gli errori applicativi.</p>
+<p>La severità è usata per classificare l’impatto dell’errore e guidare le
+azioni correttive (sia lato client che lato osservabilità).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorSeverity.CRITICAL">
+<span class="sig-name descname"><span class="pre">CRITICAL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'critical'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorSeverity.CRITICAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorSeverity.ERROR">
+<span class="sig-name descname"><span class="pre">ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'error'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorSeverity.ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorSeverity.WARNING">
+<span class="sig-name descname"><span class="pre">WARNING</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'warning'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorSeverity.WARNING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorSeverity.INFO">
+<span class="sig-name descname"><span class="pre">INFO</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'info'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorSeverity.INFO" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.error_catalog.</span></span><span class="sig-name descname"><span class="pre">ErrorCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/error_catalog.html#ErrorCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.error_catalog.ErrorCode" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Codici errore stabili dell’applicazione.</p>
+<p>I codici sono usati come identificatori univoci e stabili in:
+- risposte API (campo <code class="docutils literal notranslate"><span class="pre">error.code</span></code>),
+- log e monitoring,
+- traduzioni (i18n),
+- mapping HTTP status e azioni consigliate.</p>
+<p>Le sezioni (AUTH/VAL/BUS/DB/EXT/SYS) raggruppano gli errori per dominio.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.AUTH_MISSING_HEADER">
+<span class="sig-name descname"><span class="pre">AUTH_MISSING_HEADER</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_AUTH_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.AUTH_MISSING_HEADER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.AUTH_INVALID_TOKEN">
+<span class="sig-name descname"><span class="pre">AUTH_INVALID_TOKEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_AUTH_002'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.AUTH_INVALID_TOKEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.AUTH_USER_NOT_FOUND">
+<span class="sig-name descname"><span class="pre">AUTH_USER_NOT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_AUTH_003'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.AUTH_USER_NOT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.AUTH_FORBIDDEN">
+<span class="sig-name descname"><span class="pre">AUTH_FORBIDDEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_AUTH_004'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.AUTH_FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.AUTH_STORE_ACCESS_DENIED">
+<span class="sig-name descname"><span class="pre">AUTH_STORE_ACCESS_DENIED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_AUTH_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.AUTH_STORE_ACCESS_DENIED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_INVALID_INPUT">
+<span class="sig-name descname"><span class="pre">VAL_INVALID_INPUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_INVALID_INPUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_MISSING_FIELD">
+<span class="sig-name descname"><span class="pre">VAL_MISSING_FIELD</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_002'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_MISSING_FIELD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_INVALID_FORMAT">
+<span class="sig-name descname"><span class="pre">VAL_INVALID_FORMAT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_003'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_INVALID_FORMAT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_EMPTY_FILE">
+<span class="sig-name descname"><span class="pre">VAL_EMPTY_FILE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_004'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_EMPTY_FILE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_NO_TEXT_FOUND">
+<span class="sig-name descname"><span class="pre">VAL_NO_TEXT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_NO_TEXT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_IMAGE_ERROR">
+<span class="sig-name descname"><span class="pre">VAL_IMAGE_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_006'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_IMAGE_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_RESOURCE_NOT_FOUND">
+<span class="sig-name descname"><span class="pre">BUS_RESOURCE_NOT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_RESOURCE_NOT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_PRODUCT_NOT_FOUND">
+<span class="sig-name descname"><span class="pre">BUS_PRODUCT_NOT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_002'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_PRODUCT_NOT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_BATCH_NOT_FOUND">
+<span class="sig-name descname"><span class="pre">BUS_BATCH_NOT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_003'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_BATCH_NOT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_ALREADY_EXISTS">
+<span class="sig-name descname"><span class="pre">BUS_ALREADY_EXISTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_004'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_ALREADY_EXISTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_OPERATION_NOT_ALLOWED">
+<span class="sig-name descname"><span class="pre">BUS_OPERATION_NOT_ALLOWED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_OPERATION_NOT_ALLOWED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_PARSING_ERROR">
+<span class="sig-name descname"><span class="pre">BUS_PARSING_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_006'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_PARSING_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_CONFLICT">
+<span class="sig-name descname"><span class="pre">BUS_CONFLICT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_007'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_CONFLICT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.DB_CONNECTION_ERROR">
+<span class="sig-name descname"><span class="pre">DB_CONNECTION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_DB_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.DB_CONNECTION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.DB_INTEGRITY_ERROR">
+<span class="sig-name descname"><span class="pre">DB_INTEGRITY_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_DB_002'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.DB_INTEGRITY_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.DB_QUERY_ERROR">
+<span class="sig-name descname"><span class="pre">DB_QUERY_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_DB_003'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.DB_QUERY_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_SERVICE_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">EXT_SERVICE_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_SERVICE_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_TIMEOUT">
+<span class="sig-name descname"><span class="pre">EXT_TIMEOUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_002'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_API_ERROR">
+<span class="sig-name descname"><span class="pre">EXT_API_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_003'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_API_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_VISION_ERROR">
+<span class="sig-name descname"><span class="pre">EXT_VISION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_004'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_VISION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_GEMINI_ERROR">
+<span class="sig-name descname"><span class="pre">EXT_GEMINI_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_GEMINI_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.SYS_INTERNAL_ERROR">
+<span class="sig-name descname"><span class="pre">SYS_INTERNAL_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_SYS_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.SYS_INTERNAL_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.SYS_NOT_IMPLEMENTED">
+<span class="sig-name descname"><span class="pre">SYS_NOT_IMPLEMENTED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_SYS_002'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.SYS_NOT_IMPLEMENTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorInfo">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.error_catalog.</span></span><span class="sig-name descname"><span class="pre">ErrorInfo</span></span><a class="reference internal" href="_modules/app/core/error_catalog.html#ErrorInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.error_catalog.ErrorInfo" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<p>Metadati associati a un ErrorCode nel catalogo.</p>
+<dl class="simple">
+<dt>Keys:</dt><dd><p>message (str): Template del messaggio (può includere placeholder <code class="docutils literal notranslate"><span class="pre">{...}</span></code>).
+severity (ErrorSeverity): Livello di severità.
+http_status (int): HTTP status da restituire.
+action (str): Azione suggerita per risolvere o mitigare.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorInfo.message">
+<span class="sig-name descname"><span class="pre">message</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorInfo.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorInfo.severity">
+<span class="sig-name descname"><span class="pre">severity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#app.core.error_catalog.ErrorSeverity" title="app.core.error_catalog.ErrorSeverity"><span class="pre">ErrorSeverity</span></a></span><a class="headerlink" href="#app.core.error_catalog.ErrorInfo.severity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorInfo.http_status">
+<span class="sig-name descname"><span class="pre">http_status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorInfo.http_status" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorInfo.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorInfo.action" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-app.core.errors">
+<span id="app-core-errors-module"></span><h2>app.core.errors module<a class="headerlink" href="#module-app.core.errors" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.errors.ErrorPayload">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ErrorPayload</span></span><a class="reference internal" href="_modules/app/core/errors.html#ErrorPayload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ErrorPayload" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<p>Payload standard dell’errore applicativo.</p>
+<p>Questo dizionario rappresenta la sezione <code class="docutils literal notranslate"><span class="pre">error</span></code> della risposta JSON
+ritornata dall’API quando si verifica un errore gestito.</p>
+<dl class="simple">
+<dt>Keys:</dt><dd><p>code (ErrorCode): Codice errore stabile (es. <code class="docutils literal notranslate"><span class="pre">ERR_AUTH_001</span></code>).
+message (str): Messaggio localizzato e formattato.
+severity (ErrorSeverity): Gravità dell’errore.
+action (str): Azione suggerita per la risoluzione.
+details (str | None): Dettagli tecnici (es. eccezione originale) se disponibili.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorPayload.code">
+<span class="sig-name descname"><span class="pre">code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><span class="pre">ErrorCode</span></a></span><a class="headerlink" href="#app.core.errors.ErrorPayload.code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorPayload.message">
+<span class="sig-name descname"><span class="pre">message</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.core.errors.ErrorPayload.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorPayload.severity">
+<span class="sig-name descname"><span class="pre">severity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#app.core.error_catalog.ErrorSeverity" title="app.core.error_catalog.ErrorSeverity"><span class="pre">ErrorSeverity</span></a></span><a class="headerlink" href="#app.core.errors.ErrorPayload.severity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorPayload.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.core.errors.ErrorPayload.action" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorPayload.details">
+<span class="sig-name descname"><span class="pre">details</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#app.core.errors.ErrorPayload.details" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.errors.ErrorResponse">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ErrorResponse</span></span><a class="reference internal" href="_modules/app/core/errors.html#ErrorResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ErrorResponse" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<p>Risposta standardizzata per gli errori API.</p>
+<dl class="simple">
+<dt>Keys:</dt><dd><p>error (ErrorPayload): Dettagli dell’errore.
+request_id (str, optional): Identificativo della richiesta, se disponibile.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorResponse.error">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#app.core.errors.ErrorPayload" title="app.core.errors.ErrorPayload"><span class="pre">ErrorPayload</span></a></span><a class="headerlink" href="#app.core.errors.ErrorResponse.error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorResponse.request_id">
+<span class="sig-name descname"><span class="pre">request_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.core.errors.ErrorResponse.request_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.AppError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AppError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Classe base per tutti gli errori dell’applicazione.
+Estende Exception standard ma include metadati strutturati.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.core.errors.AppError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError.__init__" title="Link to this definition"></a></dt>
+<dd><p>Crea un errore applicativo standardizzato.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>) – Codice errore definito nel catalogo.</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>) – Parametri per formattare il messaggio (placeholder <code class="docutils literal notranslate"><span class="pre">{...}</span></code>).</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>) – Eccezione originale da includere nei dettagli (se presente).</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – Lingua del messaggio (default <code class="docutils literal notranslate"><span class="pre">&quot;it&quot;</span></code>).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Se un codice non è presente nel catalogo, viene applicato un fallback
+con severità ERROR e status HTTP 500.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.core.errors.AppError.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Restituisce la rappresentazione serializzabile dell’errore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dizionario contenente i dettagli dell’errore per la risposta API.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#app.core.errors.ErrorResponse" title="app.core.errors.ErrorResponse">ErrorResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.AuthenticationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AuthenticationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AuthenticationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AuthenticationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
+<p>Errore di autenticazione/autorizzazione (401/403) basato su ErrorCode.</p>
+<p>Utilizzato quando le credenziali mancano, sono invalide o l’utente non ha i permessi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.ValidationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#ValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ValidationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
+<p>Errore di validazione input (400/422) basato su ErrorCode.</p>
+<p>Utilizzato per dati malformati o che non rispettano i vincoli sintattici.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.BusinessLogicError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">BusinessLogicError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#BusinessLogicError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.BusinessLogicError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
+<p>Errore di business logic (404/409/400) basato su ErrorCode.</p>
+<p>Utilizzato per violazioni di regole di dominio (es. risorsa non trovata o conflitto).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.DatabaseError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">DatabaseError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#DatabaseError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.DatabaseError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
+<p>Errore relativo a database (500/503/409) basato su ErrorCode.</p>
+<p>Utilizzato per errori di connessione, query fallite o vincoli di integrità.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.SystemError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">SystemError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#SystemError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.SystemError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
+<p>Errore interno non gestito (500) basato su ErrorCode.</p>
+<p>Utilizzato per eccezioni inaspettate catturate dal gestore globale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="app.core.errors.ExternalServiceError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ExternalServiceError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#ExternalServiceError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ExternalServiceError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
+<p>Errore proveniente da servizi esterni (502/503/504) basato su ErrorCode.</p>
+<p>Utilizzato quando servizi come Google Vision o Gemini falliscono o sono lenti.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.core.i18n">
+<span id="app-core-i18n-module"></span><h2>app.core.i18n module<a class="headerlink" href="#module-app.core.i18n" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.i18n.get_message">
+<span class="sig-prename descclassname"><span class="pre">app.core.i18n.</span></span><span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/i18n.html#get_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.i18n.get_message" title="Link to this definition"></a></dt>
+<dd><p>Recupera il messaggio localizzato associato a un codice errore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>) – Codice errore di cui recuperare il messaggio.</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – Lingua richiesta (es. <code class="docutils literal notranslate"><span class="pre">&quot;it&quot;</span></code> o <code class="docutils literal notranslate"><span class="pre">&quot;en&quot;</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Messaggio template (può contenere placeholder <code class="docutils literal notranslate"><span class="pre">{...}</span></code>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.core.logging">
+<span id="app-core-logging-module"></span><h2>app.core.logging module<a class="headerlink" href="#module-app.core.logging" title="Link to this heading"></a></h2>
+<p>Logging configuration for Restrackit application.</p>
+<p>This module sets up a centralized logging system with:
+- JSON formatting for production (structured logging)
+- Console output (stdout) for real-time monitoring
+- Configurable log levels via environment variables
+- Contextual information in logs (timestamp, level, module, etc.)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.logging.CustomJsonFormatter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.logging.</span></span><span class="sig-name descname"><span class="pre">CustomJsonFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_encoder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_serializer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">dumps&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_ensure_ascii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#CustomJsonFormatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.CustomJsonFormatter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">JsonFormatter</span></code></p>
+<p>Custom JSON formatter per strutturare i log in modo coerente per Datadog/Grafana.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_default</strong> (<em>Callable</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>json_encoder</strong> (<em>Callable</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>json_serializer</strong> (<em>Callable</em>)</p></li>
+<li><p><strong>json_indent</strong> (<em>int</em><em> | </em><em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>json_ensure_ascii</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.core.logging.CustomJsonFormatter.add_fields">
+<span class="sig-name descname"><span class="pre">add_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_record</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#CustomJsonFormatter.add_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.CustomJsonFormatter.add_fields" title="Link to this definition"></a></dt>
+<dd><p>Aggiunge campi extra al record di log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_record</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dizionario che verrà serializzato in JSON.</p></li>
+<li><p><strong>record</strong> (<em>LogRecord</em>) – LogRecord originale di Python logging.</p></li>
+<li><p><strong>message_dict</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Campi estratti dal messaggio formattato.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.core.logging.UvicornAccessLogFilter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.logging.</span></span><span class="sig-name descname"><span class="pre">UvicornAccessLogFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_prefixes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_prefixes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_status_below</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_level_at_least</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#UvicornAccessLogFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.UvicornAccessLogFilter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></p>
+<p>Filtro per ridurre il rumore dei log di accesso di Uvicorn.</p>
+<p>Il comportamento tipico è: nascondere richieste “noisy” (es. health check)
+quando hanno status &lt; soglia, ma preservare warning/error e/o prefissi inclusi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exclude_prefixes</strong> (<em>tuple</em><em>[</em><em>str</em><em>, </em><em>...</em><em>]</em>)</p></li>
+<li><p><strong>include_prefixes</strong> (<em>tuple</em><em>[</em><em>str</em><em>, </em><em>...</em><em>]</em>)</p></li>
+<li><p><strong>exclude_status_below</strong> (<em>int</em>)</p></li>
+<li><p><strong>keep_level_at_least</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.core.logging.UvicornAccessLogFilter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_prefixes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_prefixes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_status_below</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_level_at_least</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#UvicornAccessLogFilter.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.UvicornAccessLogFilter.__init__" title="Link to this definition"></a></dt>
+<dd><p>Crea un filtro configurabile per uvicorn.access.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exclude_prefixes</strong> (<em>tuple</em><em>[</em><em>str</em><em>, </em><em>...</em><em>]</em>) – Prefissi path da escludere (es. <code class="docutils literal notranslate"><span class="pre">(&quot;/health&quot;,)</span></code>).</p></li>
+<li><p><strong>include_prefixes</strong> (<em>tuple</em><em>[</em><em>str</em><em>, </em><em>...</em><em>]</em>) – Prefissi path da includere sempre (override dell’esclusione).</p></li>
+<li><p><strong>exclude_status_below</strong> (<em>int</em>) – Esclude (filtra) solo se lo status è &lt; di questa soglia.</p></li>
+<li><p><strong>keep_level_at_least</strong> (<em>int</em>) – Non filtra mai record con level &gt;= di questo valore.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.core.logging.UvicornAccessLogFilter.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#UvicornAccessLogFilter.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.UvicornAccessLogFilter.filter" title="Link to this definition"></a></dt>
+<dd><p>Decide se un record di accesso deve essere mantenuto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<em>LogRecord</em>) – LogRecord di Uvicorn.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True per mantenere il record; False per filtrarlo.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.logging.create_uvicorn_access_log_filter_from_env">
+<span class="sig-prename descclassname"><span class="pre">app.core.logging.</span></span><span class="sig-name descname"><span class="pre">create_uvicorn_access_log_filter_from_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#create_uvicorn_access_log_filter_from_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.create_uvicorn_access_log_filter_from_env" title="Link to this definition"></a></dt>
+<dd><p>Costruisce un UvicornAccessLogFilter leggendo la configurazione da env.</p>
+<dl class="simple">
+<dt>Env var supportate:</dt><dd><ul class="simple">
+<li><p>UVICORN_ACCESS_LOG_EXCLUDE_PREFIXES (default: <code class="docutils literal notranslate"><span class="pre">/health</span></code>)</p></li>
+<li><p>UVICORN_ACCESS_LOG_INCLUDE_PREFIXES (default: vuoto)</p></li>
+<li><p>UVICORN_ACCESS_LOG_EXCLUDE_STATUS_BELOW (default: 400)</p></li>
+<li><p>UVICORN_ACCESS_LOG_KEEP_LEVEL_AT_LEAST (default: WARNING)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Istanza configurata.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#app.core.logging.UvicornAccessLogFilter" title="app.core.logging.UvicornAccessLogFilter">UvicornAccessLogFilter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.logging.configure_uvicorn_access_logs">
+<span class="sig-prename descclassname"><span class="pre">app.core.logging.</span></span><span class="sig-name descname"><span class="pre">configure_uvicorn_access_logs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#configure_uvicorn_access_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.configure_uvicorn_access_logs" title="Link to this definition"></a></dt>
+<dd><p>Applica il filtro ai log di uvicorn.access (se abilitato via env).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.logging.setup_logging">
+<span class="sig-prename descclassname"><span class="pre">app.core.logging.</span></span><span class="sig-name descname"><span class="pre">setup_logging</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/logging.html#setup_logging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.logging.setup_logging" title="Link to this definition"></a></dt>
+<dd><p>Inizializza la configurazione di logging root.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>L’istanza del logger ‘restrackit’ configurata.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>logging.Logger</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.core.security">
+<span id="app-core-security-module"></span><h2>app.core.security module<a class="headerlink" href="#module-app.core.security" title="Link to this heading"></a></h2>
+<p>Security configuration and utilities for Keycloak integration.</p>
+</section>
+<section id="module-app.core.version">
+<span id="app-core-version-module"></span><h2>app.core.version module<a class="headerlink" href="#module-app.core.version" title="Link to this heading"></a></h2>
+<p>Centralized version management.
+Reads version information from app/version.json (generated during build/CI)
+or falls back to pyproject.toml for local development.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.version.get_version_info">
+<span class="sig-prename descclassname"><span class="pre">app.core.version.</span></span><span class="sig-name descname"><span class="pre">get_version_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/version.html#get_version_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.version.get_version_info" title="Link to this definition"></a></dt>
+<dd><p>Get the application version and commit hash.</p>
+<p>Priority:
+1. app/version.json (Generated by CI/scripts)
+2. pyproject.toml (Local development fallback)
+3. Default “0.0.0”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Informazioni sulla versione (version, commit, full_version).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="app.html" class="btn btn-neutral float-left" title="app package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="app.modules.html" class="btn btn-neutral float-right" title="app.modules package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Restrackit Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

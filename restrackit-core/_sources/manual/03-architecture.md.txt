@@ -1,0 +1,135 @@
+# Architecture Overview
+
+## System Design
+
+Restrackit is a FastAPI-based REST API for restaurant inventory management with AI-powered image analysis, designed using a **Modular Monolith** architecture.
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                      Client (App/Web)                       │
+└────────────────────────┬────────────────────────────────────┘
+                         │ HTTP/REST (JSON)
+                         ▼
+        ┌────────────────────────────────────┐
+        │      FastAPI Application           │
+        │  (app/main.py)                     │
+        └────────────┬───────────────────────┘
+                     │
+    ┌────────────────┼────────────────────┐
+    │                │                    │
+    ▼                ▼                    ▼
+┌──────────┐   ┌──────────┐         ┌─────────────┐
+│ Vision   │   │ Gemini   │         │ PostgreSQL  │
+│ API      │   │ Agent    │         │ Database    │
+│(OCR)     │   │ (AI)     │         │ (Data)      │
+└──────────┘   └──────────┘         └─────────────┘
+```
+
+## Directory Structure
+
+The codebase follows a domain-driven structure under `app/modules/`.
+
+```text
+restrackit-core/
+├── .github/workflows/         # CI/CD Pipelines
+├── alembic/                   # Database Migrations
+├── app/
+│   ├── core/                  # Core infrastructure
+│   │   ├── config.py          # Settings management
+│   │   ├── error_catalog.py   # Standardized error codes
+│   │   ├── errors.py          # Exception hierarchy
+│   │   └── logging.py         # Structured logging
+│   │
+│   ├── modules/               # Domain Modules
+│   │   ├── inventory/         # Batch & OCR logic
+│   │   │   ├── models.py      # Batch entity
+│   │   │   ├── router.py      # /inventory endpoints
+│   │   │   ├── schemas.py     # Pydantic models
+│   │   │   └── service.py     # Business logic
+│   │   │
+│   │   ├── products/          # Product Catalog
+│   │   │   ├── models.py      # ProductMaster entity
+│   │   │   ├── router.py      # /products endpoints
+│   │   │   └── service.py     # CRUD logic
+│   │   │
+│   │   ├── store/             # Multi-tenancy
+│   │   │   └── models.py      # Store entity
+│   │   │
+│   │   └── setup/             # Dev tools
+│   │
+│   ├── services/              # External Integrations
+│   │   ├── ocr.py             # Google Vision Client
+│   │   └── ai_agent.py        # Gemini Agent Logic
+│   │
+│   ├── database.py            # SQLAlchemy Session
+│   └── main.py                # App Entry Point
+│
+├── tests/                     # Test Suite
+│   ├── unit/
+│   └── integration/
+│
+├── Dockerfile                 # Multi-stage build
+└── deploy/                    # Docker Compose stacks (local/staging/prod)
+```
+
+## Technology Stack
+
+### Backend
+
+- **Framework**: FastAPI (Python >= 3.13)
+- **ORM**: SQLAlchemy 2.0 (Sync/Async ready)
+- **Migrations**: Alembic
+- **Linter**: Ruff (replaces Flake8/Black/Isort)
+
+### AI & Data
+
+- **OCR**: Google Cloud Vision API
+- **LLM**: Google Gemini 2.0 Flash (via `google-genai` SDK)
+- **Database**: PostgreSQL 16 (Alpine)
+
+### DevOps
+
+- **Container**: Docker (Multi-stage: Builder -> Runtime)
+- **CI/CD**: GitHub Actions (Lint, Test, Build)
+- **Testing**: Pytest + Coverage
+
+## Key Components
+
+### 1. Modular Architecture (`app/modules/`)
+
+Each module (`inventory`, `products`) is self-contained with its own:
+
+- **Router**: Defines API endpoints
+- **Service**: Implements business logic
+- **Models**: Defines DB tables
+- **Schemas**: Defines DTOs (Data Transfer Objects)
+
+### 2. Error Handling (`app/core/errors.py`)
+
+Standardized error handling using `AppError` and specific codes (`ERR_...`):
+
+- All errors return a uniform JSON structure.
+- Unhandled exceptions are caught by global middleware and returned as 500 System Errors.
+
+### 3. AI Agent (`app/services/ai_agent.py`)
+
+A specialized service that:
+
+1. Receives raw OCR text.
+2. Uses a custom tool (`search_product_tool`) to query the DB for product matches.
+3. Returns structured data (Product, Lot, Expiry, Confidence).
+
+## Data Flow: Image Analysis
+
+1. **Upload**: Client sends image to `POST /inventory/analyze`.
+2. **OCR**: `OCRService` calls Google Vision to get text.
+3. **Agent**: `InventoryAgentService` sends text + store context to Gemini.
+4. **Tool Use**: Gemini calls `search_product_tool` to validate product name against `products_master` table.
+5. **Response**: Structured JSON is returned to the client for confirmation.
+6. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table.
+
+## Multi-Tenancy
+
+- **Isolation**: Every query is filtered by `store_id`.
+- **Context**: `store_id` è derivato dal token (Keycloak) e, se necessario, dall’header `x-target-store`.
+- **Constraints**: Database enforces `UNIQUE(name, store_id)` for products.

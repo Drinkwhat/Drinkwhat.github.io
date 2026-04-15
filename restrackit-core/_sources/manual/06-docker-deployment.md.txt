@@ -1,0 +1,481 @@
+# Docker Deployment Guide
+
+## Overview
+
+Restrackit is containerized using Docker for consistent development and production deployments.
+
+## Docker Architecture
+
+```text
+┌────────────────────────────────────────┐
+│   deploy/*/docker-compose.yml          │
+├────────────────────────────────────────┤
+│  Services:                             │
+│  1. app (FastAPI)                      │
+│  2. db (PostgreSQL)                    │
+│  3. keycloak + postgres_keycloak (dev) │
+└────────────────────────────────────────┘
+```
+
+## Files
+
+### `Dockerfile`
+
+Multi-stage build for production image:
+
+```dockerfile
+# Stage 1: Builder
+FROM python:3.14-slim AS builder
+# Install dependencies, create wheels
+
+# Stage 2: Runtime
+FROM python:3.14-slim
+# Copy wheels, minimal footprint
+# Run as non-root user
+```
+
+**Features**:
+
+- Multi-stage build (reduces image size)
+- Non-root user (security)
+- Minimal runtime dependencies
+- Optimized layer caching
+
+### Docker Compose files (`deploy/`)
+
+Gli stack Docker sono definiti in:
+
+- `deploy/local/docker-compose.yml` (sviluppo locale)
+- `deploy/staging/docker-compose.yml` (staging)
+- `deploy/prod/docker-compose.yml` (produzione)
+
+Lo stack `local` include anche Keycloak per OIDC e un DB dedicato a Keycloak.
+
+## Building
+
+### Build Locally
+
+```bash
+# Build image
+docker build -t restrackit-app .
+
+# Build with specific tag
+docker build -t restrackit-app:v1.0.0 .
+
+# Build with no cache
+docker build --no-cache -t restrackit-app .
+```
+
+### Build with Compose
+
+```bash
+# Build all services
+docker compose -f deploy/local/docker-compose.yml --env-file .env build
+
+# Rebuild specific service
+docker compose -f deploy/local/docker-compose.yml --env-file .env build app
+
+# No cache
+docker compose -f deploy/local/docker-compose.yml --env-file .env build --no-cache
+```
+
+## Running
+
+### Docker Compose (Recommended)
+
+```bash
+# Start services
+docker compose -f deploy/local/docker-compose.yml --env-file .env up -d --wait
+
+# Start in background
+docker compose -f deploy/local/docker-compose.yml --env-file .env up -d --wait
+
+# With rebuild
+docker compose -f deploy/local/docker-compose.yml --env-file .env up -d --build --wait
+
+# View logs
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs -f app
+
+# Stop services
+docker compose -f deploy/local/docker-compose.yml --env-file .env stop
+
+# Stop and remove
+docker compose -f deploy/local/docker-compose.yml --env-file .env down
+```
+
+### Standalone Docker
+
+```bash
+# Run with env file
+docker run -p 8000:8000 \
+  --env-file .env \
+  restrackit-app
+
+# Run with volume mounting
+docker run -p 8000:8000 \
+  -v $(pwd)/logs:/app/logs \
+  -v $(pwd)/.env:/app/.env:ro \
+  --env-file .env \
+  restrackit-app
+```
+
+## Environment Configuration
+
+### `.env` for Docker
+
+```bash
+# Database
+DB_USER=app_user
+DB_PASSWORD=your_secure_password
+DB_NAME=app_db
+DATABASE_URL=postgresql://app_user:password@db:5432/app_db
+
+# Google Cloud
+GOOGLE_API_KEY=your_api_key
+GOOGLE_APPLICATION_CREDENTIALS=./service_account.json
+
+# Keycloak (OIDC)
+KEYCLOAK_URL=https://example.com/auth
+KEYCLOAK_REALM=restrackit
+KEYCLOAK_CLIENT_ID=restrackit-backend
+```
+
+### Docker Secrets (Production)
+
+For sensitive data:
+
+```yaml
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  google_api_key:
+    file: ./secrets/google_api_key.txt
+
+services:
+  app:
+    secrets:
+      - db_password
+      - google_api_key
+```
+
+## Volume Management
+
+### Application Volumes
+
+```yaml
+volumes:
+  - ./logs:/app/logs           # Application logs
+  - ./app:/app/app             # Hot reload (dev)
+  - ./alembic:/app/alembic     # Migrations
+  - ./service_account.json:/app/service_account.json:ro
+```
+
+### Database Volume
+
+```yaml
+services:
+  db:
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+    driver: local
+```
+
+### Named Volumes
+
+```bash
+# List volumes
+docker volume ls
+
+# Inspect volume
+docker volume inspect restrackit_db_data
+
+# Remove volume (data loss!)
+docker volume rm restrackit_db_data
+```
+
+## Networking
+
+### Docker Compose Network
+
+Services communicate via service name:
+
+```python
+# In app, connect to database
+DATABASE_URL = "postgresql://user:pass@db:5432/dbname"
+# 'db' resolves to the PostgreSQL container
+```
+
+### Port Mapping
+
+```yaml
+services:
+  app:
+    ports:
+      - "8000:8000"    # host:container
+  db:
+    ports:
+      - "5432:5432"
+```
+
+### External Access
+
+```bash
+# Access app
+curl http://localhost:8000/docs
+
+# Connect to database
+psql -h localhost -U ${DB_USER} -d ${DB_NAME}
+```
+
+## Health Checks
+
+### Application
+
+```yaml
+healthcheck:
+  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+```
+
+### Database
+
+```yaml
+healthcheck:
+  test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+  interval: 10s
+  timeout: 5s
+  retries: 5
+```
+
+### Manual Check
+
+```bash
+# Check container status
+docker compose -f deploy/local/docker-compose.yml --env-file .env ps
+
+# View health status
+docker inspect restrackit-app | grep -A 20 '"Health"'
+```
+
+## Persistence
+
+### Data Persistence
+
+```bash
+# Stop services
+docker compose -f deploy/local/docker-compose.yml --env-file .env down
+
+# Data in db_data volume persists
+
+# Restart services
+docker compose -f deploy/local/docker-compose.yml --env-file .env up -d --wait
+
+# Database state recovered
+```
+
+### Database Backup
+
+```bash
+# Backup database
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec db pg_dump -U ${DB_USER} ${DB_NAME} > backup.sql
+
+# Restore database
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec -T db psql -U ${DB_USER} ${DB_NAME} < backup.sql
+```
+
+## Debugging
+
+### View Logs
+
+```bash
+# All services
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs
+
+# Specific service
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs app
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs db
+
+# Follow logs
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs -f app
+
+# Last 100 lines
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs --tail=100 app
+```
+
+### Execute Commands
+
+```bash
+# Run command in container
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec app python -c "import app"
+
+# Interactive shell
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec app /bin/bash
+
+# Check environment
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec app env | grep DATABASE
+```
+
+### Inspect Container
+
+```bash
+# Container details
+docker inspect restrackit-app
+
+# View filesystem
+docker exec restrackit-app ls -la /app
+
+# Check processes
+docker exec restrackit-app ps aux
+```
+
+## Production Deployment
+
+### Remove Dev Settings
+
+```yaml
+# In deploy/prod/docker-compose.yml (esempio concettuale)
+services:
+  app:
+    # Remove volumes for code hot-reload
+    # Remove ports if behind reverse proxy
+    # Add restart policy
+    restart: unless-stopped
+```
+
+### Environment
+
+```bash
+DATABASE_URL=postgresql://...
+KEYCLOAK_URL=https://example.com/auth
+KEYCLOAK_REALM=restrackit
+KEYCLOAK_CLIENT_ID=restrackit-backend
+LOG_LEVEL=INFO
+```
+
+### Security
+
+```yaml
+services:
+  app:
+    # Run as non-root (already in Dockerfile)
+    user: appuser
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+```
+
+### Reverse Proxy (nginx)
+
+```nginx
+server {
+    listen 80;
+    server_name restrackit.example.com;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+### SSL/TLS
+
+```bash
+# Use Let's Encrypt
+certbot certonly --standalone -d restrackit.example.com
+
+# Configure in deploy/prod/docker-compose.yml
+volumes:
+  - /etc/letsencrypt:/etc/letsencrypt:ro
+```
+
+## Container Registry
+
+### Push to GitHub Container Registry
+
+```bash
+# Login
+echo $PAT | docker login ghcr.io -u username --password-stdin
+
+# Tag image
+docker tag restrackit-app:latest ghcr.io/restrackit/restrackit-core:latest
+
+# Push
+docker push ghcr.io/restrackit/restrackit-core:latest
+
+# Pull
+docker pull ghcr.io/restrackit/restrackit-core:latest
+```
+
+## Troubleshooting
+
+### Container Won't Start
+
+```bash
+# Check logs
+docker compose -f deploy/local/docker-compose.yml --env-file .env logs app
+
+# Common issues:
+# 1. Port already in use
+# 2. Database connection failed
+# 3. Missing environment variables
+```
+
+### Database Connection Issues
+
+```bash
+# Check if db container is running
+docker compose -f deploy/local/docker-compose.yml --env-file .env ps db
+
+# Test connection
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec app python -c \
+  "from sqlalchemy import create_engine; \
+   engine = create_engine(os.getenv('DATABASE_URL')); \
+   engine.connect()"
+
+# Check DATABASE_URL
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec app echo $DATABASE_URL
+```
+
+### Permission Errors
+
+```bash
+# Ensure non-root user can access volumes
+sudo chown -R 1000:1000 ./logs ./app
+
+# Or run as root (dev only)
+docker compose -f deploy/local/docker-compose.yml --env-file .env exec -u root app bash
+```
+
+## Cleanup
+
+```bash
+# Stop and remove containers
+docker compose -f deploy/local/docker-compose.yml --env-file .env down
+
+# Remove images
+docker rmi restrackit-app
+
+# Remove volumes (data loss!)
+docker volume rm restrackit_db_data
+
+# Remove everything (prune)
+docker system prune -a
+```
+
+---
+
+For more information, see [Docker Documentation](https://docs.docker.com/) or [Docker Compose Guide](https://docs.docker.com/compose/).
