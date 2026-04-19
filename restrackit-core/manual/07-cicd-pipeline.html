@@ -19,6 +19,442 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        all_mermaids.forEach((el) => {
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+        await mermaid.run();
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? all_mermaids.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            if(all_mermaids.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else if(svgs.size() !== mermaids_to_add_zoom) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else {
+                svgs.each(function() {
+                    var svg = d3.select(this);
+                    svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+                    var inner = svg.select("g");
+                    var zoom = d3.zoom().on("zoom", function(event) {
+                        inner.attr("transform", event.transform);
+                    });
+                    svg.call(zoom);
+                });
+            }
+        }
+    } else if(all_mermaids.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -314,27 +750,23 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">CI/CD Pipeline</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#diagramma-pipeline-mermaid">Diagramma pipeline (Mermaid)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#ci-trigger-events">CI Trigger Events</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ci-jobs">CI Jobs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-autofix-does-not-run-on-prs">Why autofix does not run on PRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autofix-current-behavior">Autofix (current behavior)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#docker-build-workflow-docker-build-yml">Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#docker-build-trigger-events">Docker Build Trigger Events</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#docker-build-jobs">Docker Build Jobs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#trigger-events">Trigger events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jobs-current">Jobs (current)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#codeql-workflow-codeql-yml">CodeQL Workflow (<code class="docutils literal notranslate"><span class="pre">codeql.yml</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#codeql-trigger-events">CodeQL Trigger Events</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#analysis">Analysis</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#workflow-files">Workflow Files</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#github-workflows-ci-yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#github-workflows-docker-build-yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/docker-build.yml</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#runner-selection-self-hosted-github-hosted">Runner selection (self-hosted + GitHub-hosted)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#execution-flow">Execution Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pull-request">Pull Request</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#main-branch-push">Main Branch Push</a></li>
@@ -349,24 +781,21 @@
 <li class="toctree-l3"><a class="reference internal" href="#debugging">Debugging</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#view-workflow-runs">View Workflow Runs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#check-logs">Check Logs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#common-issues">Common Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-issues">Common issues</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment Variables</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#github-secrets">GitHub Secrets</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#required-for-deployment">Required for Deployment</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#performance-optimization">Performance Optimization</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#caching">Caching</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parallel-jobs">Parallel Jobs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#skip-workflows">Skip Workflows</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#best-practices">Best Practices</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#branch-strategy">Branch Strategy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#semantic-versioning">Semantic Versioning</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#commit-messages">Commit Messages</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#monitoring">Monitoring</a><ul>
@@ -658,316 +1087,187 @@
 <p>Automated testing, building, and deployment with GitHub Actions.</p>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
-<p>Three independent workflows handle different aspects:</p>
+<p>Workflows in this repository handle testing, building, docs publishing, and releases:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Code Push/PR
     ↓
 ┌───────────────────────────────────────┐
 │   Workflow: CI (ci.yml)               │
-│   ├─ Lint (ruff)                      │
+│   ├─ Quality (ruff + bandit)          │
+│   ├─ SAST (semgrep)                   │
 │   ├─ Unit Tests (pytest)              │
 │   └─ Coverage Reports (codecov)       │
 └───────────────────────────────────────┘
-    ↓ (only on main/dev push)
+    ↓ (push main/dev + tags + PR)
 ┌───────────────────────────────────────┐
 │   Workflow: Docker Build (docker-build.yml) │
 │   ├─ Build Image                      │
 │   ├─ Tag Version                      │
 │   └─ Push to ghcr.io                  │
 └───────────────────────────────────────┘
-    ↓ (only on main/dev push)
 ┌───────────────────────────────────────┐
-│   Workflow: CodeQL (codeql.yml)       │
-│   └─ Security Analysis                │
+│   Workflow: Docs (docs.yml)           │
+│   ├─ Build Sphinx docs                │
+│   └─ Publish to personal Pages repo   │
+└───────────────────────────────────────┘
+    ↓ (on CI success)
+┌───────────────────────────────────────┐
+│   Workflow: Release (release.yml)     │
+│   ├─ Bump version (dev)               │
+│   └─ Tag + Release (main)             │
 └───────────────────────────────────────┘
 </pre></div>
 </div>
+<section id="diagramma-pipeline-mermaid">
+<h3>Diagramma pipeline (Mermaid)<a class="headerlink" href="#diagramma-pipeline-mermaid" title="Link to this heading"></a></h3>
+<pre  class="mermaid">
+        flowchart TD
+  P[Push or PR on main or dev]
+  M[Manual trigger]
+
+  Q[CI quality]
+  S[CI semgrep]
+  T[CI test]
+  A[CI autofix]
+
+  B[Docker build]
+  PRM[Docker promote]
+  D[Deploy staging]
+
+  DB[Docs build]
+  DD[Docs deploy]
+
+  R1[Release bump dev]
+  R2[Release tag and release]
+
+  P --&gt; Q
+  P --&gt; S
+  Q --&gt;|needs| T
+  M --&gt; A
+
+  P --&gt; B
+  B --&gt; PRM
+  T --&gt;|CI success| PRM
+  PRM --&gt;|dev only + trivy ok| D
+
+  P --&gt; DB
+  DB --&gt;|main only| DD
+
+  T --&gt;|on CI success| R1
+  T --&gt;|on CI success| R2
+    </pre></section>
 </section>
 <section id="ci-workflow-ci-yml">
 <h2>CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)<a class="headerlink" href="#ci-workflow-ci-yml" title="Link to this heading"></a></h2>
-<p>Runs on every push and pull request.</p>
-<section id="ci-trigger-events">
-<h3>CI Trigger Events<a class="headerlink" href="#ci-trigger-events" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-</pre></div>
-</div>
-</section>
-<section id="ci-jobs">
-<h3>CI Jobs<a class="headerlink" href="#ci-jobs" title="Link to this heading"></a></h3>
-<section id="lint">
-<h4>1. Lint<a class="headerlink" href="#lint" title="Link to this heading"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">lint</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">  </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout code</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Python 3.13</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install ruff</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run ruff check app tests</span>
-</pre></div>
-</div>
-<p><strong>Purpose</strong>: Verify code quality and style</p>
-<p><strong>Command</strong>: <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">check</span> <span class="pre">app</span> <span class="pre">tests</span></code></p>
-<p><strong>Output</strong>: Fails if style issues found</p>
-</section>
-<section id="test">
-<h4>2. Test<a class="headerlink" href="#test" title="Link to this heading"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">test</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">  </span><span class="nt">services</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">postgres</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15</span>
-<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
-<span class="w">        </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
-<span class="w">        </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restrackit</span><span class="w">  </span><span class="c1"># legacy name used in CI</span>
-</pre></div>
-</div>
-<p><strong>Purpose</strong>: Run full test suite with database</p>
-<p><strong>Setup</strong>:</p>
+<p>Runs on every push and pull request to <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">dev</span></code> (with <code class="docutils literal notranslate"><span class="pre">paths</span></code> filters).</p>
+<section id="ci-jobs-current">
+<h3>CI Jobs (current)<a class="headerlink" href="#ci-jobs-current" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>Checkout code</p></li>
-<li><p>Setup Python 3.13</p></li>
-<li><p>Install dependencies</p></li>
-<li><p>Run pytest with coverage</p></li>
-<li><p>Upload coverage to codecov</p></li>
-</ul>
-<p><strong>Command</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>tests/<span class="w"> </span>-v<span class="w"> </span>--cov<span class="o">=</span>app<span class="w"> </span>--cov-report<span class="o">=</span>xml
-</pre></div>
-</div>
-<p><strong>Output</strong>:</p>
-<ul class="simple">
-<li><p>Test results (pass/fail)</p></li>
-<li><p>Coverage percentage</p></li>
-<li><p>Coverage upload to codecov.io</p></li>
+<li><p><strong>quality</strong>: fast gate (<code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">check</span></code>, <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">format</span> <span class="pre">--check</span></code>, <code class="docutils literal notranslate"><span class="pre">bandit</span></code>)</p></li>
+<li><p><strong>semgrep</strong>: SAST scan (runs in parallel to <code class="docutils literal notranslate"><span class="pre">quality</span></code>/<code class="docutils literal notranslate"><span class="pre">test</span></code>)</p></li>
+<li><p><strong>secrets</strong>: secrets scan in git history (Gitleaks) to prevent leaking API keys/tokens/certs</p></li>
+<li><p><strong>test</strong>: unit tests + coverage + Codecov upload (needs <code class="docutils literal notranslate"><span class="pre">quality</span></code>)</p></li>
+<li><p><strong>autofix</strong>: automatic on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes (with loop prevention) and available manually via <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code> (never on PRs)</p></li>
 </ul>
 </section>
-<section id="build-removed">
-<h4>3. Build (Removed)<a class="headerlink" href="#build-removed" title="Link to this heading"></a></h4>
-<p>Previously built Docker image in CI, now removed for efficiency.</p>
-<p>Building only happens after lint + test pass on main/dev.</p>
+<section id="why-semgrep-is-not-inside-quality">
+<h3>Why semgrep is not inside quality<a class="headerlink" href="#why-semgrep-is-not-inside-quality" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">quality</span></code> is designed to fail fast in seconds. <code class="docutils literal notranslate"><span class="pre">semgrep</span></code> is kept separate because it can take longer and may depend on network/rule downloads. Keeping it separate improves throughput while still making the overall CI fail if semgrep fails.</p>
 </section>
+<section id="why-autofix-does-not-run-on-prs">
+<h3>Why autofix does not run on PRs<a class="headerlink" href="#why-autofix-does-not-run-on-prs" title="Link to this heading"></a></h3>
+<p>Autofix runs only on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes and includes loop prevention. It is intentionally not run on PRs to avoid writing to contributor branches.</p>
+</section>
+<section id="autofix-current-behavior">
+<h3>Autofix (current behavior)<a class="headerlink" href="#autofix-current-behavior" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Runs automatically on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes (skips commits whose message starts with <code class="docutils literal notranslate"><span class="pre">chore:</span> <span class="pre">autofix</span></code> to avoid loops)</p></li>
+<li><p>Requires PAT_TOKEN to be present as a repository secret to push commits that retrigger workflows</p></li>
+</ul>
 </section>
 </section>
 <hr class="docutils" />
 <section id="docker-build-workflow-docker-build-yml">
 <h2>Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)<a class="headerlink" href="#docker-build-workflow-docker-build-yml" title="Link to this heading"></a></h2>
-<p>Builds and publishes Docker images.</p>
-<section id="docker-build-trigger-events">
-<h3>Docker Build Trigger Events<a class="headerlink" href="#docker-build-trigger-events" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&#39;v*&#39;</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-</pre></div>
-</div>
-</section>
-<section id="docker-build-jobs">
-<h3>Docker Build Jobs<a class="headerlink" href="#docker-build-jobs" title="Link to this heading"></a></h3>
-<section id="build-push">
-<h4>Build &amp; Push<a class="headerlink" href="#build-push" title="Link to this heading"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">build</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">  </span><span class="nt">permissions</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
-<span class="w">    </span><span class="nt">packages</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
-<span class="w">  </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout repository</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Docker Buildx</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Login to ghcr.io</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Extract metadata (tags, labels)</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build and push image</span>
-</pre></div>
-</div>
-<p><strong>Registry</strong>: <code class="docutils literal notranslate"><span class="pre">ghcr.io/restrackit/restrackit-core</span></code></p>
-<p><strong>Tags</strong>:</p>
+<p>Builds Docker images, scans them, and publishes them to GHCR.</p>
+<section id="trigger-events">
+<h3>Trigger events<a class="headerlink" href="#trigger-events" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">branch</span></code> - Branch name (main, dev)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">v*</span></code> - Semantic version (v1.0.0)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">sha</span></code> - Short commit SHA</p></li>
-</ul>
-<p><strong>Push</strong>:</p>
-<ul class="simple">
-<li><p>PRs: Build only, don’t push</p></li>
-<li><p>main/dev: Build and push</p></li>
-<li><p>Tags: Build and push with version</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pull_request</span></code> on <code class="docutils literal notranslate"><span class="pre">main</span></code>/<code class="docutils literal notranslate"><span class="pre">dev</span></code> (paths-filtered): build only (no push)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">push</span></code> on <code class="docutils literal notranslate"><span class="pre">main</span></code>/<code class="docutils literal notranslate"><span class="pre">dev</span></code> (paths-filtered): build + push by SHA, then promote branch tag if CI is green</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">push</span></code> tag <code class="docutils literal notranslate"><span class="pre">v*</span></code>: build + push the version tag</p></li>
+<li><p>Workflow-only changes under <code class="docutils literal notranslate"><span class="pre">.github/workflows/**</span></code> can still trigger this workflow, but heavy jobs are skipped unless runtime/deploy files changed (see <code class="docutils literal notranslate"><span class="pre">changes</span></code> job in <code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</p></li>
 </ul>
 </section>
-</section>
-</section>
-<hr class="docutils" />
-<section id="codeql-workflow-codeql-yml">
-<h2>CodeQL Workflow (<code class="docutils literal notranslate"><span class="pre">codeql.yml</span></code>)<a class="headerlink" href="#codeql-workflow-codeql-yml" title="Link to this heading"></a></h2>
-<p>Security and code analysis.</p>
-<section id="codeql-trigger-events">
-<h3>CodeQL Trigger Events<a class="headerlink" href="#codeql-trigger-events" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0</span><span class="nv"> </span><span class="s">0</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">0&#39;</span><span class="w">  </span><span class="c1"># Weekly</span>
-</pre></div>
-</div>
-</section>
-<section id="analysis">
-<h3>Analysis<a class="headerlink" href="#analysis" title="Link to this heading"></a></h3>
+<section id="jobs-current">
+<h3>Jobs (current)<a class="headerlink" href="#jobs-current" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>Language</strong>: Python</p></li>
-<li><p><strong>Queries</strong>: GitHub-provided security queries</p></li>
-<li><p><strong>Results</strong>: Uploaded to GitHub Security tab</p></li>
+<li><p><strong>build</strong> (self-hosted docker-heavy):</p>
+<ul>
+<li><p>builds the image</p></li>
+<li><p>pushes <code class="docutils literal notranslate"><span class="pre">:sha-&lt;shortsha&gt;</span></code> on branch pushes</p></li>
+<li><p>runs Trivy scan</p></li>
+</ul>
+</li>
+<li><p><strong>promote</strong> (GitHub-hosted):</p>
+<ul>
+<li><p>waits for CI checks on the same commit</p></li>
+<li><p>if CI is green, retags <code class="docutils literal notranslate"><span class="pre">:dev</span></code>/<code class="docutils literal notranslate"><span class="pre">:main</span></code> to the corresponding <code class="docutils literal notranslate"><span class="pre">:sha-&lt;shortsha&gt;</span></code> without rebuilding</p></li>
+</ul>
+</li>
+<li><p><strong>deploy-staging</strong> (GitHub-hosted):</p>
+<ul>
+<li><p>only on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes</p></li>
+<li><p>only if CI is green (via <code class="docutils literal notranslate"><span class="pre">promote</span></code>) and Trivy did not fail</p></li>
+<li><p>only if the commit includes relevant runtime/deploy changes (workflow-only changes do not deploy)</p></li>
+<li><p>deploys via Tailscale + SSH</p></li>
+</ul>
+</li>
 </ul>
 </section>
 </section>
 <hr class="docutils" />
-<section id="workflow-files">
-<h2>Workflow Files<a class="headerlink" href="#workflow-files" title="Link to this heading"></a></h2>
-<section id="github-workflows-ci-yml">
-<h3><code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code><a class="headerlink" href="#github-workflows-ci-yml" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI</span>
-<span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-
-<span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">lint</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
-<span class="w">          </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip&#39;</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install ruff</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff check app tests</span>
-
-<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">    </span><span class="nt">services</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">postgres</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15</span>
-<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
-<span class="w">          </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
-<span class="w">          </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restrackit</span><span class="w">  </span><span class="c1"># legacy name used in CI</span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
-<span class="w">          </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip&#39;</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install -r requirements.txt</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">          </span><span class="no">pytest tests/ -v --cov=app \</span>
-<span class="w">            </span><span class="no">--cov-report=xml --cov-report=term-missing</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">codecov/codecov-action@v3</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./coverage.xml</span>
-</pre></div>
-</div>
-</section>
-<section id="github-workflows-docker-build-yml">
-<h3><code class="docutils literal notranslate"><span class="pre">.github/workflows/docker-build.yml</span></code><a class="headerlink" href="#github-workflows-docker-build-yml" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Docker Build</span>
-<span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&#39;v*&#39;</span><span class="w"> </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">]</span>
-
-<span class="nt">env</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">REGISTRY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io</span>
-<span class="w">  </span><span class="nt">IMAGE_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.repository }}</span>
-
-<span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
-<span class="w">      </span><span class="nt">packages</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/setup-buildx-action@v2</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/login-action@v2</span>
-<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event_name != &#39;pull_request&#39;</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ env.REGISTRY }}</span>
-<span class="w">          </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.actor }}</span>
-<span class="w">          </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/metadata-action@v4</span>
-<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meta</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">images</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}</span>
-<span class="w">          </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">            </span><span class="no">type=ref,event=branch</span>
-<span class="w">            </span><span class="no">type=semver,pattern={{version}}</span>
-<span class="w">            </span><span class="no">type=sha</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/build-push-action@v5</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<span class="w">          </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event_name != &#39;pull_request&#39; }}</span>
-<span class="w">          </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ steps.meta.outputs.tags }}</span>
-<span class="w">          </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ steps.meta.outputs.labels }}</span>
-<span class="w">          </span><span class="nt">cache-from</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type=gha</span>
-<span class="w">          </span><span class="nt">cache-to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type=gha,mode=max</span>
-</pre></div>
-</div>
-</section>
+<section id="runner-selection-self-hosted-github-hosted">
+<h2>Runner selection (self-hosted + GitHub-hosted)<a class="headerlink" href="#runner-selection-self-hosted-github-hosted" title="Link to this heading"></a></h2>
+<p>Workflows select runners via repository variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_GH</span></code>: GitHub-hosted (recommended <code class="docutils literal notranslate"><span class="pre">[&quot;ubuntu-latest&quot;]</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_DOCKER</span></code>: self-hosted runners with Docker available</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_PY</span></code>: optional self-hosted runners for Python-only jobs</p></li>
+</ul>
+<p>If variables are not set, workflows fall back to <code class="docutils literal notranslate"><span class="pre">[&quot;ubuntu-latest&quot;]</span></code>.</p>
 </section>
 <hr class="docutils" />
 <section id="execution-flow">
 <h2>Execution Flow<a class="headerlink" href="#execution-flow" title="Link to this heading"></a></h2>
 <section id="pull-request">
 <h3>Pull Request<a class="headerlink" href="#pull-request" title="Link to this heading"></a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Developer pushes to feature branch
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>PR opened/updated
   ↓
-GitHub triggers CI workflow
+CI runs (quality + semgrep + test)
   ↓
-┌─────────────────────────┐
-│ lint (parallel)         │ ← ruff check
-│ test (parallel)         │ ← pytest + coverage
-└─────────────────────────┘
+Docker Build runs (build only, no push)
   ↓
-Both pass? → ✅ Merge allowed
-Both pass? → ❌ Merge blocked
+All required checks green → merge allowed
 </pre></div>
 </div>
 </section>
 <section id="main-branch-push">
 <h3>Main Branch Push<a class="headerlink" href="#main-branch-push" title="Link to this heading"></a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Developer merges PR to main
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Merge to main
   ↓
-GitHub triggers:
-  ├─ CI workflow (lint + test)
-  ├─ Docker Build workflow
-  └─ CodeQL workflow
+CI runs and must be green
   ↓
-All pass → Image pushed to ghcr.io
-Fail → Notification to developer
+Docker Build pushes sha-tag and promotes main-tag after CI success
+  ↓
+Release workflow tags and publishes a GitHub release (main only)
 </pre></div>
 </div>
 </section>
 <section id="version-tag">
 <h3>Version Tag<a class="headerlink" href="#version-tag" title="Link to this heading"></a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Developer creates tag: v1.0.0
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Create tag vX.Y.Z
   ↓
-GitHub triggers Docker Build
-  ↓
-Build image and tag with:
-  - ghcr.io/restrackit/restrackit-core:v1.0.0
-  - ghcr.io/restrackit/restrackit-core:1.0
-  - ghcr.io/restrackit/restrackit-core:latest
-  ↓
-Image pushed to registry
+Docker Build builds and pushes vX.Y.Z image tag
 </pre></div>
 </div>
 </section>
@@ -979,9 +1279,11 @@ Image pushed to registry
 <h3>Required Checks (main branch)<a class="headerlink" href="#required-checks-main-branch" title="Link to this heading"></a></h3>
 <p>Add to branch protection rules:</p>
 <ul class="simple">
-<li><p>✅ CI / lint</p></li>
+<li><p>✅ CI / quality</p></li>
+<li><p>✅ CI / semgrep</p></li>
 <li><p>✅ CI / test</p></li>
-<li><p>✅ CodeQL</p></li>
+<li><p>✅ Docker Build / build</p></li>
+<li><p>✅ Docs / build-docs</p></li>
 </ul>
 </section>
 <section id="view-status">
@@ -1010,10 +1312,12 @@ Pull Request:
 <p>Click on workflow run → Click on job → View logs</p>
 </section>
 <section id="common-issues">
-<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
-<p><strong>Lint fails</strong>: <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">check</span> <span class="pre">app</span> <span class="pre">tests</span> <span class="pre">--fix</span></code> locally</p>
-<p><strong>Tests fail</strong>: Run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">tests/</span> <span class="pre">-v</span></code> locally</p>
-<p><strong>Docker push fails</strong>: Check <code class="docutils literal notranslate"><span class="pre">secrets.GITHUB_TOKEN</span></code> permissions</p>
+<h3>Common issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Quality fails: run <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">check</span></code> and <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">format</span></code> locally</p></li>
+<li><p>Semgrep fails: check network/rules download; retry on GitHub-hosted</p></li>
+<li><p>Docker build fails on self-hosted: verify Docker daemon access and disk space</p></li>
+</ul>
 </section>
 </section>
 <hr class="docutils" />
@@ -1021,16 +1325,7 @@ Pull Request:
 <h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
 <section id="github-secrets">
 <h3>GitHub Secrets<a class="headerlink" href="#github-secrets" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GITHUB_TOKEN<span class="w">  </span><span class="c1"># Auto-provided, used for Docker push</span>
-</pre></div>
-</div>
-</section>
-<section id="required-for-deployment">
-<h3>Required for Deployment<a class="headerlink" href="#required-for-deployment" title="Link to this heading"></a></h3>
-<p>Add to GitHub Settings → Secrets:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>REGISTRY_USERNAME    # If using private registry
-REGISTRY_PASSWORD    # If using private registry
-DEPLOYMENT_KEY       # SSH key for deployment
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GITHUB_TOKEN<span class="w">  </span><span class="c1"># Auto-provided, used for GHCR pushes and API calls</span>
 </pre></div>
 </div>
 </section>
@@ -1040,35 +1335,15 @@ DEPLOYMENT_KEY       # SSH key for deployment
 <h2>Performance Optimization<a class="headerlink" href="#performance-optimization" title="Link to this heading"></a></h2>
 <section id="caching">
 <h3>Caching<a class="headerlink" href="#caching" title="Link to this heading"></a></h3>
-<p><strong>pip cache</strong> (3.13 Linux):</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
-<span class="nt">with</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
-<span class="w">  </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip&#39;</span>
-</pre></div>
-</div>
-<p><strong>Docker layer cache</strong> (ghcache):</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">cache-from</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type=gha</span>
-<span class="nt">cache-to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type=gha,mode=max</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>uv cache: enabled via <code class="docutils literal notranslate"><span class="pre">astral-sh/setup-uv</span></code> and keyed on <code class="docutils literal notranslate"><span class="pre">uv.lock</span></code></p></li>
+<li><p>Docker layer cache: Buildx uses <code class="docutils literal notranslate"><span class="pre">cache-from/to:</span> <span class="pre">type=gha</span></code></p></li>
+<li><p>Trivy DB cache: persisted via <code class="docutils literal notranslate"><span class="pre">actions/cache</span></code> on <code class="docutils literal notranslate"><span class="pre">~/.cache/trivy</span></code></p></li>
+</ul>
 </section>
 <section id="parallel-jobs">
 <h3>Parallel Jobs<a class="headerlink" href="#parallel-jobs" title="Link to this heading"></a></h3>
-<p>Lint and test run simultaneously:</p>
-<ul class="simple">
-<li><p>Lint: ~1 min</p></li>
-<li><p>Test: ~2-3 min</p></li>
-<li><p>Total: ~3 min (not 4-5 min)</p></li>
-</ul>
-</section>
-<section id="skip-workflows">
-<h3>Skip Workflows<a class="headerlink" href="#skip-workflows" title="Link to this heading"></a></h3>
-<p>Add to commit message:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[skip ci] - Skip CI
-[skip actions] - Skip all workflows
-</pre></div>
-</div>
+<p>CI jobs run in parallel where possible; Docker Build runs in parallel to CI but promotion/deploy are gated by CI success.</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -1091,18 +1366,7 @@ DEPLOYMENT_KEY       # SSH key for deployment
 <li><p><code class="docutils literal notranslate"><span class="pre">3</span></code> = Patch (fixes)</p></li>
 </ul>
 </section>
-<section id="commit-messages">
-<h3>Commit Messages<a class="headerlink" href="#commit-messages" title="Link to this heading"></a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>✨ feat: Add new feature
-🐛 fix: Fix bug
-📝 docs: Update documentation
-🔧 chore: Update dependencies
-🚀 ci: Update workflows
-</pre></div>
-</div>
 </section>
-</section>
-<hr class="docutils" />
 <section id="monitoring">
 <h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
 <section id="notifications">

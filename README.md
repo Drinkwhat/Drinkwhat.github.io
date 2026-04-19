@@ -1,8 +1,8 @@
 # Restrackit Core (Showcase)
 
-[![CI](https://github.com/Restrackit/restrackit-core/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Restrackit/restrackit-core/actions/workflows/ci.yml)
-[![Docs](https://github.com/Restrackit/restrackit-core/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/Restrackit/restrackit-core/actions/workflows/docs.yml)
-[![codecov](https://codecov.io/gh/Restrackit/restrackit-core/branch/main/graph/badge.svg)](https://codecov.io/gh/Restrackit/restrackit-core)
+![CI](./badges/ci.svg)
+![Docs](./badges/docs.svg)
+![coverage](./badges/coverage.svg)
 [![Python](https://img.shields.io/badge/Python-3.13%2B-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.135-green)](https://fastapi.tiangolo.com/)
 
