@@ -757,7 +757,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ci-jobs-current">CI Jobs (current)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#why-autofix-does-not-run-on-prs">Why autofix does not run on PRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#autofix-current-behavior">Autofix (current behavior)</a></li>
 </ul>
 </li>
@@ -1166,16 +1166,16 @@ window.runMermaid = runMermaid;</script>
 <li><p><strong>semgrep</strong>: SAST scan (runs in parallel to <code class="docutils literal notranslate"><span class="pre">quality</span></code>/<code class="docutils literal notranslate"><span class="pre">test</span></code>)</p></li>
 <li><p><strong>secrets</strong>: secrets scan in git history (Gitleaks) to prevent leaking API keys/tokens/certs</p></li>
 <li><p><strong>test</strong>: unit tests + coverage + Codecov upload (needs <code class="docutils literal notranslate"><span class="pre">quality</span></code>)</p></li>
-<li><p><strong>autofix</strong>: automatic on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes (with loop prevention) and available manually via <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code> (never on PRs)</p></li>
+<li><p><strong>autofix</strong>: automatic on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes (with loop prevention), runs on same-repo PRs, and available manually via <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code> (fork PRs are skipped)</p></li>
 </ul>
 </section>
 <section id="why-semgrep-is-not-inside-quality">
 <h3>Why semgrep is not inside quality<a class="headerlink" href="#why-semgrep-is-not-inside-quality" title="Link to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">quality</span></code> is designed to fail fast in seconds. <code class="docutils literal notranslate"><span class="pre">semgrep</span></code> is kept separate because it can take longer and may depend on network/rule downloads. Keeping it separate improves throughput while still making the overall CI fail if semgrep fails.</p>
 </section>
-<section id="why-autofix-does-not-run-on-prs">
-<h3>Why autofix does not run on PRs<a class="headerlink" href="#why-autofix-does-not-run-on-prs" title="Link to this heading"></a></h3>
-<p>Autofix runs only on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes and includes loop prevention. It is intentionally not run on PRs to avoid writing to contributor branches.</p>
+<section id="why-autofix-is-limited-on-prs">
+<h3>Why autofix is limited on PRs<a class="headerlink" href="#why-autofix-is-limited-on-prs" title="Link to this heading"></a></h3>
+<p>Autofix includes loop prevention and can push commits. For security, it runs only on PRs coming from branches in the same repository (fork PRs are skipped).</p>
 </section>
 <section id="autofix-current-behavior">
 <h3>Autofix (current behavior)<a class="headerlink" href="#autofix-current-behavior" title="Link to this heading"></a></h3>
@@ -1214,12 +1214,12 @@ window.runMermaid = runMermaid;</script>
 <li><p>if CI is green, retags <code class="docutils literal notranslate"><span class="pre">:dev</span></code>/<code class="docutils literal notranslate"><span class="pre">:main</span></code> to the corresponding <code class="docutils literal notranslate"><span class="pre">:sha-&lt;shortsha&gt;</span></code> without rebuilding</p></li>
 </ul>
 </li>
-<li><p><strong>deploy-staging</strong> (GitHub-hosted):</p>
+<li><p><strong>deploy-staging</strong> (self-hosted on the staging host):</p>
 <ul>
 <li><p>only on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes</p></li>
 <li><p>only if CI is green (via <code class="docutils literal notranslate"><span class="pre">promote</span></code>) and Trivy did not fail</p></li>
 <li><p>only if the commit includes relevant runtime/deploy changes (workflow-only changes do not deploy)</p></li>
-<li><p>deploys via Tailscale + SSH</p></li>
+<li><p>runs locally on the same machine as staging (no Tailscale/SSH hop)</p></li>
 </ul>
 </li>
 </ul>
@@ -1233,6 +1233,7 @@ window.runMermaid = runMermaid;</script>
 <li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_GH</span></code>: GitHub-hosted (recommended <code class="docutils literal notranslate"><span class="pre">[&quot;ubuntu-latest&quot;]</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_DOCKER</span></code>: self-hosted runners with Docker available</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_PY</span></code>: optional self-hosted runners for Python-only jobs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ACTIONS_RUNNER_LABELS_DEPLOY</span></code>: optional self-hosted runner labels dedicated to deployments</p></li>
 </ul>
 <p>If variables are not set, workflows fall back to <code class="docutils literal notranslate"><span class="pre">[&quot;ubuntu-latest&quot;]</span></code>.</p>
 </section>

@@ -85,15 +85,15 @@ Runs on every push and pull request to `main` and `dev` (with `paths` filters).
 - **semgrep**: SAST scan (runs in parallel to `quality`/`test`)
 - **secrets**: secrets scan in git history (Gitleaks) to prevent leaking API keys/tokens/certs
 - **test**: unit tests + coverage + Codecov upload (needs `quality`)
-- **autofix**: automatic on `dev` pushes (with loop prevention) and available manually via `workflow_dispatch` (never on PRs)
+- **autofix**: automatic on `dev` pushes (with loop prevention), runs on same-repo PRs, and available manually via `workflow_dispatch` (fork PRs are skipped)
 
 ### Why semgrep is not inside quality
 
 `quality` is designed to fail fast in seconds. `semgrep` is kept separate because it can take longer and may depend on network/rule downloads. Keeping it separate improves throughput while still making the overall CI fail if semgrep fails.
 
-### Why autofix does not run on PRs
+### Why autofix is limited on PRs
 
-Autofix runs only on `dev` pushes and includes loop prevention. It is intentionally not run on PRs to avoid writing to contributor branches.
+Autofix includes loop prevention and can push commits. For security, it runs only on PRs coming from branches in the same repository (fork PRs are skipped).
 
 ### Autofix (current behavior)
 
@@ -122,11 +122,11 @@ Builds Docker images, scans them, and publishes them to GHCR.
 - **promote** (GitHub-hosted):
   - waits for CI checks on the same commit
   - if CI is green, retags `:dev`/`:main` to the corresponding `:sha-<shortsha>` without rebuilding
-- **deploy-staging** (GitHub-hosted):
+- **deploy-staging** (self-hosted on the staging host):
   - only on `dev` pushes
   - only if CI is green (via `promote`) and Trivy did not fail
   - only if the commit includes relevant runtime/deploy changes (workflow-only changes do not deploy)
-  - deploys via Tailscale + SSH
+  - runs locally on the same machine as staging (no Tailscale/SSH hop)
 
 ---
 
@@ -137,6 +137,7 @@ Workflows select runners via repository variables:
 - `ACTIONS_RUNNER_LABELS_GH`: GitHub-hosted (recommended `["ubuntu-latest"]`)
 - `ACTIONS_RUNNER_LABELS_DOCKER`: self-hosted runners with Docker available
 - `ACTIONS_RUNNER_LABELS_PY`: optional self-hosted runners for Python-only jobs
+- `ACTIONS_RUNNER_LABELS_DEPLOY`: optional self-hosted runner labels dedicated to deployments
 
 If variables are not set, workflows fall back to `["ubuntu-latest"]`.
 
