@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.setup package &mdash; Restrackit 2.5.0 documentation</title>
+  <title>app.modules.setup package &mdash; Restrackit 2.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="_static/documentation_options.js?v=dfec817d"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,11 +62,13 @@
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#module-app.main">app.main module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
@@ -119,6 +121,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
 </ul>
 </li>
@@ -126,6 +131,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/01-quick-reference.html">Quick Reference Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#test">🧪 Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#db">🗄️ DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
@@ -156,6 +162,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
@@ -236,7 +243,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships">Relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#migrations">Migrations</a></li>
 </ul>
 </li>
@@ -255,6 +265,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#running">Running</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
 </ul>
 </li>
@@ -263,6 +274,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
@@ -294,7 +306,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#environment">Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#security">Security</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
@@ -550,19 +561,25 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#permissions">5. Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#permissions">7. Permissions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/14-logging.html">Logging</a><ul>
@@ -588,15 +605,44 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#exception-logging">Exception Logging</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -650,103 +696,6 @@
              
   <section id="app-modules-setup-package">
 <h1>app.modules.setup package<a class="headerlink" href="#app-modules-setup-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
-<section id="module-app.modules.setup.router">
-<span id="app-modules-setup-router-module"></span><h2>app.modules.setup.router module<a class="headerlink" href="#module-app.modules.setup.router" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="app.modules.setup.router.setup_test_products">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.setup.router.</span></span><span class="sig-name descname"><span class="pre">setup_test_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/setup/router.html#setup_test_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.setup.router.setup_test_products" title="Link to this definition"></a></dt>
-<dd><p>Popola l’anagrafica riutilizzando la logica ufficiale di carica-anagrafica.
-Crea lo store se non esiste e simula un utente per passare i controlli di sicurezza.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>) – Sessione SQLAlchemy.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Esito dell’operazione con riepilogo prodotti caricati.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SetupProductsResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.modules.setup.router.setup_test_kitchen">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.setup.router.</span></span><span class="sig-name descname"><span class="pre">setup_test_kitchen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/setup/router.html#setup_test_kitchen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.setup.router.setup_test_kitchen" title="Link to this definition"></a></dt>
-<dd><p>Popola dati di test per il modulo kitchen (ricette e ingredienti).</p>
-<p>Crea lo store di default (id=1) se non esiste, verifica la presenza dei prodotti
-necessari e crea alcune ricette di esempio con relativi ingredienti.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>) – Sessione SQLAlchemy.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Riepilogo dell’operazione e ricette create/già presenti.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SetupKitchenResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="app-modules-setup-schemas-module">
-<h2>app.modules.setup.schemas module<a class="headerlink" href="#app-modules-setup-schemas-module" title="Link to this heading"></a></h2>
-<p>Schema per le risposte del modulo setup.</p>
-<dl class="py class">
-<dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.setup.schemas.</span></span><span class="sig-name descname"><span class="pre">SetupProductsResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/setup/schemas.html#SetupProductsResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Risposta dell’endpoint di setup prodotti di test.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<em>str</em>)</p></li>
-<li><p><strong>result</strong> (<em>ProductBulkLoadResponse</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">message</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">result</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ProductBulkLoadResponse</span></span></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.setup.schemas.</span></span><span class="sig-name descname"><span class="pre">SetupKitchenResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_recipes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/setup/schemas.html#SetupKitchenResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Risposta dell’endpoint di setup dati cucina.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<em>str</em>)</p></li>
-<li><p><strong>created_recipes</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">message</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">created_recipes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</section>
 </section>
 
 

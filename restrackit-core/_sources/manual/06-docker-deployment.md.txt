@@ -103,6 +103,23 @@ docker compose -f deploy/local/docker-compose.yml --env-file .env stop
 docker compose -f deploy/local/docker-compose.yml --env-file .env down
 ```
 
+### Staging Deployment (via Makefile)
+
+L'ambiente di staging è ottimizzato per il server Latitude 7280 tramite Tailscale:
+
+```bash
+# Avvio dello stack completo (app, db, keycloak, dozzle)
+make up-staging
+
+# Spegnimento dello stack
+make down-staging
+
+# Log in tempo reale (Dozzle)
+# Accessibile via browser su: https://staging-server.tailscale.net/logs
+```
+
+**Nota**: Il `Makefile` si occupa automaticamente di gestire il file `.env` necessario per lo staging (`deploy/staging/.env`), copiandolo dalla root se mancante.
+
 ### Standalone Docker
 
 ```bash
@@ -158,6 +175,19 @@ services:
       - google_api_key
 ```
 
+## Log Rotation & Management
+
+All containers in Staging/Production are configured with a strict log rotation policy to prevent disk space issues:
+
+```yaml
+logging:
+  driver: "json-file"
+  options:
+    max-size: "10m"   # Each log file is max 10MB
+    max-file: "3"     # Keep only the last 3 files
+```
+*Total disk usage per container is capped at 30MB.*
+
 ## Volume Management
 
 ### Application Volumes
@@ -176,7 +206,9 @@ volumes:
 services:
   db:
     volumes:
-      - db_data:/var/lib/postgresql/data
+      # Per Postgres 18+, monta la cartella radice /var/lib/postgresql
+      # Invece della sottocartella /data per compatibilità con pg_upgrade
+      - db_data:/var/lib/postgresql
 
 volumes:
   db_data:
@@ -246,7 +278,8 @@ healthcheck:
 
 ```yaml
 healthcheck:
-  test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+  # Usa la variabile d'ambiente interna al container (massima compatibilità)
+  test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
   interval: 10s
   timeout: 5s
   retries: 5
@@ -345,7 +378,20 @@ services:
     # Remove ports if behind reverse proxy
     # Add restart policy
     restart: unless-stopped
-```
+
+### Blue-Green Deployment
+
+The deployment pipeline uses a **Blue-Green strategy** to ensure zero-downtime updates:
+1. A "Green" version is deployed alongside the existing "Blue" version.
+2. Health checks verify the Green version.
+3. Traffic is switched (handled by Traefik).
+4. The old version is removed.
+
+### Automated Maintenance
+
+The `scripts/deploy.sh` script automatically performs the following cleanup during each deployment:
+- **Image Pruning**: Removes unused images older than 7 days (`docker image prune -a -f --filter "until=168h"`).
+- Log Rotation: (Handled by Docker daemon via `docker-compose.yml` settings).
 
 ### Environment
 

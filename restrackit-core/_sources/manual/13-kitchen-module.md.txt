@@ -37,11 +37,13 @@ Represents the execution of a recipe at a specific time.
 - `operator_id`: The chef/staff member who performed the preparation.
 - `created_at`: Timestamp of the preparation.
 - `notes`: Specific notes for this batch.
+- **HACCP Integration**: Every preparation automatically creates a new **Batch** in the inventory for the resulting product.
 - **Relationships**:
   - Has many `PreparationItem`.
+  - Links to a `Batch` record in the inventory.
 
 ### 📦 PreparationItem (`preparation_items`)
-The specific link between a preparation and the inventory batches used.
+The specific link between a preparation and the inventory batches used as ingredients.
 - `preparation_id`: Parent preparation.
 - `batch_id`: The specific inventory lot used (e.g., Lot "L123" of Chicken).
 - `quantity_used`: Amount actually used from this batch.
@@ -49,47 +51,76 @@ The specific link between a preparation and the inventory batches used.
 
 ---
 
-## 3. API Endpoints
+## 3. HACCP Compliance & TMC Calculation
+
+The module enforces strict food safety tracking through the **Temperature Monitoring Certificate (TMC)** / Expiry logic.
+
+### 📋 Mandatory Conservation Method
+Every **Recipe** must be linked to a `ConservationMethod`. This method defines:
+- `trigger_event`: Usually `PRODUCTION_END` for preparations.
+- `duration_days` and `duration_hours`: The shelf life of the preparation.
+
+### 🧮 Expiry Date Calculation (TMC)
+When a preparation is recorded, the system automatically calculates the expiry dates for the new lot:
+
+1.  **Primary Expiry (`expiry_date`)**: 
+    - Calculated as the **minimum** of the expiry dates of all ingredients used.
+    - If no ingredients have an expiry date, it defaults to tomorrow.
+2.  **Secondary Expiry (`secondary_expiry_at`)**:
+    - Calculated by adding the recipe's `ConservationMethod` duration to the current time.
+    - **Capping**: The secondary expiry is automatically capped at the end of the primary expiry date to ensure safety.
+
+---
+
+## 4. Semilavorati (Pre-preparations)
+
+Recipes in Restrackit are intrinsically linked to the inventory via the **Semilavorato** concept:
+- When a recipe is created, a corresponding `ProductMaster` is automatically generated with the category **"Semilavorato"**.
+- This product represents the "finished dish" or "pre-preparation" that can be stored in the fridge.
+- Inventory searches (via AI or API) can filter out these items to avoid cluttering raw material searches.
+
+---
+
+## 5. API Endpoints
 
 All endpoints are prefixed with `/kitchen` and require authentication.
 
 ### Recipes Management
-- **POST** `/kitchen/recipes`: Create a new recipe.
+- **POST** `/kitchen/recipes`: Create a new recipe (requires `conservation_method_id`).
 - **GET** `/kitchen/recipes`: List all recipes for the current store.
 - **GET** `/kitchen/recipes/{id}`: Get details of a specific recipe.
+- **PATCH** `/kitchen/recipes/{id}`: Update a recipe (supports optimistic locking via `version`).
 
 ### Availability Check
 - **GET** `/kitchen/recipes/{id}/availability`:
   - Returns the list of ingredients for a recipe.
-  - For each ingredient, lists the **Active Batches** (not empty/expired) currently in stock.
-  - **Use Case**: Populating the UI dropdowns to let the chef select which specific lot they are using.
+  - For each ingredient, lists the **Active Batches** currently in stock.
 
 ### Preparation Recording
 - **POST** `/kitchen/preparations`: Record a new preparation.
-  - **Validation**: Verifies that the selected `batch_id` is **active** (`is_empty=False`).
-  - **Error Handling**: Returns `400 Bad Request` if a selected batch is already closed/empty.
-- **GET** `/kitchen/preparations`: List preparation history with filters (date, chef, recipe).
-- **GET** `/kitchen/preparations/{id}`: Get details of a specific preparation.
+  - **Auto-Inventory**: Creates a new `Batch` for the recipe's product.
+  - **TMC Logic**: Calculates primary and secondary expiry dates.
+  - **Validation**: Verifies that ingredients batches are active.
+- **GET** `/kitchen/preparations`: List preparation history with filters.
 
 ---
 
-## 4. Usage Flow
+## 6. Usage Flow
 
 ### Step 1: Define a Recipe
-The manager or head chef defines a standard recipe.
 ```json
 POST /kitchen/recipes
 {
-  "name": "Tomato Soup",
+  "name": "Tomato Sauce (Base)",
+  "conservation_method_id": 5,
   "ingredients": [
-    {"product_master_id": 101, "standard_quantity": 5.0, "unit": "kg"},
-    {"product_master_id": 102, "standard_quantity": 0.5, "unit": "l"}
+    {"product_master_id": 101, "standard_quantity": 5.0, "unit": "kg"}
   ]
 }
 ```
 
 ### Step 2: Check Availability
-When a cook wants to prepare "Tomato Soup", the frontend fetches available lots.
+Before preparing, the chef checks which ingredient lots are in stock.
 ```http
 GET /kitchen/recipes/1/availability
 ```
@@ -110,7 +141,6 @@ GET /kitchen/recipes/1/availability
 ```
 
 ### Step 3: Record Preparation
-The cook selects the specific lot used (e.g., `LOT-A-2023`) and records the preparation.
 ```json
 POST /kitchen/preparations
 {
@@ -121,16 +151,12 @@ POST /kitchen/preparations
   ]
 }
 ```
+**Result**: A new lot `PREP-YYYYMMDD-HHMMSS-ID` is created in the inventory, with scrupulously calculated expiry dates.
 
 ---
 
-## 5. Permissions
+## 7. Permissions
 
-The module introduces specific permissions in the RBAC system:
-- `kitchen:read`: Allows viewing recipes, ingredients, and preparations.
-- `kitchen:manage_recipes`: Allows creating, updating, and deleting recipes and their ingredients.
-- `kitchen:write_preparation`: Allows recording and editing preparations (linking them to specific batches).
-
-**Role Mapping:**
-- **Chef**: `kitchen:read`, `kitchen:write_preparation`
-- **Manager**: `kitchen:read`, `kitchen:manage_recipes`, `kitchen:write_preparation`
+- `kitchen:read`: View recipes and preparations.
+- `kitchen:manage_recipes`: Create/Update recipes.
+- `kitchen:write_preparation`: Record new preparations.

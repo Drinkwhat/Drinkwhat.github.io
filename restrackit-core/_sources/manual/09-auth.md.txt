@@ -46,7 +46,9 @@ Ogni request opera in un contesto `store_id` (isolamento dati). Lo `store_id` ef
 - dalle claim del token (lista store consentiti o accesso globale),
 - opzionalmente dall’header `x-target-store` quando l’utente ha accesso a più store.
 
-Il controllo di `store_id` è applicato in query e service layer (es. filtri `Batch.store_id == store_id`).
+L'isolamento è garantito a due livelli:
+1. **Applicativo**: Filtri espliciti nel Service Layer (es. `Batch.store_id == store_id`).
+2. **Database (RLS)**: PostgreSQL Row Level Security impedisce l'accesso a righe di altri store anche in caso di bug applicativo. Il contesto RLS viene impostato automaticamente dal `KeycloakAuthenticator` all'inizio di ogni richiesta.
 
 ## Esempi (curl)
 

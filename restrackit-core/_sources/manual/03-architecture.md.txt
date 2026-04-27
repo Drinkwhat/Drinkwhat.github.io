@@ -76,7 +76,7 @@ restrackit-core/
 
 ### Backend
 
-- **Framework**: FastAPI (Python >= 3.13)
+- **Framework**: FastAPI (Python >= 3.14)
 - **ORM**: SQLAlchemy 2.0 (Sync/Async ready)
 - **Migrations**: Alembic
 - **Linter**: Ruff (replaces Flake8/Black/Isort)
@@ -124,9 +124,11 @@ A specialized service that:
 1. **Upload**: Client sends image to `POST /inventory/analyze`.
 2. **OCR**: `OCRService` calls Google Vision to get text.
 3. **Agent**: `InventoryAgentService` sends text + store context to Gemini.
-4. **Tool Use**: Gemini calls `search_product_tool` to validate product name against `products_master` table.
-5. **Response**: Structured JSON is returned to the client for confirmation.
-6. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table.
+4. **Prompt Injection Protection**: Untrusted OCR text is wrapped in delimiters (`[START_OCR]...[END_OCR]`) and isolated using **System Instructions**.
+5. **Structured Output**: Enforces valid JSON results via **JSON Schema Mode** and Pydantic models.
+6. **Tool Use**: Gemini calls `search_product_tool` to validate product name against `products_master` table.
+7. **Response**: Structured JSON is returned to the client for confirmation.
+8. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table.
 
 ## Multi-Tenancy
 

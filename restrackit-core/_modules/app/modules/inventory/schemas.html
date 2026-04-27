@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.5.0 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -495,11 +495,13 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.main">app.main module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
@@ -552,6 +554,9 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
 </ul>
 </li>
@@ -559,6 +564,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/01-quick-reference.html">Quick Reference Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#test">🧪 Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#db">🗄️ DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
@@ -589,6 +595,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
@@ -669,7 +676,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#relationships">Relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#migrations">Migrations</a></li>
 </ul>
 </li>
@@ -688,6 +698,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#running">Running</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
 </ul>
 </li>
@@ -696,6 +707,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
@@ -727,7 +739,6 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#environment">Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#security">Security</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
@@ -983,19 +994,25 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#permissions">5. Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#permissions">7. Permissions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/14-logging.html">Logging</a><ul>
@@ -1021,15 +1038,44 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#exception-logging">Exception Logging</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1253,6 +1299,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto confermato&quot;</span><span class="p">)</span>
     <span class="n">lot_code_ai</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto proposto dall&#39;AI (immutabile)&quot;</span><span class="p">)</span>
     <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data di scadenza&quot;</span><span class="p">)</span>
+    <span class="n">secondary_expiry_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data e ora di scadenza secondaria (es. dopo apertura)&quot;</span>
+    <span class="p">)</span>
     <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID dello store&quot;</span><span class="p">)</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID dell&#39;operatore&quot;</span><span class="p">)</span>
     <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Confidence del riconoscimento&quot;</span><span class="p">)</span>

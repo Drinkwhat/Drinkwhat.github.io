@@ -3,7 +3,7 @@
 ![CI](./badges/ci.svg)
 ![Docs](./badges/docs.svg)
 ![coverage](./badges/coverage.svg)
-[![Python](https://img.shields.io/badge/Python-3.13%2B-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.14.4-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.135-green)](https://fastapi.tiangolo.com/)
 
 Backend FastAPI per tracciabilità e gestione inventario ristoranti, con OCR/AI per ridurre il data-entry su etichette e documenti (lotti, scadenze, anagrafiche).
@@ -13,7 +13,7 @@ Backend FastAPI per tracciabilità e gestione inventario ristoranti, con OCR/AI 
 
 ## Stack
 
-- Python 3.13+, FastAPI, Pydantic v2, SQLAlchemy 2, Alembic
+- Python 3.14.4, FastAPI, Pydantic v2, SQLAlchemy 2, Alembic
 - PostgreSQL 16
 - Keycloak (OIDC/JWT)
 - pytest + coverage, Ruff, mypy

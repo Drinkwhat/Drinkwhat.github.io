@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app package &mdash; Restrackit 2.5.0 documentation</title>
+  <title>app package &mdash; Restrackit 2.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="_static/documentation_options.js?v=dfec817d"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,11 +62,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-app.main">app.main module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
@@ -119,6 +121,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
 </ul>
 </li>
@@ -126,6 +131,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/01-quick-reference.html">Quick Reference Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#test">🧪 Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#db">🗄️ DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
@@ -156,6 +162,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
@@ -236,7 +243,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships">Relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#migrations">Migrations</a></li>
 </ul>
 </li>
@@ -255,6 +265,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#running">Running</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
 </ul>
 </li>
@@ -263,6 +274,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
@@ -294,7 +306,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#environment">Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#security">Security</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
@@ -550,19 +561,25 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#permissions">5. Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#permissions">7. Permissions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/14-logging.html">Logging</a><ul>
@@ -588,15 +605,44 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#exception-logging">Exception Logging</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -731,7 +777,7 @@
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.SystemError"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.AppSystemError"><code class="docutils literal notranslate"><span class="pre">AppSystemError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ExternalServiceError"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code></a></li>
 </ul>
 </li>
@@ -747,6 +793,10 @@
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.logging.UvicornAccessLogFilter"><code class="docutils literal notranslate"><span class="pre">UvicornAccessLogFilter</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.logging.UvicornAccessLogFilter.__init__"><code class="docutils literal notranslate"><span class="pre">UvicornAccessLogFilter.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.logging.UvicornAccessLogFilter.filter"><code class="docutils literal notranslate"><span class="pre">UvicornAccessLogFilter.filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.logging.RequestIdFilter"><code class="docutils literal notranslate"><span class="pre">RequestIdFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.logging.RequestIdFilter.filter"><code class="docutils literal notranslate"><span class="pre">RequestIdFilter.filter()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.logging.create_uvicorn_access_log_filter_from_env"><code class="docutils literal notranslate"><span class="pre">create_uvicorn_access_log_filter_from_env()</span></code></a></li>
@@ -787,21 +837,18 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.products.html">app.modules.products package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#module-app.modules.products.conservation_router">app.modules.products.conservation_router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-models-module">app.modules.products.models module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#module-app.modules.products.router">app.modules.products.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-schemas-module">app.modules.products.schemas module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#module-app.modules.products.service">app.modules.products.service module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="app.modules.setup.html">app.modules.setup package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.setup.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.setup.html#module-app.modules.setup.router">app.modules.setup.router module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.setup.html#app-modules-setup-schemas-module">app.modules.setup.schemas module</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.setup.html">app.modules.setup package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.store.html">app.modules.store package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.store.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.store.html#app-modules-store-models-module">app.modules.store.models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.store.html#module-app.modules.store.trigger">app.modules.store.trigger module</a></li>
 </ul>
 </li>
 </ul>
@@ -811,9 +858,17 @@
 <li class="toctree-l1"><a class="reference internal" href="app.services.html">app.services package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.services.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.services.html#module-app.services.ai_agent">app.services.ai_agent module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.prodotto"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.prodotto</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.lotto"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.lotto</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.scadenza"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.scadenza</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.confidence"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.confidence</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ai_agent.search_product_tool"><code class="docutils literal notranslate"><span class="pre">search_product_tool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService.__init__"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService.client"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService.client</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService.analyze_ocr_text"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService.analyze_ocr_text()</span></code></a></li>
 </ul>
 </li>
@@ -841,6 +896,10 @@
 <li class="toctree-l1"><a class="reference internal" href="app.shared.html">app.shared package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#app-shared-schemas-module">app.shared.schemas module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.validators">app.shared.validators module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.validators.validate_conservation_method"><code class="docutils literal notranslate"><span class="pre">validate_conservation_method()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -958,6 +1017,32 @@ to automatically inject and manage database sessions.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="app.database.set_db_tenant_context">
+<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">set_db_tenant_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#set_db_tenant_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.set_db_tenant_context" title="Link to this definition"></a></dt>
+<dd><p>Sets the PostgreSQL session variable for Row Level Security and
+registers it for automatic restoration on transaction start.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db</strong> (<em>Session</em>)</p></li>
+<li><p><strong>store_id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.database.restore_rls_context">
+<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">restore_rls_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#restore_rls_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.restore_rls_context" title="Link to this definition"></a></dt>
+<dd><p>Event listener that automatically restores the RLS context
+whenever a new transaction begins on a session.
+Uses the raw connection to avoid recursion errors.</p>
+</dd></dl>
+
 </section>
 <section id="module-app.main">
 <span id="app-main-module"></span><h2>app.main module<a class="headerlink" href="#module-app.main" title="Link to this heading"></a></h2>
@@ -992,22 +1077,20 @@ l’app inizi a gestire richieste.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="app.main.add_process_time_header">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">add_process_time_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#add_process_time_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.add_process_time_header" title="Link to this definition"></a></dt>
-<dd><p>Aggiunge header di tracing/diagnostica ad ogni risposta HTTP.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code>: usa quello ricevuto (se valido) oppure genera un UUID.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">X-Process-Time</span></code>: tempo di processamento (secondi) per la singola richiesta.</p></li>
-</ul>
+<dt class="sig sig-object py" id="app.main.add_request_id_header">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">add_request_id_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#add_request_id_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.add_request_id_header" title="Link to this definition"></a></dt>
+<dd><p>Aggiunge header X-Request-ID per il tracing delle richieste.</p>
+<p>Il valore viene validato per prevenire injection (header/log) e normalizzato.
+Se mancante o non valido, viene generato un nuovo UUID.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>request</strong> (<em>Request</em>) – Richiesta FastAPI in ingresso.</p></li>
-<li><p><strong>call_next</strong> (<em>Callable</em><em>[</em><em>[</em><em>Request</em><em>]</em><em>, </em><em>Awaitable</em><em>[</em><em>Response</em><em>]</em><em>]</em>) – Handler downstream che produce la Response.</p></li>
+<li><p><strong>call_next</strong> (<em>Callable</em><em>[</em><em>[</em><em>Request</em><em>]</em><em>, </em><em>Awaitable</em><em>[</em><em>Response</em><em>]</em><em>]</em>) – Handler downstream.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>La risposta con header aggiunti.</p>
+<dd class="field-even"><p>La risposta con X-Request-ID aggiunto negli header.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Response</p>
@@ -1078,7 +1161,7 @@ l’app inizi a gestire richieste.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.main.global_exception_handler">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">global_exception_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#global_exception_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.global_exception_handler" title="Link to this definition"></a></dt>
-<dd><p>Gestisce qualsiasi eccezione non intercettata da handler specifici.</p>
+<dd><p>Gestisce eccezioni non intercettate. Dettagli su Sentry, log locale sintetico.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1087,7 +1170,7 @@ l’app inizi a gestire richieste.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Risposta 500 standardizzata (SystemError).</p>
+<dd class="field-even"><p>Risposta 500 standardizzata.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>JSONResponse</p>
@@ -1097,14 +1180,18 @@ l’app inizi a gestire richieste.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.main.health">
-<span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">health</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#health"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.health" title="Link to this definition"></a></dt>
-<dd><p>Health check endpoint.</p>
+<span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">health</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#health"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.health" title="Link to this definition"></a></dt>
+<dd><p>Health check endpoint.
+Checks application availability and database connectivity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Status indicator for uptime monitoring</p>
+<dd class="field-odd"><p>Status indicator for uptime monitoring (e.g., Pulsetic)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>)</p>
 </dd>
 </dl>
 </dd></dl>

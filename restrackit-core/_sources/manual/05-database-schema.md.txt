@@ -140,7 +140,29 @@ CREATE TABLE batches (
 
 ## Data Integrity
 
-- **Multi-Tenancy**: All queries MUST filter by `store_id` to prevent data leaks between restaurants.
+- **Multi-Tenancy**: All queries MUST filter by `store_id` to prevent data leaks between restaurants. This is enforced at the database level using **Row Level Security (RLS)**.
+
+### Row Level Security (RLS)
+
+To ensure strict isolation between tenants (stores), the database uses PostgreSQL Row Level Security.
+
+1. **Mechanism**: Each table containing tenant data has RLS enabled and **forced** (`FORCE ROW LEVEL SECURITY`). This ensures isolation even when the application connects as the table owner.
+2. **Policy**: Access is restricted based on the PostgreSQL session variable `app.current_store_id`.
+3. **Context Injection**: The application sets this variable at the start of each transaction using:
+   ```sql
+   SET LOCAL app.current_store_id = 'target_store_id';
+   ```
+4. **Enforced Tables**:
+   - `stores`
+   - `products_master`
+   - `conservation_methods`
+   - `batches`
+   - `recipes`
+   - `preparations`
+   - (and all related association tables)
+
+**Important**: While RLS is active, application-level filters (`.filter(Model.store_id == id)`) should still be used as a "Defense in Depth" measure.
+
 - **Constraints**:
   - Products must have unique names within a store.
   - Batches must be linked to a valid Store and Product.

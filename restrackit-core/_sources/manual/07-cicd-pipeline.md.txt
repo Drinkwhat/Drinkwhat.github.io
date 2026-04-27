@@ -14,7 +14,8 @@ Code Push/PR
 │   ├─ Quality (ruff + bandit)          │
 │   ├─ SAST (semgrep)                   │
 │   ├─ Unit Tests (pytest)              │
-│   └─ Coverage Reports (codecov)       │
+│   ├─ Coverage Reports (codecov)       │
+│   └─ Quality Scan (sonarqube)         │
 └───────────────────────────────────────┘
     ↓ (push main/dev + tags + PR)
 ┌───────────────────────────────────────┐
@@ -58,6 +59,8 @@ flowchart TD
   R1[Release bump dev]
   R2[Release tag and release]
 
+  SQ[SonarQube scan]
+
   P --> Q
   P --> S
   Q -->|needs| T
@@ -73,6 +76,8 @@ flowchart TD
 
   T -->|on CI success| R1
   T -->|on CI success| R2
+
+  T --> SQ
 ```
 
 ## CI Workflow (`ci.yml`)
@@ -85,6 +90,7 @@ Runs on every push and pull request to `main` and `dev` (with `paths` filters).
 - **semgrep**: SAST scan (runs in parallel to `quality`/`test`)
 - **secrets**: secrets scan in git history (Gitleaks) to prevent leaking API keys/tokens/certs
 - **test**: unit tests + coverage + Codecov upload (needs `quality`)
+- **sonarqube**: static analysis and quality gate scan (needs `test`)
 - **autofix**: automatic on `dev` pushes (with loop prevention), runs on same-repo PRs, and available manually via `workflow_dispatch` (fork PRs are skipped)
 
 ### Why semgrep is not inside quality
@@ -122,11 +128,10 @@ Builds Docker images, scans them, and publishes them to GHCR.
 - **promote** (GitHub-hosted):
   - waits for CI checks on the same commit
   - if CI is green, retags `:dev`/`:main` to the corresponding `:sha-<shortsha>` without rebuilding
-- **deploy-staging** (self-hosted on the staging host):
-  - only on `dev` pushes
-  - only if CI is green (via `promote`) and Trivy did not fail
-  - only if the commit includes relevant runtime/deploy changes (workflow-only changes do not deploy)
   - runs locally on the same machine as staging (no Tailscale/SSH hop)
+  - **Automated Cleanup**: Executes `docker image prune` after each deployment to keep the server disk healthy (removes unused images older than 7 days).
+  - **Reliability**: The deploy is triggered if CI and build are green, ensuring staging is updated even if minor security warnings are found (while main remains strictly protected).
+  - **Sentry Integration**: Notifies Sentry of new releases using the commit SHA.
 
 ---
 
@@ -228,9 +233,63 @@ Click on workflow run → Click on job → View logs
 
 ### GitHub Secrets
 
-```bash
-GITHUB_TOKEN  # Auto-provided, used for GHCR pushes and API calls
-```
+The tables below list every secret and repository variable referenced across all workflows. Secrets are stored under **Settings → Secrets and variables → Actions → Secrets**; variables under the **Variables** tab.
+
+#### `docker-build.yml` – Deploy (staging)
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `GITHUB_TOKEN` | Secret | Auto-provided | GHCR push/pull auth and API calls |
+| `DISCORD_WEBHOOK_URL` | Secret | Optional | Discord deploy-notification webhook |
+| `GOOGLE_API_KEY` | Secret | ✅ | Google Vision / Generative AI API key |
+| `SERVICE_ACCOUNT_JSON_B64` | Secret | ✅ | Google service-account JSON (base64-encoded) |
+| `DB_USER` | Secret | ✅ | PostgreSQL application user |
+| `DB_PASSWORD` | Secret | ✅ | PostgreSQL application password |
+| `DB_NAME` | Secret | ✅ | PostgreSQL application database name |
+| `KEYCLOAK_DB_NAME` | Secret | ✅ | Keycloak PostgreSQL database name |
+| `KEYCLOAK_DB_USER` | Secret | ✅ | Keycloak PostgreSQL user |
+| `KEYCLOAK_DB_PASSWORD` | Secret | ✅ | Keycloak PostgreSQL password |
+| `KEYCLOAK_ADMIN` | Secret | ✅ | Keycloak admin console username |
+| `KEYCLOAK_ADMIN_PASSWORD` | Secret | ✅ | Keycloak admin console password |
+| `KEYCLOAK_URL` | Secret | ✅ | Public Keycloak base URL |
+| `PUBLIC_BASE_URL` | Secret | ✅ | Public base URL of the application |
+| `CORS_ORIGINS` | Secret | ✅ | JSON list of allowed CORS origins |
+| `CORS_ALLOW_CREDENTIALS` | Secret | ✅ | Whether to allow CORS credentials (`true`/`false`) |
+| `SENTRY_DSN` | Secret | ✅ | Sentry connection string |
+| `SENTRY_AUTH_TOKEN` | Secret | ✅ | Sentry API token (used for release creation) |
+| `APITALLY_CLIENT_ID` | Secret | ✅ | Apitally API analytics client ID |
+
+#### `docker-build.yml` – Repository variables
+
+| Name | Type | Description |
+|---|---|---|
+| `ACTIONS_RUNNER_LABELS` | Variable | Default self-hosted runner label set |
+| `ACTIONS_RUNNER_LABELS_GH` | Variable | Runner labels for lightweight/GitHub-hosted jobs |
+| `ACTIONS_RUNNER_LABELS_PY` | Variable | Runner labels for Python jobs |
+| `ACTIONS_RUNNER_LABELS_DOCKER` | Variable | Runner labels for Docker build jobs |
+| `ACTIONS_RUNNER_LABELS_DEPLOY` | Variable | Runner labels for deploy jobs |
+| `INTEGRATION_HOST` | Variable | Hostname/IP of the staging server |
+| `SENTRY_ORG` | Variable | Sentry organization slug |
+| `SENTRY_PROJECT` | Variable | Sentry project slug |
+
+#### `ci.yml` – Continuous Integration
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `PAT_TOKEN` | Secret | Optional | Personal Access Token; falls back to `GITHUB_TOKEN` |
+| `CODECOV_TOKEN` | Secret | Optional | Codecov upload token for coverage reports |
+| `SONAR_TOKEN` | Secret | ✅ | Token for SonarQube analysis |
+| `SONAR_HOST_URL` | Variable | Optional | URL of the SonarQube server (defaults to SonarCloud) |
+
+#### `docs.yml` – Documentation publish
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `PERSONAL_PAGES_TOKEN` | Secret | ✅ | Token to push built docs to the pages repository |
+| `PERSONAL_PAGES_REPO` | Secret | ✅ | Target repository for docs deployment |
+| `PERSONAL_PAGES_BRANCH` | Secret | Optional | Target branch (defaults to `main`) |
+| `PERSONAL_PAGES_DIR` | Secret | Optional | Target directory (defaults to `restrackit-core`) |
+| `CODECOV_TOKEN` | Secret | Optional | Codecov upload token embedded in the docs badge |
 
 ---
 

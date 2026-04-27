@@ -11,6 +11,9 @@ The logging system provides:
 - **Configurable log level and format** via environment variables
 - **ISO 8601 timestamps** with proper timezone offsets (`+00:00`)
 - **Contextual metadata** in every log entry (module, line number, logger name)
+- **Tracing with X-Request-ID** to correlate logs across services
+- **Sentry Integration** for automated error capture and profiling
+- **Apitally Integration** for API analytics and throughput monitoring
 
 ---
 
@@ -149,6 +152,59 @@ except Exception as exc:
 
 ---
 
+## Observability Stack
+
+### Sentry (Errors & Profiling)
+
+The application is integrated with [Sentry](https://sentry.io/) for automated error tracking.
+- **Auto-capture**: Unhandled exceptions are automatically sent to Sentry.
+- **Logging Integration**: Any `logger.error()` call in the code is also sent as a Sentry event.
+- **Profiling**: If enabled, Sentry captures line-by-line performance data for slow requests.
+- **Request Tracing**: Correlates FastAPI transactions with database queries and external API calls.
+- **Sentry Releases**: Integrates with the application's versioning system. The app automatically reads its version from `app/version.json` (baked into the image during CI/CD) and reports it as the Sentry Release (using the full Git SHA). In local development, it defaults to `dev`.
+
+### Apitally (API Analytics)
+
+[Apitally](https://apitally.io/) provides a high-level dashboard for:
+- Endpoint usage and throughput.
+- Distribution of HTTP status codes (2xx, 4xx, 5xx).
+- Response time percentiles (p50, p95, p99).
+- Consumer/client identification.
+
+### Pulsetic (Uptime Monitoring)
+
+[Pulsetic](https://pulsetic.com/) is used for external uptime monitoring and incident alerting:
+- **Health Check**: Regularly pings the `/health` endpoint.
+- **Database Awareness**: The `/health` endpoint performs a real-time database connectivity check. If the DB is unreachable, it returns a `503 Service Unavailable` status, triggering a Pulsetic alert.
+- **Status Pages**: Provides a public-facing status page for system availability transparency.
+
+### Tracing with X-Request-ID
+
+A global middleware ensures every request has a unique `X-Request-ID`.
+- If a client (or Traefik) sends an `X-Request-ID` header, it is preserved.
+- Otherwise, a new UUID is generated.
+- The ID is included in all logs and Sentry events for that request, allowing total correlation.
+
+---
+
+## Log Management (Docker)
+
+In production/staging, Docker is configured with a **log rotation policy** to prevent disk exhaustion:
+- **Driver**: `json-file`
+- **Max size**: `10m` per file
+- **Max files**: `3`
+This ensures each container never consumes more than 30MB of disk space for logs.
+
+### Dozzle (Real-time Web Logs)
+
+For immediate, real-time viewing of all container logs (including DB and Traefik) via a web UI:
+- **Local**: Access at [http://localhost:8888](http://localhost:8888)
+- **Staging**: Access via Traefik at `/logs` (e.g., `https://staging.example.com/logs`)
+
+---
+
+---
+
 ## Integration with Error Handling
 
 The logging module is designed to work alongside the error handling system (`app/core/errors.py`). A typical pattern:
@@ -181,7 +237,11 @@ except IntegrityError as exc:
 
 Containers and cloud platforms (Docker, Kubernetes, AWS ECS, Azure App Service) collect logs from stdout/stderr. Writing to files inside a container creates hidden state, requires volume management, and is generally an antipattern in container-native deployments.
 
-### Why read env vars directly instead of using `Settings`?
+### Sentry Release Secrets
+To enable release tracking and commit integration in Sentry, the following GitHub Secrets/Variables are required:
+- `SENTRY_AUTH_TOKEN` (Secret): Used by GitHub Actions to notify Sentry of new releases.
+- `SENTRY_ORG` (Variable): Your Sentry organization slug.
+- `SENTRY_PROJECT` (Variable): Your Sentry project slug.
 
 `Settings` (in `app/core/config.py`) requires `GOOGLE_API_KEY` at instantiation time. Importing `app.core.logging` from test code or CLI tools that don't need Google credentials would fail if logging depended on `Settings`. Reading `LOG_LEVEL` and `LOG_FORMAT` directly from the environment decouples logging initialization from application credentials.
 

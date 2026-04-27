@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.setup.router &mdash; Restrackit 2.5.0 documentation</title>
+  <title>app.modules.products.conservation_router &mdash; Restrackit 2.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -495,11 +495,13 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.main">app.main module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
@@ -552,6 +554,9 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
 </ul>
 </li>
@@ -559,6 +564,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/01-quick-reference.html">Quick Reference Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#test">🧪 Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#db">🗄️ DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
@@ -589,6 +595,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
@@ -669,7 +676,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#relationships">Relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#migrations">Migrations</a></li>
 </ul>
 </li>
@@ -688,6 +698,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#running">Running</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
 </ul>
 </li>
@@ -696,6 +707,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
@@ -727,7 +739,6 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#environment">Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#security">Security</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
@@ -983,19 +994,25 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#permissions">5. Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/13-kitchen-module.html#permissions">7. Permissions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/14-logging.html">Logging</a><ul>
@@ -1021,15 +1038,44 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#exception-logging">Exception Logging</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1069,7 +1115,7 @@ window.runMermaid = runMermaid;</script>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.modules.setup.router</li>
+      <li class="breadcrumb-item active">app.modules.products.conservation_router</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1078,262 +1124,123 @@ window.runMermaid = runMermaid;</script>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.modules.setup.router</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span>
+  <h1>Source code for app.modules.products.conservation_router</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.auth.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthUser</span><span class="p">,</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">RequirePermission</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConservationMethodCreate</span><span class="p">,</span>
+    <span class="n">ConservationMethodResponse</span><span class="p">,</span>
+    <span class="n">ConservationMethodUpdate</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConservationMethodService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">StatusResponse</span>
 
-<span class="c1"># Importiamo la logica e lo schema dall&#39;altro file</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.auth.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthUser</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Recipe</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecipeCreate</span><span class="p">,</span> <span class="n">RecipeIngredientCreate</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.service</span><span class="w"> </span><span class="kn">import</span> <span class="n">KitchenService</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductMaster</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">bulk_load_products</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductCreate</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductService</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.setup.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetupKitchenResponse</span><span class="p">,</span> <span class="n">SetupProductsResponse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.store.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Store</span>
-
-<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/setup&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">])</span>
+<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/conservation-methods&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;conservation-methods&quot;</span><span class="p">])</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">_RecipeIngredientSeed</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Struttura dati per seed ingredienti nelle ricette di test.</span>
-
-<span class="sd">    Keys:</span>
-<span class="sd">        name: Nome del prodotto (come presente in anagrafica).</span>
-<span class="sd">        qty: Quantità standard da usare nella ricetta.</span>
-<span class="sd">        unit: Unità di misura (es. kg, l, pz).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">qty</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
-
-
-<span class="k">class</span><span class="w"> </span><span class="nc">_RecipeSeed</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Struttura dati per seed ricette di test.</span>
-
-<span class="sd">    Keys:</span>
-<span class="sd">        name: Nome della ricetta.</span>
-<span class="sd">        description: Descrizione della ricetta.</span>
-<span class="sd">        ingredients: Lista ingredienti con quantità/unità.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">ingredients</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_RecipeIngredientSeed</span><span class="p">]</span>
-
-
-<div class="viewcode-block" id="setup_test_products">
-<a class="viewcode-back" href="../../../../app.modules.setup.html#app.modules.setup.router.setup_test_products">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/test-products&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">SetupProductsResponse</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup_test_products</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">SetupProductsResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Popola l&#39;anagrafica riutilizzando la logica ufficiale di carica-anagrafica.</span>
-<span class="sd">    Crea lo store se non esiste e simula un utente per passare i controlli di sicurezza.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        db: Sessione SQLAlchemy.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        SetupProductsResponse: Esito dell&#39;operazione con riepilogo prodotti caricati.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># 1. Creiamo lo Store se non esiste</span>
-    <span class="n">store</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Store</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Store</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">store</span><span class="p">:</span>
-        <span class="n">store</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span>
-            <span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Default Store&quot;</span><span class="p">,</span>
-            <span class="n">address</span><span class="o">=</span><span class="s2">&quot;Via Roma 1&quot;</span><span class="p">,</span>
-            <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Milano&quot;</span><span class="p">,</span>
-            <span class="n">phone</span><span class="o">=</span><span class="s2">&quot;+39 02 1234567&quot;</span><span class="p">,</span>
-            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;info@defaultstore.it&quot;</span><span class="p">,</span>
-            <span class="n">is_active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
-
-    <span class="c1"># 2. Dati grezzi</span>
-    <span class="n">raw_prodotti</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte Intero&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Farina tipo 0&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Farine&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Polpo Arricciato&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Pesce&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Pomodori Pelati&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Conserve&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozzarella di Bufala&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Olio Extra Vergine di Oliva&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Oli&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Aceto Balsamico&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Riso Arborio&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Cereali&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Zucchero di Canna&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Dolcificanti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Caffè in Grani&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Bevande&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Philadelphia&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Passata di Pomodoro&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Conserve&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Tonno in Scatola&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Pesce&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Burger vegetali alla zucca&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Carne Alternativa&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Burger vegatali agli spinaci&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Carne Alternativa&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Vino rosso Chianti&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Bevande&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Burro&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Peperoni&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Verdura&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sale Fino&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cipolle Rosse&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Verdura&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sale Profumato&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa BBQ&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Paprika Dolce&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Spezie&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Whisky&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Bevande&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa Guacamole&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lime&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Frutta&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Panna Acida&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Maionese Flacone&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sciroppo d&#39;Acero&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Senape&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Condimenti&quot;</span><span class="p">},</span>
-    <span class="p">]</span>
-
-    <span class="c1"># Convertiamo i dict in oggetti Pydantic (ProductCreate) come si aspetta l&#39;API</span>
-    <span class="n">items_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">ProductCreate</span><span class="p">(</span><span class="o">**</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">raw_prodotti</span><span class="p">]</span>
-
-    <span class="c1"># Creiamo un utente finto per soddisfare la dipendenza user: AuthUser</span>
-    <span class="n">fake_user</span> <span class="o">=</span> <span class="n">AuthUser</span><span class="p">(</span>
-        <span class="n">store_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Store ID numerico (DefaultStore)</span>
-        <span class="n">operator_id</span><span class="o">=</span><span class="s2">&quot;setup_script&quot;</span><span class="p">,</span>
-        <span class="n">role</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Inizializziamo il servizio</span>
-    <span class="n">service</span> <span class="o">=</span> <span class="n">ProductService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
-
-    <span class="c1"># Chiamiamo direttamente la funzione importata (firma: items, service, user)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bulk_load_products</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">items_to_load</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">fake_user</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">SetupProductsResponse</span><span class="p">(</span>
-        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Setup completato delegando a carica_anagrafica&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">result</span>
-    <span class="p">)</span></div>
+<div class="viewcode-block" id="get_conservation_service">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.conservation_router.get_conservation_service">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_conservation_service</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodService</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">ConservationMethodService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="setup_test_kitchen">
-<a class="viewcode-back" href="../../../../app.modules.setup.html#app.modules.setup.router.setup_test_kitchen">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/test-kitchen&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">SetupKitchenResponse</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup_test_kitchen</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">SetupKitchenResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Popola dati di test per il modulo kitchen (ricette e ingredienti).</span>
+<span class="n">ConservationServiceDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">ConservationMethodService</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_conservation_service</span><span class="p">)]</span>
 
-<span class="sd">    Crea lo store di default (id=1) se non esiste, verifica la presenza dei prodotti</span>
-<span class="sd">    necessari e crea alcune ricette di esempio con relativi ingredienti.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        db: Sessione SQLAlchemy.</span>
+<div class="viewcode-block" id="create_conservation_method">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.conservation_router.create_conservation_method">[docs]</a>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">response_model</span><span class="o">=</span><span class="n">ConservationMethodResponse</span><span class="p">,</span>
+    <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Crea un metodo di conservazione&quot;</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Richiesta non valida&quot;</span><span class="p">},</span>
+        <span class="mi">403</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Permessi insufficienti&quot;</span><span class="p">},</span>
+        <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Metodo già esistente&quot;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_conservation_method</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ConservationMethodCreate</span><span class="p">,</span>
+    <span class="n">service</span><span class="p">:</span> <span class="n">ConservationServiceDep</span><span class="p">,</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_WRITE</span><span class="p">)),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Crea un nuovo metodo di conservazione a livello di store.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">create_method</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        SetupKitchenResponse: Riepilogo dell&#39;operazione e ricette create/già presenti.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">store_id</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">kitchen_service</span> <span class="o">=</span> <span class="n">KitchenService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
 
-    <span class="n">store</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Store</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Store</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">store</span><span class="p">:</span>
-        <span class="n">store</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span>
-            <span class="nb">id</span><span class="o">=</span><span class="n">store_id</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Default Store&quot;</span><span class="p">,</span>
-            <span class="n">address</span><span class="o">=</span><span class="s2">&quot;Via Roma 1&quot;</span><span class="p">,</span>
-            <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Milano&quot;</span><span class="p">,</span>
-            <span class="n">phone</span><span class="o">=</span><span class="s2">&quot;+39 02 1234567&quot;</span><span class="p">,</span>
-            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;info@defaultstore.it&quot;</span><span class="p">,</span>
-            <span class="n">is_active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
 
-    <span class="n">products</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-    <span class="n">products_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">products</span><span class="p">}</span>
+<div class="viewcode-block" id="list_conservation_methods">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.conservation_router.list_conservation_methods">[docs]</a>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">response_model</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">ConservationMethodResponse</span><span class="p">],</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Lista dei metodi di conservazione dello store&quot;</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">403</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Permessi insufficienti&quot;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_conservation_methods</span><span class="p">(</span>
+    <span class="n">service</span><span class="p">:</span> <span class="n">ConservationServiceDep</span><span class="p">,</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_READ</span><span class="p">)),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ConservationMethodResponse</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elenca tutti i metodi di conservazione attivi per lo store.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">list_methods</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
 
-    <span class="n">recipes_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_RecipeSeed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Fajitas&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Fajitas messicane con peperoni e cipolle&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Peperoni&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Olio Extra Vergine di Oliva&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sale Fino&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cipolle Rosse&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-            <span class="p">],</span>
+
+
+<div class="viewcode-block" id="update_conservation_method">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.conservation_router.update_conservation_method">[docs]</a>
+<span class="nd">@router</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+    <span class="s2">&quot;/</span><span class="si">{method_id}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">response_model</span><span class="o">=</span><span class="n">ConservationMethodResponse</span><span class="p">,</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Modifica un metodo di conservazione&quot;</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Metodo non trovato&quot;</span><span class="p">},</span>
+        <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Conflitto di versione o nome duplicato&quot;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_conservation_method</span><span class="p">(</span>
+    <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ConservationMethodUpdate</span><span class="p">,</span>
+    <span class="n">service</span><span class="p">:</span> <span class="n">ConservationServiceDep</span><span class="p">,</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_WRITE</span><span class="p">)),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggiorna un metodo di conservazione esistente (optimistic locking).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">update_method</span><span class="p">(</span><span class="n">method_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="delete_conservation_method">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.conservation_router.delete_conservation_method">[docs]</a>
+<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+    <span class="s2">&quot;/</span><span class="si">{method_id}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">,</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Elimina un metodo di conservazione&quot;</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">400</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Operazione non consentita (es. metodo in uso)&quot;</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;BBQ Jack Daniel&#39;s&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa BBQ speciale al Whisky&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Olio Extra Vergine di Oliva&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sale Profumato&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa BBQ&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Paprika Dolce&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Whisky&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">},</span>
-            <span class="p">],</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa Puebla&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa fresca per accompagnamento&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa Guacamole&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lime&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;pz&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Panna Acida&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-            <span class="p">],</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa Sweet Mustard&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Salsa dolce alla senape&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Maionese Flacone&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;pz&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sciroppo d&#39;Acero&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Senape&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-            <span class="p">],</span>
-        <span class="p">},</span>
-    <span class="p">]</span>
-
-    <span class="n">created_recipes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">r_data</span> <span class="ow">in</span> <span class="n">recipes_data</span><span class="p">:</span>
-        <span class="n">ingredients_create</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RecipeIngredientCreate</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">missing</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">for</span> <span class="n">ing</span> <span class="ow">in</span> <span class="n">r_data</span><span class="p">[</span><span class="s2">&quot;ingredients&quot;</span><span class="p">]:</span>
-            <span class="n">p_id</span> <span class="o">=</span> <span class="n">products_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ing</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">p_id</span><span class="p">:</span>
-                <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ing</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-                <span class="k">continue</span>
-            <span class="n">ingredients_create</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">RecipeIngredientCreate</span><span class="p">(</span>
-                    <span class="n">product_master_id</span><span class="o">=</span><span class="n">p_id</span><span class="p">,</span>
-                    <span class="n">standard_quantity</span><span class="o">=</span><span class="n">ing</span><span class="p">[</span><span class="s2">&quot;qty&quot;</span><span class="p">],</span>
-                    <span class="n">unit</span><span class="o">=</span><span class="n">ing</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">],</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
-            <span class="n">created_recipes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (missing products: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="n">existing</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Recipe</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Recipe</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Recipe</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">r_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">existing</span><span class="p">:</span>
-            <span class="n">created_recipes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (already exists)&quot;</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="n">recipe_in</span> <span class="o">=</span> <span class="n">RecipeCreate</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">r_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
-            <span class="n">description</span><span class="o">=</span><span class="n">r_data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">],</span>
-            <span class="n">ingredients</span><span class="o">=</span><span class="n">ingredients_create</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">kitchen_service</span><span class="o">.</span><span class="n">create_recipe</span><span class="p">(</span><span class="n">recipe_in</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
-        <span class="n">created_recipes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="n">SetupKitchenResponse</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;Setup cucina completato&quot;</span><span class="p">,</span> <span class="n">created_recipes</span><span class="o">=</span><span class="n">created_recipes</span><span class="p">)</span></div>
+        <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Metodo non trovato&quot;</span><span class="p">},</span>
+        <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Conflitto di versione&quot;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_conservation_method</span><span class="p">(</span>
+    <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">service</span><span class="p">:</span> <span class="n">ConservationServiceDep</span><span class="p">,</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_DELETE</span><span class="p">)),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft delete di un metodo di conservazione.&quot;&quot;&quot;</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">delete_method</span><span class="p">(</span><span class="n">method_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Eliminato.&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

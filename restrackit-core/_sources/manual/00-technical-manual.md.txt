@@ -36,10 +36,16 @@ graph TD
 2. **Preprocessing**: L'immagine viene convertita e ottimizzata.
 3. **OCR (Google Vision)**: Estrazione del testo grezzo dall'immagine.
 4. **AI Parsing (Gemini Agent)**: L'agente AI analizza il testo OCR, cerca il prodotto nel DB (usando un tool personalizzato) ed estrae strutturati:
-   - Prodotto (convalidato sul DB)
+   - Prodotto (convalidato sul DB tramite `search_product_tool`)
    - Lotto
    - Data di scadenza
    - Confidence score
+
+**Sicurezza AI**:
+
+- **Prompt Injection Protection**: L'input OCR viene delimitato e separato dalle istruzioni tramite `system_instruction`.
+- **Output Strutturato**: Utilizzo del **JSON Mode** e schemi Pydantic per garantire dati affidabili e pronti all'uso.
+
 5. **Risposta**: I dati strutturati vengono restituiti al client per la conferma.
 
 ---
@@ -76,7 +82,7 @@ La codebase è organizzata per separare chiaramente configurazione, logica di bu
 
 | Componente | Tecnologia | Versione | Motivazione |
 | ---------- | ---------- | -------- | ----------- |
-| **Linguaggio** | Python | 3.13+ | Typing moderno, performance e tooling aggiornato. |
+| **Linguaggio** | Python | 3.14.4 | Typing moderno, performance e tooling aggiornato. |
 | **Framework Web** | FastAPI | 0.100+ | Prestazioni elevate, validazione automatica, Async I/O. |
 | **Database** | PostgreSQL | 16 (Alpine) | Affidabilità, supporto JSONB, standard industriale. |
 | **ORM** | SQLAlchemy | 2.0 | Mapping relazionale potente e flessibile. |
@@ -94,7 +100,7 @@ La codebase è organizzata per separare chiaramente configurazione, logica di bu
 ### Prerequisiti
 
 - Docker & Docker Compose
-- Python 3.13+ (opzionale se si usa solo Docker)
+- Python 3.14.4 (opzionale se si usa solo Docker)
 - Account Google Cloud (per Vision e Gemini)
 
 ### Setup Locale
@@ -194,7 +200,7 @@ Tutte le risposte di errore seguono lo schema standard con `error.code` (es. `ER
 
 ## 7. Database Schema
 
-Il database utilizza **PostgreSQL** ed è strutturato per supportare la **Multi-Tenancy** (dati isolati per `store_id`).
+Il database utilizza **PostgreSQL** (v18+) ed è strutturato per supportare la **Multi-Tenancy** rigorosa tramite **Row Level Security (RLS)**. I dati sono isolati a livello di riga basandosi sul `store_id`, garantendo che nessun utente possa accedere accidentalmente a dati di altri tenant.
 
 ### Tabelle Principali
 
@@ -294,6 +300,16 @@ Il deploy è basato su **Docker**.
 | `ExternalServiceError (Gemini)` | API Key invalida o quota superata | Verifica `GOOGLE_API_KEY` e quote Google Cloud. |
 | `ExternalServiceError (Vision)` | Credenziali JSON errate | Verifica path `GOOGLE_APPLICATION_CREDENTIALS` e permessi IAM. |
 | `DB Connection Refused` | Container DB non pronto | Attendi che il healthcheck del DB sia verde. |
+
+---
+
+## 11. Ecosystem & Rationale
+
+Per una comprensione approfondita delle scelte ingegneristiche riguardanti il monitoraggio, la qualità del codice e la sicurezza, consulta il documento dedicato:
+
+👉 **[Observability & Quality Stack Rationale](15-observability-quality-stack.md)**
+
+---
 
 ### Contatti Supporto
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Logging &mdash; Restrackit 2.5.0 documentation</title>
+  <title>Logging &mdash; Restrackit 2.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="../_static/documentation_options.js?v=dfec817d"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -22,7 +22,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Catalogo Codici Errore Restrackit" href="ERROR_CODES.html" />
+    <link rel="next" title="Observability &amp; Quality Stack Rationale" href="15-observability-quality-stack.html" />
     <link rel="prev" title="🍳 Kitchen Module Documentation" href="13-kitchen-module.html" /> 
 </head>
 
@@ -62,11 +62,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.main">app.main module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
@@ -119,6 +121,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
 </ul>
 </li>
@@ -126,6 +131,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="01-quick-reference.html">Quick Reference Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#test">🧪 Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#db">🗄️ DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
@@ -156,6 +162,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="02-setup.html">Installation &amp; Setup Guide</a><ul>
@@ -236,7 +243,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#relationships">Relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#migrations">Migrations</a></li>
 </ul>
 </li>
@@ -255,6 +265,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#running">Running</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
 </ul>
 </li>
@@ -263,6 +274,7 @@
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#volume-management">Volume Management</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#application-volumes">Application Volumes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-volume">Database Volume</a></li>
@@ -294,7 +306,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#environment">Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#security">Security</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
@@ -550,19 +561,25 @@
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipes-management">Recipes Management</a></li>
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#availability-check">Availability Check</a></li>
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#permissions">5. Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#permissions">7. Permissions</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Logging</a><ul>
@@ -588,15 +605,44 @@
 <li class="toctree-l4"><a class="reference internal" href="#exception-logging">Exception Logging</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#why-stdout-only">Why stdout only?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sentry-release-secrets">Sentry Release Secrets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -659,6 +705,9 @@
 <li><p><strong>Configurable log level and format</strong> via environment variables</p></li>
 <li><p><strong>ISO 8601 timestamps</strong> with proper timezone offsets (<code class="docutils literal notranslate"><span class="pre">+00:00</span></code>)</p></li>
 <li><p><strong>Contextual metadata</strong> in every log entry (module, line number, logger name)</p></li>
+<li><p><strong>Tracing with X-Request-ID</strong> to correlate logs across services</p></li>
+<li><p><strong>Sentry Integration</strong> for automated error capture and profiling</p></li>
+<li><p><strong>Apitally Integration</strong> for API analytics and throughput monitoring</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -831,6 +880,69 @@
 </section>
 </section>
 <hr class="docutils" />
+<section id="observability-stack">
+<h2>Observability Stack<a class="headerlink" href="#observability-stack" title="Link to this heading"></a></h2>
+<section id="sentry-errors-profiling">
+<h3>Sentry (Errors &amp; Profiling)<a class="headerlink" href="#sentry-errors-profiling" title="Link to this heading"></a></h3>
+<p>The application is integrated with <a class="reference external" href="https://sentry.io/">Sentry</a> for automated error tracking.</p>
+<ul class="simple">
+<li><p><strong>Auto-capture</strong>: Unhandled exceptions are automatically sent to Sentry.</p></li>
+<li><p><strong>Logging Integration</strong>: Any <code class="docutils literal notranslate"><span class="pre">logger.error()</span></code> call in the code is also sent as a Sentry event.</p></li>
+<li><p><strong>Profiling</strong>: If enabled, Sentry captures line-by-line performance data for slow requests.</p></li>
+<li><p><strong>Request Tracing</strong>: Correlates FastAPI transactions with database queries and external API calls.</p></li>
+<li><p><strong>Sentry Releases</strong>: Integrates with the application’s versioning system. The app automatically reads its version from <code class="docutils literal notranslate"><span class="pre">app/version.json</span></code> (baked into the image during CI/CD) and reports it as the Sentry Release (using the full Git SHA). In local development, it defaults to <code class="docutils literal notranslate"><span class="pre">dev</span></code>.</p></li>
+</ul>
+</section>
+<section id="apitally-api-analytics">
+<h3>Apitally (API Analytics)<a class="headerlink" href="#apitally-api-analytics" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://apitally.io/">Apitally</a> provides a high-level dashboard for:</p>
+<ul class="simple">
+<li><p>Endpoint usage and throughput.</p></li>
+<li><p>Distribution of HTTP status codes (2xx, 4xx, 5xx).</p></li>
+<li><p>Response time percentiles (p50, p95, p99).</p></li>
+<li><p>Consumer/client identification.</p></li>
+</ul>
+</section>
+<section id="pulsetic-uptime-monitoring">
+<h3>Pulsetic (Uptime Monitoring)<a class="headerlink" href="#pulsetic-uptime-monitoring" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://pulsetic.com/">Pulsetic</a> is used for external uptime monitoring and incident alerting:</p>
+<ul class="simple">
+<li><p><strong>Health Check</strong>: Regularly pings the <code class="docutils literal notranslate"><span class="pre">/health</span></code> endpoint.</p></li>
+<li><p><strong>Database Awareness</strong>: The <code class="docutils literal notranslate"><span class="pre">/health</span></code> endpoint performs a real-time database connectivity check. If the DB is unreachable, it returns a <code class="docutils literal notranslate"><span class="pre">503</span> <span class="pre">Service</span> <span class="pre">Unavailable</span></code> status, triggering a Pulsetic alert.</p></li>
+<li><p><strong>Status Pages</strong>: Provides a public-facing status page for system availability transparency.</p></li>
+</ul>
+</section>
+<section id="tracing-with-x-request-id">
+<h3>Tracing with X-Request-ID<a class="headerlink" href="#tracing-with-x-request-id" title="Link to this heading"></a></h3>
+<p>A global middleware ensures every request has a unique <code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code>.</p>
+<ul class="simple">
+<li><p>If a client (or Traefik) sends an <code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code> header, it is preserved.</p></li>
+<li><p>Otherwise, a new UUID is generated.</p></li>
+<li><p>The ID is included in all logs and Sentry events for that request, allowing total correlation.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="log-management-docker">
+<h2>Log Management (Docker)<a class="headerlink" href="#log-management-docker" title="Link to this heading"></a></h2>
+<p>In production/staging, Docker is configured with a <strong>log rotation policy</strong> to prevent disk exhaustion:</p>
+<ul class="simple">
+<li><p><strong>Driver</strong>: <code class="docutils literal notranslate"><span class="pre">json-file</span></code></p></li>
+<li><p><strong>Max size</strong>: <code class="docutils literal notranslate"><span class="pre">10m</span></code> per file</p></li>
+<li><p><strong>Max files</strong>: <code class="docutils literal notranslate"><span class="pre">3</span></code>
+This ensures each container never consumes more than 30MB of disk space for logs.</p></li>
+</ul>
+<section id="dozzle-real-time-web-logs">
+<h3>Dozzle (Real-time Web Logs)<a class="headerlink" href="#dozzle-real-time-web-logs" title="Link to this heading"></a></h3>
+<p>For immediate, real-time viewing of all container logs (including DB and Traefik) via a web UI:</p>
+<ul class="simple">
+<li><p><strong>Local</strong>: Access at <a class="reference external" href="http://localhost:8888">http://localhost:8888</a></p></li>
+<li><p><strong>Staging</strong>: Access via Traefik at <code class="docutils literal notranslate"><span class="pre">/logs</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">https://staging.example.com/logs</span></code>)</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<hr class="docutils" />
 <section id="integration-with-error-handling">
 <h2>Integration with Error Handling<a class="headerlink" href="#integration-with-error-handling" title="Link to this heading"></a></h2>
 <p>The logging module is designed to work alongside the error handling system (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>). A typical pattern:</p>
@@ -861,8 +973,14 @@
 <h3>Why stdout only?<a class="headerlink" href="#why-stdout-only" title="Link to this heading"></a></h3>
 <p>Containers and cloud platforms (Docker, Kubernetes, AWS ECS, Azure App Service) collect logs from stdout/stderr. Writing to files inside a container creates hidden state, requires volume management, and is generally an antipattern in container-native deployments.</p>
 </section>
-<section id="why-read-env-vars-directly-instead-of-using-settings">
-<h3>Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?<a class="headerlink" href="#why-read-env-vars-directly-instead-of-using-settings" title="Link to this heading"></a></h3>
+<section id="sentry-release-secrets">
+<h3>Sentry Release Secrets<a class="headerlink" href="#sentry-release-secrets" title="Link to this heading"></a></h3>
+<p>To enable release tracking and commit integration in Sentry, the following GitHub Secrets/Variables are required:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SENTRY_AUTH_TOKEN</span></code> (Secret): Used by GitHub Actions to notify Sentry of new releases.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SENTRY_ORG</span></code> (Variable): Your Sentry organization slug.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SENTRY_PROJECT</span></code> (Variable): Your Sentry project slug.</p></li>
+</ul>
 <p><code class="docutils literal notranslate"><span class="pre">Settings</span></code> (in <code class="docutils literal notranslate"><span class="pre">app/core/config.py</span></code>) requires <code class="docutils literal notranslate"><span class="pre">GOOGLE_API_KEY</span></code> at instantiation time. Importing <code class="docutils literal notranslate"><span class="pre">app.core.logging</span></code> from test code or CLI tools that don’t need Google credentials would fail if logging depended on <code class="docutils literal notranslate"><span class="pre">Settings</span></code>. Reading <code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> and <code class="docutils literal notranslate"><span class="pre">LOG_FORMAT</span></code> directly from the environment decouples logging initialization from application credentials.</p>
 </section>
 <section id="why-derive-timestamp-from-record-created">
@@ -909,7 +1027,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="13-kitchen-module.html" class="btn btn-neutral float-left" title="🍳 Kitchen Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ERROR_CODES.html" class="btn btn-neutral float-right" title="Catalogo Codici Errore Restrackit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="15-observability-quality-stack.html" class="btn btn-neutral float-right" title="Observability &amp; Quality Stack Rationale" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

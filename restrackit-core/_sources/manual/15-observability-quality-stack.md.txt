@@ -1,0 +1,71 @@
+# Observability & Quality Stack Rationale
+
+Questo documento spiega la scelta e la configurazione degli strumenti esterni utilizzati nel progetto Restrackit, illustrando i vantaggi e il ruolo di ciascuno nel garantire la stabilità, la qualità e la sicurezza del sistema.
+
+---
+
+## 🚀 Monitoring & Observability
+
+### 1. Sentry (Error Tracking & Profiling)
+**Perché**: In produzione, non possiamo aspettare che siano gli utenti a segnalare un bug.
+**Ruolo**:
+- **Capture**: Cattura automaticamente ogni eccezione non gestita e ogni `logger.error()`.
+- **Context**: Fornisce lo stack trace, le variabili locali e l'ID della richiesta per il debug immediato.
+- **Performance**: Monitora i tempi di risposta e individua le query lente o i colli di bottiglia nell'elaborazione AI.
+
+### 2. Apitally (API Analytics)
+**Perché**: Serve una visione d'insieme dell'utilizzo delle API senza dover configurare complessi sistemi di metriche custom (es. Prometheus/Grafana).
+**Ruolo**:
+- **Dati di Business**: Mostra quali endpoint sono più usati e da chi.
+- **SLA**: Monitora latenza e percentili (p95, p99) per garantire un'esperienza utente fluida.
+- **Status Codes**: Individua picchi di errori 4xx (problemi client) o 5xx (problemi server).
+
+### 3. Dozzle (Real-time Logs)
+**Perché**: L'accesso ai log tramite `docker logs` o SSH è lento e macchinoso, specialmente in staging.
+**Ruolo**:
+- **Instant visibility**: Fornisce una dashboard web leggera per vedere i log di tutti i container (App, DB, Traefik, Keycloak) in tempo reale.
+- **Debugging veloce**: Ideale per i test in staging dove è necessario vedere subito l'output dell'applicazione.
+
+### 4. Pulsetic (Uptime Monitoring)
+**Perché**: Sentry e Apitally girano "dentro" l'applicazione. Se l'intero server cade, anche loro smettono di funzionare.
+**Ruolo**:
+- **External Check**: Interroga periodicamente l'endpoint `/health` da diverse aree geografiche.
+- **Status Page**: Fornisce una pagina pubblica per mostrare lo stato dei servizi agli stakeholder.
+- **Alerting**: Invia notifiche immediate se il servizio non è raggiungibile dall'esterno.
+
+---
+
+## 🛠️ Quality & Security
+
+### 5. SonarQube (Static Analysis)
+**Perché**: La qualità del codice tende a degradare se non monitorata. Serve un "giudice" imparziale che analizzi il debito tecnico.
+**Ruolo**:
+- **Code Smells**: Individua logica ridondante o complessa.
+- **Vulnerabilità**: Trova pattern di codice insicuri.
+- **Maintainability**: Aiuta il team a mantenere standard elevati nel lungo periodo.
+
+### 6. Codecov (Test Coverage)
+**Perché**: Fare test non basta; bisogna sapere *cosa* è testato.
+**Ruolo**:
+- **Trasparenza**: Visualizza quali righe di codice sono coperte dai test e quali no.
+- **Enforcement**: Blocca le Pull Request se la copertura del codice diminuisce (evitando regressioni).
+
+### 7. Trivy (Container Security)
+**Perché**: Le immagini Docker possono contenere librerie di sistema vulnerabili.
+**Ruolo**:
+- **Scan**: Analizza ogni build dell'immagine alla ricerca di CVE (Common Vulnerabilities and Exposures).
+- **Gate**: Impedisce il deploy in produzione se vengono rilevate vulnerabilità critiche.
+
+### 8. Semgrep & Bandit (SAST)
+**Perché**: I linter standard (Ruff) non sempre trovano problemi di sicurezza logica.
+**Ruolo**:
+- **Security Linting**: Scansionano il codice alla ricerca di pattern pericolosi (es. SQL Injection, uso di funzioni insicure, hardcoded secrets).
+
+---
+
+## 🔄 Integrazione Orchestrata
+
+Tutti questi strumenti sono integrati nel flusso di lavoro tramite:
+1. **GitHub Actions**: Che fungono da "orchestratore" eseguendo i controlli di sicurezza e qualità a ogni commit.
+2. **Docker Compose**: Che integra Dozzle e Traefik per rendere l'osservabilità parte integrante dell'infrastruttura di staging e produzione.
+3. **OpenTelemetry/Tracing**: Tramite l'uso di `X-Request-ID` che permette di correlare un log in Dozzle con un evento in Sentry.

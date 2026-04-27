@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🍳 Kitchen Module Documentation &mdash; Restrackit 2.5.0 documentation</title>
+  <title>🍳 Kitchen Module Documentation &mdash; Restrackit 2.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=3c4615cf"></script>
+      <script src="../_static/documentation_options.js?v=dfec817d"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -62,11 +62,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.main">app.main module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.add_process_time_header"><code class="docutils literal notranslate"><span class="pre">add_process_time_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
@@ -119,6 +121,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
 </ul>
 </li>
@@ -126,6 +131,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="01-quick-reference.html">Quick Reference Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#test">🧪 Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#db">🗄️ DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
@@ -156,6 +162,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="02-setup.html">Installation &amp; Setup Guide</a><ul>
@@ -236,7 +243,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#relationships">Relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#migrations">Migrations</a></li>
 </ul>
 </li>
@@ -255,6 +265,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#running">Running</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
 </ul>
 </li>
@@ -263,6 +274,7 @@
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#volume-management">Volume Management</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#application-volumes">Application Volumes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-volume">Database Volume</a></li>
@@ -294,7 +306,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
-<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#environment">Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#security">Security</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
@@ -550,19 +561,25 @@
 <li class="toctree-l4"><a class="reference internal" href="#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#api-endpoints">3. API Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-endpoints">5. API Endpoints</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#recipes-management">Recipes Management</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#availability-check">Availability Check</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#preparation-recording">Preparation Recording</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#usage-flow">4. Usage Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage-flow">6. Usage Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-2-check-availability">Step 2: Check Availability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-3-record-preparation">Step 3: Record Preparation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#permissions">5. Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#permissions">7. Permissions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="14-logging.html">Logging</a><ul>
@@ -588,15 +605,44 @@
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#exception-logging">Exception Logging</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-stdout-only">Why stdout only?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-read-env-vars-directly-instead-of-using-settings">Why read env vars directly instead of using <code class="docutils literal notranslate"><span class="pre">Settings</span></code>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -696,16 +742,18 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">operator_id</span></code>: The chef/staff member who performed the preparation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">created_at</span></code>: Timestamp of the preparation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">notes</span></code>: Specific notes for this batch.</p></li>
+<li><p><strong>HACCP Integration</strong>: Every preparation automatically creates a new <strong>Batch</strong> in the inventory for the resulting product.</p></li>
 <li><p><strong>Relationships</strong>:</p>
 <ul>
 <li><p>Has many <code class="docutils literal notranslate"><span class="pre">PreparationItem</span></code>.</p></li>
+<li><p>Links to a <code class="docutils literal notranslate"><span class="pre">Batch</span></code> record in the inventory.</p></li>
 </ul>
 </li>
 </ul>
 </section>
 <section id="preparationitem-preparation-items">
 <h3>📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)<a class="headerlink" href="#preparationitem-preparation-items" title="Link to this heading"></a></h3>
-<p>The specific link between a preparation and the inventory batches used.</p>
+<p>The specific link between a preparation and the inventory batches used as ingredients.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">preparation_id</span></code>: Parent preparation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">batch_id</span></code>: The specific inventory lot used (e.g., Lot “L123” of Chicken).</p></li>
@@ -715,15 +763,57 @@
 </section>
 </section>
 <hr class="docutils" />
+<section id="haccp-compliance-tmc-calculation">
+<h2>3. HACCP Compliance &amp; TMC Calculation<a class="headerlink" href="#haccp-compliance-tmc-calculation" title="Link to this heading"></a></h2>
+<p>The module enforces strict food safety tracking through the <strong>Temperature Monitoring Certificate (TMC)</strong> / Expiry logic.</p>
+<section id="mandatory-conservation-method">
+<h3>📋 Mandatory Conservation Method<a class="headerlink" href="#mandatory-conservation-method" title="Link to this heading"></a></h3>
+<p>Every <strong>Recipe</strong> must be linked to a <code class="docutils literal notranslate"><span class="pre">ConservationMethod</span></code>. This method defines:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">trigger_event</span></code>: Usually <code class="docutils literal notranslate"><span class="pre">PRODUCTION_END</span></code> for preparations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">duration_days</span></code> and <code class="docutils literal notranslate"><span class="pre">duration_hours</span></code>: The shelf life of the preparation.</p></li>
+</ul>
+</section>
+<section id="expiry-date-calculation-tmc">
+<h3>🧮 Expiry Date Calculation (TMC)<a class="headerlink" href="#expiry-date-calculation-tmc" title="Link to this heading"></a></h3>
+<p>When a preparation is recorded, the system automatically calculates the expiry dates for the new lot:</p>
+<ol class="arabic simple">
+<li><p><strong>Primary Expiry (<code class="docutils literal notranslate"><span class="pre">expiry_date</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Calculated as the <strong>minimum</strong> of the expiry dates of all ingredients used.</p></li>
+<li><p>If no ingredients have an expiry date, it defaults to tomorrow.</p></li>
+</ul>
+</li>
+<li><p><strong>Secondary Expiry (<code class="docutils literal notranslate"><span class="pre">secondary_expiry_at</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Calculated by adding the recipe’s <code class="docutils literal notranslate"><span class="pre">ConservationMethod</span></code> duration to the current time.</p></li>
+<li><p><strong>Capping</strong>: The secondary expiry is automatically capped at the end of the primary expiry date to ensure safety.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="semilavorati-pre-preparations">
+<h2>4. Semilavorati (Pre-preparations)<a class="headerlink" href="#semilavorati-pre-preparations" title="Link to this heading"></a></h2>
+<p>Recipes in Restrackit are intrinsically linked to the inventory via the <strong>Semilavorato</strong> concept:</p>
+<ul class="simple">
+<li><p>When a recipe is created, a corresponding <code class="docutils literal notranslate"><span class="pre">ProductMaster</span></code> is automatically generated with the category <strong>“Semilavorato”</strong>.</p></li>
+<li><p>This product represents the “finished dish” or “pre-preparation” that can be stored in the fridge.</p></li>
+<li><p>Inventory searches (via AI or API) can filter out these items to avoid cluttering raw material searches.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
 <section id="api-endpoints">
-<h2>3. API Endpoints<a class="headerlink" href="#api-endpoints" title="Link to this heading"></a></h2>
+<h2>5. API Endpoints<a class="headerlink" href="#api-endpoints" title="Link to this heading"></a></h2>
 <p>All endpoints are prefixed with <code class="docutils literal notranslate"><span class="pre">/kitchen</span></code> and require authentication.</p>
 <section id="recipes-management">
 <h3>Recipes Management<a class="headerlink" href="#recipes-management" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/recipes</span></code>: Create a new recipe.</p></li>
+<li><p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/recipes</span></code>: Create a new recipe (requires <code class="docutils literal notranslate"><span class="pre">conservation_method_id</span></code>).</p></li>
 <li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/recipes</span></code>: List all recipes for the current store.</p></li>
 <li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/recipes/{id}</span></code>: Get details of a specific recipe.</p></li>
+<li><p><strong>PATCH</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/recipes/{id}</span></code>: Update a recipe (supports optimistic locking via <code class="docutils literal notranslate"><span class="pre">version</span></code>).</p></li>
 </ul>
 </section>
 <section id="availability-check">
@@ -732,8 +822,7 @@
 <li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/recipes/{id}/availability</span></code>:</p>
 <ul>
 <li><p>Returns the list of ingredients for a recipe.</p></li>
-<li><p>For each ingredient, lists the <strong>Active Batches</strong> (not empty/expired) currently in stock.</p></li>
-<li><p><strong>Use Case</strong>: Populating the UI dropdowns to let the chef select which specific lot they are using.</p></li>
+<li><p>For each ingredient, lists the <strong>Active Batches</strong> currently in stock.</p></li>
 </ul>
 </li>
 </ul>
@@ -743,27 +832,26 @@
 <ul class="simple">
 <li><p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/preparations</span></code>: Record a new preparation.</p>
 <ul>
-<li><p><strong>Validation</strong>: Verifies that the selected <code class="docutils literal notranslate"><span class="pre">batch_id</span></code> is <strong>active</strong> (<code class="docutils literal notranslate"><span class="pre">is_empty=False</span></code>).</p></li>
-<li><p><strong>Error Handling</strong>: Returns <code class="docutils literal notranslate"><span class="pre">400</span> <span class="pre">Bad</span> <span class="pre">Request</span></code> if a selected batch is already closed/empty.</p></li>
+<li><p><strong>Auto-Inventory</strong>: Creates a new <code class="docutils literal notranslate"><span class="pre">Batch</span></code> for the recipe’s product.</p></li>
+<li><p><strong>TMC Logic</strong>: Calculates primary and secondary expiry dates.</p></li>
+<li><p><strong>Validation</strong>: Verifies that ingredients batches are active.</p></li>
 </ul>
 </li>
-<li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/preparations</span></code>: List preparation history with filters (date, chef, recipe).</p></li>
-<li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/preparations/{id}</span></code>: Get details of a specific preparation.</p></li>
+<li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/kitchen/preparations</span></code>: List preparation history with filters.</p></li>
 </ul>
 </section>
 </section>
 <hr class="docutils" />
 <section id="usage-flow">
-<h2>4. Usage Flow<a class="headerlink" href="#usage-flow" title="Link to this heading"></a></h2>
+<h2>6. Usage Flow<a class="headerlink" href="#usage-flow" title="Link to this heading"></a></h2>
 <section id="step-1-define-a-recipe">
 <h3>Step 1: Define a Recipe<a class="headerlink" href="#step-1-define-a-recipe" title="Link to this heading"></a></h3>
-<p>The manager or head chef defines a standard recipe.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/ki</span><span class="kc">t</span><span class="err">che</span><span class="kc">n</span><span class="err">/recipes</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tomato Soup&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tomato Sauce (Base)&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;conservation_method_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ingredients&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span><span class="nt">&quot;product_master_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;standard_quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span><span class="nt">&quot;product_master_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;standard_quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;l&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;product_master_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;standard_quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kg&quot;</span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -771,7 +859,7 @@
 </section>
 <section id="step-2-check-availability">
 <h3>Step 2: Check Availability<a class="headerlink" href="#step-2-check-availability" title="Link to this heading"></a></h3>
-<p>When a cook wants to prepare “Tomato Soup”, the frontend fetches available lots.</p>
+<p>Before preparing, the chef checks which ingredient lots are in stock.</p>
 <div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /kitchen/recipes/1/availability</span>
 </pre></div>
 </div>
@@ -793,7 +881,6 @@
 </section>
 <section id="step-3-record-preparation">
 <h3>Step 3: Record Preparation<a class="headerlink" href="#step-3-record-preparation" title="Link to this heading"></a></h3>
-<p>The cook selects the specific lot used (e.g., <code class="docutils literal notranslate"><span class="pre">LOT-A-2023</span></code>) and records the preparation.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/ki</span><span class="kc">t</span><span class="err">che</span><span class="kc">n</span><span class="err">/prepara</span><span class="kc">t</span><span class="err">io</span><span class="kc">ns</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;recipe_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
@@ -804,21 +891,16 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<p><strong>Result</strong>: A new lot <code class="docutils literal notranslate"><span class="pre">PREP-YYYYMMDD-HHMMSS-ID</span></code> is created in the inventory, with scrupulously calculated expiry dates.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="permissions">
-<h2>5. Permissions<a class="headerlink" href="#permissions" title="Link to this heading"></a></h2>
-<p>The module introduces specific permissions in the RBAC system:</p>
+<h2>7. Permissions<a class="headerlink" href="#permissions" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">kitchen:read</span></code>: Allows viewing recipes, ingredients, and preparations.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kitchen:manage_recipes</span></code>: Allows creating, updating, and deleting recipes and their ingredients.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kitchen:write_preparation</span></code>: Allows recording and editing preparations (linking them to specific batches).</p></li>
-</ul>
-<p><strong>Role Mapping:</strong></p>
-<ul class="simple">
-<li><p><strong>Chef</strong>: <code class="docutils literal notranslate"><span class="pre">kitchen:read</span></code>, <code class="docutils literal notranslate"><span class="pre">kitchen:write_preparation</span></code></p></li>
-<li><p><strong>Manager</strong>: <code class="docutils literal notranslate"><span class="pre">kitchen:read</span></code>, <code class="docutils literal notranslate"><span class="pre">kitchen:manage_recipes</span></code>, <code class="docutils literal notranslate"><span class="pre">kitchen:write_preparation</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kitchen:read</span></code>: View recipes and preparations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kitchen:manage_recipes</span></code>: Create/Update recipes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kitchen:write_preparation</span></code>: Record new preparations.</p></li>
 </ul>
 </section>
 </section>
