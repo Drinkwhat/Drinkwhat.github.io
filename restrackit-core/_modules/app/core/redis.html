@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.core.redis &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -1146,7 +1146,7 @@ window.runMermaid = runMermaid;</script>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.core.config</li>
+      <li class="breadcrumb-item active">app.core.redis</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1155,171 +1155,242 @@ window.runMermaid = runMermaid;</script>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.core.config</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Application configuration and settings management.</span>
+  <h1>Source code for app.core.redis</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="sd">This module manages:</span>
-<span class="sd">- Environment variables and .env file configuration</span>
-<span class="sd">- Google API credentials setup</span>
-<span class="sd">- Cached settings instance for singleton pattern</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">msgpack</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">redis.asyncio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">redis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">redis.asyncio.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Redis</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">SettingsConfigDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.i18n</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_message</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">REDIS_NOT_INITIALIZED_MSG</span> <span class="o">=</span> <span class="n">get_message</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_REDIS_NOT_INITIALIZED</span><span class="p">)</span>
+
+<span class="nb">type</span> <span class="n">RedisPrimitive</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span>
+<span class="nb">type</span> <span class="n">RedisValue</span> <span class="o">=</span> <span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RedisPrimitive</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;RedisValue&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;RedisValue&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Settings">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Application settings loaded from environment or .env file.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        google_api_key (str): API key for Google Gemini LLM</span>
-<span class="sd">        google_application_credentials (str): Path to service account JSON for</span>
-<span class="sd">            Google Cloud Vision API</span>
-<span class="sd">        database_url (str): Database connection URL (PostgreSQL or SQLite)</span>
+<div class="viewcode-block" id="RedisService">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RedisService</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Centralized service for Redis operations including connection management,</span>
+<span class="sd">    caching, and rate limiting support.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># TODO spostare tutti questi attributi nel file .env</span>
-    <span class="n">google_api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">google_application_credentials</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># Keycloak Configuration</span>
-    <span class="n">KEYCLOAK_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">KEYCLOAK_INTERNAL_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">KEYCLOAK_REALM</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">KEYCLOAK_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="c1"># CORS Configuration</span>
-    <span class="c1"># List of origins allowed to make cross-origin requests.</span>
-    <span class="c1"># In .env, use JSON format: [&quot;http://localhost:3000&quot;, &quot;https://app.example.com&quot;]</span>
-    <span class="c1"># TODO Local default is [&quot;*&quot;] for development convenience.</span>
-    <span class="c1"># TODO In production, set CORS_ORIGINS to an explicit allowlist (no &quot;*&quot;).</span>
-    <span class="c1"># TODO If you enable credentials, never use &quot;*&quot; as an allowed origin.</span>
-    <span class="n">cors_origins</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<div class="viewcode-block" id="Settings.cors_origins_must_be_non_empty_strings">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.cors_origins_must_be_non_empty_strings">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;cors_origins&quot;</span><span class="p">)</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">cors_origins_must_be_non_empty_strings</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure every entry in cors_origins is a non-empty string.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGINS must not be empty&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">origin</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Each entry in CORS_ORIGINS must be a non-empty string&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span></div>
+<div class="viewcode-block" id="RedisService.__init__">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span> <span class="n">Redis</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-    <span class="c1"># Public Base URL of the application, used to generate safe absolute URLs</span>
-    <span class="c1"># (e.g. redirects), avoiding host-header injection.</span>
-    <span class="n">public_base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="viewcode-block" id="RedisService.connect">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.connect">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Redis connection pool.</span>
 
-    <span class="c1"># TODO If True, browsers are allowed to include credentials on cross-origin requests</span>
-    <span class="c1"># TODO (cookies, Authorization header, TLS client certs).</span>
-    <span class="c1"># TODO Security note: credentials + wildcard origin (&quot;*&quot;) is unsafe; app/main.py enforces</span>
-    <span class="c1"># TODO that credentials are disabled whenever &quot;*&quot; is present in cors_origins.</span>
-    <span class="n">cors_allow_credentials</span><span class="p">:</span> <span class="nb">bool</span>
-
-    <span class="c1"># Monitoring and Analytics (Optional, enabled if provided)</span>
-    <span class="n">sentry_dsn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">sentry_send_pii</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">sentry_traces_sample_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="n">sentry_profiles_sample_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="n">apitally_client_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">environment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;local&quot;</span>  <span class="c1"># e.g., &quot;staging&quot;, &quot;production&quot;, &quot;local&quot;</span>
-    <span class="n">max_upload_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># Default 10MB</span>
-
-    <span class="c1"># Redis Configuration</span>
-    <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">redis_cache_ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># Default 1 hour</span>
-
-    <span class="c1"># Pydantic V2: uses model_config instead of inner Config class</span>
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>
-        <span class="n">env_file</span><span class="o">=</span><span class="s2">&quot;.env&quot;</span><span class="p">,</span>
-        <span class="n">env_file_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
-        <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span>  <span class="c1"># Ignore extra env variables to avoid validation errors</span>
-        <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Computed properties for Keycloak</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">oidc_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the public OIDC base URL for the configured realm.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The public realm URL in the form ``{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}``.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: If connection fails after ping.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_url</span><span class="p">,</span>
+                    <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+                    <span class="n">decode_responses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We use msgpack for serialization</span>
+                <span class="p">)</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">ping</span><span class="p">()</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Connected to Redis at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_url</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Failed to connect to Redis: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="RedisService.disconnect">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.disconnect">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the Redis connection pool.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;🔌 Disconnected from Redis&quot;</span><span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">oidc_internal_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the internal OIDC base URL for the configured realm.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Redis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the active Redis client.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="s2">&quot;Call connect() first&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 
-<span class="sd">        This is used for server-to-server calls (e.g., JWKS fetch) and falls back to</span>
-<span class="sd">        the public Keycloak URL when an internal URL is not provided.</span>
+<div class="viewcode-block" id="RedisService.get_cache">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.get_cache">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_cache</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve and deserialize data from Redis cache.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The internal realm URL in the form ``{base}/realms/{KEYCLOAK_REALM}``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_INTERNAL_URL</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">jwks_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the JWKS (JSON Web Key Set) endpoint URL.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The Redis key to retrieve.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: The JWKS URL for the configured realm.</span>
+<span class="sd">            T | None: The deserialized value or None if missing or on error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_internal_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/certs&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">token_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the OAuth2 token endpoint URL.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">unpackb</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache retrieval error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="RedisService.get_model">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.get_model">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_model</span><span class="p">[</span><span class="n">M</span><span class="p">:</span> <span class="n">BaseModel</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">M</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">M</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve data and validate it against a Pydantic model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The Redis key to retrieve.</span>
+<span class="sd">            model_type (type[M]): The Pydantic model class for validation.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: The token endpoint URL for the configured realm.</span>
+<span class="sd">            M | None: The model instance or None if missing, invalid or on error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/token&quot;</span>
+        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cache</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">model_type</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Cache validation error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">authorization_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the OAuth2 authorization endpoint URL.</span>
+
+<div class="viewcode-block" id="RedisService.set_cache">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.set_cache">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RedisValue</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize and store data in Redis cache with an optional TTL.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The Redis key to store.</span>
+<span class="sd">            value (RedisValue): The value to serialize and store.</span>
+<span class="sd">            ttl (int | None): Optional TTL in seconds (overrides default).</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: The authorization endpoint URL for the configured realm.</span>
+<span class="sd">            bool: True if storage was successful, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/auth&quot;</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ttl</span> <span class="o">=</span> <span class="n">ttl</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_cache_ttl</span>
+
+            <span class="c1"># If it&#39;s a Pydantic model, convert to dict using JSON-compatible mode</span>
+            <span class="c1"># to handle nested models and datetimes correctly.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="c1"># Handle lists of models</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">v</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span>
+                <span class="p">]</span>
+
+            <span class="n">packed_data</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">packb</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">packed_data</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="n">ttl</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache storage error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="RedisService.delete_cache">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.delete_cache">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an item from the cache.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The Redis key to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if deletion was successful (or key didn&#39;t exist), False on error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache deletion error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="RedisService.delete_pattern">
+<a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.delete_pattern">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete all keys matching a specific pattern safely using SCAN.</span>
+
+<span class="sd">        This avoids blocking Redis as &#39;KEYS&#39; would do in production.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pattern (str): The glob-style pattern to match keys.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The total number of keys deleted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">total_deleted</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">batch</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># scan_iter is non-blocking and memory-efficient</span>
+            <span class="k">async</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">scan_iter</span><span class="p">(</span><span class="n">match</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">batch_size</span><span class="p">):</span>
+                <span class="n">batch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">batch_size</span><span class="p">:</span>
+                    <span class="n">total_deleted</span> <span class="o">+=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">)</span>
+                    <span class="n">batch</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">if</span> <span class="n">batch</span><span class="p">:</span>
+                <span class="n">total_deleted</span> <span class="o">+=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">total_deleted</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;🗑️ Deleted </span><span class="si">%d</span><span class="s2"> keys matching pattern: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">total_deleted</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">total_deleted</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache pattern deletion error for pattern </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">0</span></div>
+</div>
 
 
 
-<div class="viewcode-block" id="get_settings">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.get_settings">[docs]</a>
-<span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get cached settings instance (singleton pattern).</span>
-
-<span class="sd">    This function uses lru_cache to ensure only one Settings instance</span>
-<span class="sd">    is created throughout the application lifecycle. It also sets up</span>
-<span class="sd">    Google Cloud credentials path for the Vision API.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Settings: Cached application settings instance</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>  <span class="c1"># type: ignore[call-arg]</span>
-
-    <span class="c1"># Critical: Set Google Application Credentials path for Vision SDK</span>
-    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">google_application_credentials</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GOOGLE_APPLICATION_CREDENTIALS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">google_application_credentials</span>
-
-    <span class="k">return</span> <span class="n">settings</span></div>
-
+<span class="c1"># Singleton instance</span>
+<span class="n">redis_service</span> <span class="o">=</span> <span class="n">RedisService</span><span class="p">()</span>
 </pre></div>
 
            </div>

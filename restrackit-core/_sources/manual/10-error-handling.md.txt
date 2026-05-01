@@ -579,12 +579,26 @@ def test_product_not_found(client):
 | Code | Meaning          | When                        |
 | ---- | ---------------- | --------------------------- |
 | 400  | Bad Request      | Invalid input data          |
-| 403  | Forbidden        | Unauthorized access         |
+| 401  | Unauthorized     | Missing or invalid token    |
+| 403  | Forbidden        | Insufficient permissions    |
 | 404  | Not Found        | Resource doesn't exist      |
-| 409  | Conflict         | Data conflict               |
-| 422  | Unprocessable    | Parsing failed              |
-| 500  | Server Error     | Unexpected error            |
-| 502  | Bad Gateway      | External API error          |
+| 409  | Conflict         | Data conflict (e.g. version) |
+| 422  | Unprocessable    | Parsing or business logic failure |
+| 500  | Server Error     | Unexpected internal error   |
+| 502  | Bad Gateway      | External API error (OCR/AI) |
+| 503  | Service Unavailable | Database or critical API down |
+
+---
+
+## Fail-Open Architecture
+
+This ensures high availability even when secondary infrastructure components fail.
+
+### Background Job Status
+When monitoring background tasks via `arq`:
+- **Mapping**: The API maps internal `arq` statuses (e.g., `in_progress`, `complete`) to the `JobStatus` enum.
+- **Failures**: If a job finishes but the internal logic fails (e.g., AI parsing error), the result status is explicitly mapped to `FAILED` to provide clear feedback to the client.
+- **Missing Jobs**: If a `job_id` is expired or invalid, the system returns `JobStatus.NOT_FOUND` instead of failing, allowing the client to handle the state gracefully.
 
 ---
 

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.ai_agent &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.services.ai_agent &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../../../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1126,13 +1157,14 @@ window.runMermaid = runMermaid;</script>
              
   <h1>Source code for app.services.ai_agent</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">google.genai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.genai.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerateContentResponse</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">tenacity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">before_sleep_log</span><span class="p">,</span>
@@ -1171,15 +1203,14 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="search_product_tool">
 <a class="viewcode-back" href="../../../app.services.html#app.services.ai_agent.search_product_tool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">search_product_tool</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Search for product matches in the local database.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for product matches in the local database.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        query: The product name query.</span>
-<span class="sd">        store_id: The store ID to filter by.</span>
+<span class="sd">        query (str): The product name query.</span>
+<span class="sd">        store_id (str): The store ID to filter by.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A list of matching product names.</span>
+<span class="sd">        list[str]: A list of matching product names.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">db</span> <span class="o">=</span> <span class="n">SessionLocal</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1231,15 +1262,15 @@ window.runMermaid = runMermaid;</script>
         <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">),</span>
         <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_call_gemini_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">system_instruction</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call_gemini_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">system_instruction</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerateContentResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call Gemini API with retries configured by Tenacity.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            prompt: Prompt passed to the model.</span>
-<span class="sd">            system_instruction: The system-level instructions for the model.</span>
+<span class="sd">            prompt (str): Prompt passed to the model.</span>
+<span class="sd">            system_instruction (str): The system-level instructions for the model.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Any: SDK response object returned by ``generate_content``.</span>
+<span class="sd">            GenerateContentResponse: SDK response object returned by ``generate_content``.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            Exception: Propagates the last exception after retries are exhausted.</span>
@@ -1259,19 +1290,18 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="InventoryAgentService.analyze_ocr_text">
 <a class="viewcode-back" href="../../../app.services.html#app.services.ai_agent.InventoryAgentService.analyze_ocr_text">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_ocr_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ocr_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Run the AI agent to parse OCR text and identify product details.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_ocr_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ocr_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OCRDataResponse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the AI agent to parse OCR text and identify product details.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            ocr_text: The raw text extracted from OCR.</span>
-<span class="sd">            store_id: The ID of the store context.</span>
+<span class="sd">            ocr_text (str): The raw text extracted via OCR.</span>
+<span class="sd">            store_id (str): The store identifier for scoped tool usage.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A dictionary containing parsed product data (prodotto, lotto, scadenza, confidence).</span>
+<span class="sd">            OCRDataResponse: The structured data extracted from the text.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            Exception: If Gemini API call fails.</span>
+<span class="sd">            ExternalServiceError: If the Gemini API fails after retries.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;🤖 Initializing AI agent for store </span><span class="si">%s</span><span class="s2"> with OCR text length: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -1310,27 +1340,39 @@ window.runMermaid = runMermaid;</script>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Gemini API call failed after retries: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">raise</span>
 
+        <span class="c1"># Initialize default result</span>
+        <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;prodotto&quot;</span><span class="p">:</span> <span class="s2">&quot;NON_IDENTIFICATO&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;lotto&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;scadenza&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">}</span>
+
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">parsed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># response.parsed is OCRDataResponse or dict depending on SDK version</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">parsed</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">OCRDataResponse</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
+            <span class="n">parsed_dict</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">OCRDataResponse</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parsed_dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parsed_dict</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;⚠️  Gemini returned an empty or unparseable response.&quot;</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;prodotto&quot;</span><span class="p">:</span> <span class="s2">&quot;NON_IDENTIFICATO&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;lotto&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s2">&quot;scadenza&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-            <span class="p">}</span>
 
+        <span class="c1"># Confidence parsing logic: ensure it&#39;s a float</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;confidence&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Final validation and mapping</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">OCRDataResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;✅ Agent result: product=</span><span class="si">%s</span><span class="s2">, lot=</span><span class="si">%s</span><span class="s2">, expiry=</span><span class="si">%s</span><span class="s2">, confidence=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prodotto&quot;</span><span class="p">),</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lotto&quot;</span><span class="p">),</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scadenza&quot;</span><span class="p">),</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;confidence&quot;</span><span class="p">),</span>
+            <span class="n">final_data</span><span class="o">.</span><span class="n">prodotto</span><span class="p">,</span>
+            <span class="n">final_data</span><span class="o">.</span><span class="n">lotto</span><span class="p">,</span>
+            <span class="n">final_data</span><span class="o">.</span><span class="n">scadenza</span><span class="p">,</span>
+            <span class="n">final_data</span><span class="o">.</span><span class="n">confidence</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">return</span> <span class="n">final_data</span></div>
 </div>
 
 </pre></div>

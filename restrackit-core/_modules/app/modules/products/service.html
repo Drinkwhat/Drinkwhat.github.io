@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products.service &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.products.service &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1134,6 +1165,7 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">BusinessLogicError</span><span class="p">,</span> <span class="n">DatabaseError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">redis_service</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Recipe</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConservationMethod</span><span class="p">,</span> <span class="n">ProductMaster</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -1145,6 +1177,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">ProductResponse</span><span class="p">,</span>
     <span class="n">ProductUpdate</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_conservation_method</span>
 
 
@@ -1172,7 +1205,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ProductService.bulk_load_products">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.bulk_load_products">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_load_products</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bulk_load_products</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProductCreate</span><span class="p">],</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductBulkLoadResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1236,6 +1269,8 @@ window.runMermaid = runMermaid;</script>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>  <span class="c1"># Salva tutto quello che è andato a buon fine</span>
+            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Bulk product upload completed: </span><span class="si">%s</span><span class="s2"> new, </span><span class="si">%s</span><span class="s2"> skipped&quot;</span><span class="p">,</span> <span class="n">nuovi</span><span class="p">,</span> <span class="n">saltati</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -1251,7 +1286,13 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ProductService.list_products">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.list_products">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">list_products</span><span class="p">(</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;products&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_category</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">exclude_category</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_products</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1286,7 +1327,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ProductService.update_product">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.update_product">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_product</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_product</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ProductUpdate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Modifica puntuale di un prodotto (optimistic locking).</span>
@@ -1346,6 +1387,9 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">prodotto</span><span class="p">)</span>
+            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Product updated: id=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ProductResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">prodotto</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -1373,7 +1417,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ProductService.delete_product">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.delete_product">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Soft delete di un prodotto se non collegato a lotti attivi.</span>
 
 <span class="sd">        Args:</span>
@@ -1426,6 +1470,9 @@ window.runMermaid = runMermaid;</script>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;📝 Soft deleting product: id=</span><span class="si">%s</span><span class="s2">, name=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">prodotto</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">prodotto</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Product soft deleted: id=</span><span class="si">%s</span><span class="s2">, name=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">prodotto</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -1448,7 +1495,11 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ProductService.get_product">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.get_product">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductResponse</span><span class="p">:</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;products&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Recupera un prodotto attivo (non soft-deleted) per ID e store.</span>
 
 <span class="sd">        Args:</span>
@@ -1493,7 +1544,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ConservationMethodService.create_method">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ConservationMethodService.create_method">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_method</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_method</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ConservationMethodCreate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Crea un nuovo metodo di conservazione.&quot;&quot;&quot;</span>
@@ -1510,6 +1561,8 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ConservationMethodResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -1520,7 +1573,8 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ConservationMethodService.list_methods">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ConservationMethodService.list_methods">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">list_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ConservationMethodResponse</span><span class="p">]:</span>
+    <span class="nd">@cached</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;methods&quot;</span><span class="p">,</span> <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ConservationMethodResponse</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Elenca i metodi attivi di uno store.&quot;&quot;&quot;</span>
         <span class="n">methods</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span>
@@ -1535,7 +1589,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ConservationMethodService.update_method">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ConservationMethodService.update_method">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_method</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_method</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ConservationMethodUpdate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggiorna un metodo esistente.&quot;&quot;&quot;</span>
@@ -1581,6 +1635,9 @@ window.runMermaid = runMermaid;</script>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">method_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ConservationMethodResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -1602,7 +1659,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ConservationMethodService.delete_method">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ConservationMethodService.delete_method">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Soft delete di un metodo.&quot;&quot;&quot;</span>
         <span class="n">method</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span>
@@ -1629,8 +1686,6 @@ window.runMermaid = runMermaid;</script>
                     <span class="s2">&quot;current&quot;</span><span class="p">:</span> <span class="n">method</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">)</span>
-
-        <span class="c1"># Verifica se il metodo è in uso</span>
 
         <span class="n">has_products</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
@@ -1663,6 +1718,9 @@ window.runMermaid = runMermaid;</script>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">method</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">method_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>

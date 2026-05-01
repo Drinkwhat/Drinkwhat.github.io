@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory package &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.inventory package &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=dfec817d"></script>
+      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -614,6 +640,11 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
@@ -955,13 +986,18 @@ for example, any mapped columns or relationships.</p>
 </section>
 <section id="module-app.modules.inventory.router">
 <span id="app-modules-inventory-router-module"></span><h2>app.modules.inventory.router module<a class="headerlink" href="#module-app.modules.inventory.router" title="Link to this heading"></a></h2>
+<p>Inventory router for handling batch/lot operations.</p>
+<p>This module provides endpoints for:
+- Analyzing product labels via OCR/AI.
+- Confirming and saving validated batches.
+- Managing inventory items (list, update, delete).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.get_batch_service">
-<span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">get_batch_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#get_batch_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.get_batch_service" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">get_batch_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#get_batch_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.get_batch_service" title="Link to this definition"></a></dt>
 <dd><p>Dependency factory to create a BatchService bound to the request DB session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>) – SQLAlchemy session injected by FastAPI.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Service instance for inventory operations.</p>
@@ -974,129 +1010,142 @@ for example, any mapped columns or relationships.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.analyze_photo">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">analyze_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">File(PydanticUndefined)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#analyze_photo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.analyze_photo" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">analyze_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#analyze_photo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.analyze_photo" title="Link to this definition"></a></dt>
 <dd><p>Step 1: Upload an image of a product label.
-The OCR service extracts text and the AI agent parses it into structured TOON data,
-scoped to the current store.</p>
+The OCR service extracts text and the AI agent parses it into structured data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
-<li><p><strong>file</strong> (<em>UploadFile</em>) – Uploaded image file (label photo).</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6803a10&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
+<li><p><strong>file</strong> (<em>Annotated</em><em>[</em><em>UploadFile</em><em>, </em><em>File</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Uploaded image file (label photo).</p></li>
+<li><p><strong>background</strong> (<em>Annotated</em><em>[</em><em>bool</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Whether to run as a background task.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Parsed data + optional warning for human review.</p>
+<dd class="field-even"><p>Parsed data or Job ID if background.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BatchAnalyzeResponse</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.ValidationError" title="app.core.errors.ValidationError"><strong>ValidationError</strong></a> – If the upload is empty or invalid.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.ExternalServiceError" title="app.core.errors.ExternalServiceError"><strong>ExternalServiceError</strong></a> – If the OCR service fails.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the agent cannot parse the OCR text.</p></li>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.inventory.router.get_analyze_status">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">get_analyze_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#get_analyze_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.get_analyze_status" title="Link to this definition"></a></dt>
+<dd><p>Check the status and retrieve results of a background OCR/AI analysis job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_id</strong> (<em>str</em>) – Unique identifier of the background job.</p></li>
+<li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d62482d0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Current status (queued, started, finished, failed)</dt><dd><p>and the parsed results if the job is finished.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JobStatusResponse</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.confirm_batch">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">confirm_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#confirm_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.confirm_batch" title="Link to this definition"></a></dt>
-<dd><p>FASE 2: Salvataggio definitivo nel database dello store corrente.
-Soddisfa i vincoli NOT NULL forzando l’ID operatore e lo store.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">confirm_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#confirm_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.confirm_batch" title="Link to this definition"></a></dt>
+<dd><p>Phase 2: Permanently save a validated batch to the store’s inventory.</p>
+<p>This endpoint is called after the user has reviewed and potentially
+corrected the AI-proposed data from the /analyze step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>BatchConfirm</em>) – Dati confermati dall’utente dopo revisione.</p></li>
+<li><p><strong>data</strong> (<em>BatchConfirm</em>) – Confirmed batch data (product, lot, expiry, confidence).</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso INVENTORY_WRITE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6249590&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Lotto creato e persistito.</p>
+<dd class="field-even"><p>The saved batch record details.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BatchResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se il prodotto non esiste nello store.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di vincoli DB violati.</p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the product is not found or inactive.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.update_batch">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">update_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#update_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.update_batch" title="Link to this definition"></a></dt>
-<dd><p>Correzione manuale di un lotto esistente (optimistic locking).</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">update_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#update_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.update_batch" title="Link to this definition"></a></dt>
+<dd><p>Manually update an existing batch using optimistic locking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID del lotto.</p></li>
-<li><p><strong>data</strong> (<em>BatchUpdate</em>) – Dati di modifica (include version attesa).</p></li>
+<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to update.</p></li>
+<li><p><strong>data</strong> (<em>BatchUpdate</em>) – Updated fields and the expected version for concurrency control.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso INVENTORY_WRITE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d625c050&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Esito dell’operazione.</p>
+<dd class="field-even"><p>Success message.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>StatusResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se il lotto non esiste o c’è conflitto di versione.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If version conflict occurs or batch is not found.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.get_batch">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#get_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.get_batch" title="Link to this definition"></a></dt>
-<dd><p>Restituisce il dettaglio di un lotto dello store corrente.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#get_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.get_batch" title="Link to this definition"></a></dt>
+<dd><p>Retrieve details of a specific batch belonging to the store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID del lotto.</p></li>
-<li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Dipendenza del servizio inventario.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso INVENTORY_READ.</p></li>
+<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to retrieve.</p></li>
+<li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d625c510&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dettaglio del lotto.</p>
+<dd class="field-even"><p>Full batch details.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BatchResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se il lotto non esiste nello store o è stato cancellato.</p>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the batch does not exist or belongs to another store.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.list_batches">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">list_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#list_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.list_batches" title="Link to this definition"></a></dt>
-<dd><p>Elenco lotti dello store corrente con filtri e paginazione.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">list_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#list_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.list_batches" title="Link to this definition"></a></dt>
+<dd><p>List batches for the current store with filtering and pagination.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>filters</strong> (<em>BatchListFilter</em>) – Filtri di ricerca.</p></li>
-<li><p><strong>pagination</strong> (<em>PaginationParams</em>) – Parametri di paginazione.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso INVENTORY_READ.</p></li>
+<li><p><strong>filters</strong> (<em>Annotated</em><em>[</em><em>BatchListFilter</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Optional filters (product name, empty status, expired status).</p></li>
+<li><p><strong>pagination</strong> (<em>Annotated</em><em>[</em><em>PaginationParams</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Pagination parameters (page size, offset).</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d63b39b0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Lista paginata dei lotti.</p>
+<dd class="field-even"><p>Paginated list of batches and total count.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BatchListResponse</p>
@@ -1106,28 +1155,25 @@ Soddisfa i vincoli NOT NULL forzando l’ID operatore e lo store.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.inventory.router.delete_batch">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">delete_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#delete_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.delete_batch" title="Link to this definition"></a></dt>
-<dd><p>Esegue soft delete di un lotto (optimistic locking).</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.router.</span></span><span class="sig-name descname"><span class="pre">delete_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/router.html#delete_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.router.delete_batch" title="Link to this definition"></a></dt>
+<dd><p>Perform soft delete of a batch using optimistic locking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID del lotto.</p></li>
+<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to delete.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>version</strong> (<em>int</em>) – Versione attesa della risorsa.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso INVENTORY_DELETE.</p></li>
+<li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Expected version of the resource for concurrency control.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d62bdbf0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_DELETE permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Esito dell’operazione.</p>
+<dd class="field-even"><p>Success message.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>StatusResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se lotto non trovato o conflitto di versione.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If batch is not found or version conflict occurs.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1149,7 +1195,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <li><p><strong>lot_code</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>lotto_proposto_ai</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>expiry_date</strong> (<em>date</em>)</p></li>
-<li><p><strong>confidence</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>confidence</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0.0</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=1.0</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1262,6 +1308,80 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductAnalysisData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">prodotto</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lotto</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scadenza</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#ProductAnalysisData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Dati strutturati estratti dall’AI dopo l’analisi OCR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prodotto</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>lotto</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>scadenza</strong> (<em>date</em><em> | </em><em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>confidence</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0.0</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=1.0</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">prodotto</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lotto</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">scadenza</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">confidence</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">JobStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#JobStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Stati possibili per un job di analisi in background (allineati a arq).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEFERRED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'deferred'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">QUEUED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'queued'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IN_PROGRESS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in_progress'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">COMPLETE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'complete'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'failed'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">NOT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'not_found'</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchAnalyzeResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warning</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_ocr_debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchAnalyzeResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Risposta dall’analisi dell’immagine.</p>
@@ -1269,7 +1389,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>status</strong> (<em>str</em>)</p></li>
-<li><p><strong>data</strong> (<em>dict</em>)</p></li>
+<li><p><strong>data</strong> (<em>ProductAnalysisData</em>)</p></li>
 <li><p><strong>warning</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>raw_ocr_debug</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 </ul>
@@ -1282,7 +1402,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">data</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></span></dt>
+<span class="sig-name descname"><span class="pre">data</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ProductAnalysisData</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1559,6 +1679,99 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchAnalyzeQueuedResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">JobStatus.QUEUED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchAnalyzeQueuedResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Risposta quando l’analisi è messa in coda (background).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<em>JobStatus</em>)</p></li>
+<li><p><strong>job_id</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">JobStatus</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">job_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchWorkerResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_ocr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchWorkerResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Risultato dell’elaborazione del worker per un lotto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<em>JobStatus</em>)</p></li>
+<li><p><strong>data</strong> (<em>ProductAnalysisData</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>raw_ocr</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>error</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">JobStatus</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ProductAnalysisData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">raw_ocr</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">JobStatusResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#JobStatusResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Risposta per il controllo dello stato di un job in background.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_id</strong> (<em>str</em>)</p></li>
+<li><p><strong>status</strong> (<em>JobStatus</em>)</p></li>
+<li><p><strong>result</strong> (<em>BatchWorkerResult</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">job_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">JobStatus</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BatchWorkerResult</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-app.modules.inventory.service">
 <span id="app-modules-inventory-service-module"></span><h2>app.modules.inventory.service module<a class="headerlink" href="#module-app.modules.inventory.service" title="Link to this heading"></a></h2>
@@ -1596,28 +1809,26 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.analyze_image">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">analyze_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.analyze_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.analyze_image" title="Link to this definition"></a></dt>
-<dd><p>Analyze an image to extract product details using OCR and AI.
-Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">analyze_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.analyze_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.analyze_image" title="Link to this definition"></a></dt>
+<dd><p>Analyzes an image to extract product details using OCR and AI.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_bytes</strong> (<em>bytes</em>) – Raw bytes of the uploaded image.</p></li>
 <li><p><strong>store_id</strong> (<em>int</em>) – Store identifier used to scope product matching.</p></li>
+<li><p><strong>background</strong> (<em>bool</em>) – If True, queues the task and returns a job ID.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Parsed product data, optional warning, and OCR snippet.</p>
+<dd class="field-even"><p>Parsed product data or Job ID.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BatchAnalyzeResponse</p>
+<dd class="field-odd"><p>BatchAnalyzeResponse | BatchAnalyzeQueuedResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.ValidationError" title="app.core.errors.ValidationError"><strong>ValidationError</strong></a> – If the file is empty.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.ExternalServiceError" title="app.core.errors.ExternalServiceError"><strong>ExternalServiceError</strong></a> – If OCR fails.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If AI parsing fails.</p></li>
-<li><p><strong>SystemError</strong> – For unexpected errors.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.ValidationError" title="app.core.errors.ValidationError"><strong>ValidationError</strong></a> – If the uploaded file is empty.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.ExternalServiceError" title="app.core.errors.ExternalServiceError"><strong>ExternalServiceError</strong></a> – If OCR or AI services fail.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1625,8 +1836,8 @@ Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.confirm_batch">
-<span class="sig-name descname"><span class="pre">confirm_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.confirm_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.confirm_batch" title="Link to this definition"></a></dt>
-<dd><p>Confirm and save a validated batch to the database.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">confirm_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.confirm_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.confirm_batch" title="Link to this definition"></a></dt>
+<dd><p>Confirms and saves a validated batch to the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1643,9 +1854,8 @@ Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the product does not exist in the store.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – If database constraints are violated.</p></li>
-<li><p><strong>SystemError</strong> – For unexpected errors.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If product is not found or inactive.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – On integrity violations.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1653,20 +1863,20 @@ Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.update_batch">
-<span class="sig-name descname"><span class="pre">update_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.update_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.update_batch" title="Link to this definition"></a></dt>
-<dd><p>Update an existing batch.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">update_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.update_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.update_batch" title="Link to this definition"></a></dt>
+<dd><p>Updates an existing batch with optimistic locking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – Batch identifier.</p></li>
-<li><p><strong>data</strong> (<em>BatchUpdate</em>) – Update payload (includes expected version).</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier (multi-tenancy).</p></li>
+<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to update.</p></li>
+<li><p><strong>data</strong> (<em>BatchUpdate</em>) – New data and expected version.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the batch does not exist or version conflict occurs.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – If the database update fails.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – On resource not found or version conflict.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – On DB integrity errors.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -1677,14 +1887,14 @@ Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.list_batches">
-<span class="sig-name descname"><span class="pre">list_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.list_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.list_batches" title="Link to this definition"></a></dt>
-<dd><p>List batches with filtering and pagination.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.list_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.list_batches" title="Link to this definition"></a></dt>
+<dd><p>Lists batches with filtering and pagination.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filters</strong> (<em>BatchListFilter</em>) – Filtering options.</p></li>
-<li><p><strong>pagination</strong> (<em>PaginationParams</em>) – Pagination parameters.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier (multi-tenancy).</p></li>
+<li><p><strong>filters</strong> (<em>BatchListFilter</em>) – Filter criteria (product name, empty, expired).</p></li>
+<li><p><strong>pagination</strong> (<em>PaginationParams</em>) – Pagination offset and limit.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1698,20 +1908,20 @@ Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.delete_batch">
-<span class="sig-name descname"><span class="pre">delete_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.delete_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.delete_batch" title="Link to this definition"></a></dt>
-<dd><p>Soft delete di un lotto (optimistic locking).</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">delete_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.delete_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.delete_batch" title="Link to this definition"></a></dt>
+<dd><p>Performs a soft delete of a batch with optimistic locking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID del lotto.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
-<li><p><strong>version</strong> (<em>int</em>) – Versione attesa della risorsa.</p></li>
+<li><p><strong>batch_id</strong> (<em>int</em>) – Unique identifier of the batch to delete.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier (multi-tenancy).</p></li>
+<li><p><strong>version</strong> (<em>int</em>) – Expected version of the batch for concurrency control.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se lotto non trovato o conflitto di versione.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the batch is not found or a version conflict occurs.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – On unexpected database errors.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -1722,23 +1932,48 @@ Executes blocking calls in a thread pool to avoid blocking the event loop.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.get_batch">
-<span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.get_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.get_batch" title="Link to this definition"></a></dt>
-<dd><p>Recupera un lotto (batch) attivo per ID e store.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.get_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.get_batch" title="Link to this definition"></a></dt>
+<dd><p>Retrieves active batch details by ID and store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – Identificativo del lotto.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store (multi-tenancy).</p></li>
+<li><p><strong>batch_id</strong> (<em>int</em>) – Unique identifier of the batch.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier (multi-tenancy).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DTO del lotto.</p>
+<dd class="field-even"><p>The found batch information.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>BatchResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se il lotto non esiste nello store o è soft-deleted.</p>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – If the batch does not exist or belongs to another store.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.inventory.service.BatchService.get_analysis_status">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_analysis_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/service.html#BatchService.get_analysis_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.inventory.service.BatchService.get_analysis_status" title="Link to this definition"></a></dt>
+<dd><p>Gets the status and result of a background analysis job.</p>
+<p>This method retrieves the job status from arq and maps it to the
+application’s <cite>JobStatus</cite> enum. It also validates the result data
+if available and handles internal task failures by checking the
+result’s internal status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>job_id</strong> (<em>str</em>) – The unique identifier of the background job.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Current status, result data (if finished), and</dt><dd><p>any error messages from the worker.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JobStatusResponse</p>
 </dd>
 </dl>
 </dd></dl>

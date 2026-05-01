@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; Restrackit 2.7.0 documentation</title>
+  <title>Overview: module code &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1130,11 +1161,14 @@ window.runMermaid = runMermaid;</script>
 <li><a href="app/core/errors.html">app.core.errors</a></li>
 <li><a href="app/core/i18n.html">app.core.i18n</a></li>
 <li><a href="app/core/logging.html">app.core.logging</a></li>
+<li><a href="app/core/redis.html">app.core.redis</a></li>
 <li><a href="app/core/version.html">app.core.version</a></li>
 <li><a href="app/database.html">app.database</a></li>
 <li><a href="app/main.html">app.main</a></li>
+<li><a href="app/modules/auth/cache.html">app.modules.auth.cache</a></li>
 <li><a href="app/modules/auth/dependencies.html">app.modules.auth.dependencies</a></li>
 <li><a href="app/modules/auth/router.html">app.modules.auth.router</a></li>
+<li><a href="app/modules/auth/schemas.html">app.modules.auth.schemas</a></li>
 <li><a href="app/modules/inventory/models.html">app.modules.inventory.models</a></li>
 <li><a href="app/modules/inventory/router.html">app.modules.inventory.router</a></li>
 <li><a href="app/modules/inventory/schemas.html">app.modules.inventory.schemas</a></li>
@@ -1152,8 +1186,11 @@ window.runMermaid = runMermaid;</script>
 <li><a href="app/services/ai_agent.html">app.services.ai_agent</a></li>
 <li><a href="app/services/image_processing.html">app.services.image_processing</a></li>
 <li><a href="app/services/ocr.html">app.services.ocr</a></li>
+<li><a href="app/shared/cache.html">app.shared.cache</a></li>
+<li><a href="app/shared/rate_limit.html">app.shared.rate_limit</a></li>
 <li><a href="app/shared/schemas.html">app.shared.schemas</a></li>
 <li><a href="app/shared/validators.html">app.shared.validators</a></li>
+<li><a href="app/worker.html">app.worker</a></li>
 </ul>
 
            </div>

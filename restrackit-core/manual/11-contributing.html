@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guida Team (contribuzioni) &mdash; Restrackit 2.7.0 documentation</title>
+  <title>Guida Team (contribuzioni) &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#code-review-checklist">Code Review Checklist</a></li>
@@ -614,6 +640,11 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#storage-cleanup">Storage Cleanup</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
@@ -1119,6 +1150,38 @@ docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </sp
 <li><p>Use case: Why it’s needed</p></li>
 <li><p>Proposed solution</p></li>
 <li><p>Alternative solutions</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="singleton-service-best-practices">
+<h2>Singleton &amp; Service Best Practices<a class="headerlink" href="#singleton-service-best-practices" title="Link to this heading"></a></h2>
+<p>Il progetto utilizza due pattern distinti per i Singleton, a seconda della natura della risorsa:</p>
+<section id="risorse-asincrone-e-stateful-class-service">
+<h3>1. Risorse Asincrone e Stateful (Class Service)<a class="headerlink" href="#risorse-asincrone-e-stateful-class-service" title="Link to this heading"></a></h3>
+<p>Per tutto ciò che richiede una connessione attiva, gestisce uno stato interno o richiede inizializzazione asincrona (es. Redis, Arq, Database):</p>
+<ul class="simple">
+<li><p><strong>Pattern</strong>: Crea una classe <code class="docutils literal notranslate"><span class="pre">Service</span></code> con un attributo privato per l’istanza (es. <code class="docutils literal notranslate"><span class="pre">self._pool</span></code>).</p></li>
+<li><p><strong>Istanziazione</strong>: Istanzia la classe a livello di modulo (es. <code class="docutils literal notranslate"><span class="pre">redis_service</span> <span class="pre">=</span> <span class="pre">RedisService()</span></code>).</p></li>
+<li><p><strong>Accesso</strong>: Usa un metodo asincrono <code class="docutils literal notranslate"><span class="pre">get_pool()</span></code> o <code class="docutils literal notranslate"><span class="pre">get_client()</span></code> per inizializzare pigramente (lazy initialization) la risorsa.</p></li>
+<li><p><strong>Esempio</strong>: Vedi <code class="docutils literal notranslate"><span class="pre">app/core/redis.py</span></code> o <code class="docutils literal notranslate"><span class="pre">ArqService</span></code> in <code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>.</p></li>
+<li><p><strong>Perché</strong>: Permette una gestione pulita del ciclo di vita e risolve i warning di Ruff sul <code class="docutils literal notranslate"><span class="pre">global</span></code>.</p></li>
+</ul>
+</section>
+<section id="risorse-sincrone-e-stateless-lru-cache">
+<h3>2. Risorse Sincrone e Stateless (&#64;lru_cache)<a class="headerlink" href="#risorse-sincrone-e-stateless-lru-cache" title="Link to this heading"></a></h3>
+<p>Per configurazioni, parametri immutabili o wrapper di client REST leggeri:</p>
+<ul class="simple">
+<li><p><strong>Pattern</strong>: Usa <code class="docutils literal notranslate"><span class="pre">&#64;lru_cache(maxsize=1)</span></code> su una funzione helper.</p></li>
+<li><p><strong>Esempio</strong>: <code class="docutils literal notranslate"><span class="pre">get_settings()</span></code> in <code class="docutils literal notranslate"><span class="pre">app/core/config.py</span></code> o <code class="docutils literal notranslate"><span class="pre">get_vision_client()</span></code> in <code class="docutils literal notranslate"><span class="pre">app/core/clients.py</span></code>.</p></li>
+<li><p><strong>Perché</strong>: È il modo più performante e idiomatico in Python per memorizzare oggetti immutabili senza la verbosità di una classe.</p></li>
+</ul>
+</section>
+<section id="serializzazione-e-background-jobs">
+<h3>3. Serializzazione e Background Jobs<a class="headerlink" href="#serializzazione-e-background-jobs" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Msgpack</strong>: Per le code (<code class="docutils literal notranslate"><span class="pre">arq</span></code>) e la cache, usa sempre <strong>msgpack</strong>. Gestisci oggetti <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code> con encoder custom in ISO string.</p></li>
+<li><p><strong>Status Mapping</strong>: Mappa sempre gli stati <code class="docutils literal notranslate"><span class="pre">arq</span></code> (<code class="docutils literal notranslate"><span class="pre">in_progress</span></code>, <code class="docutils literal notranslate"><span class="pre">complete</span></code>) sull’Enum <code class="docutils literal notranslate"><span class="pre">JobStatus</span></code>. Gestisci <code class="docutils literal notranslate"><span class="pre">NOT_FOUND</span></code> e i fallimenti logici del worker (stato <code class="docutils literal notranslate"><span class="pre">FAILED</span></code>).</p></li>
 </ul>
 </section>
 </section>

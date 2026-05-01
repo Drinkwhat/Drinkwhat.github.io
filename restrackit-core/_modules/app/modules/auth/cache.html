@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.router &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.auth.cache &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -1146,7 +1146,7 @@ window.runMermaid = runMermaid;</script>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.modules.inventory.router</li>
+      <li class="breadcrumb-item active">app.modules.auth.cache</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1155,303 +1155,49 @@ window.runMermaid = runMermaid;</script>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.modules.inventory.router</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Inventory router for handling batch/lot operations.</span>
+  <h1>Source code for app.modules.auth.cache</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="sd">This module provides endpoints for:</span>
-<span class="sd">- Analyzing product labels via OCR/AI.</span>
-<span class="sd">- Confirming and saving validated batches.</span>
-<span class="sd">- Managing inventory items (list, update, delete).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">JWKS</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisService</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">UploadFile</span><span class="p">,</span> <span class="n">status</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSessionDep</span>  <span class="c1"># noqa: TC001</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.auth.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthUser</span><span class="p">,</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">RequirePermission</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.inventory.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: TC001</span>
-    <span class="n">BatchAnalyzeQueuedResponse</span><span class="p">,</span>
-    <span class="n">BatchAnalyzeResponse</span><span class="p">,</span>
-    <span class="n">BatchConfirm</span><span class="p">,</span>
-    <span class="n">BatchListFilter</span><span class="p">,</span>
-    <span class="n">BatchListResponse</span><span class="p">,</span>
-    <span class="n">BatchResponse</span><span class="p">,</span>
-    <span class="n">BatchUpdate</span><span class="p">,</span>
-    <span class="n">JobStatusResponse</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.inventory.service</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchService</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.rate_limit</span><span class="w"> </span><span class="kn">import</span> <span class="n">expensive_op_limiter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">PaginationDep</span><span class="p">,</span> <span class="n">StatusResponse</span>
-
-<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/inventory&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;inventory&quot;</span><span class="p">])</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="get_batch_service">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.get_batch_service">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_batch_service</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">DBSessionDep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchService</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dependency factory to create a BatchService bound to the request DB session.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        db: SQLAlchemy session injected by FastAPI.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        BatchService: Service instance for inventory operations.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">BatchService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span></div>
-
-
-
-<span class="n">BatchServiceDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">BatchService</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_batch_service</span><span class="p">)]</span>
-
-
-<div class="viewcode-block" id="analyze_photo">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.analyze_photo">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-    <span class="s2">&quot;/analyze&quot;</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Analizza foto etichetta con OCR e Agent&quot;</span><span class="p">,</span>
-    <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">expensive_op_limiter</span><span class="p">)],</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">422</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;File vuoto o parsing fallito&quot;</span><span class="p">},</span>
-        <span class="mi">429</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Troppe richieste&quot;</span><span class="p">},</span>
-        <span class="mi">502</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Errore servizio OCR&quot;</span><span class="p">},</span>
-        <span class="mi">500</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Errore interno&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">analyze_photo</span><span class="p">(</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_WRITE</span><span class="p">))],</span>
-    <span class="n">file</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UploadFile</span><span class="p">,</span> <span class="n">File</span><span class="p">()],</span>
-    <span class="n">background</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="nb">bool</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Se True, l&#39;elaborazione avviene in background&quot;</span><span class="p">)</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchAnalyzeResponse</span> <span class="o">|</span> <span class="n">BatchAnalyzeQueuedResponse</span><span class="p">:</span>
+<div class="viewcode-block" id="AuthCache">
+<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.cache.AuthCache">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthCache</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Step 1: Upload an image of a product label.</span>
-<span class="sd">    The OCR service extracts text and the AI agent parses it into structured data.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        user: Authenticated user with INVENTORY_WRITE permission.</span>
-<span class="sd">        file: Uploaded image file (label photo).</span>
-<span class="sd">        background: Whether to run as a background task.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        BatchAnalyzeResponse: Parsed data or Job ID if background.</span>
+<span class="sd">    Specialized cache manager for Authentication domain.</span>
+<span class="sd">    Encapsulates key patterns and model validation for Auth-related data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># [SECURITY] Defense-in-depth: Validate file size before reading into memory.</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">VAL_EMPTY_FILE</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">settings</span><span class="o">.</span><span class="n">max_upload_size</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-            <span class="n">ErrorCode</span><span class="o">.</span><span class="n">VAL_FILE_TOO_LARGE</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;max_size&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">max_upload_size</span><span class="p">}</span>
-        <span class="p">)</span>
-
-    <span class="n">file_bytes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">analyze_image</span><span class="p">(</span><span class="n">file_bytes</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">background</span><span class="p">)</span></div>
+<div class="viewcode-block" id="AuthCache.__init__">
+<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.cache.AuthCache.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">redis</span><span class="p">:</span> <span class="n">RedisService</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="n">redis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;auth:jwks&quot;</span></div>
 
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<div class="viewcode-block" id="get_analyze_status">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.get_analyze_status">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="s2">&quot;/analyze/</span><span class="si">{job_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Controlla lo stato dell&#39;analisi in background&quot;</span><span class="p">,</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Job non trovato&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_analyze_status</span><span class="p">(</span>
-    <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_READ</span><span class="p">))],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JobStatusResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the status and retrieve results of a background OCR/AI analysis job.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        job_id: Unique identifier of the background job.</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        user: Authenticated user with INVENTORY_READ permission.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        JobStatusResponse: Current status (queued, started, finished, failed)</span>
-<span class="sd">            and the parsed results if the job is finished.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_analysis_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span></div>
+<div class="viewcode-block" id="AuthCache.get_jwks">
+<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.cache.AuthCache.get_jwks">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_jwks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JWKS</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve validated JWKS from cache.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_key</span><span class="p">(</span><span class="n">url</span><span class="p">),</span> <span class="n">JWKS</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="confirm_batch">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.confirm_batch">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-    <span class="s2">&quot;/confirm&quot;</span><span class="p">,</span>
-    <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Conferma un lotto validato&quot;</span><span class="p">,</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Dati non validi&quot;</span><span class="p">},</span>
-        <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Conflitto dati / vincoli&quot;</span><span class="p">},</span>
-        <span class="mi">500</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Errore interno&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">confirm_batch</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">BatchConfirm</span><span class="p">,</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_WRITE</span><span class="p">))],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phase 2: Permanently save a validated batch to the store&#39;s inventory.</span>
-
-<span class="sd">    This endpoint is called after the user has reviewed and potentially</span>
-<span class="sd">    corrected the AI-proposed data from the /analyze step.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        data: Confirmed batch data (product, lot, expiry, confidence).</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        user: Authenticated user with INVENTORY_WRITE permission.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        BatchResponse: The saved batch record details.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        BusinessLogicError: If the product is not found or inactive.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">confirm_batch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">operator_id</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="update_batch">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.update_batch">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
-    <span class="s2">&quot;/batch/</span><span class="si">{batch_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Aggiorna manualmente un lotto&quot;</span><span class="p">,</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Lotto non trovato&quot;</span><span class="p">},</span>
-        <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Dati non validi&quot;</span><span class="p">},</span>
-        <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Conflitto di versione&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_batch</span><span class="p">(</span>
-    <span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">BatchUpdate</span><span class="p">,</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_WRITE</span><span class="p">))],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manually update an existing batch using optimistic locking.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        batch_id: ID of the batch to update.</span>
-<span class="sd">        data: Updated fields and the expected version for concurrency control.</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        user: Authenticated user with INVENTORY_WRITE permission.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        StatusResponse: Success message.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        BusinessLogicError: If version conflict occurs or batch is not found.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">update_batch</span><span class="p">(</span><span class="n">batch_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Dati aggiornati correttamente.&quot;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="get_batch">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.get_batch">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="s2">&quot;/batch/</span><span class="si">{batch_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Dettaglio lotto&quot;</span><span class="p">,</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Lotto non trovato&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_batch</span><span class="p">(</span>
-    <span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_READ</span><span class="p">))],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve details of a specific batch belonging to the store.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        batch_id: ID of the batch to retrieve.</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        user: Authenticated user with INVENTORY_READ permission.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        BatchResponse: Full batch details.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        BusinessLogicError: If the batch does not exist or belongs to another store.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_batch</span><span class="p">(</span><span class="n">batch_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="list_batches">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.list_batches">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="s2">&quot;/list&quot;</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Lista lotti con filtri e paginazione&quot;</span><span class="p">,</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Parametri non validi&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_batches</span><span class="p">(</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">filters</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">BatchListFilter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">()],</span>
-    <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_READ</span><span class="p">))],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchListResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List batches for the current store with filtering and pagination.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        filters: Optional filters (product name, empty status, expired status).</span>
-<span class="sd">        pagination: Pagination parameters (page size, offset).</span>
-<span class="sd">        user: Authenticated user with INVENTORY_READ permission.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        BatchListResponse: Paginated list of batches and total count.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">list_batches</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="delete_batch">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.router.delete_batch">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-    <span class="s2">&quot;/batch/</span><span class="si">{batch_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Elimina un lotto&quot;</span><span class="p">,</span>
-    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
-        <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Lotto non trovato&quot;</span><span class="p">},</span>
-        <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Conflitto di versione&quot;</span><span class="p">},</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_batch</span><span class="p">(</span>
-    <span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">service</span><span class="p">:</span> <span class="n">BatchServiceDep</span><span class="p">,</span>
-    <span class="n">version</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">)],</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">INVENTORY_DELETE</span><span class="p">))],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform soft delete of a batch using optimistic locking.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        batch_id: ID of the batch to delete.</span>
-<span class="sd">        service: Inventory batch service dependency.</span>
-<span class="sd">        version: Expected version of the resource for concurrency control.</span>
-<span class="sd">        user: Authenticated user with INVENTORY_DELETE permission.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        StatusResponse: Success message.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        BusinessLogicError: If batch is not found or version conflict occurs.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">delete_batch</span><span class="p">(</span><span class="n">batch_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Lotto rimosso dal magazzino.&quot;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="AuthCache.set_jwks">
+<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.cache.AuthCache.set_jwks">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set_jwks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">jwks</span><span class="p">:</span> <span class="n">JWKS</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store JWKS in cache.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">set_cache</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_key</span><span class="p">(</span><span class="n">url</span><span class="p">),</span> <span class="n">jwks</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="n">ttl</span><span class="p">)</span></div>
+</div>
 
 </pre></div>
 

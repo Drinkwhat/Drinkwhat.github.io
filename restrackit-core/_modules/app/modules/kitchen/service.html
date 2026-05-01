@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.service &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.kitchen.service &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1135,9 +1166,11 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">BusinessLogicError</span><span class="p">,</span> <span class="n">DatabaseError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">redis_service</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.inventory.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Batch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">schemas</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProductMaster</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">PaginationParams</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_conservation_method</span>
 
@@ -1160,7 +1193,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.create_recipe">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.create_recipe">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_recipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recipe_in</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeCreate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_recipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recipe_in</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeCreate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Crea una nuova ricetta per lo store corrente.</span>
 
 <span class="sd">        Args:</span>
@@ -1185,7 +1218,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">recipe_in</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">))</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">():</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;⚠️  Recipe &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists in store </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">recipe_in</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Recipe &#39;</span><span class="si">{</span><span class="n">recipe_in</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">}</span>
@@ -1236,6 +1269,10 @@ window.runMermaid = runMermaid;</script>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">db_recipe</span><span class="p">)</span>
+
+            <span class="c1"># Invalidate cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
+
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Recipe created: </span><span class="si">%s</span><span class="s2"> (id=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">db_recipe</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">db_recipe</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">db_recipe</span>
         <span class="k">except</span> <span class="n">BusinessLogicError</span><span class="p">:</span>
@@ -1248,7 +1285,13 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.get_recipes">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.get_recipes">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_recipes</span><span class="p">(</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;recipes&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:</span><span class="si">{</span><span class="n">pagination</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">include_deleted</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_recipes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationParams</span><span class="p">,</span>
@@ -1280,12 +1323,19 @@ window.runMermaid = runMermaid;</script>
             <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
 
         <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">pagination</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">pagination</span><span class="o">.</span><span class="n">page_size</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">())</span></div>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="KitchenService.get_recipe">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.get_recipe">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_recipe</span><span class="p">(</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;recipes&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:detail:</span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">include_deleted</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_recipe</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">include_deleted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Recupera una ricetta per ID e store.</span>
@@ -1314,7 +1364,8 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">include_deleted</span><span class="p">:</span>
             <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-        <span class="n">recipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">recipe</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">recipe</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_RESOURCE_NOT_FOUND</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Recipe </span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
@@ -1324,7 +1375,11 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.get_recipe_availability">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.get_recipe_availability">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_recipe_availability</span><span class="p">(</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;recipes&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:availability:</span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_recipe_availability</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeAvailabilityResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Verifica disponibilità ingredienti per una ricetta.</span>
@@ -1339,7 +1394,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Raises:</span>
 <span class="sd">            BusinessLogicError: Se la ricetta non esiste.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">recipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="n">recipe</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
 
         <span class="n">ingredients_data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
@@ -1399,7 +1454,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.create_preparation">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.create_preparation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_preparation</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_preparation</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">preparation_in</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationCreate</span><span class="p">,</span>
         <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -1427,7 +1482,7 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
 
         <span class="c1"># Validate Recipe</span>
-        <span class="n">recipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">preparation_in</span><span class="o">.</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="n">recipe</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">preparation_in</span><span class="o">.</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">db_preparation</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Preparation</span><span class="p">(</span>
@@ -1443,13 +1498,14 @@ window.runMermaid = runMermaid;</script>
 
             <span class="k">for</span> <span class="n">item_in</span> <span class="ow">in</span> <span class="n">preparation_in</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
                 <span class="c1"># Validate Batch</span>
-                <span class="n">batch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
                     <span class="n">select</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                         <span class="n">Batch</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">item_in</span><span class="o">.</span><span class="n">batch_id</span><span class="p">,</span>
                         <span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
                         <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
                     <span class="p">)</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+                <span class="p">)</span>
+                <span class="n">batch</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">batch</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1484,6 +1540,12 @@ window.runMermaid = runMermaid;</script>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">db_preparation</span><span class="p">)</span>
+
+            <span class="c1"># Invalidate cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:availability:*&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batches:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
+
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Preparation recorded: id=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">db_preparation</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">db_preparation</span>
         <span class="k">except</span> <span class="n">BusinessLogicError</span><span class="p">:</span>
@@ -1546,7 +1608,13 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.get_preparations">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.get_preparations">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_preparations</span><span class="p">(</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;preparations&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:</span><span class="si">{</span><span class="n">pagination</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">filters</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">include_deleted</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_preparations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationParams</span><span class="p">,</span>
@@ -1583,12 +1651,19 @@ window.runMermaid = runMermaid;</script>
             <span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">pagination</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span>
             <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">pagination</span><span class="o">.</span><span class="n">page_size</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">())</span></div>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="KitchenService.get_preparation">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.get_preparation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_preparation</span><span class="p">(</span>
+    <span class="nd">@cached</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;preparations&quot;</span><span class="p">,</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">preparation_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:detail:</span><span class="si">{</span><span class="n">preparation_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">include_deleted</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_preparation</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">include_deleted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">Preparation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Recupera una preparazione per ID e store.</span>
@@ -1610,7 +1685,8 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">include_deleted</span><span class="p">:</span>
             <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Preparation</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-        <span class="n">preparation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">preparation</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">preparation</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_RESOURCE_NOT_FOUND</span><span class="p">,</span>
@@ -1628,12 +1704,13 @@ window.runMermaid = runMermaid;</script>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper per aggiornare gli ingredienti di una ricetta.&quot;&quot;&quot;</span>
         <span class="n">recipe</span><span class="o">.</span><span class="n">ingredients</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">ing_in</span> <span class="ow">in</span> <span class="n">ingredients_in</span><span class="p">:</span>
-            <span class="n">product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
                 <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                     <span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ing_in</span><span class="o">.</span><span class="n">product_master_id</span><span class="p">,</span>
                     <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">product</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">product</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_PRODUCT_NOT_FOUND</span><span class="p">,</span>
@@ -1650,7 +1727,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.update_recipe">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.update_recipe">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_recipe</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_recipe</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeUpdate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggiorna una ricetta con optimistic locking.</span>
@@ -1668,7 +1745,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">                invalidi.</span>
 <span class="sd">            DatabaseError: In caso di errore DB non riconducibile a regole di business.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">recipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="n">recipe</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">recipe</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="n">data</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
@@ -1686,7 +1763,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
                 <span class="n">models</span><span class="o">.</span><span class="n">Recipe</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">recipe_id</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">existing_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">existing_stmt</span><span class="p">))</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Recipe &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">}</span>
                 <span class="p">)</span>
@@ -1709,6 +1786,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">recipe</span><span class="p">)</span>
+
+            <span class="c1"># Invalidate cache (use pattern to catch variants like include_deleted=True/False)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:detail:</span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:availability:</span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
             <span class="k">return</span> <span class="n">recipe</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -1735,7 +1818,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.delete_recipe">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.delete_recipe">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_recipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_recipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Esegue soft delete di una ricetta con optimistic locking.</span>
 
 <span class="sd">        Args:</span>
@@ -1747,7 +1830,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            BusinessLogicError: In caso di versione non coerente o risorsa mancante.</span>
 <span class="sd">            DatabaseError: In caso di errore DB.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">recipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="n">recipe</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">recipe</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="n">version</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
@@ -1760,6 +1843,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">recipe</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="c1"># Invalidate cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:detail:</span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;recipes:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:availability:</span><span class="si">{</span><span class="n">recipe_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
+
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1778,7 +1867,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.update_preparation">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.update_preparation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_preparation</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_preparation</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationUpdate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">Preparation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggiorna una preparazione (attualmente solo le note) con optimistic locking.</span>
@@ -1795,7 +1884,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            BusinessLogicError: In caso di versione non coerente o risorsa mancante.</span>
 <span class="sd">            DatabaseError: In caso di errore DB.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">preparation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="n">preparation</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">preparation</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="n">data</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
@@ -1812,6 +1901,11 @@ window.runMermaid = runMermaid;</script>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">preparation</span><span class="p">)</span>
+
+            <span class="c1"># Invalidate cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;preparations:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:detail:</span><span class="si">{</span><span class="n">preparation_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;preparations:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
+
             <span class="k">return</span> <span class="n">preparation</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
@@ -1831,7 +1925,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="KitchenService.delete_preparation">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.service.KitchenService.delete_preparation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_preparation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_preparation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Esegue soft delete di una preparazione con optimistic locking.</span>
 
 <span class="sd">        Args:</span>
@@ -1843,7 +1937,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            BusinessLogicError: In caso di versione non coerente o risorsa mancante.</span>
 <span class="sd">            DatabaseError: In caso di errore DB.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">preparation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="n">preparation</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">preparation</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="n">version</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
@@ -1856,6 +1950,11 @@ window.runMermaid = runMermaid;</script>
         <span class="n">preparation</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="c1"># Invalidate cache</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;preparations:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:detail:</span><span class="si">{</span><span class="n">preparation_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;preparations:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
+
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>

@@ -34,21 +34,11 @@ Health check endpoint (senza dipendenze di dominio).
 
 ## Inventory Module (`/inventory`)
 
-### `POST /inventory/analyze`
-
-Analyze a product image using Google Vision OCR and Gemini AI Agent. The agent is protected against **Prompt Injection** and returns strictly validated **Structured JSON**.
-
-**Request**:
-
-```http
-POST /inventory/analyze
-Content-Type: multipart/form-data
-Authorization: Bearer <token>
-
 file=<image_file_bytes>
+background=true  # Optional: if true, returns job_id immediately
 ```
 
-**Response** (200 OK):
+**Response** (200 OK - Synchronous):
 
 ```json
 {
@@ -64,11 +54,63 @@ file=<image_file_bytes>
 }
 ```
 
+**Response** (200 OK - Asynchronous):
+
+```json
+{
+  "status": "queued",
+  "job_id": "84d72023-..."
+}
+```
+
 **Errors**:
 
 - `400 Bad Request`: File vuoto o dati non validi.
 - `422 Unprocessable Entity`: Parsing AI fallito.
 - `502 Bad Gateway`: Errore OCR/servizio esterno.
+
+---
+
+### `GET /inventory/analyze/{job_id}`
+
+Get the status and result of a background analysis job.
+
+**Request**:
+
+```http
+GET /inventory/analyze/84d72023-...
+Authorization: Bearer <token>
+```
+
+**Response** (200 OK - Completed):
+
+```json
+{
+  "job_id": "84d72023-...",
+  "status": "completed",
+  "result": {
+    "status": "completed",
+    "data": {
+      "prodotto": "latte intero",
+      "lotto": "L12345",
+      "scadenza": "2024-12-31",
+      "confidence": 0.95
+    },
+    "raw_ocr": "snippet...",
+    "error": null
+  }
+}
+```
+
+**Response** (200 OK - In Progress):
+
+```json
+{
+  "job_id": "84d72023-...",
+  "status": "deferred",
+  "result": null
+}
+```
 
 ---
 

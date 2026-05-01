@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.auth package &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.auth package &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=dfec817d"></script>
+      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -616,6 +642,11 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -699,6 +730,64 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
+<section id="module-app.modules.auth.cache">
+<span id="app-modules-auth-cache-module"></span><h2>app.modules.auth.cache module<a class="headerlink" href="#module-app.modules.auth.cache" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.modules.auth.cache.AuthCache">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.cache.</span></span><span class="sig-name descname"><span class="pre">AuthCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/cache.html#AuthCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.cache.AuthCache" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Specialized cache manager for Authentication domain.
+Encapsulates key patterns and model validation for Auth-related data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>redis</strong> (<a class="reference internal" href="app.core.html#app.core.redis.RedisService" title="app.core.redis.RedisService"><em>RedisService</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.auth.cache.AuthCache.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/cache.html#AuthCache.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.cache.AuthCache.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>redis</strong> (<a class="reference internal" href="app.core.html#app.core.redis.RedisService" title="app.core.redis.RedisService"><em>RedisService</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.auth.cache.AuthCache.get_jwks">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_jwks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/cache.html#AuthCache.get_jwks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.cache.AuthCache.get_jwks" title="Link to this definition"></a></dt>
+<dd><p>Retrieve validated JWKS from cache.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>JWKS</em> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.auth.cache.AuthCache.set_jwks">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">set_jwks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/cache.html#AuthCache.set_jwks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.cache.AuthCache.set_jwks" title="Link to this definition"></a></dt>
+<dd><p>Store JWKS in cache.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str</em>)</p></li>
+<li><p><strong>jwks</strong> (<em>JWKS</em>)</p></li>
+<li><p><strong>ttl</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-app.modules.auth.dependencies">
 <span id="app-modules-auth-dependencies-module"></span><h2>app.modules.auth.dependencies module<a class="headerlink" href="#module-app.modules.auth.dependencies" title="Link to this heading"></a></h2>
 <p>Authentication and multi-tenancy middleware using Keycloak JWT.</p>
@@ -706,177 +795,6 @@
 - JWT token validation against Keycloak public keys
 - Role extraction from Realm Roles
 - Store isolation enforcement via custom claims</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.AuthUser">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.dependencies.</span></span><span class="sig-name descname"><span class="pre">AuthUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/dependencies.html#AuthUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.dependencies.AuthUser" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Authenticated user data structure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
-<li><p><strong>role</strong> (<em>str</em>)</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.AuthUser.operator_id">
-<span class="sig-name descname"><span class="pre">operator_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.AuthUser.operator_id" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.AuthUser.role">
-<span class="sig-name descname"><span class="pre">role</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.AuthUser.role" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.AuthUser.store_id">
-<span class="sig-name descname"><span class="pre">store_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#app.modules.auth.dependencies.AuthUser.store_id" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.AuthUser.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#app.modules.auth.dependencies.AuthUser.__init__" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
-<li><p><strong>role</strong> (<em>str</em>)</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.dependencies.</span></span><span class="sig-name descname"><span class="pre">Permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/dependencies.html#Permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.dependencies.Permission" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>Enumeration of granular permissions for RBAC.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.PRODUCTS_READ">
-<span class="sig-name descname"><span class="pre">PRODUCTS_READ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'products:read'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.PRODUCTS_READ" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.PRODUCTS_WRITE">
-<span class="sig-name descname"><span class="pre">PRODUCTS_WRITE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'products:write'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.PRODUCTS_WRITE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.PRODUCTS_DELETE">
-<span class="sig-name descname"><span class="pre">PRODUCTS_DELETE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'products:delete'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.PRODUCTS_DELETE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.INVENTORY_READ">
-<span class="sig-name descname"><span class="pre">INVENTORY_READ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inventory:read'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.INVENTORY_READ" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.INVENTORY_WRITE">
-<span class="sig-name descname"><span class="pre">INVENTORY_WRITE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inventory:write'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.INVENTORY_WRITE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.INVENTORY_DELETE">
-<span class="sig-name descname"><span class="pre">INVENTORY_DELETE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inventory:delete'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.INVENTORY_DELETE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.KITCHEN_READ">
-<span class="sig-name descname"><span class="pre">KITCHEN_READ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kitchen:read'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.KITCHEN_READ" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.KITCHEN_MANAGE_RECIPES">
-<span class="sig-name descname"><span class="pre">KITCHEN_MANAGE_RECIPES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kitchen:manage_recipes'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.KITCHEN_MANAGE_RECIPES" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.KITCHEN_WRITE_PREPARATION">
-<span class="sig-name descname"><span class="pre">KITCHEN_WRITE_PREPARATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kitchen:write_preparation'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.KITCHEN_WRITE_PREPARATION" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.Permission.ADMIN_ALL">
-<span class="sig-name descname"><span class="pre">ADMIN_ALL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'admin:all'</span></span><a class="headerlink" href="#app.modules.auth.dependencies.Permission.ADMIN_ALL" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.dependencies.</span></span><span class="sig-name descname"><span class="pre">JWK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">kid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/dependencies.html#JWK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.dependencies.JWK" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>JSON Web Key structure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>kid</strong> (<em>str</em>)</p></li>
-<li><p><strong>kty</strong> (<em>str</em>)</p></li>
-<li><p><strong>alg</strong> (<em>str</em>)</p></li>
-<li><p><strong>use</strong> (<em>str</em>)</p></li>
-<li><p><strong>n</strong> (<em>str</em>)</p></li>
-<li><p><strong>e</strong> (<em>str</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK.kid">
-<span class="sig-name descname"><span class="pre">kid</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWK.kid" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK.kty">
-<span class="sig-name descname"><span class="pre">kty</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWK.kty" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK.alg">
-<span class="sig-name descname"><span class="pre">alg</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWK.alg" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK.use">
-<span class="sig-name descname"><span class="pre">use</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWK.use" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK.n">
-<span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWK.n" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWK.e">
-<span class="sig-name descname"><span class="pre">e</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWK.e" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWKS">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.dependencies.</span></span><span class="sig-name descname"><span class="pre">JWKS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/dependencies.html#JWKS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.dependencies.JWKS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>JSON Web Key Set structure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>keys</strong> (<em>list</em><em>[</em><a class="reference internal" href="#app.modules.auth.dependencies.JWK" title="app.modules.auth.dependencies.JWK"><em>JWK</em></a><em>]</em>)</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.modules.auth.dependencies.JWKS.keys">
-<span class="sig-name descname"><span class="pre">keys</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#app.modules.auth.dependencies.JWK" title="app.modules.auth.dependencies.JWK"><span class="pre">JWK</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.modules.auth.dependencies.JWKS.keys" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="app.modules.auth.dependencies.KeycloakAuthenticator">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.dependencies.</span></span><span class="sig-name descname"><span class="pre">KeycloakAuthenticator</span></span><a class="reference internal" href="_modules/app/modules/auth/dependencies.html#KeycloakAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.dependencies.KeycloakAuthenticator" title="Link to this definition"></a></dt>
@@ -907,7 +825,7 @@ calling Keycloak on every request.</p>
 <p>Dependency factory to check if the current user has the required permission.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>permission</strong> (<a class="reference internal" href="#app.modules.auth.dependencies.Permission" title="app.modules.auth.dependencies.Permission"><em>Permission</em></a>)</p>
+<dd class="field-odd"><p><strong>permission</strong> (<em>Permission</em>)</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -916,7 +834,7 @@ calling Keycloak on every request.</p>
 <dd><p>Create a dependency that enforces a specific permission.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>permission</strong> (<a class="reference internal" href="#app.modules.auth.dependencies.Permission" title="app.modules.auth.dependencies.Permission"><em>Permission</em></a>) – Required permission for the protected endpoint.</p>
+<dd class="field-odd"><p><strong>permission</strong> (<em>Permission</em>) – Required permission for the protected endpoint.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -944,6 +862,180 @@ host-header injection.</p>
 <dd class="field-odd"><p>RedirectResponse</p>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="app-modules-auth-schemas-module">
+<h2>app.modules.auth.schemas module<a class="headerlink" href="#app-modules-auth-schemas-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.schemas.</span></span><span class="sig-name descname"><span class="pre">AuthUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/schemas.html#AuthUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Authenticated user data structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
+<li><p><strong>role</strong> (<em>str</em>)</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">operator_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">role</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">store_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
+<li><p><strong>role</strong> (<em>str</em>)</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.schemas.</span></span><span class="sig-name descname"><span class="pre">Permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/schemas.html#Permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Enumeration of granular permissions for RBAC.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PRODUCTS_READ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'products:read'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PRODUCTS_WRITE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'products:write'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PRODUCTS_DELETE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'products:delete'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INVENTORY_READ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inventory:read'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INVENTORY_WRITE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inventory:write'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INVENTORY_DELETE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inventory:delete'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KITCHEN_READ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kitchen:read'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KITCHEN_MANAGE_RECIPES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kitchen:manage_recipes'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KITCHEN_WRITE_PREPARATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kitchen:write_preparation'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADMIN_ALL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'admin:all'</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.schemas.</span></span><span class="sig-name descname"><span class="pre">JWK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">kid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/schemas.html#JWK"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>JSON Web Key structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kid</strong> (<em>str</em>)</p></li>
+<li><p><strong>kty</strong> (<em>str</em>)</p></li>
+<li><p><strong>alg</strong> (<em>str</em>)</p></li>
+<li><p><strong>use</strong> (<em>str</em>)</p></li>
+<li><p><strong>n</strong> (<em>str</em>)</p></li>
+<li><p><strong>e</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">kid</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">kty</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">alg</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">use</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">e</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.schemas.</span></span><span class="sig-name descname"><span class="pre">JWKS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/schemas.html#JWKS"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>JSON Web Key Set structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keys</strong> (<em>list</em><em>[</em><em>JWK</em><em>]</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">JWK</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products.router &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.products.router &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1128,9 +1159,8 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSessionDep</span>  <span class="c1"># noqa: TC001</span>
 
 <span class="c1"># Will be moved to app.modules.auth.dependencies</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.auth.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthUser</span><span class="p">,</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">RequirePermission</span>
@@ -1150,7 +1180,7 @@ window.runMermaid = runMermaid;</script>
 <span class="c1"># Dependency per il servizio</span>
 <div class="viewcode-block" id="get_product_service">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.router.get_product_service">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_product_service</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">ProductService</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_product_service</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">DBSessionDep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductService</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dependency factory to create a ProductService bound to the request DB session.</span>
 
 <span class="sd">    Args:</span>
@@ -1172,7 +1202,6 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.router.bulk_load_products">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
     <span class="s2">&quot;/bulk-load&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">ProductBulkLoadResponse</span><span class="p">,</span>
     <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Carica o aggiorna l&#39;anagrafica prodotti&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
@@ -1184,7 +1213,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bulk_load_products</span><span class="p">(</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProductCreate</span><span class="p">],</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">ProductServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_WRITE</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_WRITE</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductBulkLoadResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sincronizzazione Automatica:</span>
@@ -1199,7 +1228,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        ProductBulkLoadResponse: Riepilogo dell&#39;operazione.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">bulk_load_products</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">bulk_load_products</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
 
 
 
@@ -1207,7 +1236,6 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.router.list_products">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/list&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">ProductListResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Lista prodotti dello store&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">403</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Permessi insufficienti&quot;</span><span class="p">},</span>
@@ -1216,11 +1244,11 @@ window.runMermaid = runMermaid;</script>
 <span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_products</span><span class="p">(</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">ProductServiceDep</span><span class="p">,</span>
-    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per categoria&quot;</span><span class="p">),</span>
-    <span class="n">include_preparations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Includi anche i semilavorati/preparazioni&quot;</span>
-    <span class="p">),</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_READ</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_READ</span><span class="p">))],</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per categoria&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_preparations</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">bool</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Includi anche i semilavorati/preparazioni&quot;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductListResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera i prodotti dello store autorizzato.</span>
 
@@ -1234,7 +1262,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ProductListResponse: Lista prodotti dello store.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">exclude_cat</span> <span class="o">=</span> <span class="s2">&quot;Semilavorato&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">include_preparations</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">list_products</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span> <span class="n">exclude_category</span><span class="o">=</span><span class="n">exclude_cat</span><span class="p">)</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">list_products</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span> <span class="n">exclude_category</span><span class="o">=</span><span class="n">exclude_cat</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ProductListResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="n">items</span><span class="o">=</span><span class="n">items</span><span class="p">)</span></div>
 
@@ -1244,7 +1274,6 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.router.get_product">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/</span><span class="si">{product_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">ProductResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Dettaglio prodotto&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Prodotto non trovato&quot;</span><span class="p">},</span>
@@ -1253,7 +1282,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_product</span><span class="p">(</span>
     <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">ProductServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_READ</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_READ</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Restituisce il dettaglio di un prodotto dello store corrente.</span>
 
@@ -1268,7 +1297,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Raises:</span>
 <span class="sd">        BusinessLogicError: Se il prodotto non esiste nello store o è soft-deleted.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
 
 
 
@@ -1276,7 +1305,6 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.router.update_product">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
     <span class="s2">&quot;/</span><span class="si">{product_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">ProductResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Modifica un prodotto&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Prodotto non trovato&quot;</span><span class="p">},</span>
@@ -1287,7 +1315,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ProductUpdate</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">ProductServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_WRITE</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_WRITE</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Modifica puntuale di un prodotto (optimistic locking).</span>
 
@@ -1304,7 +1332,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        BusinessLogicError: Se il prodotto non esiste, conflitto di versione o duplicato.</span>
 <span class="sd">        DatabaseError: In caso di errore DB.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">update_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">update_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
 
 
 
@@ -1312,7 +1340,6 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.router.delete_product">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
     <span class="s2">&quot;/</span><span class="si">{product_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Elimina un prodotto&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Prodotto non trovato&quot;</span><span class="p">},</span>
@@ -1324,8 +1351,8 @@ window.runMermaid = runMermaid;</script>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_product</span><span class="p">(</span>
     <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">ProductServiceDep</span><span class="p">,</span>
-    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">),</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_DELETE</span><span class="p">)),</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">)],</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">PRODUCTS_DELETE</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft delete se non collegato a lotti attivi (optimistic locking).</span>
 
@@ -1342,7 +1369,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        BusinessLogicError: Se il prodotto non esiste, conflitto di versione o è in uso.</span>
 <span class="sd">        DatabaseError: In caso di errore DB.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">service</span><span class="o">.</span><span class="n">delete_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">delete_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Eliminato.&quot;</span><span class="p">)</span></div>
 
 </pre></div>

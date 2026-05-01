@@ -11,18 +11,18 @@ Restrackit is a FastAPI-based REST API for restaurant inventory management with 
                          │ HTTP/REST (JSON)
                          ▼
         ┌────────────────────────────────────┐
-        │      FastAPI Application           │
-        │  (app/main.py)                     │
-        └────────────┬───────────────────────┘
-                     │
-    ┌────────────────┼────────────────────┐
-    │                │                    │
-    ▼                ▼                    ▼
-┌──────────┐   ┌──────────┐         ┌─────────────┐
-│ Vision   │   │ Gemini   │         │ PostgreSQL  │
-│ API      │   │ Agent    │         │ Database    │
-│(OCR)     │   │ (AI)     │         │ (Data)      │
-└──────────┘   └──────────┘         └─────────────┘
+        │      FastAPI Application           │      ┌──────────────┐
+        │  (app/main.py)                     │◄────►│    Redis     │
+        └────────────┬───────────┬───────────┘      │(Cache/Queue) │
+                     │           │                  └──────────────┘
+    ┌────────────────┼───────────┼────────────────────────┐
+    │                │           │                        │
+    ▼                ▼           ▼                        ▼
+┌──────────┐   ┌──────────┐ ┌─────────────┐        ┌─────────────┐
+│ Vision   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
+│ API      │   │ Agent    │ │ Database    │        │ (Async Task)│
+│(OCR)     │   │ (AI)     │ │ (Data)      │        │             │
+└──────────┘   └──────────┘ └─────────────┘        └─────────────┘
 ```
 
 ## Directory Structure
@@ -61,7 +61,12 @@ restrackit-core/
 │   │   ├── ocr.py             # Google Vision Client
 │   │   └── ai_agent.py        # Gemini Agent Logic
 │   │
+│   ├── shared/                # Shared utilities
+│   │   ├── cache.py           # Redis @cached decorator
+│   │   └── rate_limit.py      # Redis expensive_op_limiter
+│   │
 │   ├── database.py            # SQLAlchemy Session
+│   ├── worker.py              # arq Background Worker
 │   └── main.py                # App Entry Point
 │
 ├── tests/                     # Test Suite
@@ -86,6 +91,8 @@ restrackit-core/
 - **OCR**: Google Cloud Vision API
 - **LLM**: Google Gemini 2.0 Flash (via `google-genai` SDK)
 - **Database**: PostgreSQL 16 (Alpine)
+- **Cache & Queue**: Redis 7.2 (with msgpack serialization)
+- **Task Queue**: arq (Async Redis Queue)
 
 ### DevOps
 
@@ -118,6 +125,24 @@ A specialized service that:
 1. Receives raw OCR text.
 2. Uses a custom tool (`search_product_tool`) to query the DB for product matches.
 3. Returns structured data (Product, Lot, Expiry, Confidence).
+
+### 4. Caching System (`app/shared/cache.py`)
+
+Implementation of an asynchronous caching layer:
+- **Decorator `@cached`**: Applied to service methods to cache results in Redis.
+- **Serialization**: Efficient binary serialization using `msgpack`.
+- **Model Hydration**: Automatically reconstructs Pydantic models from cache hits.
+- **Fail-Open**: If Redis is unavailable, the system transparently falls back to database queries.
+
+### 5. Background Tasks (`app/worker.py`)
+
+Asynchronous task processing using `arq`:
+- **Singleton Pool**: Uses a persistent Redis connection pool to minimize overhead.
+- **Msgpack Serialization**: Custom serializers for `arq` that handle `date`/`datetime` objects via ISO conversion.
+- **Status Mapping**: Detailed job tracking that distinguishes between `arq` execution state and internal task result status (e.g., catching AI failures).
+- **Offloading**: Moves heavy OCR and AI analysis to a separate worker process.
+- **Shared Storage**: Uses Docker volumes for temporary file processing between the API and workers.
+- **Monitoring**: Real-time status retrieval via `/inventory/analyze/{job_id}`.
 
 ## Data Flow: Image Analysis
 

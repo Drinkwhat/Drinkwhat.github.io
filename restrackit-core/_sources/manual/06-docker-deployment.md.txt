@@ -13,7 +13,9 @@ Restrackit is containerized using Docker for consistent development and producti
 │  Services:                             │
 │  1. app (FastAPI)                      │
 │  2. db (PostgreSQL)                    │
-│  3. keycloak + postgres_keycloak (dev) │
+│  3. redis (Cache/Queue)                │
+│  4. worker (arq Background Task)       │
+│  5. keycloak + postgres_keycloak (dev) │
 └────────────────────────────────────────┘
 ```
 
@@ -198,6 +200,7 @@ volumes:
   - ./app:/app/app             # Hot reload (dev)
   - ./alembic:/app/alembic     # Migrations
   - ./service_account.json:/app/service_account.json:ro
+  - uploads_data:/app/uploads   # Shared uploads between app & worker
 ```
 
 ### Database Volume

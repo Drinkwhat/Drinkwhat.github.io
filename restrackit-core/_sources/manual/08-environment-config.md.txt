@@ -34,11 +34,14 @@ Riferimenti: {mod}`app.core.clients`, {mod}`app.core.config`
 ### Database
 
 - `DATABASE_URL` (obbligatoria): URL DB (PostgreSQL o SQLite).
+- `REDIS_URL` (obbligatoria): URL Redis per caching e code task asincroni. Default: `redis://localhost:6379/0`.
+- `REDIS_CACHE_TTL` (opzionale): TTL di default per la cache in secondi. Default: `3600`.
 
 Esempi:
 
 ```text
 postgresql://user:password@host:5432/dbname
+redis://user:password@host:6379/0
 ```
 
 ### Keycloak (OIDC)
@@ -133,6 +136,8 @@ env:
 | `GOOGLE_API_KEY`                | Yes       | `<YOUR_GOOGLE_API_KEY>`  | Google Cloud API key       |
 | `GOOGLE_APPLICATION_CREDENTIALS`| Yes       | `./service_account.json` | Path to JSON file          |
 | `DATABASE_URL`                  | Yes       | `postgresql://...`       | Database connection string |
+| `REDIS_URL`                     | Yes       | `redis://...`            | Redis connection string    |
+| `REDIS_CACHE_TTL`               | No        | `3600`                   | Default cache TTL          |
 | `DB_USER`                       | Dev/Docker| `app_user`               | Database username          |
 | `DB_PASSWORD`                   | Dev/Docker| `password123`            | Database password          |
 | `DB_NAME`                       | Dev/Docker| `app_db`                 | Database name              |

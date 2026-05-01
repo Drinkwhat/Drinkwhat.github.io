@@ -197,11 +197,21 @@ This ensures each container never consumes more than 30MB of disk space for logs
 
 ### Dozzle (Real-time Web Logs)
 
-For immediate, real-time viewing of all container logs (including DB and Traefik) via a web UI:
+For immediate, real-time viewing of all container logs (including DB, Traefik, and the Background Worker) via a web UI:
 - **Local**: Access at [http://localhost:8888](http://localhost:8888)
 - **Staging**: Access via Traefik at `/logs` (e.g., `https://staging.example.com/logs`)
 
 ---
+
+## Specialized Logging
+
+### Background Worker (`app/worker.py`)
+The `arq` worker logs its lifecycle (startup/shutdown), task execution progress, and the results of periodic cleanup jobs.
+
+### Storage Cleanup
+The periodic storage cleanup task logs a summary of deleted files:
+`🗑️ Periodic cleanup: removed 5 orphaned files from /app/uploads`
+This allows monitoring of temporary storage usage and potential leaks.
 
 ---
 

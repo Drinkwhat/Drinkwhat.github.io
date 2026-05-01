@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.shared.cache &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -1146,7 +1146,7 @@ window.runMermaid = runMermaid;</script>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.core.config</li>
+      <li class="breadcrumb-item active">app.shared.cache</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1155,170 +1155,131 @@ window.runMermaid = runMermaid;</script>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.core.config</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Application configuration and settings management.</span>
+  <h1>Source code for app.shared.cache</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">get_type_hints</span>
 
-<span class="sd">This module manages:</span>
-<span class="sd">- Environment variables and .env file configuration</span>
-<span class="sd">- Google API credentials setup</span>
-<span class="sd">- Cached settings instance for singleton pattern</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">redis_service</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">SettingsConfigDict</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Settings">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Application settings loaded from environment or .env file.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_cache_key</span><span class="p">(</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key_builder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates the Redis key for caching.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        google_api_key (str): API key for Google Gemini LLM</span>
-<span class="sd">        google_application_credentials (str): Path to service account JSON for</span>
-<span class="sd">            Google Cloud Vision API</span>
-<span class="sd">        database_url (str): Database connection URL (PostgreSQL or SQLite)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># TODO spostare tutti questi attributi nel file .env</span>
-    <span class="n">google_api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">google_application_credentials</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># Keycloak Configuration</span>
-    <span class="n">KEYCLOAK_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">KEYCLOAK_INTERNAL_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">KEYCLOAK_REALM</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">KEYCLOAK_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="c1"># CORS Configuration</span>
-    <span class="c1"># List of origins allowed to make cross-origin requests.</span>
-    <span class="c1"># In .env, use JSON format: [&quot;http://localhost:3000&quot;, &quot;https://app.example.com&quot;]</span>
-    <span class="c1"># TODO Local default is [&quot;*&quot;] for development convenience.</span>
-    <span class="c1"># TODO In production, set CORS_ORIGINS to an explicit allowlist (no &quot;*&quot;).</span>
-    <span class="c1"># TODO If you enable credentials, never use &quot;*&quot; as an allowed origin.</span>
-    <span class="n">cors_origins</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<div class="viewcode-block" id="Settings.cors_origins_must_be_non_empty_strings">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.cors_origins_must_be_non_empty_strings">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;cors_origins&quot;</span><span class="p">)</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">cors_origins_must_be_non_empty_strings</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure every entry in cors_origins is a non-empty string.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGINS must not be empty&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">origin</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Each entry in CORS_ORIGINS must be a non-empty string&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span></div>
-
-
-    <span class="c1"># Public Base URL of the application, used to generate safe absolute URLs</span>
-    <span class="c1"># (e.g. redirects), avoiding host-header injection.</span>
-    <span class="n">public_base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># TODO If True, browsers are allowed to include credentials on cross-origin requests</span>
-    <span class="c1"># TODO (cookies, Authorization header, TLS client certs).</span>
-    <span class="c1"># TODO Security note: credentials + wildcard origin (&quot;*&quot;) is unsafe; app/main.py enforces</span>
-    <span class="c1"># TODO that credentials are disabled whenever &quot;*&quot; is present in cors_origins.</span>
-    <span class="n">cors_allow_credentials</span><span class="p">:</span> <span class="nb">bool</span>
-
-    <span class="c1"># Monitoring and Analytics (Optional, enabled if provided)</span>
-    <span class="n">sentry_dsn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">sentry_send_pii</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">sentry_traces_sample_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="n">sentry_profiles_sample_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="n">apitally_client_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">environment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;local&quot;</span>  <span class="c1"># e.g., &quot;staging&quot;, &quot;production&quot;, &quot;local&quot;</span>
-    <span class="n">max_upload_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># Default 10MB</span>
-
-    <span class="c1"># Redis Configuration</span>
-    <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">redis_cache_ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># Default 1 hour</span>
-
-    <span class="c1"># Pydantic V2: uses model_config instead of inner Config class</span>
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>
-        <span class="n">env_file</span><span class="o">=</span><span class="s2">&quot;.env&quot;</span><span class="p">,</span>
-        <span class="n">env_file_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
-        <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span>  <span class="c1"># Ignore extra env variables to avoid validation errors</span>
-        <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Computed properties for Keycloak</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">oidc_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the public OIDC base URL for the configured realm.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The public realm URL in the form ``{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">oidc_internal_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the internal OIDC base URL for the configured realm.</span>
-
-<span class="sd">        This is used for server-to-server calls (e.g., JWKS fetch) and falls back to</span>
-<span class="sd">        the public Keycloak URL when an internal URL is not provided.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The internal realm URL in the form ``{base}/realms/{KEYCLOAK_REALM}``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_INTERNAL_URL</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">jwks_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the JWKS (JSON Web Key Set) endpoint URL.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The JWKS URL for the configured realm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_internal_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/certs&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">token_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the OAuth2 token endpoint URL.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The token endpoint URL for the configured realm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/token&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">authorization_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the OAuth2 authorization endpoint URL.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The authorization endpoint URL for the configured realm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/auth&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="get_settings">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.get_settings">[docs]</a>
-<span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get cached settings instance (singleton pattern).</span>
-
-<span class="sd">    This function uses lru_cache to ensure only one Settings instance</span>
-<span class="sd">    is created throughout the application lifecycle. It also sets up</span>
-<span class="sd">    Google Cloud credentials path for the Vision API.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        prefix (str): Prefix for the Redis key.</span>
+<span class="sd">        key_builder (Callable | None): Optional function to build a custom key.</span>
+<span class="sd">        args (tuple): Positional arguments of the decorated function.</span>
+<span class="sd">        kwargs (dict): Keyword arguments of the decorated function.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Settings: Cached application settings instance</span>
+<span class="sd">        str: The generated Redis key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>  <span class="c1"># type: ignore[call-arg]</span>
+    <span class="k">if</span> <span class="n">key_builder</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">key_builder</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="c1"># Critical: Set Google Application Credentials path for Vision SDK</span>
-    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">google_application_credentials</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GOOGLE_APPLICATION_CREDENTIALS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">google_application_credentials</span>
+    <span class="c1"># Default: usa gli argomenti della funzione (saltando il primo se è self/cls)</span>
+    <span class="n">key_parts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+    <span class="n">key_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())])</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_parts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="k">return</span> <span class="n">settings</span></div>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reconstruct_result</span><span class="p">(</span><span class="n">cached_val</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">return_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempts to reconstruct Pydantic models from raw cache data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cached_val (Any): The raw value retrieved from Redis.</span>
+<span class="sd">        return_type (Any): The expected return type hint of the function.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: The reconstructed Pydantic model(s) or the raw value if reconstruction fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">return_type</span> <span class="ow">or</span> <span class="n">cached_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cached_val</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Caso 1: Singolo modello Pydantic</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">return_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">return_type</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">cached_val</span><span class="p">)</span>
+
+        <span class="c1"># Caso 2: Lista di modelli Pydantic</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">return_type</span><span class="p">,</span> <span class="s2">&quot;__origin__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">args_types</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">return_type</span><span class="p">,</span> <span class="s2">&quot;__args__&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">args_types</span>
+                <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args_types</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">args_types</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">BaseModel</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">args_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cached_val</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache reconstruction failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cached_val</span>
+
+
+<div class="viewcode-block" id="cached">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.cache.cached">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cached</span><span class="p">(</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">key_builder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator to cache the results of an async function in Redis.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        prefix (str): Prefix for the Redis key.</span>
+<span class="sd">        ttl (int | None): Optional TTL in seconds (overrides default).</span>
+<span class="sd">        key_builder (Callable | None): Optional function to build a custom key from arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable: The decorated function with caching logic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">[</span><span class="n">F</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]](</span><span class="n">func</span><span class="p">:</span> <span class="n">F</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">F</span><span class="p">:</span>
+        <span class="c1"># Recupera il type hint del ritorno una sola volta a livello di decorator</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">return_type</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">return_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="c1"># 1. Verifica disponibilità Redis</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">_</span> <span class="o">=</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">client</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># 2. Generazione chiave</span>
+            <span class="n">cache_key</span> <span class="o">=</span> <span class="n">_generate_cache_key</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">key_builder</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># 3. Tentativo recupero da cache</span>
+            <span class="n">cached_val</span> <span class="o">=</span> <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">get_cache</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cached_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cache hit for key: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">_reconstruct_result</span><span class="p">(</span><span class="n">cached_val</span><span class="p">,</span> <span class="n">return_type</span><span class="p">)</span>
+
+            <span class="c1"># 4. Esecuzione funzione originale</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># 5. Salvataggio in cache</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">set_cache</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="n">ttl</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cache store for key: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
 
 </pre></div>
 

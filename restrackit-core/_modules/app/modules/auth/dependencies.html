@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.auth.dependencies &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.auth.dependencies &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1135,60 +1166,23 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">jose</span><span class="w"> </span><span class="kn">import</span> <span class="n">JWTError</span><span class="p">,</span> <span class="n">jwt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthenticationError</span><span class="p">,</span> <span class="n">BusinessLogicError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">redis_service</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">oauth2_scheme</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_db</span><span class="p">,</span> <span class="n">set_db_tenant_context</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSessionDep</span><span class="p">,</span> <span class="n">set_db_tenant_context</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.store.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Store</span>
 
-
-<div class="viewcode-block" id="AuthUser">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.dependencies.AuthUser">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">AuthUser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticated user data structure.&quot;&quot;&quot;</span>
-
-    <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">role</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span></div>
-
-
-
-<div class="viewcode-block" id="Permission">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.dependencies.Permission">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Permission</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration of granular permissions for RBAC.&quot;&quot;&quot;</span>
-
-    <span class="c1"># Products</span>
-    <span class="n">PRODUCTS_READ</span> <span class="o">=</span> <span class="s2">&quot;products:read&quot;</span>
-    <span class="n">PRODUCTS_WRITE</span> <span class="o">=</span> <span class="s2">&quot;products:write&quot;</span>
-    <span class="n">PRODUCTS_DELETE</span> <span class="o">=</span> <span class="s2">&quot;products:delete&quot;</span>
-
-    <span class="c1"># Inventory</span>
-    <span class="n">INVENTORY_READ</span> <span class="o">=</span> <span class="s2">&quot;inventory:read&quot;</span>
-    <span class="n">INVENTORY_WRITE</span> <span class="o">=</span> <span class="s2">&quot;inventory:write&quot;</span>  <span class="c1"># Analyze, Confirm, Update</span>
-    <span class="n">INVENTORY_DELETE</span> <span class="o">=</span> <span class="s2">&quot;inventory:delete&quot;</span>
-
-    <span class="c1"># Kitchen</span>
-    <span class="n">KITCHEN_READ</span> <span class="o">=</span> <span class="s2">&quot;kitchen:read&quot;</span>
-    <span class="n">KITCHEN_MANAGE_RECIPES</span> <span class="o">=</span> <span class="s2">&quot;kitchen:manage_recipes&quot;</span>  <span class="c1"># Create/Edit Recipes (Manager only)</span>
-    <span class="n">KITCHEN_WRITE_PREPARATION</span> <span class="o">=</span> <span class="s2">&quot;kitchen:write_preparation&quot;</span>  <span class="c1"># Record Preparations (Chef + Manager)</span>
-
-    <span class="c1"># System</span>
-    <span class="n">ADMIN_ALL</span> <span class="o">=</span> <span class="s2">&quot;admin:all&quot;</span></div>
-
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthCache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">JWKS</span><span class="p">,</span> <span class="n">AuthUser</span><span class="p">,</span> <span class="n">Permission</span>
 
 <span class="c1"># ROLE-TO-PERMISSION MAPPING</span>
 <span class="c1"># Maps each role to a set of allowed permissions</span>
@@ -1216,29 +1210,6 @@ window.runMermaid = runMermaid;</script>
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="JWK">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.dependencies.JWK">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWK</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JSON Web Key structure.&quot;&quot;&quot;</span>
-
-    <span class="n">kid</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">kty</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">alg</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">use</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">n</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">e</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="JWKS">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.dependencies.JWKS">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWKS</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JSON Web Key Set structure.&quot;&quot;&quot;</span>
-
-    <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">JWK</span><span class="p">]</span></div>
-
-
-
 <div class="viewcode-block" id="KeycloakAuthenticator">
 <a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.dependencies.KeycloakAuthenticator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">KeycloakAuthenticator</span><span class="p">:</span>
@@ -1257,46 +1228,82 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># In-memory cache: {url: (jwks_data, timestamp)}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_ttl</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># 1 hour</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_ttl</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># 1 hour</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cache</span> <span class="o">=</span> <span class="n">AuthCache</span><span class="p">(</span><span class="n">redis_service</span><span class="p">)</span></div>
 
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_jwks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">force_refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch JSON Web Key Set with caching and basic resiliency.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            url: JWKS endpoint URL.</span>
-<span class="sd">            force_refresh: If True, bypass the cache and refetch.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: JWKS payload as a plain dictionary (compatible with jose.jwt.decode).</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            Exception: If the JWKS cannot be fetched and no stale cache is available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">force_refresh</span> <span class="ow">and</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">,</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">now</span> <span class="o">-</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_ttl</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">data</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch JSON Web Key Set with caching and basic resiliency.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">force_refresh</span><span class="p">:</span>
+            <span class="n">cached</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cached_jwks</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cached</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">cached</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-                <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
-                <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
-                <span class="c1"># Parse and validate using Pydantic</span>
-                <span class="n">jwks_model</span> <span class="o">=</span> <span class="n">JWKS</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-                <span class="c1"># For compatibility with jose.jwt.decode which expects a dict</span>
-                <span class="n">jwks_dict</span> <span class="o">=</span> <span class="n">jwks_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">jwks_dict</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">jwks_dict</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_from_network</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to fetch JWKS from </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-            <span class="c1"># Fallback to stale cache if available</span>
-            <span class="k">if</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Using stale JWKS cache due to fetch error&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">fallback</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stale_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fallback</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">fallback</span>
             <span class="k">raise</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_cached_jwks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check in-memory and Redis cache for valid JWKS.&quot;&quot;&quot;</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="c1"># 1. In-memory cache</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">expiry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">now</span> <span class="o">&lt;</span> <span class="n">expiry</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+        <span class="c1"># 2. Redis cache</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">jwks</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cache</span><span class="o">.</span><span class="n">get_jwks</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">jwks</span><span class="p">:</span>
+                <span class="n">jwks_dict</span> <span class="o">=</span> <span class="n">jwks</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">jwks_dict</span><span class="p">,</span> <span class="n">now</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_ttl</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jwks_dict</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Redis not available for JWKS cache&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_from_network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform network request to fetch JWKS and update caches.&quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+            <span class="n">jwks_dict</span> <span class="o">=</span> <span class="n">JWKS</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+
+            <span class="c1"># Update caches</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">jwks_dict</span><span class="p">,</span> <span class="n">now</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_ttl</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cache</span><span class="o">.</span><span class="n">set_jwks</span><span class="p">(</span>
+                    <span class="n">url</span><span class="p">,</span>
+                    <span class="n">JWKS</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">jwks_dict</span><span class="p">),</span>
+                    <span class="n">ttl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_ttl</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to store JWKS in Redis&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">jwks_dict</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_stale_fallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attempt to retrieve stale JWKS from memory or Redis as last resort.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Using stale in-memory JWKS cache&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jwks_cache</span><span class="p">[</span><span class="n">url</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">jwks</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cache</span><span class="o">.</span><span class="n">get_jwks</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">jwks</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Using stale JWKS cache from Redis&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jwks</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">cache_error</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to read stale JWKS cache from Redis: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cache_error</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_determine_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Map Keycloak realm roles to internal application roles.</span>
@@ -1316,54 +1323,34 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="s2">&quot;user&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_allowed_stores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">claim</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize the ``store_id`` claim to a list of store identifiers.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            claim: Claim value from the JWT (string or list of strings).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list[int | str]: Parsed store IDs as integers and/or the literal ``\&quot;ALL\&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize the ``store_id`` claim to a list of store identifiers.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">claim</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">claim</span> <span class="o">=</span> <span class="p">[</span><span class="n">claim</span><span class="p">]</span>
-        <span class="n">stores</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">claim</span><span class="p">:</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">parse_store</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s2">&quot;ALL&quot;</span><span class="p">:</span>
-                <span class="n">stores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;ALL&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">stores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="k">continue</span>
-        <span class="k">return</span> <span class="n">stores</span>
+                <span class="k">return</span> <span class="s2">&quot;ALL&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">parsed</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">claim</span> <span class="k">if</span> <span class="p">(</span><span class="n">parsed</span> <span class="o">:=</span> <span class="n">parse_store</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_determine_store_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">allowed_stores</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span> <span class="n">x_target_store</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve the effective store_id for the current request.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            allowed_stores: Stores the user can access (IDs and/or ``\&quot;ALL\&quot;``).</span>
-<span class="sd">            x_target_store: Optional ``x-target-store`` header value.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The resolved store ID.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            AuthenticationError: If the requested store is not allowed or ambiguous.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Split permissions for better typing</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve the effective store_id for the current request.&quot;&quot;&quot;</span>
         <span class="n">has_all_access</span> <span class="o">=</span> <span class="s2">&quot;ALL&quot;</span> <span class="ow">in</span> <span class="n">allowed_stores</span>
-        <span class="n">specific_store_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">allowed_stores</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">int</span><span class="p">)]</span>
+        <span class="n">specific_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">allowed_stores</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">int</span><span class="p">)]</span>
 
         <span class="c1"># 1. Single store assigned -&gt; use it automatically</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">specific_store_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_all_access</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">specific_store_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">specific_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_all_access</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">specific_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># 2. Explicit header provided</span>
         <span class="k">if</span> <span class="n">x_target_store</span><span class="p">:</span>
-            <span class="c1"># If not admin, check if store is in allowed list</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_all_access</span> <span class="ow">and</span> <span class="n">x_target_store</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">specific_store_ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_all_access</span> <span class="ow">and</span> <span class="n">x_target_store</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">specific_ids</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span>
                     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">AUTH_STORE_ACCESS_DENIED</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="n">x_target_store</span><span class="p">}</span>
                 <span class="p">)</span>
@@ -1371,85 +1358,54 @@ window.runMermaid = runMermaid;</script>
 
         <span class="c1"># 3. Admin fallback logic</span>
         <span class="k">if</span> <span class="n">has_all_access</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># Default fallback for admins</span>
+            <span class="k">return</span> <span class="mi">1</span>
 
         <span class="c1"># 4. Ambiguity or missing permission</span>
         <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span>
             <span class="n">ErrorCode</span><span class="o">.</span><span class="n">AUTH_MISSING_HEADER</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="s2">&quot;x-target-store&quot;</span><span class="p">}</span>
         <span class="p">)</span>
 
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-        <span class="n">token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">oauth2_scheme</span><span class="p">),</span>
-        <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">),</span>
-        <span class="n">x_target_store</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-target-store&quot;</span><span class="p">),</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AuthUser</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        FastAPI Dependency entry point.</span>
-<span class="sd">        Validates token, enforces permissions, and returns AuthUser.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            request: Current FastAPI request (reserved for future use).</span>
-<span class="sd">            token: Bearer token extracted by OAuth2 dependency.</span>
-<span class="sd">            db: SQLAlchemy session.</span>
-<span class="sd">            x_target_store: Optional store selector header for multi-store users.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            AuthUser: Authenticated user context (operator_id, role, store_id).</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            AuthenticationError: If the token is missing/invalid or access is forbidden.</span>
-<span class="sd">            BusinessLogicError: If the selected store is not active in the database.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
-
-        <span class="c1"># 1. JWT Validation with Retry</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_decode_token_with_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode JWT token with automatic JWKS refresh on failure.&quot;&quot;&quot;</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;verify_aud&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
-
         <span class="k">try</span><span class="p">:</span>
             <span class="n">jwks</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_jwks</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">jwks_url</span><span class="p">)</span>
-            <span class="n">payload</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-                <span class="n">token</span><span class="p">,</span>
-                <span class="n">jwks</span><span class="p">,</span>
-                <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RS256&quot;</span><span class="p">],</span>
-                <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">jwks</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RS256&quot;</span><span class="p">],</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">JWTError</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;JWT validation failed, refreshing keys...&quot;</span><span class="p">)</span>
                 <span class="n">jwks</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_jwks</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">jwks_url</span><span class="p">,</span> <span class="n">force_refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">payload</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-                    <span class="n">token</span><span class="p">,</span>
-                    <span class="n">jwks</span><span class="p">,</span>
-                    <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RS256&quot;</span><span class="p">],</span>
-                    <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">jwks</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RS256&quot;</span><span class="p">],</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">JWTError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;JWT Error: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span>
                     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">AUTH_INVALID_TOKEN</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_claims</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate standard JWT claims like audience and client ID.&quot;&quot;&quot;</span>
         <span class="n">expected_client_id</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_CLIENT_ID</span>
-        <span class="n">aud_claim</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aud&quot;</span><span class="p">)</span>
-        <span class="n">azp_claim</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;azp&quot;</span><span class="p">)</span>
+        <span class="n">aud</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aud&quot;</span><span class="p">)</span>
+        <span class="n">azp</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;azp&quot;</span><span class="p">)</span>
 
+        <span class="c1"># Check audience</span>
         <span class="n">aud_ok</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aud_claim</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">aud_ok</span> <span class="o">=</span> <span class="n">aud_claim</span> <span class="o">==</span> <span class="n">expected_client_id</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aud_claim</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">aud_ok</span> <span class="o">=</span> <span class="n">expected_client_id</span> <span class="ow">in</span> <span class="n">aud_claim</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aud</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">aud_ok</span> <span class="o">=</span> <span class="n">aud</span> <span class="o">==</span> <span class="n">expected_client_id</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aud</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">aud_ok</span> <span class="o">=</span> <span class="n">expected_client_id</span> <span class="ow">in</span> <span class="n">aud</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">aud_claim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">azp_claim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
-            <span class="ow">not</span> <span class="n">aud_ok</span> <span class="ow">and</span> <span class="n">azp_claim</span> <span class="o">!=</span> <span class="n">expected_client_id</span>
-        <span class="p">):</span>
+        <span class="c1"># Reject if audience/azp are present but don&#39;t match</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">aud</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">azp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">aud_ok</span> <span class="ow">and</span> <span class="n">azp</span> <span class="o">!=</span> <span class="n">expected_client_id</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">AUTH_INVALID_TOKEN</span><span class="p">,</span>
-                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Invalid audience: aud=</span><span class="si">{</span><span class="n">aud_claim</span><span class="si">!r}</span><span class="s2"> azp=</span><span class="si">{</span><span class="n">azp_claim</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">},</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Invalid audience: aud=</span><span class="si">{</span><span class="n">aud</span><span class="si">!r}</span><span class="s2"> azp=</span><span class="si">{</span><span class="n">azp</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">},</span>
             <span class="p">)</span>
 
-        <span class="c1"># 2. Extract User Context</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_auth_user</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">DBSessionDep</span><span class="p">,</span> <span class="n">x_target_store</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AuthUser</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract user context from payload and validate against database.&quot;&quot;&quot;</span>
         <span class="n">operator_id</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;preferred_username&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">operator_id</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span>
@@ -1459,7 +1415,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">roles</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;realm_access&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;roles&quot;</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">user_role</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_determine_role</span><span class="p">(</span><span class="n">roles</span><span class="p">)</span>
 
-        <span class="c1"># 3. Store Logic</span>
+        <span class="c1"># Resolve stores</span>
         <span class="n">allowed_stores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_allowed_stores</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;store_id&quot;</span><span class="p">,</span> <span class="p">[]))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">allowed_stores</span> <span class="ow">and</span> <span class="n">user_role</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;manager&quot;</span><span class="p">):</span>
             <span class="n">allowed_stores</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ALL&quot;</span><span class="p">]</span>
@@ -1468,13 +1424,12 @@ window.runMermaid = runMermaid;</script>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;User </span><span class="si">%s</span><span class="s2"> has no store assigned&quot;</span><span class="p">,</span> <span class="n">operator_id</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">AUTH_FORBIDDEN</span><span class="p">)</span>
 
-        <span class="c1"># 4. Store Selection (Authorization check moved to RequirePermission dependency)</span>
         <span class="n">store_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_determine_store_id</span><span class="p">(</span><span class="n">allowed_stores</span><span class="p">,</span> <span class="n">x_target_store</span><span class="p">)</span>
 
-        <span class="c1"># 5. Apply RLS Context (must be before validation query)</span>
+        <span class="c1"># Multi-tenancy context</span>
         <span class="n">set_db_tenant_context</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
 
-        <span class="c1"># 6. DB Validation</span>
+        <span class="c1"># Database validation</span>
         <span class="k">if</span> <span class="n">store_id</span><span class="p">:</span>
             <span class="n">store</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Store</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Store</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Store</span><span class="o">.</span><span class="n">is_active</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">store</span><span class="p">:</span>
@@ -1483,12 +1438,35 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Store </span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2"> inactive&quot;</span><span class="p">},</span>
                 <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">AuthUser</span><span class="p">(</span><span class="n">operator_id</span><span class="o">=</span><span class="n">operator_id</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">user_role</span><span class="p">,</span> <span class="n">store_id</span><span class="o">=</span><span class="n">store_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">AuthUser</span><span class="p">(</span><span class="n">operator_id</span><span class="o">=</span><span class="n">operator_id</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">user_role</span><span class="p">,</span> <span class="n">store_id</span><span class="o">=</span><span class="n">store_id</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
+        <span class="n">token</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">oauth2_scheme</span><span class="p">)],</span>
+        <span class="n">db</span><span class="p">:</span> <span class="n">DBSessionDep</span><span class="p">,</span>
+        <span class="n">x_target_store</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Header</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-target-store&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AuthUser</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        FastAPI Dependency entry point.</span>
+<span class="sd">        Validates token, enforces permissions, and returns AuthUser.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
+
+        <span class="c1"># 1. Decrypt and validate token</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decode_token_with_retry</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+        <span class="c1"># 2. Check claims</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_claims</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+        <span class="c1"># 3. Build context and validate against DB</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_auth_user</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">x_target_store</span><span class="p">)</span></div>
 
 
 
 <span class="c1"># Singleton instance to be used as dependency</span>
 <span class="n">get_current_user_data</span> <span class="o">=</span> <span class="n">KeycloakAuthenticator</span><span class="p">()</span>
+<span class="n">AuthUserDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_current_user_data</span><span class="p">)]</span>
 
 
 <div class="viewcode-block" id="RequirePermission">
@@ -1509,7 +1487,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_current_user_data</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">AuthUser</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">AuthUserDep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AuthUser</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that the current user has the required permission.</span>
 
 <span class="sd">        Args:</span>

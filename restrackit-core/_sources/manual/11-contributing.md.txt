@@ -427,6 +427,30 @@ Create GitHub issue with:
 
 ---
 
+## Singleton & Service Best Practices
+
+Il progetto utilizza due pattern distinti per i Singleton, a seconda della natura della risorsa:
+
+### 1. Risorse Asincrone e Stateful (Class Service)
+Per tutto ciò che richiede una connessione attiva, gestisce uno stato interno o richiede inizializzazione asincrona (es. Redis, Arq, Database):
+- **Pattern**: Crea una classe `Service` con un attributo privato per l'istanza (es. `self._pool`).
+- **Istanziazione**: Istanzia la classe a livello di modulo (es. `redis_service = RedisService()`).
+- **Accesso**: Usa un metodo asincrono `get_pool()` o `get_client()` per inizializzare pigramente (lazy initialization) la risorsa.
+- **Esempio**: Vedi `app/core/redis.py` o `ArqService` in `app/worker.py`.
+- **Perché**: Permette una gestione pulita del ciclo di vita e risolve i warning di Ruff sul `global`.
+
+### 2. Risorse Sincrone e Stateless (@lru_cache)
+Per configurazioni, parametri immutabili o wrapper di client REST leggeri:
+- **Pattern**: Usa `@lru_cache(maxsize=1)` su una funzione helper.
+- **Esempio**: `get_settings()` in `app/core/config.py` o `get_vision_client()` in `app/core/clients.py`.
+- **Perché**: È il modo più performante e idiomatico in Python per memorizzare oggetti immutabili senza la verbosità di una classe.
+
+### 3. Serializzazione e Background Jobs
+- **Msgpack**: Per le code (`arq`) e la cache, usa sempre **msgpack**. Gestisci oggetti `date`/`datetime` con encoder custom in ISO string.
+- **Status Mapping**: Mappa sempre gli stati `arq` (`in_progress`, `complete`) sull'Enum `JobStatus`. Gestisci `NOT_FOUND` e i fallimenti logici del worker (stato `FAILED`).
+
+---
+
 ## Code Review Checklist
 
 Before submitting PR, ensure:

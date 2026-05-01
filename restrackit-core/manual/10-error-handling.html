@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Error Handling &mdash; Restrackit 2.7.0 documentation</title>
+  <title>Error Handling &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -614,6 +640,11 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#storage-cleanup">Storage Cleanup</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
@@ -1270,32 +1301,54 @@ original_exc=exc
 <td><p>Bad Request</p></td>
 <td><p>Invalid input data</p></td>
 </tr>
-<tr class="row-odd"><td><p>403</p></td>
-<td><p>Forbidden</p></td>
-<td><p>Unauthorized access</p></td>
+<tr class="row-odd"><td><p>401</p></td>
+<td><p>Unauthorized</p></td>
+<td><p>Missing or invalid token</p></td>
 </tr>
-<tr class="row-even"><td><p>404</p></td>
+<tr class="row-even"><td><p>403</p></td>
+<td><p>Forbidden</p></td>
+<td><p>Insufficient permissions</p></td>
+</tr>
+<tr class="row-odd"><td><p>404</p></td>
 <td><p>Not Found</p></td>
 <td><p>Resource doesn’t exist</p></td>
 </tr>
-<tr class="row-odd"><td><p>409</p></td>
+<tr class="row-even"><td><p>409</p></td>
 <td><p>Conflict</p></td>
-<td><p>Data conflict</p></td>
+<td><p>Data conflict (e.g. version)</p></td>
 </tr>
-<tr class="row-even"><td><p>422</p></td>
+<tr class="row-odd"><td><p>422</p></td>
 <td><p>Unprocessable</p></td>
-<td><p>Parsing failed</p></td>
+<td><p>Parsing or business logic failure</p></td>
 </tr>
-<tr class="row-odd"><td><p>500</p></td>
+<tr class="row-even"><td><p>500</p></td>
 <td><p>Server Error</p></td>
-<td><p>Unexpected error</p></td>
+<td><p>Unexpected internal error</p></td>
 </tr>
-<tr class="row-even"><td><p>502</p></td>
+<tr class="row-odd"><td><p>502</p></td>
 <td><p>Bad Gateway</p></td>
-<td><p>External API error</p></td>
+<td><p>External API error (OCR/AI)</p></td>
+</tr>
+<tr class="row-even"><td><p>503</p></td>
+<td><p>Service Unavailable</p></td>
+<td><p>Database or critical API down</p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<hr class="docutils" />
+<section id="fail-open-architecture">
+<h2>Fail-Open Architecture<a class="headerlink" href="#fail-open-architecture" title="Link to this heading"></a></h2>
+<p>This ensures high availability even when secondary infrastructure components fail.</p>
+<section id="background-job-status">
+<h3>Background Job Status<a class="headerlink" href="#background-job-status" title="Link to this heading"></a></h3>
+<p>When monitoring background tasks via <code class="docutils literal notranslate"><span class="pre">arq</span></code>:</p>
+<ul class="simple">
+<li><p><strong>Mapping</strong>: The API maps internal <code class="docutils literal notranslate"><span class="pre">arq</span></code> statuses (e.g., <code class="docutils literal notranslate"><span class="pre">in_progress</span></code>, <code class="docutils literal notranslate"><span class="pre">complete</span></code>) to the <code class="docutils literal notranslate"><span class="pre">JobStatus</span></code> enum.</p></li>
+<li><p><strong>Failures</strong>: If a job finishes but the internal logic fails (e.g., AI parsing error), the result status is explicitly mapped to <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> to provide clear feedback to the client.</p></li>
+<li><p><strong>Missing Jobs</strong>: If a <code class="docutils literal notranslate"><span class="pre">job_id</span></code> is expired or invalid, the system returns <code class="docutils literal notranslate"><span class="pre">JobStatus.NOT_FOUND</span></code> instead of failing, allowing the client to handle the state gracefully.</p></li>
+</ul>
+</section>
 </section>
 <hr class="docutils" />
 <section id="production-considerations">

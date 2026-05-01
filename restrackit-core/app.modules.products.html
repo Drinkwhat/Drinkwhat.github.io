@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products package &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.products package &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=dfec817d"></script>
+      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -616,6 +642,11 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -703,10 +734,10 @@
 <span id="app-modules-products-conservation-router-module"></span><h2>app.modules.products.conservation_router module<a class="headerlink" href="#module-app.modules.products.conservation_router" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.conservation_router.get_conservation_service">
-<span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">get_conservation_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#get_conservation_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.get_conservation_service" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">get_conservation_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#get_conservation_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.get_conservation_service" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a></p>
@@ -716,14 +747,14 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.conservation_router.create_conservation_method">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">create_conservation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#create_conservation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.create_conservation_method" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">create_conservation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#create_conservation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.create_conservation_method" title="Link to this definition"></a></dt>
 <dd><p>Crea un nuovo metodo di conservazione a livello di store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>ConservationMethodCreate</em>)</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6214ec0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -734,13 +765,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.conservation_router.list_conservation_methods">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">list_conservation_methods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#list_conservation_methods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.list_conservation_methods" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">list_conservation_methods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#list_conservation_methods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.list_conservation_methods" title="Link to this definition"></a></dt>
 <dd><p>Elenca tutti i metodi di conservazione attivi per lo store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d618b750&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -751,7 +782,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.conservation_router.update_conservation_method">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">update_conservation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#update_conservation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.update_conservation_method" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">update_conservation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#update_conservation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.update_conservation_method" title="Link to this definition"></a></dt>
 <dd><p>Aggiorna un metodo di conservazione esistente (optimistic locking).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -759,7 +790,7 @@
 <li><p><strong>method_id</strong> (<em>int</em>)</p></li>
 <li><p><strong>data</strong> (<em>ConservationMethodUpdate</em>)</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d618b930&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -770,15 +801,15 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.conservation_router.delete_conservation_method">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">delete_conservation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#delete_conservation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.delete_conservation_method" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">delete_conservation_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#delete_conservation_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.delete_conservation_method" title="Link to this definition"></a></dt>
 <dd><p>Soft delete di un metodo di conservazione.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>method_id</strong> (<em>int</em>)</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>version</strong> (<em>int</em>)</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>)</p></li>
+<li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d640b9b0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1194,11 +1225,11 @@ for example, any mapped columns or relationships.</p>
 <span id="app-modules-products-router-module"></span><h2>app.modules.products.router module<a class="headerlink" href="#module-app.modules.products.router" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.get_product_service">
-<span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">get_product_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#get_product_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.get_product_service" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">get_product_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#get_product_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.get_product_service" title="Link to this definition"></a></dt>
 <dd><p>Dependency factory to create a ProductService bound to the request DB session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>) – SQLAlchemy session injected by FastAPI.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Service instance for product operations.</p>
@@ -1211,7 +1242,7 @@ for example, any mapped columns or relationships.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.bulk_load_products">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">bulk_load_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#bulk_load_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.bulk_load_products" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">bulk_load_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#bulk_load_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.bulk_load_products" title="Link to this definition"></a></dt>
 <dd><p>Sincronizzazione Automatica:
 Se il prodotto esiste, lo ignora (o lo aggiorna).
 Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
@@ -1220,7 +1251,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>items</strong> (<em>list</em><em>[</em><em>ProductCreate</em><em>]</em>) – Lista di prodotti da creare/aggiornare.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d621b450&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1234,15 +1265,15 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.list_products">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Query(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_preparations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Query(False)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.list_products" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_preparations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.list_products" title="Link to this definition"></a></dt>
 <dd><p>Recupera i prodotti dello store autorizzato.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>category</strong> (<em>str</em><em> | </em><em>None</em>) – Filtro opzionale per categoria.</p></li>
-<li><p><strong>include_preparations</strong> (<em>bool</em>) – Se False (default), esclude i prodotti in categoria ‘Semilavorato’.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
+<li><p><strong>category</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Filtro opzionale per categoria.</p></li>
+<li><p><strong>include_preparations</strong> (<em>Annotated</em><em>[</em><em>bool</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Se False (default), esclude i prodotti in categoria ‘Semilavorato’.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d621b950&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1256,14 +1287,14 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.get_product">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">get_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#get_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.get_product" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">get_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#get_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.get_product" title="Link to this definition"></a></dt>
 <dd><p>Restituisce il dettaglio di un prodotto dello store corrente.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>product_id</strong> (<em>int</em>) – ID del prodotto.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d61f4670&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1280,7 +1311,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.update_product">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">update_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#update_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.update_product" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">update_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#update_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.update_product" title="Link to this definition"></a></dt>
 <dd><p>Modifica puntuale di un prodotto (optimistic locking).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1288,7 +1319,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <li><p><strong>product_id</strong> (<em>int</em>) – ID del prodotto.</p></li>
 <li><p><strong>data</strong> (<em>ProductUpdate</em>) – Payload di aggiornamento (include version attesa).</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d61f4910&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1308,15 +1339,15 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.delete_product">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">delete_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;app.modules.auth.dependencies.RequirePermission</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#delete_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.delete_product" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">delete_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#delete_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.delete_product" title="Link to this definition"></a></dt>
 <dd><p>Soft delete se non collegato a lotti attivi (optimistic locking).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>product_id</strong> (<em>int</em>) – ID del prodotto.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>version</strong> (<em>int</em>) – Versione attesa della risorsa.</p></li>
-<li><p><strong>user</strong> (<a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser" title="app.modules.auth.dependencies.AuthUser"><em>AuthUser</em></a>) – Utente autenticato con permesso PRODUCTS_DELETE.</p></li>
+<li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Versione attesa della risorsa.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6030950&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_DELETE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1881,7 +1912,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ProductService.bulk_load_products">
-<span class="sig-name descname"><span class="pre">bulk_load_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.bulk_load_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.bulk_load_products" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">bulk_load_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.bulk_load_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.bulk_load_products" title="Link to this definition"></a></dt>
 <dd><p>Carica o aggiorna massivamente l’anagrafica prodotti.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1904,7 +1935,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ProductService.list_products">
-<span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.list_products" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.list_products" title="Link to this definition"></a></dt>
 <dd><p>Recupera i prodotti dello store autorizzato con filtri opzionali.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1925,7 +1956,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ProductService.update_product">
-<span class="sig-name descname"><span class="pre">update_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.update_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.update_product" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">update_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.update_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.update_product" title="Link to this definition"></a></dt>
 <dd><p>Modifica puntuale di un prodotto (optimistic locking).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1952,7 +1983,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ProductService.delete_product">
-<span class="sig-name descname"><span class="pre">delete_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.delete_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.delete_product" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">delete_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.delete_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.delete_product" title="Link to this definition"></a></dt>
 <dd><p>Soft delete di un prodotto se non collegato a lotti attivi.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1976,7 +2007,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ProductService.get_product">
-<span class="sig-name descname"><span class="pre">get_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.get_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.get_product" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.get_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.get_product" title="Link to this definition"></a></dt>
 <dd><p>Recupera un prodotto attivo (non soft-deleted) per ID e store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2021,7 +2052,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ConservationMethodService.create_method">
-<span class="sig-name descname"><span class="pre">create_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.create_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.create_method" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.create_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.create_method" title="Link to this definition"></a></dt>
 <dd><p>Crea un nuovo metodo di conservazione.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2038,7 +2069,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ConservationMethodService.list_methods">
-<span class="sig-name descname"><span class="pre">list_methods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.list_methods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.list_methods" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_methods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.list_methods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.list_methods" title="Link to this definition"></a></dt>
 <dd><p>Elenca i metodi attivi di uno store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2052,7 +2083,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ConservationMethodService.update_method">
-<span class="sig-name descname"><span class="pre">update_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.update_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.update_method" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">update_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.update_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.update_method" title="Link to this definition"></a></dt>
 <dd><p>Aggiorna un metodo esistente.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2070,7 +2101,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ConservationMethodService.delete_method">
-<span class="sig-name descname"><span class="pre">delete_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.delete_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.delete_method" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">delete_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.delete_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.delete_method" title="Link to this definition"></a></dt>
 <dd><p>Soft delete di un metodo.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.router &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules.kitchen.router &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,20 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +644,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -643,7 +659,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -885,6 +901,10 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -947,6 +967,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -1049,6 +1075,11 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -1128,20 +1159,19 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSessionDep</span>  <span class="c1"># noqa: TC001</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.auth.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthUser</span><span class="p">,</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">RequirePermission</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen</span><span class="w"> </span><span class="kn">import</span> <span class="n">schemas</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.service</span><span class="w"> </span><span class="kn">import</span> <span class="n">KitchenService</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">PaginationParams</span><span class="p">,</span> <span class="n">StatusResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">PaginationDep</span><span class="p">,</span> <span class="n">StatusResponse</span>
 
 <span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/kitchen&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;kitchen&quot;</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="get_kitchen_service">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.get_kitchen_service">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_kitchen_service</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">KitchenService</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_kitchen_service</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">DBSessionDep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KitchenService</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dependency factory to create a KitchenService bound to the request DB session.</span>
 
 <span class="sd">    Args:</span>
@@ -1161,17 +1191,16 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.create_recipe">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
     <span class="s2">&quot;/recipes&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">,</span>
     <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Create a new recipe&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Recipe already exists&quot;</span><span class="p">},</span>
     <span class="p">},</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_recipe</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_recipe</span><span class="p">(</span>
     <span class="n">recipe_in</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeCreate</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_MANAGE_RECIPES</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_MANAGE_RECIPES</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a new standard recipe with ingredients.</span>
@@ -1184,7 +1213,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        RecipeResponse: Created recipe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">create_recipe</span><span class="p">(</span><span class="n">recipe_in</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
+        <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">create_recipe</span><span class="p">(</span><span class="n">recipe_in</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
+    <span class="p">)</span></div>
 
 
 
@@ -1192,14 +1223,13 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.list_recipes">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/recipes&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">],</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;List recipes&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">list_recipes</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_recipes</span><span class="p">(</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationParams</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(),</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtro per nome (contains)&quot;</span><span class="p">),</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">)),</span>
+    <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationDep</span><span class="p">,</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">))],</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtro per nome (contains)&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    List all recipes for the current store.</span>
@@ -1213,7 +1243,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        list[RecipeResponse]: Recipes for the current store.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">recipes</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">get_recipes</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">recipes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_recipes</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recipes</span><span class="p">]</span></div>
 
 
@@ -1222,13 +1252,12 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.get_recipe">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/recipes/</span><span class="si">{recipe_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Get recipe details&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_recipe</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_recipe</span><span class="p">(</span>
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get details of a specific recipe.</span>
@@ -1241,7 +1270,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        RecipeResponse: Recipe details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">))</span></div>
 
 
 
@@ -1249,18 +1278,17 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.update_recipe">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
     <span class="s2">&quot;/recipes/</span><span class="si">{recipe_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Update recipe (optimistic locking)&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Recipe not found&quot;</span><span class="p">},</span>
         <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Conflict or name already exists&quot;</span><span class="p">},</span>
     <span class="p">},</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">update_recipe</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_recipe</span><span class="p">(</span>
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeUpdate</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_MANAGE_RECIPES</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_MANAGE_RECIPES</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update a recipe using optimistic locking.</span>
 
@@ -1277,7 +1305,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        BusinessLogicError: On version conflict, duplicates, or invalid ingredients.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-        <span class="n">service</span><span class="o">.</span><span class="n">update_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">update_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
     <span class="p">)</span></div>
 
 
@@ -1286,18 +1314,17 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.delete_recipe">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
     <span class="s2">&quot;/recipes/</span><span class="si">{recipe_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Soft delete recipe (optimistic locking)&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Recipe not found&quot;</span><span class="p">},</span>
         <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Version conflict&quot;</span><span class="p">},</span>
     <span class="p">},</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">delete_recipe</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_recipe</span><span class="p">(</span>
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">),</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_MANAGE_RECIPES</span><span class="p">)),</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">)],</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_MANAGE_RECIPES</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft delete a recipe using optimistic locking.</span>
 
@@ -1313,7 +1340,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Raises:</span>
 <span class="sd">        BusinessLogicError: If recipe does not exist or version conflict occurs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">service</span><span class="o">.</span><span class="n">delete_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">delete_recipe</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Ricetta eliminata.&quot;</span><span class="p">)</span></div>
 
 
@@ -1322,13 +1349,12 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.get_recipe_availability">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/recipes/</span><span class="si">{recipe_id}</span><span class="s2">/availability&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">RecipeAvailabilityResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Get recipe ingredient availability&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_recipe_availability</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_recipe_availability</span><span class="p">(</span>
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">RecipeAvailabilityResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get active batches for each ingredient in the recipe.</span>
@@ -1342,7 +1368,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        RecipeAvailabilityResponse: Availability by ingredient.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">get_recipe_availability</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_recipe_availability</span><span class="p">(</span><span class="n">recipe_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span></div>
 
 
 
@@ -1350,14 +1376,13 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.create_preparation">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
     <span class="s2">&quot;/preparations&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">,</span>
     <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Record a preparation&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_preparation</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_preparation</span><span class="p">(</span>
     <span class="n">preparation_in</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationCreate</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_WRITE_PREPARATION</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_WRITE_PREPARATION</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Record a culinary preparation.</span>
@@ -1372,7 +1397,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        PreparationResponse: Created preparation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-        <span class="n">service</span><span class="o">.</span><span class="n">create_preparation</span><span class="p">(</span><span class="n">preparation_in</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">operator_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">create_preparation</span><span class="p">(</span><span class="n">preparation_in</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">operator_id</span><span class="p">)</span>
     <span class="p">)</span></div>
 
 
@@ -1381,14 +1406,13 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.list_preparations">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/preparations&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">],</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;List preparation history&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">list_preparations</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_preparations</span><span class="p">(</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationParams</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(),</span>
-    <span class="n">filters</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationListFilter</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(),</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">)),</span>
+    <span class="n">pagination</span><span class="p">:</span> <span class="n">PaginationDep</span><span class="p">,</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationListFilter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">()],</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    List preparation history with optional filters.</span>
@@ -1402,7 +1426,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        list[PreparationResponse]: Preparation history.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">preparations</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">get_preparations</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
+    <span class="n">preparations</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_preparations</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">preparations</span><span class="p">]</span></div>
 
 
@@ -1411,13 +1435,12 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.get_preparation">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="s2">&quot;/preparations/</span><span class="si">{preparation_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Get preparation details&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_preparation</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_preparation</span><span class="p">(</span>
     <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_READ</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get details of a specific preparation.</span>
@@ -1431,7 +1454,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        PreparationResponse: Preparation details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-        <span class="n">service</span><span class="o">.</span><span class="n">get_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
     <span class="p">)</span></div>
 
 
@@ -1440,18 +1463,17 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.update_preparation">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
     <span class="s2">&quot;/preparations/</span><span class="si">{preparation_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Update preparation notes (optimistic locking)&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Preparation not found&quot;</span><span class="p">},</span>
         <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Version conflict&quot;</span><span class="p">},</span>
     <span class="p">},</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">update_preparation</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_preparation</span><span class="p">(</span>
     <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationUpdate</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_WRITE_PREPARATION</span><span class="p">)),</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_WRITE_PREPARATION</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update preparation notes using optimistic locking.</span>
 
@@ -1468,7 +1490,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        BusinessLogicError: If preparation does not exist or version conflict occurs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">schemas</span><span class="o">.</span><span class="n">PreparationResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-        <span class="n">service</span><span class="o">.</span><span class="n">update_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">update_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
     <span class="p">)</span></div>
 
 
@@ -1477,18 +1499,17 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.router.delete_preparation">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
     <span class="s2">&quot;/preparations/</span><span class="si">{preparation_id}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">,</span>
     <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Soft delete preparation (optimistic locking)&quot;</span><span class="p">,</span>
     <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
         <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Preparation not found&quot;</span><span class="p">},</span>
         <span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Version conflict&quot;</span><span class="p">},</span>
     <span class="p">},</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">delete_preparation</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_preparation</span><span class="p">(</span>
     <span class="n">preparation_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">service</span><span class="p">:</span> <span class="n">KitchenServiceDep</span><span class="p">,</span>
-    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">),</span>
-    <span class="n">user</span><span class="p">:</span> <span class="n">AuthUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_WRITE_PREPARATION</span><span class="p">)),</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa&quot;</span><span class="p">)],</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AuthUser</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">RequirePermission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">KITCHEN_WRITE_PREPARATION</span><span class="p">))],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft delete a preparation using optimistic locking.</span>
 
@@ -1504,7 +1525,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Raises:</span>
 <span class="sd">        BusinessLogicError: If preparation does not exist or version conflict occurs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">service</span><span class="o">.</span><span class="n">delete_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">delete_preparation</span><span class="p">(</span><span class="n">preparation_id</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Preparazione eliminata.&quot;</span><span class="p">)</span></div>
 
 </pre></div>

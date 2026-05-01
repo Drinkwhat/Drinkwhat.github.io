@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture Overview &mdash; Restrackit 2.7.0 documentation</title>
+  <title>Architecture Overview &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=dfec817d"></script>
+      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -616,6 +642,11 @@
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -703,18 +734,18 @@
                          │ HTTP/REST (JSON)
                          ▼
         ┌────────────────────────────────────┐
-        │      FastAPI Application           │
-        │  (app/main.py)                     │
-        └────────────┬───────────────────────┘
-                     │
-    ┌────────────────┼────────────────────┐
-    │                │                    │
-    ▼                ▼                    ▼
-┌──────────┐   ┌──────────┐         ┌─────────────┐
-│ Vision   │   │ Gemini   │         │ PostgreSQL  │
-│ API      │   │ Agent    │         │ Database    │
-│(OCR)     │   │ (AI)     │         │ (Data)      │
-└──────────┘   └──────────┘         └─────────────┘
+        │      FastAPI Application           │      ┌──────────────┐
+        │  (app/main.py)                     │◄────►│    Redis     │
+        └────────────┬───────────┬───────────┘      │(Cache/Queue) │
+                     │           │                  └──────────────┘
+    ┌────────────────┼───────────┼────────────────────────┐
+    │                │           │                        │
+    ▼                ▼           ▼                        ▼
+┌──────────┐   ┌──────────┐ ┌─────────────┐        ┌─────────────┐
+│ Vision   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
+│ API      │   │ Agent    │ │ Database    │        │ (Async Task)│
+│(OCR)     │   │ (AI)     │ │ (Data)      │        │             │
+└──────────┘   └──────────┘ └─────────────┘        └─────────────┘
 </pre></div>
 </div>
 </section>
@@ -752,7 +783,12 @@
 │   │   ├── ocr.py             # Google Vision Client
 │   │   └── ai_agent.py        # Gemini Agent Logic
 │   │
+│   ├── shared/                # Shared utilities
+│   │   ├── cache.py           # Redis @cached decorator
+│   │   └── rate_limit.py      # Redis expensive_op_limiter
+│   │
 │   ├── database.py            # SQLAlchemy Session
+│   ├── worker.py              # arq Background Worker
 │   └── main.py                # App Entry Point
 │
 ├── tests/                     # Test Suite
@@ -781,6 +817,8 @@
 <li><p><strong>OCR</strong>: Google Cloud Vision API</p></li>
 <li><p><strong>LLM</strong>: Google Gemini 2.0 Flash (via <code class="docutils literal notranslate"><span class="pre">google-genai</span></code> SDK)</p></li>
 <li><p><strong>Database</strong>: PostgreSQL 16 (Alpine)</p></li>
+<li><p><strong>Cache &amp; Queue</strong>: Redis 7.2 (with msgpack serialization)</p></li>
+<li><p><strong>Task Queue</strong>: arq (Async Redis Queue)</p></li>
 </ul>
 </section>
 <section id="devops">
@@ -820,6 +858,28 @@
 <li><p>Uses a custom tool (<code class="docutils literal notranslate"><span class="pre">search_product_tool</span></code>) to query the DB for product matches.</p></li>
 <li><p>Returns structured data (Product, Lot, Expiry, Confidence).</p></li>
 </ol>
+</section>
+<section id="caching-system-app-shared-cache-py">
+<h3>4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)<a class="headerlink" href="#caching-system-app-shared-cache-py" title="Link to this heading"></a></h3>
+<p>Implementation of an asynchronous caching layer:</p>
+<ul class="simple">
+<li><p><strong>Decorator <code class="docutils literal notranslate"><span class="pre">&#64;cached</span></code></strong>: Applied to service methods to cache results in Redis.</p></li>
+<li><p><strong>Serialization</strong>: Efficient binary serialization using <code class="docutils literal notranslate"><span class="pre">msgpack</span></code>.</p></li>
+<li><p><strong>Model Hydration</strong>: Automatically reconstructs Pydantic models from cache hits.</p></li>
+<li><p><strong>Fail-Open</strong>: If Redis is unavailable, the system transparently falls back to database queries.</p></li>
+</ul>
+</section>
+<section id="background-tasks-app-worker-py">
+<h3>5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)<a class="headerlink" href="#background-tasks-app-worker-py" title="Link to this heading"></a></h3>
+<p>Asynchronous task processing using <code class="docutils literal notranslate"><span class="pre">arq</span></code>:</p>
+<ul class="simple">
+<li><p><strong>Singleton Pool</strong>: Uses a persistent Redis connection pool to minimize overhead.</p></li>
+<li><p><strong>Msgpack Serialization</strong>: Custom serializers for <code class="docutils literal notranslate"><span class="pre">arq</span></code> that handle <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects via ISO conversion.</p></li>
+<li><p><strong>Status Mapping</strong>: Detailed job tracking that distinguishes between <code class="docutils literal notranslate"><span class="pre">arq</span></code> execution state and internal task result status (e.g., catching AI failures).</p></li>
+<li><p><strong>Offloading</strong>: Moves heavy OCR and AI analysis to a separate worker process.</p></li>
+<li><p><strong>Shared Storage</strong>: Uses Docker volumes for temporary file processing between the API and workers.</p></li>
+<li><p><strong>Monitoring</strong>: Real-time status retrieval via <code class="docutils literal notranslate"><span class="pre">/inventory/analyze/{job_id}</span></code>.</p></li>
+</ul>
 </section>
 </section>
 <section id="data-flow-image-analysis">

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules package &mdash; Restrackit 2.7.0 documentation</title>
+  <title>app.modules package &mdash; Restrackit 2.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=dfec817d"></script>
+      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,6 +74,20 @@
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#module-app.worker">app.worker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -197,6 +211,8 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -210,7 +226,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
@@ -452,6 +468,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
@@ -514,6 +534,12 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#issues">Issues</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#report-bug">Report Bug</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
@@ -616,6 +642,11 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
@@ -701,40 +732,16 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="app.modules.auth.html">app.modules.auth package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.auth.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.auth.html#module-app.modules.auth.cache">app.modules.auth.cache module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.cache.AuthCache"><code class="docutils literal notranslate"><span class="pre">AuthCache</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.cache.AuthCache.__init__"><code class="docutils literal notranslate"><span class="pre">AuthCache.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.cache.AuthCache.get_jwks"><code class="docutils literal notranslate"><span class="pre">AuthCache.get_jwks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.cache.AuthCache.set_jwks"><code class="docutils literal notranslate"><span class="pre">AuthCache.set_jwks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.auth.html#module-app.modules.auth.dependencies">app.modules.auth.dependencies module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser"><code class="docutils literal notranslate"><span class="pre">AuthUser</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser.operator_id"><code class="docutils literal notranslate"><span class="pre">AuthUser.operator_id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser.role"><code class="docutils literal notranslate"><span class="pre">AuthUser.role</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser.store_id"><code class="docutils literal notranslate"><span class="pre">AuthUser.store_id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.AuthUser.__init__"><code class="docutils literal notranslate"><span class="pre">AuthUser.__init__()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission"><code class="docutils literal notranslate"><span class="pre">Permission</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.PRODUCTS_READ"><code class="docutils literal notranslate"><span class="pre">Permission.PRODUCTS_READ</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.PRODUCTS_WRITE"><code class="docutils literal notranslate"><span class="pre">Permission.PRODUCTS_WRITE</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.PRODUCTS_DELETE"><code class="docutils literal notranslate"><span class="pre">Permission.PRODUCTS_DELETE</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.INVENTORY_READ"><code class="docutils literal notranslate"><span class="pre">Permission.INVENTORY_READ</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.INVENTORY_WRITE"><code class="docutils literal notranslate"><span class="pre">Permission.INVENTORY_WRITE</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.INVENTORY_DELETE"><code class="docutils literal notranslate"><span class="pre">Permission.INVENTORY_DELETE</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.KITCHEN_READ"><code class="docutils literal notranslate"><span class="pre">Permission.KITCHEN_READ</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.KITCHEN_MANAGE_RECIPES"><code class="docutils literal notranslate"><span class="pre">Permission.KITCHEN_MANAGE_RECIPES</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.KITCHEN_WRITE_PREPARATION"><code class="docutils literal notranslate"><span class="pre">Permission.KITCHEN_WRITE_PREPARATION</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.Permission.ADMIN_ALL"><code class="docutils literal notranslate"><span class="pre">Permission.ADMIN_ALL</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK"><code class="docutils literal notranslate"><span class="pre">JWK</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK.kid"><code class="docutils literal notranslate"><span class="pre">JWK.kid</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK.kty"><code class="docutils literal notranslate"><span class="pre">JWK.kty</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK.alg"><code class="docutils literal notranslate"><span class="pre">JWK.alg</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK.use"><code class="docutils literal notranslate"><span class="pre">JWK.use</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK.n"><code class="docutils literal notranslate"><span class="pre">JWK.n</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWK.e"><code class="docutils literal notranslate"><span class="pre">JWK.e</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWKS"><code class="docutils literal notranslate"><span class="pre">JWKS</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.JWKS.keys"><code class="docutils literal notranslate"><span class="pre">JWKS.keys</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.KeycloakAuthenticator"><code class="docutils literal notranslate"><span class="pre">KeycloakAuthenticator</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.dependencies.KeycloakAuthenticator.__init__"><code class="docutils literal notranslate"><span class="pre">KeycloakAuthenticator.__init__()</span></code></a></li>
 </ul>
@@ -749,6 +756,7 @@
 <li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html#app.modules.auth.router.logout"><code class="docutils literal notranslate"><span class="pre">logout()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.auth.html#app-modules-auth-schemas-module">app.modules.auth.schemas module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="app.modules.inventory.html">app.modules.inventory package</a><ul>
@@ -757,6 +765,7 @@
 <li class="toctree-l2"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.router">app.modules.inventory.router module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.router.get_batch_service"><code class="docutils literal notranslate"><span class="pre">get_batch_service()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.router.analyze_photo"><code class="docutils literal notranslate"><span class="pre">analyze_photo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.router.get_analyze_status"><code class="docutils literal notranslate"><span class="pre">get_analyze_status()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.router.confirm_batch"><code class="docutils literal notranslate"><span class="pre">confirm_batch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.router.update_batch"><code class="docutils literal notranslate"><span class="pre">update_batch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.router.get_batch"><code class="docutils literal notranslate"><span class="pre">get_batch()</span></code></a></li>
@@ -774,6 +783,7 @@
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.service.BatchService.list_batches"><code class="docutils literal notranslate"><span class="pre">BatchService.list_batches()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.service.BatchService.delete_batch"><code class="docutils literal notranslate"><span class="pre">BatchService.delete_batch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.service.BatchService.get_batch"><code class="docutils literal notranslate"><span class="pre">BatchService.get_batch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.service.BatchService.get_analysis_status"><code class="docutils literal notranslate"><span class="pre">BatchService.get_analysis_status()</span></code></a></li>
 </ul>
 </li>
 </ul>
