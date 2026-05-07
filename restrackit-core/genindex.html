@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Restrackit 2.8.0 documentation</title>
+  <title>Index &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="_static/documentation_options.js?v=182a64a0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1235,6 +1244,12 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.html#app.main.add_request_id_header">add_request_id_header() (in module app.main)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.ALL">ALL (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen">Allergen (class in app.shared.allergen_enum)</a>
+</li>
+      <li><a href="app.modules.products.html#app.modules.products.router.ProductFilterParams.allergen_free">allergen_free (app.modules.products.router.ProductFilterParams attribute)</a>
+</li>
       <li><a href="app.modules.inventory.html#app.modules.inventory.service.BatchService.analyze_image">analyze_image() (app.modules.inventory.service.BatchService method)</a>
 </li>
       <li><a href="app.html#app.worker.analyze_inventory_image_task">analyze_inventory_image_task() (in module app.worker)</a>
@@ -1348,8 +1363,6 @@ window.runMermaid = runMermaid;</script>
         <li><a href="app.modules.inventory.html#module-app.modules.inventory.service">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     app.modules.kitchen.router
 
@@ -1357,6 +1370,8 @@ window.runMermaid = runMermaid;</script>
         <li><a href="app.modules.kitchen.html#module-app.modules.kitchen.router">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     app.modules.kitchen.service
 
@@ -1411,6 +1426,20 @@ window.runMermaid = runMermaid;</script>
 
       <ul>
         <li><a href="app.services.html#module-app.services.ocr">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.shared.allergen_enum
+
+      <ul>
+        <li><a href="app.shared.html#module-app.shared.allergen_enum">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.shared.allergens
+
+      <ul>
+        <li><a href="app.shared.html#module-app.shared.allergens">module</a>
 </li>
       </ul></li>
       <li>
@@ -1509,6 +1538,10 @@ window.runMermaid = runMermaid;</script>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.cache.cached">cached() (in module app.shared.cache)</a>
 </li>
+      <li><a href="app.modules.products.html#app.modules.products.router.ProductFilterParams.category">category (app.modules.products.router.ProductFilterParams attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.CELERY">CELERY (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.html#app.worker.cleanup_old_uploads">cleanup_old_uploads() (in module app.worker)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.client">client (app.core.redis.RedisService property)</a>
@@ -1518,6 +1551,8 @@ window.runMermaid = runMermaid;</script>
 </li>
       </ul></li>
       <li><a href="app.core.html#app.core.errors.ErrorPayload.code">code (app.core.errors.ErrorPayload attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergens.combine_masks">combine_masks() (in module app.shared.allergens)</a>
 </li>
       <li><a href="app.services.html#app.services.ai_agent.OCRDataResponse.confidence">confidence (app.services.ai_agent.OCRDataResponse attribute)</a>
 </li>
@@ -1531,10 +1566,10 @@ window.runMermaid = runMermaid;</script>
       </ul></li>
       <li><a href="app.core.html#app.core.redis.RedisService.connect">connect() (app.core.redis.RedisService method)</a>
 </li>
-      <li><a href="app.modules.products.html#app.modules.products.service.ConservationMethodService">ConservationMethodService (class in app.modules.products.service)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.products.html#app.modules.products.service.ConservationMethodService">ConservationMethodService (class in app.modules.products.service)</a>
+</li>
       <li><a href="app.services.html#app.services.image_processing.convert_to_jpeg_bytes">convert_to_jpeg_bytes() (in module app.services.image_processing)</a>
 </li>
       <li><a href="app.modules.products.html#app.modules.products.conservation_router.create_conservation_method">create_conservation_method() (in module app.modules.products.conservation_router)</a>
@@ -1559,6 +1594,8 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.html#app.worker.WorkerSettings.cron_jobs">cron_jobs (app.worker.WorkerSettings attribute)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.CRUSTACEANS">CRUSTACEANS (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.logging.CustomJsonFormatter">CustomJsonFormatter (class in app.core.logging)</a>
 </li>
   </ul></td>
@@ -1576,6 +1613,8 @@ window.runMermaid = runMermaid;</script>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.DB_QUERY_ERROR">DB_QUERY_ERROR (app.core.error_catalog.ErrorCode attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.DB_REDIS_NOT_INITIALIZED">DB_REDIS_NOT_INITIALIZED (app.core.error_catalog.ErrorCode attribute)</a>
+</li>
+      <li><a href="app.core.html#app.core.error_catalog.ErrorCode.DB_REDIS_SERIALIZATION_ERROR">DB_REDIS_SERIALIZATION_ERROR (app.core.error_catalog.ErrorCode attribute)</a>
 </li>
       <li><a href="app.modules.inventory.html#app.modules.inventory.service.BatchService.delete_batch">delete_batch() (app.modules.inventory.service.BatchService method)</a>
 
@@ -1621,6 +1660,8 @@ window.runMermaid = runMermaid;</script>
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.EGGS">EGGS (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorSeverity.ERROR">ERROR (app.core.error_catalog.ErrorSeverity attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.errors.ErrorResponse.error">error (app.core.errors.ErrorResponse attribute)</a>
@@ -1669,6 +1710,8 @@ window.runMermaid = runMermaid;</script>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.FISH">FISH (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.html#app.worker.WorkerSettings.functions">functions (app.worker.WorkerSettings attribute)</a>
 </li>
   </ul></td>
@@ -1681,6 +1724,14 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.modules.inventory.html#app.modules.inventory.router.get_analyze_status">get_analyze_status() (in module app.modules.inventory.router)</a>
 </li>
+      <li><a href="app.html#app.database.get_async_database_url">get_async_database_url() (in module app.database)</a>
+</li>
+      <li><a href="app.modules.products.html#app.modules.products.service.ProductService.get_available_allergens">get_available_allergens() (app.modules.products.service.ProductService method)</a>
+
+      <ul>
+        <li><a href="app.modules.products.html#app.modules.products.router.get_available_allergens">(in module app.modules.products.router)</a>
+</li>
+      </ul></li>
       <li><a href="app.modules.inventory.html#app.modules.inventory.service.BatchService.get_batch">get_batch() (app.modules.inventory.service.BatchService method)</a>
 
       <ul>
@@ -1749,6 +1800,10 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.html#app.main.global_exception_handler">global_exception_handler() (in module app.main)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.GLUTEN">GLUTEN (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
+      <li><a href="app.modules.products.html#app.modules.products.router.ProductFilterParams.gluten_free">gluten_free (app.modules.products.router.ProductFilterParams attribute)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr.GoogleVisionOCRService">GoogleVisionOCRService (class in app.services.ocr)</a>
 </li>
   </ul></td>
@@ -1771,11 +1826,15 @@ window.runMermaid = runMermaid;</script>
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.products.html#app.modules.products.router.ProductFilterParams.include_preparations">include_preparations (app.modules.products.router.ProductFilterParams attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorSeverity.INFO">INFO (app.core.error_catalog.ErrorSeverity attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.services.html#app.services.ai_agent.InventoryAgentService">InventoryAgentService (class in app.services.ai_agent)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergens.is_gluten_free">is_gluten_free() (in module app.shared.allergens)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1788,6 +1847,8 @@ window.runMermaid = runMermaid;</script>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.html#app.worker.WorkerSettings.job_serializer">job_serializer() (app.worker.WorkerSettings method)</a>
+</li>
+      <li><a href="app.core.html#app.core.redis.JSONValue">JSONValue (in module app.core.redis)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1821,15 +1882,17 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.modules.kitchen.html#app.modules.kitchen.router.list_preparations">list_preparations() (in module app.modules.kitchen.router)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.modules.products.html#app.modules.products.service.ProductService.list_products">list_products() (app.modules.products.service.ProductService method)</a>
 
       <ul>
         <li><a href="app.modules.products.html#app.modules.products.router.list_products">(in module app.modules.products.router)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.modules.kitchen.html#app.modules.kitchen.router.list_recipes">list_recipes() (in module app.modules.kitchen.router)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergens.list_to_mask">list_to_mask() (in module app.shared.allergens)</a>
 </li>
       <li><a href="app.html#app.database.load_models">load_models() (in module app.database)</a>
 </li>
@@ -1837,12 +1900,18 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.services.html#app.services.ai_agent.OCRDataResponse.lotto">lotto (app.services.ai_agent.OCRDataResponse attribute)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.LUPIN">LUPIN (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.allergens.mask_to_list">mask_to_list() (in module app.shared.allergens)</a>
+</li>
+      <li><a href="app.core.html#app.core.i18n.mask_to_localized_list">mask_to_localized_list() (in module app.core.i18n)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.message">message (app.core.error_catalog.ErrorInfo attribute)</a>
 
       <ul>
@@ -1850,6 +1919,8 @@ window.runMermaid = runMermaid;</script>
 </li>
       </ul></li>
       <li><a href="app.html#app.database.Base.metadata">metadata (app.database.Base attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.MILK">MILK (app.shared.allergen_enum.Allergen attribute)</a>
 </li>
       <li>
     module
@@ -1903,6 +1974,10 @@ window.runMermaid = runMermaid;</script>
 </li>
         <li><a href="app.services.html#module-app.services.ocr">app.services.ocr</a>
 </li>
+        <li><a href="app.shared.html#module-app.shared.allergen_enum">app.shared.allergen_enum</a>
+</li>
+        <li><a href="app.shared.html#module-app.shared.allergens">app.shared.allergens</a>
+</li>
         <li><a href="app.shared.html#module-app.shared.cache">app.shared.cache</a>
 </li>
         <li><a href="app.shared.html#module-app.shared.rate_limit">app.shared.rate_limit</a>
@@ -1912,6 +1987,12 @@ window.runMermaid = runMermaid;</script>
         <li><a href="app.html#module-app.worker">app.worker</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.MOLLUSCS">MOLLUSCS (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.MUSTARD">MUSTARD (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1934,10 +2015,14 @@ window.runMermaid = runMermaid;</script>
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.PEANUTS">PEANUTS (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.services.html#app.services.ai_agent.OCRDataResponse.prodotto">prodotto (app.services.ai_agent.OCRDataResponse attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.products.html#app.modules.products.router.ProductFilterParams">ProductFilterParams (class in app.modules.products.router)</a>
+</li>
       <li><a href="app.modules.products.html#app.modules.products.service.ProductService">ProductService (class in app.modules.products.service)</a>
 </li>
   </ul></td>
@@ -1948,16 +2033,18 @@ window.runMermaid = runMermaid;</script>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.rate_limit.RateLimiter">RateLimiter (class in app.shared.rate_limit)</a>
 </li>
+      <li><a href="app.core.html#app.core.redis.RedisService.ready">ready (app.core.redis.RedisService property)</a>
+</li>
       <li><a href="app.html#app.worker.WorkerSettings.redis_settings">redis_settings (app.worker.WorkerSettings attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisPrimitive">RedisPrimitive (in module app.core.redis)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService">RedisService (class in app.core.redis)</a>
 </li>
-      <li><a href="app.core.html#app.core.redis.RedisValue">RedisValue (in module app.core.redis)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.core.html#app.core.redis.RedisValue">RedisValue (in module app.core.redis)</a>
+</li>
       <li><a href="app.html#app.database.Base.registry">registry (app.database.Base attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.errors.ErrorResponse.request_id">request_id (app.core.errors.ErrorResponse attribute)</a>
@@ -1982,16 +2069,18 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.html#app.worker.SerializableValue">SerializableValue (in module app.worker)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SESAME">SESAME (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.redis.RedisService.set_cache">set_cache() (app.core.redis.RedisService method)</a>
 </li>
       <li><a href="app.html#app.database.set_db_tenant_context">set_db_tenant_context() (in module app.database)</a>
 </li>
       <li><a href="app.modules.auth.html#app.modules.auth.cache.AuthCache.set_jwks">set_jwks() (app.modules.auth.cache.AuthCache method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.html#app.worker.WorkerSettings.settings">settings (app.worker.WorkerSettings attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.logging.setup_logging">setup_logging() (in module app.core.logging)</a>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.severity">severity (app.core.error_catalog.ErrorInfo attribute)</a>
@@ -2002,7 +2091,11 @@ window.runMermaid = runMermaid;</script>
       </ul></li>
       <li><a href="app.html#app.worker.shutdown">shutdown() (in module app.worker)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SOY">SOY (app.shared.allergen_enum.Allergen attribute)</a>
+</li>
       <li><a href="app.html#app.worker.startup">startup() (in module app.worker)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SULPHITES">SULPHITES (app.shared.allergen_enum.Allergen attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.SYS_INTERNAL_ERROR">SYS_INTERNAL_ERROR (app.core.error_catalog.ErrorCode attribute)</a>
 </li>
@@ -2015,6 +2108,10 @@ window.runMermaid = runMermaid;</script>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.errors.AppError.to_dict">to_dict() (app.core.errors.AppError method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.TREE_NUTS">TREE_NUTS (app.shared.allergen_enum.Allergen attribute)</a>
 </li>
   </ul></td>
 </tr></table>

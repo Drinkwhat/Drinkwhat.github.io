@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core package &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.core package &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="_static/documentation_options.js?v=182a64a0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1222,6 +1231,11 @@ azioni correttive (sia lato client che lato osservabilità).</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.DB_REDIS_SERIALIZATION_ERROR">
+<span class="sig-name descname"><span class="pre">DB_REDIS_SERIALIZATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_DB_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.DB_REDIS_SERIALIZATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_SERVICE_UNAVAILABLE">
 <span class="sig-name descname"><span class="pre">EXT_SERVICE_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_SERVICE_UNAVAILABLE" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1361,7 +1375,7 @@ request_id (str, optional): Identificativo della richiesta, se disponibile.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.AppError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AppError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AppError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Classe base per tutti gli errori dell’applicazione.
 Estende Exception standard ma include metadati strutturati.</p>
@@ -1371,13 +1385,13 @@ Estende Exception standard ma include metadati strutturati.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.core.errors.AppError.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppError.__init__" title="Link to this definition"></a></dt>
 <dd><p>Crea un errore applicativo standardizzato.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1385,7 +1399,7 @@ Estende Exception standard ma include metadati strutturati.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>) – Codice errore definito nel catalogo.</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>) – Parametri per formattare il messaggio (placeholder <code class="docutils literal notranslate"><span class="pre">{...}</span></code>).</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>) – Eccezione originale da includere nei dettagli (se presente).</p></li>
-<li><p><strong>lang</strong> (<em>str</em>) – Lingua del messaggio (default <code class="docutils literal notranslate"><span class="pre">&quot;it&quot;</span></code>).</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>) – Lingua del messaggio (default <code class="docutils literal notranslate"><span class="pre">&quot;it&quot;</span></code>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1412,7 +1426,7 @@ con severità ERROR e status HTTP 500.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.AuthenticationError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AuthenticationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AuthenticationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AuthenticationError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AuthenticationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AuthenticationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AuthenticationError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
 <p>Errore di autenticazione/autorizzazione (401/403) basato su ErrorCode.</p>
 <p>Utilizzato quando le credenziali mancano, sono invalide o l’utente non ha i permessi.</p>
@@ -1422,7 +1436,7 @@ con severità ERROR e status HTTP 500.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1430,7 +1444,7 @@ con severità ERROR e status HTTP 500.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.ValidationError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#ValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ValidationError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#ValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ValidationError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
 <p>Errore di validazione input (400/422) basato su ErrorCode.</p>
 <p>Utilizzato per dati malformati o che non rispettano i vincoli sintattici.</p>
@@ -1440,7 +1454,7 @@ con severità ERROR e status HTTP 500.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1448,7 +1462,7 @@ con severità ERROR e status HTTP 500.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.BusinessLogicError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">BusinessLogicError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#BusinessLogicError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.BusinessLogicError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">BusinessLogicError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#BusinessLogicError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.BusinessLogicError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
 <p>Errore di business logic (404/409/400) basato su ErrorCode.</p>
 <p>Utilizzato per violazioni di regole di dominio (es. risorsa non trovata o conflitto).</p>
@@ -1458,7 +1472,7 @@ con severità ERROR e status HTTP 500.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1466,7 +1480,7 @@ con severità ERROR e status HTTP 500.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.DatabaseError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">DatabaseError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#DatabaseError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.DatabaseError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">DatabaseError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#DatabaseError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.DatabaseError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
 <p>Errore relativo a database (500/503/409) basato su ErrorCode.</p>
 <p>Utilizzato per errori di connessione, query fallite o vincoli di integrità.</p>
@@ -1476,7 +1490,7 @@ con severità ERROR e status HTTP 500.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1484,7 +1498,7 @@ con severità ERROR e status HTTP 500.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.AppSystemError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AppSystemError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppSystemError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppSystemError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">AppSystemError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#AppSystemError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.AppSystemError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
 <p>Errore interno non gestito (500) basato su ErrorCode.</p>
 <p>Utilizzato per eccezioni inaspettate catturate dal gestore globale.</p>
@@ -1494,7 +1508,7 @@ con severità ERROR e status HTTP 500.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1502,7 +1516,7 @@ con severità ERROR e status HTTP 500.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="app.core.errors.ExternalServiceError">
-<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ExternalServiceError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#ExternalServiceError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ExternalServiceError" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.errors.</span></span><span class="sig-name descname"><span class="pre">ExternalServiceError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_exc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/errors.html#ExternalServiceError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.errors.ExternalServiceError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.core.errors.AppError" title="app.core.errors.AppError"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppError</span></code></a></p>
 <p>Errore proveniente da servizi esterni (502/503/504) basato su ErrorCode.</p>
 <p>Utilizzato quando servizi come Google Vision o Gemini falliscono o sono lenti.</p>
@@ -1512,7 +1526,7 @@ con severità ERROR e status HTTP 500.</p>
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>)</p></li>
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em> | </em><em>int</em><em> | </em><em>float</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>original_exc</strong> (<em>Exception</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>lang</strong> (<em>str</em>)</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1523,13 +1537,13 @@ con severità ERROR e status HTTP 500.</p>
 <span id="app-core-i18n-module"></span><h2>app.core.i18n module<a class="headerlink" href="#module-app.core.i18n" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.i18n.get_message">
-<span class="sig-prename descclassname"><span class="pre">app.core.i18n.</span></span><span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'it'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/i18n.html#get_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.i18n.get_message" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">app.core.i18n.</span></span><span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/i18n.html#get_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.i18n.get_message" title="Link to this definition"></a></dt>
 <dd><p>Recupera il messaggio localizzato associato a un codice errore.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>code</strong> (<a class="reference internal" href="#app.core.error_catalog.ErrorCode" title="app.core.error_catalog.ErrorCode"><em>ErrorCode</em></a>) – Codice errore di cui recuperare il messaggio.</p></li>
-<li><p><strong>lang</strong> (<em>str</em>) – Lingua richiesta (es. <code class="docutils literal notranslate"><span class="pre">&quot;it&quot;</span></code> o <code class="docutils literal notranslate"><span class="pre">&quot;en&quot;</span></code>).</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>) – Lingua richiesta (AppLanguage).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1537,6 +1551,26 @@ con severità ERROR e status HTTP 500.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.i18n.mask_to_localized_list">
+<span class="sig-prename descclassname"><span class="pre">app.core.i18n.</span></span><span class="sig-name descname"><span class="pre">mask_to_localized_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/i18n.html#mask_to_localized_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.i18n.mask_to_localized_list" title="Link to this definition"></a></dt>
+<dd><p>Converte una bitmask nella lista di etichette tradotte.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mask</strong> (<em>int</em>) – Bitmask degli allergeni.</p></li>
+<li><p><strong>lang</strong> (<em>AppLanguage</em>) – Lingua desiderata (AppLanguage).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lista di etichette tradotte.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1724,6 +1758,11 @@ allowing formatters to include it in the output.</p>
 <dd></dd></dl>
 
 <dl class="py type">
+<dt class="sig sig-object py" id="app.core.redis.JSONValue">
+<span class="property"><span class="k"><span class="pre">type</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.redis.</span></span><span class="sig-name descname"><span class="pre">JSONValue</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#app.core.redis.JSONValue" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py type">
 <dt class="sig sig-object py" id="app.core.redis.RedisValue">
 <span class="property"><span class="k"><span class="pre">type</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.redis.</span></span><span class="sig-name descname"><span class="pre">RedisValue</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#app.core.redis.RedisPrimitive" title="app.core.redis.RedisPrimitive"><span class="pre">RedisPrimitive</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#app.core.redis.RedisValue" title="app.core.redis.RedisValue"><span class="pre">RedisValue</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#app.core.redis.RedisValue" title="app.core.redis.RedisValue"><span class="pre">RedisValue</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.core.redis.RedisValue" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1767,6 +1806,20 @@ caching, and rate limiting support.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="app.core.redis.RedisService.ready">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ready</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#app.core.redis.RedisService.ready" title="Link to this definition"></a></dt>
+<dd><p>Check if the Redis client is initialized and ready.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if connected, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>

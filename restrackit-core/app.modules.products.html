@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products package &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.products package &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="_static/documentation_options.js?v=182a64a0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -737,7 +746,7 @@
 <span class="sig-prename descclassname"><span class="pre">app.modules.products.conservation_router.</span></span><span class="sig-name descname"><span class="pre">get_conservation_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/conservation_router.html#get_conservation_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.conservation_router.get_conservation_service" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>AsyncSession</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a></p>
@@ -754,7 +763,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>ConservationMethodCreate</em>)</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6214ec0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d19371650&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -771,7 +780,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d618b750&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d193374d0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -787,10 +796,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>method_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>method_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>data</strong> (<em>ConservationMethodUpdate</em>)</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d618b930&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d193376b0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -806,10 +815,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>method_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>method_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ConservationMethodService" title="app.modules.products.service.ConservationMethodService"><em>ConservationMethodService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.conservation_router.get_conservation_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d640b9b0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d193c6570&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -969,12 +978,12 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">duration_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">duration_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">duration_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">duration_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1174,6 +1183,11 @@ and kitchen recipes. Uniqueness is enforced per store (<code class="docutils lit
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergen_mask</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">created_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">dt.datetime</span><span class="p"><span class="pre">]</span></span></span></dt>
 <dd></dd></dl>
 
@@ -1218,6 +1232,12 @@ attributes of the instance’s class are allowed. These could be,
 for example, any mapped columns or relationships.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd><p>Converte la bitmask in una lista di nomi di allergeni.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1229,13 +1249,33 @@ for example, any mapped columns or relationships.</p>
 <dd><p>Dependency factory to create a ProductService bound to the request DB session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>AsyncSession</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Service instance for product operations.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService">ProductService</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.products.router.get_available_allergens">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">get_available_allergens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#get_available_allergens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.get_available_allergens" title="Link to this definition"></a></dt>
+<dd><p>Restituisce il mapping slug -&gt; label degli allergeni EU.</p>
+<p>Il frontend può usare questo endpoint per popolare dropdown o checkbox
+e mostrare le etichette corrette (i18n).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d191cce50&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>lang</strong> (<em>Annotated</em><em>[</em><em>AppLanguage</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ProductAllergenResponse</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1251,7 +1291,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>items</strong> (<em>list</em><em>[</em><em>ProductCreate</em><em>]</em>) – Lista di prodotti da creare/aggiornare.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d621b450&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d191cd150&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1263,17 +1303,53 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 </dl>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="app.modules.products.router.ProductFilterParams">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">ProductFilterParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_preparations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gluten_free</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergen_free</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#ProductFilterParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.ProductFilterParams" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Parametri di filtraggio per la lista prodotti.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>category</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>include_preparations</strong> (<em>bool</em>)</p></li>
+<li><p><strong>gluten_free</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>allergen_free</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.products.router.ProductFilterParams.category">
+<span class="sig-name descname"><span class="pre">category</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Query</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.modules.products.router.ProductFilterParams.category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.products.router.ProductFilterParams.include_preparations">
+<span class="sig-name descname"><span class="pre">include_preparations</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Query</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.modules.products.router.ProductFilterParams.include_preparations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.products.router.ProductFilterParams.gluten_free">
+<span class="sig-name descname"><span class="pre">gluten_free</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Query</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.modules.products.router.ProductFilterParams.gluten_free" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.products.router.ProductFilterParams.allergen_free">
+<span class="sig-name descname"><span class="pre">allergen_free</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Query</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.modules.products.router.ProductFilterParams.allergen_free" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.products.router.list_products">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_preparations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.list_products" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.router.</span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/router.html#list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.router.list_products" title="Link to this definition"></a></dt>
 <dd><p>Recupera i prodotti dello store autorizzato.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>category</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Filtro opzionale per categoria.</p></li>
-<li><p><strong>include_preparations</strong> (<em>Annotated</em><em>[</em><em>bool</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Se False (default), esclude i prodotti in categoria ‘Semilavorato’.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d621b950&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d192feac0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
+<li><p><strong>filters</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.router.ProductFilterParams" title="app.modules.products.router.ProductFilterParams"><em>ProductFilterParams</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Parametri di filtraggio (categoria, allergeni, ecc).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1292,9 +1368,9 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>product_id</strong> (<em>int</em>) – ID del prodotto.</p></li>
+<li><p><strong>product_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID del prodotto.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d61f4670&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d192ff070&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_READ.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1319,7 +1395,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <li><p><strong>product_id</strong> (<em>int</em>) – ID del prodotto.</p></li>
 <li><p><strong>data</strong> (<em>ProductUpdate</em>) – Payload di aggiornamento (include version attesa).</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d61f4910&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d191c4e90&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_WRITE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1347,7 +1423,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <li><p><strong>product_id</strong> (<em>int</em>) – ID del prodotto.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.products.service.ProductService" title="app.modules.products.service.ProductService"><em>ProductService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.products.router.get_product_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Servizio prodotti.</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Versione attesa della risorsa.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6030950&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_DELETE.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d191c51f0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Utente autenticato con permesso PRODUCTS_DELETE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1371,7 +1447,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <p>Schema per la gestione anagrafica prodotti.</p>
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ConservationMethodCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger_event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resets_expiry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ConservationMethodCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ConservationMethodCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger_event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resets_expiry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ConservationMethodCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema per la creazione di un metodo di conservazione.</p>
 <dl class="field-list simple">
@@ -1379,9 +1455,9 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=100</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>trigger_event</strong> (<em>Literal</em><em>[</em><em>'OPENING'</em><em>, </em><em>'THAWING'</em><em>, </em><em>'PRODUCTION_END'</em><em>]</em>)</p></li>
-<li><p><strong>duration_days</strong> (<em>Annotated</em><em>[</em><em>int</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>duration_hours</strong> (<em>Annotated</em><em>[</em><em>int</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>storage_type</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=50</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>duration_days</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>duration_hours</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>storage_type</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=50</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>resets_expiry</strong> (<em>bool</em>)</p></li>
 </ul>
 </dd>
@@ -1398,17 +1474,17 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">duration_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<span class="sig-name descname"><span class="pre">duration_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">duration_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<span class="sig-name descname"><span class="pre">duration_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">storage_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<span class="sig-name descname"><span class="pre">storage_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1422,10 +1498,16 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dd><p>Normalizza il nome in lowercase e rimuove spazi extra.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>str</em>)</p>
+<dd class="field-odd"><p><strong>v</strong> (<em>str</em>) – Il nome in input.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Il nome normalizzato.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se il nome risulta vuoto dopo la normalizzazione.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1435,8 +1517,14 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <span class="sig-name descname"><span class="pre">validate_duration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ConservationMethodCreate.validate_duration"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Assicura che venga valorizzato almeno un campo durata.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>ConservationMethodCreate</em></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>L’istanza validata.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ConservationMethodCreate</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – Se sia duration_days che duration_hours sono pari a 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1502,10 +1590,16 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dd><p>Normalizza il nome in lowercase e rimuove spazi extra.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>str</em><em> | </em><em>None</em>)</p>
+<dd class="field-odd"><p><strong>v</strong> (<em>str</em><em> | </em><em>None</em>) – Il nome in input.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str | None</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Il nome normalizzato o None se non fornito.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se il nome risulta vuoto dopo la normalizzazione.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1515,8 +1609,14 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <span class="sig-name descname"><span class="pre">validate_duration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ConservationMethodUpdate.validate_duration"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Assicura che non vengano azzerati entrambi i campi durata se presenti.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>ConservationMethodUpdate</em></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>L’istanza validata.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ConservationMethodUpdate</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – Se entrambi i campi durata sono impostati a None o 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1610,7 +1710,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema per la creazione di un prodotto.</p>
 <dl class="field-list simple">
@@ -1619,6 +1719,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <li><p><strong>name</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=200</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>category</strong> (<em>str</em>)</p></li>
 <li><p><strong>conservation_method_id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1637,19 +1738,47 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <span class="sig-name descname"><span class="pre">conservation_method_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">normalize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductCreate.normalize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Normalizza il nome in lowercase e rimuove spazi extra.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>str</em>) – Nome prodotto in input.</p>
+<dd class="field-odd"><p><strong>v</strong> (<em>str</em>) – Il nome in input.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Nome normalizzato.</p>
+<dd class="field-even"><p>Il nome normalizzato.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se il nome risulta vuoto dopo la normalizzazione.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">validate_allergens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductCreate.validate_allergens"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Valida e normalizza la lista degli allergeni.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Lista di slug allergeni.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>La lista validata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se uno slug non è riconosciuto.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1658,7 +1787,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema per l’aggiornamento di un prodotto.</p>
 <dl class="field-list simple">
@@ -1668,6 +1797,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <li><p><strong>name</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=200</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>category</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>conservation_method_id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1691,6 +1821,11 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <span class="sig-name descname"><span class="pre">conservation_method_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">normalize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductUpdate.normalize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
@@ -1705,6 +1840,29 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str | None</p>
 </dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se il nome risulta vuoto dopo la normalizzazione.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">validate_allergens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductUpdate.validate_allergens"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Valida e normalizza la lista degli allergeni.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – Lista di slug allergeni.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>La lista validata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str] | None</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se uno slug non è riconosciuto.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1712,7 +1870,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergen_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gluten_free</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Risposta con i dati di un prodotto.</p>
 <dl class="field-list simple">
@@ -1722,6 +1880,9 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <li><p><strong>store_id</strong> (<em>int</em>)</p></li>
 <li><p><strong>name</strong> (<em>str</em>)</p></li>
 <li><p><strong>category</strong> (<em>str</em>)</p></li>
+<li><p><strong>allergen_mask</strong> (<em>int</em>)</p></li>
+<li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>gluten_free</strong> (<em>bool</em>)</p></li>
 <li><p><strong>conservation_method_id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>conservation_method</strong> (<em>ConservationMethodResponse</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>created_at</strong> (<em>datetime</em>)</p></li>
@@ -1753,6 +1914,21 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergen_mask</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">gluten_free</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">conservation_method_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
 <dd></dd></dl>
 
@@ -1780,6 +1956,20 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">version</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">compute_allergen_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductResponse.compute_allergen_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Calcola i campi allergens e gluten_free dalla bitmask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em><em> | </em><em>object</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict | object</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -1882,6 +2072,56 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">AllergenItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">slug</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#AllergenItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Informazioni su un singolo allergene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slug</strong> (<em>str</em>)</p></li>
+<li><p><strong>label</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">label</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductAllergenResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductAllergenResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Risposta per la lista degli allergeni disponibili.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<em>str</em>)</p></li>
+<li><p><strong>items</strong> (<em>list</em><em>[</em><em>AllergenItem</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">AllergenItem</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-app.modules.products.service">
 <span id="app-modules-products-service-module"></span><h2>app.modules.products.service module<a class="headerlink" href="#module-app.modules.products.service" title="Link to this heading"></a></h2>
@@ -1896,7 +2136,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 - optimistic locking tramite campo <code class="docutils literal notranslate"><span class="pre">version</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>AsyncSession</em>)</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -1905,7 +2145,24 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <dd><p>Inizializza il servizio prodotti.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>) – Sessione SQLAlchemy.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>AsyncSession</em>) – Sessione SQLAlchemy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.products.service.ProductService.get_available_allergens">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_available_allergens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AppLanguage.IT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.get_available_allergens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.get_available_allergens" title="Link to this definition"></a></dt>
+<dd><p>Restituisce il mapping slug -&gt; label degli allergeni EU nella lingua scelta.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lang</strong> (<em>AppLanguage</em>) – Lingua desiderata (es. “it”, “en”). Default “it”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mapping slug -&gt; label e stato.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ProductAllergenResponse</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1922,27 +2179,29 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Riepilogo dell’operazione (nuovi vs già presenti).</p>
+<dd class="field-even"><p>Riepilogo dell’operazione.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ProductBulkLoadResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore durante il commit complessivo.</p>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore durante il commit.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.products.service.ProductService.list_products">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.list_products" title="Link to this definition"></a></dt>
-<dd><p>Recupera i prodotti dello store autorizzato con filtri opzionali.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gluten_free</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergen_free</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ProductService.list_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ProductService.list_products" title="Link to this definition"></a></dt>
+<dd><p>Recupera i prodotti dello store autorizzato con filtri.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
 <li><p><strong>category</strong> (<em>str</em><em> | </em><em>None</em>) – Filtra per categoria specifica.</p></li>
 <li><p><strong>exclude_category</strong> (<em>str</em><em> | </em><em>None</em>) – Esclude una categoria specifica.</p></li>
+<li><p><strong>gluten_free</strong> (<em>bool</em><em> | </em><em>None</em>) – Se True, solo prodotti senza glutine.</p></li>
+<li><p><strong>allergen_free</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – Lista slug allergeni da escludere.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2037,7 +2296,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <p>Service layer per la gestione dei metodi di conservazione.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>AsyncSession</em>)</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -2045,7 +2304,7 @@ Se non esiste, lo crea. Mai più errori 500 o 200 con messaggi di errore.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/service.html#ConservationMethodService.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.products.service.ConservationMethodService.__init__" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>AsyncSession</em>)</p>
 </dd>
 </dl>
 </dd></dl>

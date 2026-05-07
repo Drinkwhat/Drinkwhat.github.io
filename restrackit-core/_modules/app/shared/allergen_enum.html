@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.image_processing &mdash; Restrackit 2.9.0 documentation</title>
+  <title>app.shared.allergen_enum &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -1155,7 +1155,7 @@ window.runMermaid = runMermaid;</script>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.services.image_processing</li>
+      <li class="breadcrumb-item active">app.shared.allergen_enum</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1164,62 +1164,40 @@ window.runMermaid = runMermaid;</script>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.services.image_processing</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Image format conversion and preprocessing utilities.</span>
-
-<span class="sd">This module handles conversion of various image formats (HEIC, JPEG, PNG)</span>
-<span class="sd">to a standard JPEG format suitable for OCR processing.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">pi_heif</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span><span class="p">,</span> <span class="n">ValidationError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
-
-<span class="c1"># Enable HEIF/HEIC support in Pillow for iPhone image handling</span>
-<span class="n">pi_heif</span><span class="o">.</span><span class="n">register_heif_opener</span><span class="p">()</span>
+  <h1>Source code for app.shared.allergen_enum</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntFlag</span>
 
 
-<div class="viewcode-block" id="convert_to_jpeg_bytes">
-<a class="viewcode-back" href="../../../app.services.html#app.services.image_processing.convert_to_jpeg_bytes">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_jpeg_bytes</span><span class="p">(</span><span class="n">file_bytes</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert incoming image bytes to standard JPEG format.</span>
+<div class="viewcode-block" id="Allergen">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.allergen_enum.Allergen">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Allergen</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;14 allergeni obbligatori secondo il Reg. UE 1169/2011.</span>
 
-<span class="sd">    Handles multiple input formats:</span>
-<span class="sd">    - HEIC/HEIF: Apple&#39;s image format from iPhones</span>
-<span class="sd">    - JPEG: Standard compressed format</span>
-<span class="sd">    - PNG: Lossless format</span>
+<span class="sd">    Ogni valore è una potenza di 2 per supportare la rappresentazione bitmask.</span>
+<span class="sd">    La combinazione di allergeni si ottiene con l&#39;operatore OR (|).</span>
 
-<span class="sd">    All formats are converted to RGB JPEG with 95% quality for consistency</span>
-<span class="sd">    and optimal OCR performance.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        file_bytes (bytes): Raw image file bytes in any supported format</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        bytes: JPEG-encoded image bytes ready for OCR</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        ImageProcessingError: If format is unsupported or file is corrupted</span>
+<span class="sd">    Esempio:</span>
+<span class="sd">        mask = Allergen.GLUTEN | Allergen.MILK  # prodotto con glutine e latte</span>
+<span class="sd">        gluten_free = not (mask &amp; Allergen.GLUTEN)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Open image from bytes and convert to RGB</span>
-        <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">file_bytes</span><span class="p">))</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Save as JPEG to buffer</span>
-        <span class="n">buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
-        <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;JPEG&quot;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">95</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Image conversion failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-            <span class="n">ErrorCode</span><span class="o">.</span><span class="n">VAL_IMAGE_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">exc</span>
-        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span></div>
+    <span class="n">GLUTEN</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>  <span class="c1"># 1     — Cereali contenenti glutine</span>
+    <span class="n">CRUSTACEANS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>  <span class="c1"># 2     — Crostacei</span>
+    <span class="n">EGGS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>  <span class="c1"># 4     — Uova</span>
+    <span class="n">FISH</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>  <span class="c1"># 8     — Pesce</span>
+    <span class="n">PEANUTS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>  <span class="c1"># 16    — Arachidi</span>
+    <span class="n">SOY</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>  <span class="c1"># 32    — Soia</span>
+    <span class="n">MILK</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span>  <span class="c1"># 64    — Latte</span>
+    <span class="n">TREE_NUTS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span>  <span class="c1"># 128   — Frutta a guscio (mandorle, nocciole, ecc.)</span>
+    <span class="n">CELERY</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span>  <span class="c1"># 256   — Sedano</span>
+    <span class="n">MUSTARD</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">9</span>  <span class="c1"># 512   — Senape</span>
+    <span class="n">SESAME</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span>  <span class="c1"># 1024  — Semi di sesamo</span>
+    <span class="n">SULPHITES</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">11</span>  <span class="c1"># 2048  — Anidride solforosa e solfiti</span>
+    <span class="n">LUPIN</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">12</span>  <span class="c1"># 4096  — Lupini</span>
+    <span class="n">MOLLUSCS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span>  <span class="c1"># 8192  — Molluschi</span>
+
+    <span class="c1">#: Bitmask che copre tutti i 14 allergeni</span>
+    <span class="n">ALL</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">14</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 </pre></div>
 

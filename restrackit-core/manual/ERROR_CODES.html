@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catalogo Codici Errore Restrackit &mdash; Restrackit 2.8.0 documentation</title>
+  <title>Catalogo Codici Errore Restrackit &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -790,120 +799,126 @@
 <td><p>Carica un file valido non vuoto.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>ERR_VAL_005</strong></p></td>
+<td><p>Il file caricato supera la dimensione massima consentita di {max_size} byte.</p></td>
+<td><p>warning</p></td>
+<td><p>413</p></td>
+<td><p>Carica un file di dimensioni ridotte o comprimi l’immagine.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ERR_VAL_006</strong></p></td>
 <td><p>Nessun testo trovato nell’immagine.</p></td>
 <td><p>warning</p></td>
 <td><p>400</p></td>
 <td><p>Assicurati che l’immagine sia chiara e contenga testo leggibile.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_VAL_006</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_VAL_007</strong></p></td>
 <td><p>Errore nell’elaborazione dell’immagine: {details}</p></td>
 <td><p>warning</p></td>
 <td><p>400</p></td>
 <td><p>Verifica il formato dell’immagine (supportati: JPG, PNG, HEIC).</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_BUS_001</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_BUS_001</strong></p></td>
 <td><p>La risorsa richiesta ‘{resource}’ non è stata trovata.</p></td>
 <td><p>warning</p></td>
 <td><p>404</p></td>
 <td><p>Verifica l’ID o i parametri di ricerca della risorsa.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_BUS_002</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_BUS_002</strong></p></td>
 <td><p>Il prodotto ‘{product}’ non è presente nell’anagrafica di questo store.</p></td>
 <td><p>warning</p></td>
 <td><p>404</p></td>
 <td><p>Aggiungi il prodotto all’anagrafica prima di utilizzarlo in una ricetta o inventario.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_BUS_003</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_BUS_003</strong></p></td>
 <td><p>Il lotto specificato ‘{batch}’ non è stato trovato.</p></td>
 <td><p>warning</p></td>
 <td><p>404</p></td>
 <td><p>Verifica il codice del lotto o l’ID interno.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_BUS_004</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_BUS_004</strong></p></td>
 <td><p>Esiste già una risorsa ‘{resource}’ con questi dati.</p></td>
 <td><p>warning</p></td>
 <td><p>409</p></td>
 <td><p>Utilizza un identificativo diverso o modifica la risorsa esistente.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_BUS_005</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_BUS_005</strong></p></td>
 <td><p>Operazione non consentita: {details}</p></td>
 <td><p>warning</p></td>
 <td><p>400</p></td>
 <td><p>Verifica che lo stato della risorsa permetta questa operazione (es. lotto non vuoto).</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_BUS_006</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_BUS_006</strong></p></td>
 <td><p>Impossibile interpretare i dati dall’immagine.</p></td>
 <td><p>warning</p></td>
 <td><p>422</p></td>
 <td><p>Prova con un’immagine più chiara o inserisci i dati manualmente.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_BUS_007</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_BUS_007</strong></p></td>
 <td><p>Conflitto di modifica per ‘{resource}’: versione attesa {expected}, versione attuale {current}.</p></td>
 <td><p>warning</p></td>
 <td><p>409</p></td>
 <td><p>Ricarica la risorsa e riprova l’operazione.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_DB_001</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_DB_001</strong></p></td>
 <td><p>Errore di connessione al database.</p></td>
 <td><p>critical</p></td>
 <td><p>503</p></td>
 <td><p>Riprova più tardi o contatta il supporto tecnico.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_DB_002</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_DB_002</strong></p></td>
 <td><p>Violazione di integrità del database: {details}</p></td>
 <td><p>error</p></td>
 <td><p>409</p></td>
 <td><p>Verifica che i dati non siano duplicati o violino vincoli.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_DB_003</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_DB_003</strong></p></td>
 <td><p>Errore nell’esecuzione della query: {details}</p></td>
 <td><p>error</p></td>
 <td><p>500</p></td>
 <td><p>Verifica i parametri della richiesta o contatta il supporto.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_DB_004</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_DB_004</strong></p></td>
 <td><p>Client Redis non inizializzato: {details}</p></td>
 <td><p>error</p></td>
 <td><p>503</p></td>
 <td><p>Contatta il supporto tecnico per verificare lo stato del servizio di cache.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_EXT_001</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_EXT_001</strong></p></td>
 <td><p>Servizio esterno non disponibile.</p></td>
 <td><p>error</p></td>
 <td><p>503</p></td>
 <td><p>Riprova più tardi.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_EXT_002</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_EXT_002</strong></p></td>
 <td><p>Timeout del servizio esterno.</p></td>
 <td><p>error</p></td>
 <td><p>504</p></td>
 <td><p>Riprova più tardi o contatta il supporto.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_EXT_003</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_EXT_003</strong></p></td>
 <td><p>Errore nel servizio esterno {service}: {details}</p></td>
 <td><p>error</p></td>
 <td><p>502</p></td>
 <td><p>Riprova più tardi o contatta il supporto.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_EXT_004</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_EXT_004</strong></p></td>
 <td><p>Errore nel servizio Google Vision: {details}</p></td>
 <td><p>error</p></td>
 <td><p>502</p></td>
 <td><p>Verifica la qualità dell’immagine o riprova più tardi.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_EXT_005</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_EXT_005</strong></p></td>
 <td><p>Errore nel servizio AI Gemini: {details}</p></td>
 <td><p>error</p></td>
 <td><p>502</p></td>
 <td><p>Riprova più tardi o contatta il supporto tecnico.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>ERR_SYS_001</strong></p></td>
+<tr class="row-even"><td><p><strong>ERR_SYS_001</strong></p></td>
 <td><p>Errore interno del sistema. ID richiesta: {request_id}</p></td>
 <td><p>critical</p></td>
 <td><p>500</p></td>
 <td><p>Contatta il supporto tecnico fornendo l’ID della richiesta.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>ERR_SYS_002</strong></p></td>
+<tr class="row-odd"><td><p><strong>ERR_SYS_002</strong></p></td>
 <td><p>Funzionalità non ancora implementata.</p></td>
 <td><p>info</p></td>
 <td><p>501</p></td>

@@ -24,6 +24,18 @@ Dettagli: [09-auth.md](09-auth.md)
 
 ---
 
+## Core Headers (Tracing & Multi-tenancy)
+
+Per garantire tracciabilità e isolamento dei dati, il sistema utilizza i seguenti header:
+
+| Header | Descrizione | Obbligatorio |
+|--------|-------------|--------------|
+| `Authorization` | Bearer token JWT da Keycloak. | Sì |
+| `X-Request-ID` | ID univoco della richiesta per il tracing. Se non fornito, viene generato dal server. | No |
+| `X-Target-Store` | ID dello store su cui operare (necessario se l'utente ha accesso a più store). | Condizionale |
+
+---
+
 ## Health
 
 ### `GET /health`
@@ -262,6 +274,36 @@ Authorization: Bearer <token>
 
 ## Products Module (`/products`)
 
+### `GET /products/allergens`
+
+Restituisce il mapping degli allergeni EU disponibili con etichette localizzate.
+
+**Request**:
+
+```http
+GET /products/allergens?lang=it
+Authorization: Bearer <token>
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "allergens": [
+    {
+      "slug": "gluten",
+      "label": "Glutine"
+    },
+    {
+      "slug": "crustaceans",
+      "label": "Crostacei"
+    }
+  ]
+}
+```
+
+---
+
 ### `POST /products/bulk-load`
 
 Bulk upsert products (Idempotent).
@@ -298,9 +340,16 @@ List all products for the store.
 **Request**:
 
 ```http
-GET /products/list
+GET /products/list?gluten_free=true&allergen_free=nuts,peanuts
 Authorization: Bearer <token>
 ```
+
+**Query Parameters**:
+
+- `category`: Filtra per categoria (es. "Latticini").
+- `include_preparations`: Se `true`, include anche i semilavorati (default `false`).
+- `gluten_free`: Se `true`, restituisce solo prodotti senza glutine.
+- `allergen_free`: Lista di slug allergeni (separati da virgola) che il prodotto **NON** deve contenere.
 
 **Response** (200 OK):
 

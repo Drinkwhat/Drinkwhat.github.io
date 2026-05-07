@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.service &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.inventory.service &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../../../../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1163,8 +1172,10 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">import</span><span class="w"> </span><span class="nn">anyio</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">arq.jobs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Job</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.concurrency</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_threadpool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">func</span><span class="p">,</span> <span class="n">select</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegrityError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">selectinload</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">StaleDataError</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
@@ -1211,7 +1222,7 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.service.BatchService.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
+        <span class="n">db</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span>
         <span class="n">ocr_service</span><span class="p">:</span> <span class="n">OCRServiceInterface</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">agent_service</span><span class="p">:</span> <span class="n">InventoryAgentService</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1284,11 +1295,8 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># 2. Agent</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;🤖 Running AI agent to parse OCR text...&quot;</span><span class="p">)</span>
-                <span class="c1"># Run sync Agent in threadpool</span>
-                <span class="c1"># We pass str(store_id) because the agent expects a string for the tool</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">agent_service</span><span class="o">.</span><span class="n">analyze_ocr_text</span><span class="p">,</span> <span class="n">raw_text</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">store_id</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="c1"># Agent is now async</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_service</span><span class="o">.</span><span class="n">analyze_ocr_text</span><span class="p">(</span><span class="n">raw_text</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="s2">&quot;✅ AI agent parsing completed: product=</span><span class="si">%s</span><span class="s2">, confidence=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                     <span class="n">data</span><span class="o">.</span><span class="n">prodotto</span><span class="p">,</span>
@@ -1364,11 +1372,9 @@ window.runMermaid = runMermaid;</script>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Validate Product</span>
-            <span class="n">product_master</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">product_name</span><span class="p">,</span> <span class="n">store_id</span><span class="o">=</span><span class="n">store_id</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">first</span><span class="p">()</span>
-            <span class="p">)</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">product_name</span><span class="p">,</span> <span class="n">store_id</span><span class="o">=</span><span class="n">store_id</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+            <span class="n">product_master</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">product_master</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1392,12 +1398,12 @@ window.runMermaid = runMermaid;</script>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_batch</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">new_batch</span><span class="p">)</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">new_batch</span><span class="p">)</span>
                 <span class="c1"># Invalidate Cache</span>
                 <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batches:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Errore DB in conferma: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
                     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_INTEGRITY_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span>
@@ -1431,7 +1437,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">except</span> <span class="n">AppError</span><span class="p">:</span>
             <span class="k">raise</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Database error saving batch: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">AppSystemError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">SYS_INTERNAL_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;request_id&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span>
@@ -1452,11 +1458,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            BusinessLogicError: On resource not found or version conflict.</span>
 <span class="sd">            DatabaseError: On DB integrity errors.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lotto</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Batch</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">lotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lotto</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1473,15 +1479,13 @@ window.runMermaid = runMermaid;</script>
                 <span class="p">},</span>
             <span class="p">)</span>
 
-        <span class="n">pm</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">data</span><span class="o">.</span><span class="n">product_name</span><span class="p">,</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">stmt_pm</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">data</span><span class="o">.</span><span class="n">product_name</span><span class="p">,</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="n">res_pm</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt_pm</span><span class="p">)</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="n">res_pm</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">pm</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1494,12 +1498,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">lotto</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.0</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batches:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">batch_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batches:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span>
@@ -1510,7 +1514,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Errore aggiornamento lotto: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_INTEGRITY_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span>
@@ -1538,28 +1542,35 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns:</span>
 <span class="sd">            BatchListResponse: Paginated list of batches.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">filters</span><span class="o">.</span><span class="n">product_name</span><span class="p">:</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">filters</span><span class="o">.</span><span class="n">product_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">filters</span><span class="o">.</span><span class="n">product_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">filters</span><span class="o">.</span><span class="n">is_empty</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">is_empty</span> <span class="o">==</span> <span class="n">filters</span><span class="o">.</span><span class="n">is_empty</span><span class="p">)</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">is_empty</span> <span class="o">==</span> <span class="n">filters</span><span class="o">.</span><span class="n">is_empty</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">filters</span><span class="o">.</span><span class="n">expired</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">filters</span><span class="o">.</span><span class="n">expired</span><span class="p">:</span>
-                <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">&lt;</span> <span class="n">today</span><span class="p">)</span>
+                <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">&lt;</span> <span class="n">today</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="p">)</span>
+                <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="p">)</span>
 
-        <span class="n">total</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">q</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>
+        <span class="c1"># For count, we can use a separate select or a subquery</span>
+        <span class="n">count_stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">())</span><span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">stmt</span><span class="o">.</span><span class="n">subquery</span><span class="p">())</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">count_stmt</span><span class="p">))</span><span class="o">.</span><span class="n">scalar</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">0</span>
+
+        <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">stmt</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>
             <span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">pagination</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span>
             <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">pagination</span><span class="o">.</span><span class="n">page_size</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">product_master</span><span class="p">))</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
         <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
@@ -1601,11 +1612,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            BusinessLogicError: If the batch is not found or a version conflict occurs.</span>
 <span class="sd">            DatabaseError: On unexpected database errors.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lotto</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Batch</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">lotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lotto</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1624,19 +1635,19 @@ window.runMermaid = runMermaid;</script>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">lotto</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batches:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">batch_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batches:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Batch </span><span class="si">{</span><span class="n">batch_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="n">version</span><span class="p">,</span> <span class="s2">&quot;current&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">},</span>
                 <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Errore eliminazione lotto: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_INTEGRITY_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span>
@@ -1661,11 +1672,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Raises:</span>
 <span class="sd">            BusinessLogicError: If the batch does not exist or belongs to another store.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lotto</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">select</span><span class="p">(</span><span class="n">Batch</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">product_master</span><span class="p">))</span>
             <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Batch</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">batch_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">Batch</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">lotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lotto</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_RESOURCE_NOT_FOUND</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Batch </span><span class="si">{</span><span class="n">batch_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>

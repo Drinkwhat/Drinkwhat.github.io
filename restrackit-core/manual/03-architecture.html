@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture Overview &mdash; Restrackit 2.8.0 documentation</title>
+  <title>Architecture Overview &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -784,6 +793,8 @@
 │   │   └── ai_agent.py        # Gemini Agent Logic
 │   │
 │   ├── shared/                # Shared utilities
+│   │   ├── allergens.py       # EU Allergen bitmask logic
+│   │   ├── allergen_enum.py   # Allergen definitions (i18n ready)
 │   │   ├── cache.py           # Redis @cached decorator
 │   │   └── rate_limit.py      # Redis expensive_op_limiter
 │   │
@@ -825,8 +836,9 @@
 <h3>DevOps<a class="headerlink" href="#devops" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Container</strong>: Docker (Multi-stage: Builder -&gt; Runtime)</p></li>
-<li><p><strong>CI/CD</strong>: GitHub Actions (Lint, Test, Build)</p></li>
-<li><p><strong>Testing</strong>: Pytest + Coverage</p></li>
+<li><p><strong>CI/CD</strong>: GitHub Actions (Lint, Test, Build, Docs)</p></li>
+<li><p><strong>Testing</strong>: Pytest + Coverage (100% target)</p></li>
+<li><p><strong>Monitoring</strong>: Sentry (Error Tracking) + Apitally (API Analytics)</p></li>
 </ul>
 </section>
 </section>
@@ -863,10 +875,11 @@
 <h3>4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)<a class="headerlink" href="#caching-system-app-shared-cache-py" title="Link to this heading"></a></h3>
 <p>Implementation of an asynchronous caching layer:</p>
 <ul class="simple">
-<li><p><strong>Decorator <code class="docutils literal notranslate"><span class="pre">&#64;cached</span></code></strong>: Applied to service methods to cache results in Redis.</p></li>
-<li><p><strong>Serialization</strong>: Efficient binary serialization using <code class="docutils literal notranslate"><span class="pre">msgpack</span></code>.</p></li>
+<li><p><strong>Decorator <code class="docutils literal notranslate"><span class="pre">&#64;cached</span></code></strong>: Applied to service methods (including <code class="docutils literal notranslate"><span class="pre">products</span></code> and <code class="docutils literal notranslate"><span class="pre">kitchen</span></code>) to cache results in Redis.</p></li>
+<li><p><strong>Serialization</strong>: Efficient binary serialization using <code class="docutils literal notranslate"><span class="pre">msgpack</span></code> with custom encoders for <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code>.</p></li>
 <li><p><strong>Model Hydration</strong>: Automatically reconstructs Pydantic models from cache hits.</p></li>
-<li><p><strong>Fail-Open</strong>: If Redis is unavailable, the system transparently falls back to database queries.</p></li>
+<li><p><strong>Fail-Open</strong>: If Redis is unavailable, the system transparently falls back to database queries, ensuring high availability.</p></li>
+<li><p><strong>Selective Invalidation</strong>: Cache entries are automatically invalidated on resource updates or deletions using key pattern matching.</p></li>
 </ul>
 </section>
 <section id="background-tasks-app-worker-py">
@@ -877,8 +890,18 @@
 <li><p><strong>Msgpack Serialization</strong>: Custom serializers for <code class="docutils literal notranslate"><span class="pre">arq</span></code> that handle <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects via ISO conversion.</p></li>
 <li><p><strong>Status Mapping</strong>: Detailed job tracking that distinguishes between <code class="docutils literal notranslate"><span class="pre">arq</span></code> execution state and internal task result status (e.g., catching AI failures).</p></li>
 <li><p><strong>Offloading</strong>: Moves heavy OCR and AI analysis to a separate worker process.</p></li>
-<li><p><strong>Shared Storage</strong>: Uses Docker volumes for temporary file processing between the API and workers.</p></li>
+<li><p><strong>Shared Storage</strong>: Uses Docker volumes (<code class="docutils literal notranslate"><span class="pre">uploads_data</span></code>) for temporary file processing between the API and workers.</p></li>
 <li><p><strong>Monitoring</strong>: Real-time status retrieval via <code class="docutils literal notranslate"><span class="pre">/inventory/analyze/{job_id}</span></code>.</p></li>
+</ul>
+</section>
+<section id="allergen-management-app-shared-allergens-py">
+<h3>6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)<a class="headerlink" href="#allergen-management-app-shared-allergens-py" title="Link to this heading"></a></h3>
+<p>A specialized bitmask-based system for EU-compliant allergen tracking:</p>
+<ul class="simple">
+<li><p><strong>Bitmask Storage</strong>: Allergens are stored as a single integer (bitmask) in the <code class="docutils literal notranslate"><span class="pre">ProductMaster.allergen_mask</span></code> column, ensuring extreme performance for filtering.</p></li>
+<li><p><strong>I18n Support</strong>: Dedicated mapping endpoints (<code class="docutils literal notranslate"><span class="pre">/products/allergens</span></code>) provide localized labels (IT/EN) for frontend display.</p></li>
+<li><p><strong>Strict Typing</strong>: Uses <code class="docutils literal notranslate"><span class="pre">AppAllergen</span></code> Enum to prevent invalid data entry and ensure consistency across the API.</p></li>
+<li><p><strong>Filtering</strong>: Efficiently supports queries like “gluten-free” or “free from X, Y, Z” using bitwise operators in the database.</p></li>
 </ul>
 </section>
 </section>
@@ -895,13 +918,31 @@
 <li><p><strong>Confirm</strong>: Client sends validated data to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code> to save in <code class="docutils literal notranslate"><span class="pre">batches</span></code> table.</p></li>
 </ol>
 </section>
-<section id="multi-tenancy">
-<h2>Multi-Tenancy<a class="headerlink" href="#multi-tenancy" title="Link to this heading"></a></h2>
+<section id="multi-tenancy-security">
+<h2>Multi-Tenancy &amp; Security<a class="headerlink" href="#multi-tenancy-security" title="Link to this heading"></a></h2>
+<section id="row-level-security-rls">
+<h3>1. Row Level Security (RLS)<a class="headerlink" href="#row-level-security-rls" title="Link to this heading"></a></h3>
+<p>The system implements a dual-layer isolation strategy:</p>
 <ul class="simple">
-<li><p><strong>Isolation</strong>: Every query is filtered by <code class="docutils literal notranslate"><span class="pre">store_id</span></code>.</p></li>
-<li><p><strong>Context</strong>: <code class="docutils literal notranslate"><span class="pre">store_id</span></code> è derivato dal token (Keycloak) e, se necessario, dall’header <code class="docutils literal notranslate"><span class="pre">x-target-store</span></code>.</p></li>
-<li><p><strong>Constraints</strong>: Database enforces <code class="docutils literal notranslate"><span class="pre">UNIQUE(name,</span> <span class="pre">store_id)</span></code> for products.</p></li>
+<li><p><strong>Application Layer</strong>: All service queries are scoped by <code class="docutils literal notranslate"><span class="pre">store_id</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">filter(ProductMaster.store_id</span> <span class="pre">==</span> <span class="pre">store_id)</span></code>).</p></li>
+<li><p><strong>Database Layer</strong>: PostgreSQL Row Level Security is enabled on core tables. The application uses a <code class="docutils literal notranslate"><span class="pre">SET</span> <span class="pre">LOCAL</span> <span class="pre">app.current_store_id</span></code> command within every transaction to enforce isolation at the database level, preventing data leaks even in case of application bugs.</p></li>
 </ul>
+</section>
+<section id="authentication-keycloak-oidc">
+<h3>2. Authentication (Keycloak OIDC)<a class="headerlink" href="#authentication-keycloak-oidc" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>JWT Validation</strong>: Real-time token validation against Keycloak JWKS with localized caching in Redis for performance.</p></li>
+<li><p><strong>Granular Permissions</strong>: A custom <code class="docutils literal notranslate"><span class="pre">RequirePermission</span></code> dependency maps Keycloak roles to fine-grained action permissions (e.g., <code class="docutils literal notranslate"><span class="pre">INVENTORY_WRITE</span></code>).</p></li>
+</ul>
+</section>
+<section id="monitoring-observability">
+<h3>3. Monitoring &amp; Observability<a class="headerlink" href="#monitoring-observability" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Request Tracing</strong>: Every request is assigned a unique <code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code>, propagated through logs, database contexts, and external service calls for end-to-end tracing.</p></li>
+<li><p><strong>Sentry</strong>: Captures unhandled exceptions and performance bottlenecks with release tracking tied to Git commit hashes.</p></li>
+<li><p><strong>Apitally</strong>: Provides real-time insights into API usage, response times, and error rates without impacting performance.</p></li>
+</ul>
+</section>
 </section>
 </section>
 

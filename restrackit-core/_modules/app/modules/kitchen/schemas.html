@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../../../../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1157,10 +1166,15 @@ window.runMermaid = runMermaid;</script>
              
   <h1>Source code for app.modules.kitchen.schemas</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">TypedDict</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecipeIngredient</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConservationMethodResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.allergens</span><span class="w"> </span><span class="kn">import</span> <span class="n">combine_masks</span><span class="p">,</span> <span class="n">is_gluten_free</span><span class="p">,</span> <span class="n">mask_to_list</span>
 
 <span class="c1"># --- Recipe Schemas ---</span>
 
@@ -1195,13 +1209,21 @@ window.runMermaid = runMermaid;</script>
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">normalize_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Recipe name cannot be empty&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">normalized</span>
-        <span class="k">return</span> <span class="n">v</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Il nome della ricetta in input.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Il nome normalizzato.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se il nome risulta vuoto dopo la normalizzazione.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Recipe name cannot be empty&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">normalized</span></div>
 
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
@@ -1257,6 +1279,16 @@ window.runMermaid = runMermaid;</script>
 
 
 
+<span class="k">class</span><span class="w"> </span><span class="nc">_RecipeIngredientData</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Intermediate dict produced by ``resolve_allergen_mask``.&quot;&quot;&quot;</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">allergen_mask</span><span class="p">:</span> <span class="nb">int</span>
+
+
 <div class="viewcode-block" id="RecipeIngredientResponse">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.schemas.RecipeIngredientResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RecipeIngredientResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -1266,8 +1298,49 @@ window.runMermaid = runMermaid;</script>
     <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">allergen_mask</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bitmask allergeni dell&#39;ingrediente&quot;</span><span class="p">)</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RecipeIngredientResponse.resolve_allergen_mask">
+<a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.schemas.RecipeIngredientResponse.resolve_allergen_mask">[docs]</a>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_allergen_mask</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">_RecipeIngredientData</span> <span class="o">|</span> <span class="n">RecipeIngredient</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_RecipeIngredientData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve allergen_mask from the related product_master for ORM objects.</span>
+
+<span class="sd">        When Pydantic receives a raw dict (e.g. from JSON) it already contains</span>
+<span class="sd">        all the fields we need, so we return it as-is. When it receives a</span>
+<span class="sd">        SQLAlchemy ``RecipeIngredient`` instance we must reach into the</span>
+<span class="sd">        ``product_master`` relationship to fetch ``allergen_mask``, because that</span>
+<span class="sd">        column lives on ``products_master`` and is not a direct attribute of</span>
+<span class="sd">        ``recipe_ingredients``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Either a plain dict (Pydantic raw input) or a</span>
+<span class="sd">                ``RecipeIngredient`` ORM instance (from_attributes path).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A ``_RecipeIngredientData`` dict ready for Pydantic validation.</span>
+<span class="sd">            ``allergen_mask`` defaults to ``0`` when ``product_master`` is not</span>
+<span class="sd">            loaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="c1"># ORM instance: always convert to TypedDict so the return type is uniform.</span>
+        <span class="c1"># allergen_mask falls back to 0 when product_master is not eagerly loaded.</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_master&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s2">&quot;product_master_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">product_master_id</span><span class="p">,</span>
+            <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">standard_quantity</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+            <span class="s2">&quot;allergen_mask&quot;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">allergen_mask</span> <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
 
 
 
@@ -1287,8 +1360,29 @@ window.runMermaid = runMermaid;</script>
     <span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">ingredients</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RecipeIngredientResponse</span><span class="p">]</span>
+    <span class="n">allergens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unione degli allergeni di tutti gli ingredienti (OR bitmask)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">gluten_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True se nessun ingrediente contiene glutine&quot;</span><span class="p">)</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RecipeResponse.compute_aggregates">
+<a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.schemas.RecipeResponse.compute_aggregates">[docs]</a>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_aggregates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecipeResponse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute combined allergen fields from all ingredients.</span>
+
+<span class="sd">        This runs after the model (and its nested ingredients) has been</span>
+<span class="sd">        initialized, ensuring instance.ingredients already has the resolved</span>
+<span class="sd">        allergen_masks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">combined</span> <span class="o">=</span> <span class="n">combine_masks</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">allergen_mask</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ingredients</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allergens</span> <span class="o">=</span> <span class="n">mask_to_list</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gluten_free</span> <span class="o">=</span> <span class="n">is_gluten_free</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
 
 
 

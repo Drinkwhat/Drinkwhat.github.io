@@ -62,6 +62,8 @@ restrackit-core/
 │   │   └── ai_agent.py        # Gemini Agent Logic
 │   │
 │   ├── shared/                # Shared utilities
+│   │   ├── allergens.py       # EU Allergen bitmask logic
+│   │   ├── allergen_enum.py   # Allergen definitions (i18n ready)
 │   │   ├── cache.py           # Redis @cached decorator
 │   │   └── rate_limit.py      # Redis expensive_op_limiter
 │   │
@@ -97,8 +99,9 @@ restrackit-core/
 ### DevOps
 
 - **Container**: Docker (Multi-stage: Builder -> Runtime)
-- **CI/CD**: GitHub Actions (Lint, Test, Build)
-- **Testing**: Pytest + Coverage
+- **CI/CD**: GitHub Actions (Lint, Test, Build, Docs)
+- **Testing**: Pytest + Coverage (100% target)
+- **Monitoring**: Sentry (Error Tracking) + Apitally (API Analytics)
 
 ## Key Components
 
@@ -129,10 +132,11 @@ A specialized service that:
 ### 4. Caching System (`app/shared/cache.py`)
 
 Implementation of an asynchronous caching layer:
-- **Decorator `@cached`**: Applied to service methods to cache results in Redis.
-- **Serialization**: Efficient binary serialization using `msgpack`.
+- **Decorator `@cached`**: Applied to service methods (including `products` and `kitchen`) to cache results in Redis.
+- **Serialization**: Efficient binary serialization using `msgpack` with custom encoders for `date`/`datetime`.
 - **Model Hydration**: Automatically reconstructs Pydantic models from cache hits.
-- **Fail-Open**: If Redis is unavailable, the system transparently falls back to database queries.
+- **Fail-Open**: If Redis is unavailable, the system transparently falls back to database queries, ensuring high availability.
+- **Selective Invalidation**: Cache entries are automatically invalidated on resource updates or deletions using key pattern matching.
 
 ### 5. Background Tasks (`app/worker.py`)
 
@@ -141,8 +145,16 @@ Asynchronous task processing using `arq`:
 - **Msgpack Serialization**: Custom serializers for `arq` that handle `date`/`datetime` objects via ISO conversion.
 - **Status Mapping**: Detailed job tracking that distinguishes between `arq` execution state and internal task result status (e.g., catching AI failures).
 - **Offloading**: Moves heavy OCR and AI analysis to a separate worker process.
-- **Shared Storage**: Uses Docker volumes for temporary file processing between the API and workers.
+- **Shared Storage**: Uses Docker volumes (`uploads_data`) for temporary file processing between the API and workers.
 - **Monitoring**: Real-time status retrieval via `/inventory/analyze/{job_id}`.
+
+### 6. Allergen Management (`app/shared/allergens.py`)
+
+A specialized bitmask-based system for EU-compliant allergen tracking:
+- **Bitmask Storage**: Allergens are stored as a single integer (bitmask) in the `ProductMaster.allergen_mask` column, ensuring extreme performance for filtering.
+- **I18n Support**: Dedicated mapping endpoints (`/products/allergens`) provide localized labels (IT/EN) for frontend display.
+- **Strict Typing**: Uses `AppAllergen` Enum to prevent invalid data entry and ensure consistency across the API.
+- **Filtering**: Efficiently supports queries like "gluten-free" or "free from X, Y, Z" using bitwise operators in the database.
 
 ## Data Flow: Image Analysis
 
@@ -155,8 +167,18 @@ Asynchronous task processing using `arq`:
 7. **Response**: Structured JSON is returned to the client for confirmation.
 8. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table.
 
-## Multi-Tenancy
+## Multi-Tenancy & Security
 
-- **Isolation**: Every query is filtered by `store_id`.
-- **Context**: `store_id` è derivato dal token (Keycloak) e, se necessario, dall’header `x-target-store`.
-- **Constraints**: Database enforces `UNIQUE(name, store_id)` for products.
+### 1. Row Level Security (RLS)
+The system implements a dual-layer isolation strategy:
+- **Application Layer**: All service queries are scoped by `store_id` (e.g., `filter(ProductMaster.store_id == store_id)`).
+- **Database Layer**: PostgreSQL Row Level Security is enabled on core tables. The application uses a `SET LOCAL app.current_store_id` command within every transaction to enforce isolation at the database level, preventing data leaks even in case of application bugs.
+
+### 2. Authentication (Keycloak OIDC)
+- **JWT Validation**: Real-time token validation against Keycloak JWKS with localized caching in Redis for performance.
+- **Granular Permissions**: A custom `RequirePermission` dependency maps Keycloak roles to fine-grained action permissions (e.g., `INVENTORY_WRITE`).
+
+### 3. Monitoring & Observability
+- **Request Tracing**: Every request is assigned a unique `X-Request-ID`, propagated through logs, database contexts, and external service calls for end-to-end tracing.
+- **Sentry**: Captures unhandled exceptions and performance bottlenecks with release tracking tied to Git commit hashes.
+- **Apitally**: Provides real-time insights into API usage, response times, and error rates without impacting performance.

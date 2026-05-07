@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.database &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.database &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1160,61 +1169,80 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">Database configuration and session management module.</span>
 
 <span class="sd">This module handles:</span>
-<span class="sd">- SQLAlchemy engine creation and configuration</span>
-<span class="sd">- Session factory management</span>
-<span class="sd">- Dependency injection for database sessions in FastAPI routes</span>
+<span class="sd">- SQLAlchemy async engine creation and configuration</span>
+<span class="sd">- Async session factory management</span>
+<span class="sd">- Dependency injection for async database sessions in FastAPI routes</span>
 <span class="sd">- Support for both PostgreSQL and SQLite databases</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncGenerator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">text</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">Engine</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeclarativeBase</span><span class="p">,</span> <span class="n">Session</span><span class="p">,</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">event</span><span class="p">,</span> <span class="n">text</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AsyncEngine</span><span class="p">,</span>
+    <span class="n">AsyncSession</span><span class="p">,</span>
+    <span class="n">async_sessionmaker</span><span class="p">,</span>
+    <span class="n">create_async_engine</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeclarativeBase</span><span class="p">,</span> <span class="n">Session</span>
 
 <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">DATABASE_URL</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL environment variable is required&quot;</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="get_async_database_url">
+<a class="viewcode-back" href="../../app.html#app.database.get_async_database_url">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_async_database_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a standard database URL to its async equivalent.</span>
+<span class="sd">    - postgresql:// -&gt; postgresql+asyncpg://</span>
+<span class="sd">    - sqlite:/// -&gt; sqlite+aiosqlite:///</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;postgresql://&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;postgresql://&quot;</span><span class="p">,</span> <span class="s2">&quot;postgresql+asyncpg://&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sqlite:///&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:///&quot;</span><span class="p">,</span> <span class="s2">&quot;sqlite+aiosqlite:///&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">url</span></div>
+
+
+
+<span class="n">ASYNC_DATABASE_URL</span> <span class="o">=</span> <span class="n">get_async_database_url</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="get_engine_and_session">
 <a class="viewcode-back" href="../../app.html#app.database.get_engine_and_session">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_engine_and_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Engine</span><span class="p">,</span> <span class="n">sessionmaker</span><span class="p">[</span><span class="n">Session</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_engine_and_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">AsyncEngine</span><span class="p">,</span> <span class="n">async_sessionmaker</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create SQLAlchemy engine and session factory based on DATABASE_URL.</span>
-
-<span class="sd">    Automatically configures:</span>
-<span class="sd">    - SQLite: Sets check_same_thread=False for development</span>
-<span class="sd">    - PostgreSQL: Uses standard connection pool settings</span>
+<span class="sd">    Create SQLAlchemy async engine and session factory.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tuple[Engine, sessionmaker[Session]]: Motore SQLAlchemy e factory della sessione.</span>
+<span class="sd">        tuple[AsyncEngine, async_sessionmaker[AsyncSession]]: Async engine and session factory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">connect_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">engine_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;future&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
-    <span class="k">if</span> <span class="n">DATABASE_URL</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sqlite&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ASYNC_DATABASE_URL</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sqlite&quot;</span><span class="p">):</span>
+        <span class="c1"># aiosqlite requires check_same_thread=False for async operation</span>
         <span class="n">connect_args</span><span class="p">[</span><span class="s2">&quot;check_same_thread&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">engine_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># PostgreSQL Production Settings</span>
-        <span class="n">engine_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s2">&quot;pool_pre_ping&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Avoid &quot;server has gone away&quot;</span>
-                <span class="s2">&quot;pool_size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
-                <span class="s2">&quot;max_overflow&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                <span class="s2">&quot;pool_recycle&quot;</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="n">engine_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;pool_pre_ping&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;pool_size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s2">&quot;max_overflow&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">&quot;pool_recycle&quot;</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span>
+        <span class="p">}</span>
 
-    <span class="n">new_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">,</span> <span class="n">connect_args</span><span class="o">=</span><span class="n">connect_args</span><span class="p">,</span> <span class="o">**</span><span class="n">engine_kwargs</span><span class="p">)</span>
-    <span class="n">new_session_factor</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span>
-        <span class="n">autocommit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">new_engine</span><span class="p">,</span> <span class="n">future</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">new_engine</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span><span class="n">ASYNC_DATABASE_URL</span><span class="p">,</span> <span class="n">connect_args</span><span class="o">=</span><span class="n">connect_args</span><span class="p">,</span> <span class="o">**</span><span class="n">engine_kwargs</span><span class="p">)</span>
+    <span class="n">new_session_factory</span> <span class="o">=</span> <span class="n">async_sessionmaker</span><span class="p">(</span>
+        <span class="n">autocommit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">new_engine</span><span class="p">,</span> <span class="n">expire_on_commit</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">new_engine</span><span class="p">,</span> <span class="n">new_session_factor</span></div>
+    <span class="k">return</span> <span class="n">new_engine</span><span class="p">,</span> <span class="n">new_session_factory</span></div>
 
 
 
@@ -1236,14 +1264,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="load_models">
 <a class="viewcode-back" href="../../app.html#app.database.load_models">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_models</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Importa esplicitamente tutti i modelli SQLAlchemy dell&#39;applicazione.</span>
-
-<span class="sd">    Questo è utile per garantire che ``Base.metadata`` includa tutte le tabelle</span>
-<span class="sd">    (es. per migrazioni Alembic, introspezione e documentazione).</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        ImportError: Se uno dei moduli dei modelli non è importabile.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Importa esplicitamente tutti i modelli SQLAlchemy dell&#39;applicazione.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">module_name</span> <span class="ow">in</span> <span class="p">(</span>
         <span class="s2">&quot;app.modules.store.models&quot;</span><span class="p">,</span>
         <span class="s2">&quot;app.modules.products.models&quot;</span><span class="p">,</span>
@@ -1256,71 +1277,94 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="get_db">
 <a class="viewcode-back" href="../../app.html#app.database.get_db">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_db</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Session</span><span class="p">]:</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_db</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    FastAPI dependency that yields a database session.</span>
-
-<span class="sd">    Usage: Used with Depends(get_db) in FastAPI route handlers</span>
-<span class="sd">    to automatically inject and manage database sessions.</span>
-
-<span class="sd">    Yields:</span>
-<span class="sd">        Session: SQLAlchemy database session</span>
+<span class="sd">    FastAPI dependency that yields an async database session.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">SessionLocal</span><span class="p">()</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">db</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">SessionLocal</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">db</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
 
-<span class="n">DBSessionDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Session</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)]</span>
+<span class="n">DBSessionDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)]</span>
 
 
 <div class="viewcode-block" id="set_db_tenant_context">
 <a class="viewcode-back" href="../../app.html#app.database.set_db_tenant_context">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">set_db_tenant_context</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set_db_tenant_context</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sets the PostgreSQL session variable for Row Level Security and</span>
-<span class="sd">    registers it for automatic restoration on transaction start.</span>
+<span class="sd">    Sets the PostgreSQL session variable for Row Level Security.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Store the ID on the session object for the event listener</span>
+    <span class="c1"># Store the ID on the session object for the event listener.</span>
+    <span class="c1"># We store it on both the AsyncSession and its underlying sync session</span>
+    <span class="c1"># to ensure the &#39;after_begin&#39; event listener (which receives the sync session)</span>
+    <span class="c1"># can always find it.</span>
     <span class="n">db</span><span class="o">.</span><span class="n">_restrackit_store_id</span> <span class="o">=</span> <span class="n">store_id</span>
+    <span class="n">sync_session</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;sync_session&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sync_session</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sync_session</span><span class="o">.</span><span class="n">_restrackit_store_id</span> <span class="o">=</span> <span class="n">store_id</span>
 
     <span class="c1"># Immediate execution for the current transaction</span>
-    <span class="n">_apply_rls_context</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span></div>
+    <span class="k">await</span> <span class="n">_apply_rls_context</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span></div>
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_apply_rls_context</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_apply_rls_context</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal helper to execute the SET LOCAL command.</span>
-<span class="sd">    &#39;target&#39; can be a Session or a Connection.</span>
+<span class="sd">    &#39;target&#39; must be an AsyncSession.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># For Session, we check the bind dialect. For Connection, we check its engine dialect.</span>
-    <span class="n">dialect_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;bind&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="s2">&quot;dialect&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">dialect_name</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dialect_name</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;postgresql&quot;</span><span class="p">:</span>
+    <span class="c1"># For AsyncSession, we check the bind dialect.</span>
+    <span class="c1"># Defensive check for bind existence.</span>
+    <span class="n">bind</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;bind&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">dialect_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">bind</span><span class="o">.</span><span class="n">dialect</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dialect_name</span> <span class="o">!=</span> <span class="s2">&quot;postgresql&quot;</span><span class="p">:</span>
         <span class="k">return</span>
 
     <span class="k">if</span> <span class="n">store_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="k">await</span> <span class="n">target</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
             <span class="n">text</span><span class="p">(</span><span class="s2">&quot;SET LOCAL app.current_store_id = :store_id&quot;</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">store_id</span><span class="p">)}</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;SET LOCAL app.current_store_id = &#39;&#39;&quot;</span><span class="p">))</span>
+        <span class="k">await</span> <span class="n">target</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;SET LOCAL app.current_store_id = &#39;&#39;&quot;</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="restore_rls_context">
 <a class="viewcode-back" href="../../app.html#app.database.restore_rls_context">[docs]</a>
 <span class="nd">@event</span><span class="o">.</span><span class="n">listens_for</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="s2">&quot;after_begin&quot;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">restore_rls_context</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">transaction</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">restore_rls_context</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span> <span class="n">transaction</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Event listener that automatically restores the RLS context</span>
 <span class="sd">    whenever a new transaction begins on a session.</span>
-<span class="sd">    Uses the raw connection to avoid recursion errors.</span>
+<span class="sd">    Note: For AsyncSession, &#39;connection&#39; is an AsyncConnection.</span>
+<span class="sd">    We must use connection.sync_connection to execute sync commands</span>
+<span class="sd">    if the event doesn&#39;t support async, or use run_sync.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">store_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="s2">&quot;_restrackit_store_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">_apply_rls_context</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span></div>
+
+    <span class="c1"># Dialect check</span>
+    <span class="k">if</span> <span class="n">connection</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;postgresql&quot;</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># We use connection.run_sync because the event listener is synchronous</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_rls_sync</span><span class="p">(</span><span class="n">sync_conn</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">store_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sync_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                <span class="n">text</span><span class="p">(</span><span class="s2">&quot;SET LOCAL app.current_store_id = :store_id&quot;</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">store_id</span><span class="p">)}</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sync_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;SET LOCAL app.current_store_id = &#39;&#39;&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="s2">&quot;run_sync&quot;</span><span class="p">):</span>
+        <span class="n">connection</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">_set_rls_sync</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_set_rls_sync</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span></div>
 
 </pre></div>
 

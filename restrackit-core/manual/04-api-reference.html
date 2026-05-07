@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Reference &mdash; Restrackit 2.8.0 documentation</title>
+  <title>API Reference &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -744,6 +753,33 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <p>Dettagli: <a class="reference internal" href="09-auth.html"><span class="std std-doc">09-auth.md</span></a></p>
 </section>
 <hr class="docutils" />
+<section id="core-headers-tracing-multi-tenancy">
+<h2>Core Headers (Tracing &amp; Multi-tenancy)<a class="headerlink" href="#core-headers-tracing-multi-tenancy" title="Link to this heading"></a></h2>
+<p>Per garantire tracciabilità e isolamento dei dati, il sistema utilizza i seguenti header:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Header</p></th>
+<th class="head"><p>Descrizione</p></th>
+<th class="head"><p>Obbligatorio</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Authorization</span></code></p></td>
+<td><p>Bearer token JWT da Keycloak.</p></td>
+<td><p>Sì</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code></p></td>
+<td><p>ID univoco della richiesta per il tracing. Se non fornito, viene generato dal server.</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">X-Target-Store</span></code></p></td>
+<td><p>ID dello store su cui operare (necessario se l’utente ha accesso a più store).</p></td>
+<td><p>Condizionale</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
 <section id="health">
 <h2>Health<a class="headerlink" href="#health" title="Link to this heading"></a></h2>
 <section id="get-health">
@@ -950,6 +986,31 @@ background=true  # Optional: if true, returns job_id immediately</p>
 <hr class="docutils" />
 <section id="products-module-products">
 <h2>Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)<a class="headerlink" href="#products-module-products" title="Link to this heading"></a></h2>
+<section id="get-products-allergens">
+<h3><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code><a class="headerlink" href="#get-products-allergens" title="Link to this heading"></a></h3>
+<p>Restituisce il mapping degli allergeni EU disponibili con etichette localizzate.</p>
+<p><strong>Request</strong>:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /products/allergens?lang=it</span>
+<span class="err">Authorization: Bearer &lt;token&gt;</span>
+</pre></div>
+</div>
+<p><strong>Response</strong> (200 OK):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;allergens&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gluten&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Glutine&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crustaceans&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Crostacei&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
 <section id="post-products-bulk-load">
 <h3><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code><a class="headerlink" href="#post-products-bulk-load" title="Link to this heading"></a></h3>
 <p>Bulk upsert products (Idempotent).</p>
@@ -978,10 +1039,17 @@ background=true  # Optional: if true, returns job_id immediately</p>
 <h3><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code><a class="headerlink" href="#get-products-list" title="Link to this heading"></a></h3>
 <p>List all products for the store.</p>
 <p><strong>Request</strong>:</p>
-<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /products/list</span>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /products/list?gluten_free=true&amp;allergen_free=nuts,peanuts</span>
 <span class="err">Authorization: Bearer &lt;token&gt;</span>
 </pre></div>
 </div>
+<p><strong>Query Parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">category</span></code>: Filtra per categoria (es. “Latticini”).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_preparations</span></code>: Se <code class="docutils literal notranslate"><span class="pre">true</span></code>, include anche i semilavorati (default <code class="docutils literal notranslate"><span class="pre">false</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gluten_free</span></code>: Se <code class="docutils literal notranslate"><span class="pre">true</span></code>, restituisce solo prodotti senza glutine.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allergen_free</span></code>: Lista di slug allergeni (separati da virgola) che il prodotto <strong>NON</strong> deve contenere.</p></li>
+</ul>
 <p><strong>Response</strong> (200 OK):</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>

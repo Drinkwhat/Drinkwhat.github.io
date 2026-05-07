@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.ai_agent &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.services.ai_agent &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../../../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1157,7 +1166,7 @@ window.runMermaid = runMermaid;</script>
              
   <h1>Source code for app.services.ai_agent</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Annotated</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
@@ -1166,6 +1175,7 @@ window.runMermaid = runMermaid;</script>
     <span class="kn">from</span><span class="w"> </span><span class="nn">google.genai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">google.genai.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerateContentResponse</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tenacity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">before_sleep_log</span><span class="p">,</span>
     <span class="n">retry</span><span class="p">,</span>
@@ -1202,38 +1212,47 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="search_product_tool">
 <a class="viewcode-back" href="../../../app.services.html#app.services.ai_agent.search_product_tool">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">search_product_tool</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">search_product_tool</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;The unique identifier of the store&quot;</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for product matches in the local database.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        query (str): The product name query.</span>
-<span class="sd">        store_id (str): The store ID to filter by.</span>
+<span class="sd">        store_id (int): The store ID to filter by.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        list[str]: A list of matching product names.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">SessionLocal</span><span class="p">()</span>
+    <span class="c1"># Defensive cast to int to be 100% safe at runtime</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">),</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="s2">&quot;Semilavorato&quot;</span><span class="p">,</span>
+        <span class="n">store_id_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">store_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Invalid store_id type in search_product_tool: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">SessionLocal</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;%</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">),</span>
+                    <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id_int</span><span class="p">,</span>
+                    <span class="n">ProductMaster</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="s2">&quot;Semilavorato&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">all</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">result_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">&quot;🔎 Product search for &#39;</span><span class="si">%s</span><span class="s2">&#39; in store </span><span class="si">%s</span><span class="s2">: found </span><span class="si">%s</span><span class="s2"> matches&quot;</span><span class="p">,</span>
-            <span class="n">query</span><span class="p">,</span>
-            <span class="n">store_id</span><span class="p">,</span>
-            <span class="nb">len</span><span class="p">(</span><span class="n">result_names</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">result_names</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+            <span class="n">result_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;🔎 Product search for &#39;</span><span class="si">%s</span><span class="s2">&#39; in store </span><span class="si">%s</span><span class="s2">: found </span><span class="si">%s</span><span class="s2"> matches&quot;</span><span class="p">,</span>
+                <span class="n">query</span><span class="p">,</span>
+                <span class="n">store_id</span><span class="p">,</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">result_names</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">result_names</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
 
@@ -1262,7 +1281,9 @@ window.runMermaid = runMermaid;</script>
         <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">),</span>
         <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_call_gemini_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">system_instruction</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerateContentResponse</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_call_gemini_api</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">system_instruction</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerateContentResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call Gemini API with retries configured by Tenacity.</span>
 
 <span class="sd">        Args:</span>
@@ -1276,7 +1297,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            Exception: Propagates the last exception after retries are exhausted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;📨 Sending request to Gemini API...&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span>
+        <span class="c1"># Use the async client under .models.aio</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span>
             <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-2.0-flash&quot;</span><span class="p">,</span>
             <span class="n">contents</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="p">{</span>
@@ -1290,12 +1312,12 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="InventoryAgentService.analyze_ocr_text">
 <a class="viewcode-back" href="../../../app.services.html#app.services.ai_agent.InventoryAgentService.analyze_ocr_text">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_ocr_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ocr_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OCRDataResponse</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">analyze_ocr_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ocr_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OCRDataResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the AI agent to parse OCR text and identify product details.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            ocr_text (str): The raw text extracted via OCR.</span>
-<span class="sd">            store_id (str): The store identifier for scoped tool usage.</span>
+<span class="sd">            store_id (int): The store identifier for scoped tool usage.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            OCRDataResponse: The structured data extracted from the text.</span>
@@ -1329,7 +1351,7 @@ window.runMermaid = runMermaid;</script>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Wrapped call with retry logic</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_gemini_api</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">system_instruction</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_gemini_api</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">system_instruction</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;✅ Received response from Gemini API&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">httpx</span><span class="o">.</span><span class="n">ConnectError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Gemini API connection failed after retries: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

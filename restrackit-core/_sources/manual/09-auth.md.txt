@@ -48,7 +48,7 @@ Ogni request opera in un contesto `store_id` (isolamento dati). Lo `store_id` ef
 
 L'isolamento è garantito a due livelli:
 1. **Applicativo**: Filtri espliciti nel Service Layer (es. `Batch.store_id == store_id`).
-2. **Database (RLS)**: PostgreSQL Row Level Security impedisce l'accesso a righe di altri store anche in caso di bug applicativo. Il contesto RLS viene impostato automaticamente dal `KeycloakAuthenticator` all'inizio di ogni richiesta.
+2. **Database (RLS)**: PostgreSQL Row Level Security impedisce l'accesso a righe di altri store anche in caso di bug applicativo. Il contesto RLS viene impostato tramite il comando `SET LOCAL app.current_store_id = :store_id` all'inizio di ogni transazione, gestito automaticamente da un listener SQLAlchemy (`after_begin`).
 
 ## Esempi (curl)
 

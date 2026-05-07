@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen package &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.kitchen package &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="_static/documentation_options.js?v=182a64a0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -812,6 +821,12 @@
 <span class="sig-name descname"><span class="pre">preparations</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Preparation</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></dt>
 <dd></dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd><p>Calcola l’unione degli allergeni di tutti gli ingredienti (lazy-safe).</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
@@ -991,11 +1006,6 @@ for example, any mapped columns or relationships.</p>
 <span class="sig-name descname"><span class="pre">preparation</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">Preparation</span><span class="p"><span class="pre">]</span></span></span></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">batch</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">Batch</span><span class="p"><span class="pre">]</span></span></span></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
@@ -1006,6 +1016,11 @@ values in <code class="docutils literal notranslate"><span class="pre">kwargs</s
 attributes of the instance’s class are allowed. These could be,
 for example, any mapped columns or relationships.</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">batch</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">Batch</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1018,7 +1033,7 @@ for example, any mapped columns or relationships.</p>
 <dd><p>Dependency factory to create a KitchenService bound to the request DB session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>AsyncSession</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Service instance for kitchen operations.</p>
@@ -1038,7 +1053,7 @@ for example, any mapped columns or relationships.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>recipe_in</strong> (<em>RecipeCreate</em>) – Recipe payload.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d631f570&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_MANAGE_RECIPES permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d192db240&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_MANAGE_RECIPES permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1060,7 +1075,7 @@ for example, any mapped columns or relationships.</p>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
 <li><p><strong>pagination</strong> (<em>Annotated</em><em>[</em><em>PaginationParams</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Pagination parameters.</p></li>
 <li><p><strong>name</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Optional name filter (contains).</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d623fe50&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d1929ea50&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1079,9 +1094,9 @@ for example, any mapped columns or relationships.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – Recipe identifier.</p></li>
+<li><p><strong>recipe_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Recipe identifier.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d619c050&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d1929ec50&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1100,10 +1115,10 @@ for example, any mapped columns or relationships.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – ID of the recipe to update.</p></li>
+<li><p><strong>recipe_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the recipe to update.</p></li>
 <li><p><strong>data</strong> (<em>RecipeUpdate</em>) – Update payload including the expected version.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d61795e0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_MANAGE_RECIPES permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d19466990&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_MANAGE_RECIPES permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1125,10 +1140,10 @@ for example, any mapped columns or relationships.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – ID of the recipe to delete.</p></li>
+<li><p><strong>recipe_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the recipe to delete.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Expected version of the resource.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6179d60&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_MANAGE_RECIPES permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d19466e40&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_MANAGE_RECIPES permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1151,9 +1166,9 @@ Useful for populating UI dropdowns when recording a preparation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – Recipe identifier.</p></li>
+<li><p><strong>recipe_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Recipe identifier.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d618f070&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d1d45e970&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1175,7 +1190,7 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>preparation_in</strong> (<em>PreparationCreate</em>) – Preparation payload (recipe + used batches).</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d618f930&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_WRITE_PREPARATION permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d19319630&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_WRITE_PREPARATION permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1197,7 +1212,7 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
 <li><p><strong>pagination</strong> (<em>Annotated</em><em>[</em><em>PaginationParams</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Pagination parameters.</p></li>
 <li><p><strong>filters</strong> (<em>Annotated</em><em>[</em><em>PreparationListFilter</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Filter options.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d612a680&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d192e6b60&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1216,9 +1231,9 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_id</strong> (<em>int</em>) – Preparation identifier.</p></li>
+<li><p><strong>preparation_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Preparation identifier.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6271790&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d1928d0d0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1237,10 +1252,10 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_id</strong> (<em>int</em>) – ID of the preparation to update.</p></li>
+<li><p><strong>preparation_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the preparation to update.</p></li>
 <li><p><strong>data</strong> (<em>PreparationUpdate</em>) – Update payload including expected version and notes.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d62716d0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_WRITE_PREPARATION permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d1928c110&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_WRITE_PREPARATION permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1262,10 +1277,10 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_id</strong> (<em>int</em>) – ID of the preparation to delete.</p></li>
+<li><p><strong>preparation_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the preparation to delete.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.kitchen.service.KitchenService" title="app.modules.kitchen.service.KitchenService"><em>KitchenService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.kitchen.router.get_kitchen_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Kitchen service dependency.</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Expected version of the resource.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d61931d0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_WRITE_PREPARATION permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d192ccd60&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with KITCHEN_WRITE_PREPARATION permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1355,10 +1370,16 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <dd><p>Normalizza il nome in lowercase e rimuove spazi extra.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>str</em>)</p>
+<dd class="field-odd"><p><strong>v</strong> (<em>str</em>) – Il nome della ricetta in input.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Il nome normalizzato.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Se il nome risulta vuoto dopo la normalizzazione.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1468,7 +1489,7 @@ Validates that selected batches are active (not empty) and belong to the store.<
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeIngredientResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_master_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_quantity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeIngredientResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeIngredientResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_master_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_quantity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergen_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeIngredientResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema for returning a recipe ingredient.</p>
 <dl class="field-list simple">
@@ -1478,6 +1499,7 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <li><p><strong>product_master_id</strong> (<em>int</em>)</p></li>
 <li><p><strong>standard_quantity</strong> (<em>float</em>)</p></li>
 <li><p><strong>unit</strong> (<em>str</em>)</p></li>
+<li><p><strong>allergen_mask</strong> (<em>int</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1501,11 +1523,42 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <span class="sig-name descname"><span class="pre">unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergen_mask</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">resolve_allergen_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeIngredientResponse.resolve_allergen_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Resolve allergen_mask from the related product_master for ORM objects.</p>
+<p>When Pydantic receives a raw dict (e.g. from JSON) it already contains
+all the fields we need, so we return it as-is. When it receives a
+SQLAlchemy <code class="docutils literal notranslate"><span class="pre">RecipeIngredient</span></code> instance we must reach into the
+<code class="docutils literal notranslate"><span class="pre">product_master</span></code> relationship to fetch <code class="docutils literal notranslate"><span class="pre">allergen_mask</span></code>, because that
+column lives on <code class="docutils literal notranslate"><span class="pre">products_master</span></code> and is not a direct attribute of
+<code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>__annotationlib_name_1__</em><em> | </em><em>RecipeIngredient</em>) – Either a plain dict (Pydantic raw input) or a
+<code class="docutils literal notranslate"><span class="pre">RecipeIngredient</span></code> ORM instance (from_attributes path).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">_RecipeIngredientData</span></code> dict ready for Pydantic validation.
+<code class="docutils literal notranslate"><span class="pre">allergen_mask</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code> when <code class="docutils literal notranslate"><span class="pre">product_master</span></code> is not
+loaded.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>_RecipeIngredientData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingredients</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conservation_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingredients</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gluten_free</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema for returning a recipe.</p>
 <dl class="field-list simple">
@@ -1522,6 +1575,8 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <li><p><strong>deleted_at</strong> (<em>datetime</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>version</strong> (<em>int</em>)</p></li>
 <li><p><strong>ingredients</strong> (<em>list</em><em>[</em><em>RecipeIngredientResponse</em><em>]</em>)</p></li>
+<li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>gluten_free</strong> (<em>bool</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1579,6 +1634,30 @@ Validates that selected batches are active (not empty) and belong to the store.<
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">ingredients</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">RecipeIngredientResponse</span><span class="p"><span class="pre">]</span></span></span></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">gluten_free</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_aggregates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeResponse.compute_aggregates"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Compute combined allergen fields from all ingredients.</p>
+<p>This runs after the model (and its nested ingredients) has been
+initialized, ensuring instance.ingredients already has the resolved
+allergen_masks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>RecipeResponse</em></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -2021,7 +2100,7 @@ that can be used when recording a preparation.</p>
 <p>Servizio per la gestione di ricette e preparazioni in cucina.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>AsyncSession</em>)</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -2030,7 +2109,7 @@ that can be used when recording a preparation.</p>
 <dd><p>Inizializza il servizio cucina.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Session</em>) – Sessione SQLAlchemy da usare per query e transazioni.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>AsyncSession</em>) – Sessione SQLAlchemy da usare per query e transazioni.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2064,18 +2143,18 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.get_recipes">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_recipes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_deleted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.get_recipes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.get_recipes" title="Link to this definition"></a></dt>
-<dd><p>Ottiene tutte le ricette dello store.</p>
+<dd><p>Recupera la lista delle ricette con paginazione e filtri.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
 <li><p><strong>pagination</strong> (<em>PaginationParams</em>) – Parametri di paginazione.</p></li>
-<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>) – Filtro opzionale per nome ricetta (contains).</p></li>
-<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True include anche le ricette soft-deleted.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>) – Filtro opzionale sul nome della ricetta.</p></li>
+<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True, include anche le ricette eliminate.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Lista ricette.</p>
+<dd class="field-even"><p>Lista delle ricette trovate.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[models.Recipe]</p>
@@ -2086,23 +2165,23 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.get_recipe">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_recipe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_deleted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.get_recipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.get_recipe" title="Link to this definition"></a></dt>
-<dd><p>Recupera una ricetta per ID e store.</p>
+<dd><p>Recupera una singola ricetta per ID e store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
-<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True include anche ricette soft-deleted.</p></li>
+<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta da recuperare.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
+<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True, permette di recuperare anche ricette eliminate.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Ricetta trovata.</p>
+<dd class="field-even"><p>L’istanza della ricetta trovata.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>models.Recipe</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la ricetta non esiste.</p>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la ricetta non viene trovata.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2110,22 +2189,22 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.get_recipe_availability">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_recipe_availability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.get_recipe_availability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.get_recipe_availability" title="Link to this definition"></a></dt>
-<dd><p>Verifica disponibilità ingredienti per una ricetta.</p>
+<dd><p>Verifica la disponibilità degli ingredienti per una specifica ricetta.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
+<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta da controllare.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Disponibilità per ingrediente con lotti attivi.</p>
+<dd class="field-even"><p>Dettaglio della disponibilità per ingrediente.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>RecipeAvailabilityResponse</p>
+<dd class="field-odd"><p>schemas.RecipeAvailabilityResponse</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la ricetta non esiste.</p>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la ricetta o uno degli ingredienti non vengono trovati.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2133,26 +2212,25 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.create_preparation">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create_preparation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preparation_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.create_preparation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.create_preparation" title="Link to this definition"></a></dt>
-<dd><p>Registra una nuova preparazione usando lotti.</p>
+<dd><p>Registra una nuova esecuzione di preparazione e crea il relativo lotto.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_in</strong> (<em>PreparationCreate</em>) – Payload preparazione (ricetta, note, lotti utilizzati).</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
-<li><p><strong>operator_id</strong> (<em>str</em>) – ID dell’operatore che registra la preparazione.</p></li>
+<li><p><strong>preparation_in</strong> (<em>schemas.PreparationCreate</em>) – Dati della preparazione e lotti usati.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
+<li><p><strong>operator_id</strong> (<em>str</em>) – Identificativo dell’operatore che esegue l’azione.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Preparazione creata.</p>
+<dd class="field-even"><p>L’istanza della preparazione registrata.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>models.Preparation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se ricetta/lotti non validi o lotti vuoti/non appartenenti
-    allo store.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la ricetta o i lotti non sono validi o disponibili.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errori di integrità del database.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2161,18 +2239,18 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.get_preparations">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_preparations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_deleted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.get_preparations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.get_preparations" title="Link to this definition"></a></dt>
-<dd><p>List preparazioni con paginazione e filtri opzionali.</p>
+<dd><p>Elenca le preparazioni con paginazione e filtri opzionali.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
 <li><p><strong>pagination</strong> (<em>PaginationParams</em>) – Parametri di paginazione.</p></li>
-<li><p><strong>filters</strong> (<em>PreparationListFilter</em><em> | </em><em>None</em>) – Filtri opzionali (ricetta, operatore, range date).</p></li>
-<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True include anche preparazioni soft-deleted.</p></li>
+<li><p><strong>filters</strong> (<em>schemas.PreparationListFilter</em><em> | </em><em>None</em>) – Filtri su ricetta o date.</p></li>
+<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True, include record eliminati.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Lista preparazioni.</p>
+<dd class="field-even"><p>Lista delle preparazioni trovate.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[models.Preparation]</p>
@@ -2183,23 +2261,23 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.get_preparation">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_preparation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preparation_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_deleted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.get_preparation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.get_preparation" title="Link to this definition"></a></dt>
-<dd><p>Recupera una preparazione per ID e store.</p>
+<dd><p>Recupera una singola preparazione per ID e store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_id</strong> (<em>int</em>) – ID della preparazione.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
-<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True include anche preparazioni soft-deleted.</p></li>
+<li><p><strong>preparation_id</strong> (<em>int</em>) – ID della preparazione da recuperare.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
+<li><p><strong>include_deleted</strong> (<em>bool</em>) – Se True, recupera anche record eliminati.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Preparazione trovata.</p>
+<dd class="field-even"><p>L’istanza della preparazione trovata.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>models.Preparation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la preparazione non esiste.</p>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la preparazione non viene trovata.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2207,26 +2285,25 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.update_recipe">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">update_recipe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.update_recipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.update_recipe" title="Link to this definition"></a></dt>
-<dd><p>Aggiorna una ricetta con optimistic locking.</p>
+<dd><p>Aggiorna i dati di una ricetta e i relativi ingredienti con optimistic locking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta.</p></li>
-<li><p><strong>data</strong> (<em>RecipeUpdate</em>) – Dati di aggiornamento (include <code class="docutils literal notranslate"><span class="pre">version</span></code> attesa).</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
+<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta da aggiornare.</p></li>
+<li><p><strong>data</strong> (<em>schemas.RecipeUpdate</em>) – Nuovi dati della ricetta.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Ricetta aggiornata.</p>
+<dd class="field-even"><p>L’istanza della ricetta aggiornata.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>models.Recipe</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – In caso di versione non coerente, nome duplicato o ingredienti
-    invalidi.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB non riconducibile a regole di business.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – In caso di conflitto di versione o se il nome esiste già.</p></li>
+<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – Per altri errori di query.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2235,20 +2312,17 @@ that can be used when recording a preparation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.modules.kitchen.service.KitchenService.delete_recipe">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">delete_recipe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/service.html#KitchenService.delete_recipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.kitchen.service.KitchenService.delete_recipe" title="Link to this definition"></a></dt>
-<dd><p>Esegue soft delete di una ricetta con optimistic locking.</p>
+<dd><p>Esegue il soft-delete di una ricetta con optimistic locking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
-<li><p><strong>version</strong> (<em>int</em>) – Versione attesa della risorsa.</p></li>
+<li><p><strong>recipe_id</strong> (<em>int</em>) – ID della ricetta da eliminare.</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>) – Identificativo dello store.</p></li>
+<li><p><strong>version</strong> (<em>int</em>) – Versione attesa per il controllo di concorrenza.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – In caso di versione non coerente o risorsa mancante.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – Se la versione non coincide (Conflict).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -2263,22 +2337,13 @@ that can be used when recording a preparation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_id</strong> (<em>int</em>) – ID della preparazione.</p></li>
-<li><p><strong>data</strong> (<em>PreparationUpdate</em>) – Dati di aggiornamento (include <code class="docutils literal notranslate"><span class="pre">version</span></code> attesa).</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
+<li><p><strong>preparation_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>data</strong> (<em>PreparationUpdate</em>)</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Preparazione aggiornata.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>models.Preparation</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – In caso di versione non coerente o risorsa mancante.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
-</ul>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Preparation</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2290,19 +2355,13 @@ that can be used when recording a preparation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>preparation_id</strong> (<em>int</em>) – ID della preparazione.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – ID dello store (multi-tenancy).</p></li>
-<li><p><strong>version</strong> (<em>int</em>) – Versione attesa della risorsa.</p></li>
+<li><p><strong>preparation_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>version</strong> (<em>int</em>)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError" title="app.core.errors.BusinessLogicError"><strong>BusinessLogicError</strong></a> – In caso di versione non coerente o risorsa mancante.</p></li>
-<li><p><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError" title="app.core.errors.DatabaseError"><strong>DatabaseError</strong></a> – In caso di errore DB.</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

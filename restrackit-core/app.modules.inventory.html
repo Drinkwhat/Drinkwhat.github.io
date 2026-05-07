@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory package &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.inventory package &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="_static/documentation_options.js?v=182a64a0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -997,7 +1006,7 @@ for example, any mapped columns or relationships.</p>
 <dd><p>Dependency factory to create a BatchService bound to the request DB session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>AsyncSession</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – SQLAlchemy session injected by FastAPI.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Service instance for inventory operations.</p>
@@ -1017,7 +1026,7 @@ The OCR service extracts text and the AI agent parses it into structured data.</
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6803a10&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d19973380&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
 <li><p><strong>file</strong> (<em>Annotated</em><em>[</em><em>UploadFile</em><em>, </em><em>File</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Uploaded image file (label photo).</p></li>
 <li><p><strong>background</strong> (<em>Annotated</em><em>[</em><em>bool</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Whether to run as a background task.</p></li>
 </ul>
@@ -1038,9 +1047,9 @@ The OCR service extracts text and the AI agent parses it into structured data.</
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>job_id</strong> (<em>str</em>) – Unique identifier of the background job.</p></li>
+<li><p><strong>job_id</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Unique identifier of the background job.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d62482d0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d1988bd90&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1065,9 +1074,9 @@ corrected the AI-proposed data from the /analyze step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>BatchConfirm</em>) – Confirmed batch data (product, lot, expiry, confidence).</p></li>
+<li><p><strong>data</strong> (<em>Annotated</em><em>[</em><em>BatchConfirm</em><em>, </em><em>Body</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Confirmed batch data (product, lot, expiry, confidence).</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d6249590&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d193e9090&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1089,10 +1098,10 @@ corrected the AI-proposed data from the /analyze step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to update.</p></li>
+<li><p><strong>batch_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the batch to update.</p></li>
 <li><p><strong>data</strong> (<em>BatchUpdate</em>) – Updated fields and the expected version for concurrency control.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d625c050&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d19440640&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_WRITE permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1114,9 +1123,9 @@ corrected the AI-proposed data from the /analyze step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to retrieve.</p></li>
+<li><p><strong>batch_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the batch to retrieve.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d625c510&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d194410f0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1141,7 +1150,7 @@ corrected the AI-proposed data from the /analyze step.</p>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
 <li><p><strong>filters</strong> (<em>Annotated</em><em>[</em><em>BatchListFilter</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Optional filters (product name, empty status, expired status).</p></li>
 <li><p><strong>pagination</strong> (<em>Annotated</em><em>[</em><em>PaginationParams</em><em>, </em><em>Depends</em><em>(</em><em>dependency=None</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Pagination parameters (page size, offset).</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d63b39b0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d193a7890&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_READ permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1160,10 +1169,10 @@ corrected the AI-proposed data from the /analyze step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_id</strong> (<em>int</em>) – ID of the batch to delete.</p></li>
+<li><p><strong>batch_id</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Path</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID of the batch to delete.</p></li>
 <li><p><strong>service</strong> (<em>Annotated</em><em>[</em><a class="reference internal" href="#app.modules.inventory.service.BatchService" title="app.modules.inventory.service.BatchService"><em>BatchService</em></a><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.modules.inventory.router.get_batch_service</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Inventory batch service dependency.</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Expected version of the resource for concurrency control.</p></li>
-<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x70d9d62bdbf0&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_DELETE permission.</p></li>
+<li><p><strong>user</strong> (<em>Annotated</em><em>[</em><em>AuthUser</em><em>, </em><em>Depends</em><em>(</em><em>dependency=&lt;app.modules.auth.dependencies.RequirePermission object at 0x744d193f7790&gt;</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>) – Authenticated user with INVENTORY_DELETE permission.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1783,7 +1792,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Session</em>)</p></li>
+<li><p><strong>db</strong> (<em>AsyncSession</em>)</p></li>
 <li><p><strong>ocr_service</strong> (<a class="reference internal" href="app.services.html#app.services.ocr.OCRServiceInterface" title="app.services.ocr.OCRServiceInterface"><em>OCRServiceInterface</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>agent_service</strong> (<a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService" title="app.services.ai_agent.InventoryAgentService"><em>InventoryAgentService</em></a><em> | </em><em>None</em>)</p></li>
 </ul>
@@ -1796,7 +1805,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Session</em>) – Sessione SQLAlchemy.</p></li>
+<li><p><strong>db</strong> (<em>AsyncSession</em>) – Sessione SQLAlchemy.</p></li>
 <li><p><strong>ocr_service</strong> (<a class="reference internal" href="app.services.html#app.services.ocr.OCRServiceInterface" title="app.services.ocr.OCRServiceInterface"><em>OCRServiceInterface</em></a><em> | </em><em>None</em>) – Implementazione OCR (default: GoogleVisionOCRService).</p></li>
 <li><p><strong>agent_service</strong> (<a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService" title="app.services.ai_agent.InventoryAgentService"><em>InventoryAgentService</em></a><em> | </em><em>None</em>) – Servizio AI per parsing OCR (default: InventoryAgentService).</p></li>
 </ul>

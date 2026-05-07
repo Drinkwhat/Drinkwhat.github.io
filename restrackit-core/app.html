@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app package &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app package &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="_static/documentation_options.js?v=182a64a0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,6 +58,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -213,14 +214,21 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -235,6 +243,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -769,6 +778,7 @@
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_INTEGRITY_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_INTEGRITY_ERROR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_QUERY_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_QUERY_ERROR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_REDIS_NOT_INITIALIZED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_REDIS_NOT_INITIALIZED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_REDIS_SERIALIZATION_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_REDIS_SERIALIZATION_ERROR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.EXT_SERVICE_UNAVAILABLE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_SERVICE_UNAVAILABLE</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.EXT_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_TIMEOUT</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.EXT_API_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_API_ERROR</span></code></a></li>
@@ -816,6 +826,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.i18n">app.core.i18n module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.i18n.get_message"><code class="docutils literal notranslate"><span class="pre">get_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.i18n.mask_to_localized_list"><code class="docutils literal notranslate"><span class="pre">mask_to_localized_list()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.logging">app.core.logging module</a><ul>
@@ -839,11 +850,13 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.redis">app.core.redis module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.redis.RedisPrimitive"><code class="docutils literal notranslate"><span class="pre">RedisPrimitive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.redis.JSONValue"><code class="docutils literal notranslate"><span class="pre">JSONValue</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.redis.RedisValue"><code class="docutils literal notranslate"><span class="pre">RedisValue</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.redis.RedisService"><code class="docutils literal notranslate"><span class="pre">RedisService</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.__init__"><code class="docutils literal notranslate"><span class="pre">RedisService.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.connect"><code class="docutils literal notranslate"><span class="pre">RedisService.connect()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.disconnect"><code class="docutils literal notranslate"><span class="pre">RedisService.disconnect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.ready"><code class="docutils literal notranslate"><span class="pre">RedisService.ready</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.client"><code class="docutils literal notranslate"><span class="pre">RedisService.client</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.get_cache"><code class="docutils literal notranslate"><span class="pre">RedisService.get_cache()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.redis.RedisService.get_model"><code class="docutils literal notranslate"><span class="pre">RedisService.get_model()</span></code></a></li>
@@ -947,6 +960,34 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="app.shared.html">app.shared package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.allergen_enum">app.shared.allergen_enum module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen"><code class="docutils literal notranslate"><span class="pre">Allergen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.GLUTEN"><code class="docutils literal notranslate"><span class="pre">Allergen.GLUTEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.CRUSTACEANS"><code class="docutils literal notranslate"><span class="pre">Allergen.CRUSTACEANS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.EGGS"><code class="docutils literal notranslate"><span class="pre">Allergen.EGGS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.FISH"><code class="docutils literal notranslate"><span class="pre">Allergen.FISH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.PEANUTS"><code class="docutils literal notranslate"><span class="pre">Allergen.PEANUTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.SOY"><code class="docutils literal notranslate"><span class="pre">Allergen.SOY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.MILK"><code class="docutils literal notranslate"><span class="pre">Allergen.MILK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.TREE_NUTS"><code class="docutils literal notranslate"><span class="pre">Allergen.TREE_NUTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.CELERY"><code class="docutils literal notranslate"><span class="pre">Allergen.CELERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.MUSTARD"><code class="docutils literal notranslate"><span class="pre">Allergen.MUSTARD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.SESAME"><code class="docutils literal notranslate"><span class="pre">Allergen.SESAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.SULPHITES"><code class="docutils literal notranslate"><span class="pre">Allergen.SULPHITES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.LUPIN"><code class="docutils literal notranslate"><span class="pre">Allergen.LUPIN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.MOLLUSCS"><code class="docutils literal notranslate"><span class="pre">Allergen.MOLLUSCS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergen_enum.Allergen.ALL"><code class="docutils literal notranslate"><span class="pre">Allergen.ALL</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.allergens">app.shared.allergens module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.list_to_mask"><code class="docutils literal notranslate"><span class="pre">list_to_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.mask_to_list"><code class="docutils literal notranslate"><span class="pre">mask_to_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.is_gluten_free"><code class="docutils literal notranslate"><span class="pre">is_gluten_free()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.combine_masks"><code class="docutils literal notranslate"><span class="pre">combine_masks()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.cache">app.shared.cache module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.cache.cached"><code class="docutils literal notranslate"><span class="pre">cached()</span></code></a></li>
 </ul>
@@ -975,23 +1016,36 @@
 <span id="app-database-module"></span><h2>app.database module<a class="headerlink" href="#module-app.database" title="Link to this heading"></a></h2>
 <p>Database configuration and session management module.</p>
 <p>This module handles:
-- SQLAlchemy engine creation and configuration
-- Session factory management
-- Dependency injection for database sessions in FastAPI routes
+- SQLAlchemy async engine creation and configuration
+- Async session factory management
+- Dependency injection for async database sessions in FastAPI routes
 - Support for both PostgreSQL and SQLite databases</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.database.get_async_database_url">
+<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_async_database_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_async_database_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_async_database_url" title="Link to this definition"></a></dt>
+<dd><p>Converts a standard database URL to its async equivalent.
+- postgresql:// -&gt; postgresql+asyncpg://
+- sqlite:/// -&gt; sqlite+aiosqlite:///</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="app.database.get_engine_and_session">
 <span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_engine_and_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_engine_and_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_engine_and_session" title="Link to this definition"></a></dt>
-<dd><p>Create SQLAlchemy engine and session factory based on DATABASE_URL.</p>
-<p>Automatically configures:
-- SQLite: Sets check_same_thread=False for development
-- PostgreSQL: Uses standard connection pool settings</p>
+<dd><p>Create SQLAlchemy async engine and session factory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Motore SQLAlchemy e factory della sessione.</p>
+<dd class="field-odd"><p>Async engine and session factory.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[Engine, sessionmaker[Session]]</p>
+<dd class="field-even"><p>tuple[AsyncEngine, async_sessionmaker[AsyncSession]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1052,43 +1106,32 @@ for new <code class="xref py py-class docutils literal notranslate"><span class=
 <dt class="sig sig-object py" id="app.database.load_models">
 <span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">load_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#load_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.load_models" title="Link to this definition"></a></dt>
 <dd><p>Importa esplicitamente tutti i modelli SQLAlchemy dell’applicazione.</p>
-<p>Questo è utile per garantire che <code class="docutils literal notranslate"><span class="pre">Base.metadata</span></code> includa tutte le tabelle
-(es. per migrazioni Alembic, introspezione e documentazione).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ImportError</strong> – Se uno dei moduli dei modelli non è importabile.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.database.get_db">
-<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_db" title="Link to this definition"></a></dt>
-<dd><p>FastAPI dependency that yields a database session.</p>
-<p>Usage: Used with Depends(get_db) in FastAPI route handlers
-to automatically inject and manage database sessions.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_db" title="Link to this definition"></a></dt>
+<dd><p>FastAPI dependency that yields an async database session.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Yields<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Session</em> – SQLAlchemy database session</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>Generator</em>[<em>Session</em>]</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>AsyncGenerator</em>[<em>AsyncSession</em>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.database.set_db_tenant_context">
-<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">set_db_tenant_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#set_db_tenant_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.set_db_tenant_context" title="Link to this definition"></a></dt>
-<dd><p>Sets the PostgreSQL session variable for Row Level Security and
-registers it for automatic restoration on transaction start.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">set_db_tenant_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#set_db_tenant_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.set_db_tenant_context" title="Link to this definition"></a></dt>
+<dd><p>Sets the PostgreSQL session variable for Row Level Security.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Session</em>)</p></li>
+<li><p><strong>db</strong> (<em>AsyncSession</em>)</p></li>
 <li><p><strong>store_id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
@@ -1103,7 +1146,14 @@ registers it for automatic restoration on transaction start.</p>
 <span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">restore_rls_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#restore_rls_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.restore_rls_context" title="Link to this definition"></a></dt>
 <dd><p>Event listener that automatically restores the RLS context
 whenever a new transaction begins on a session.
-Uses the raw connection to avoid recursion errors.</p>
+Note: For AsyncSession, ‘connection’ is an AsyncConnection.
+We must use connection.sync_connection to execute sync commands
+if the event doesn’t support async, or use run_sync.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -1254,7 +1304,7 @@ Checks application availability, database and Redis connectivity.</p>
 <dd class="field-even"><p>dict</p>
 </dd>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>Session</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p>
+<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>AsyncSession</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p>
 </dd>
 </dl>
 </dd></dl>

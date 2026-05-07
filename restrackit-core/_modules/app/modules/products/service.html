@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products.service &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.products.service &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../../../../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1158,26 +1167,33 @@ window.runMermaid = runMermaid;</script>
   <h1>Source code for app.modules.products.service</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTC</span><span class="p">,</span> <span class="n">datetime</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegrityError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">selectinload</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">selectinload</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">StaleDataError</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">BusinessLogicError</span><span class="p">,</span> <span class="n">DatabaseError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.i18n</span><span class="w"> </span><span class="kn">import</span> <span class="n">ALLERGEN_LABELS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">redis_service</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Recipe</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConservationMethod</span><span class="p">,</span> <span class="n">ProductMaster</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.products.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AllergenItem</span><span class="p">,</span>
     <span class="n">ConservationMethodCreate</span><span class="p">,</span>
     <span class="n">ConservationMethodResponse</span><span class="p">,</span>
     <span class="n">ConservationMethodUpdate</span><span class="p">,</span>
+    <span class="n">ProductAllergenResponse</span><span class="p">,</span>
     <span class="n">ProductBulkLoadResponse</span><span class="p">,</span>
     <span class="n">ProductCreate</span><span class="p">,</span>
     <span class="n">ProductResponse</span><span class="p">,</span>
     <span class="n">ProductUpdate</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.allergens</span><span class="w"> </span><span class="kn">import</span> <span class="n">_SLUG_MAP</span><span class="p">,</span> <span class="n">Allergen</span><span class="p">,</span> <span class="n">list_to_mask</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppLanguage</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_conservation_method</span>
 
 
@@ -1194,7 +1210,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ProductService.__init__">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Inizializza il servizio prodotti.</span>
 
 <span class="sd">        Args:</span>
@@ -1203,48 +1219,66 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span></div>
 
 
+<div class="viewcode-block" id="ProductService.get_available_allergens">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.get_available_allergens">[docs]</a>
+    <span class="nd">@cached</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;products&quot;</span><span class="p">,</span> <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;it&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;allergens:static:</span><span class="si">{</span><span class="n">lang</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_available_allergens</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span> <span class="n">AppLanguage</span> <span class="o">=</span> <span class="n">AppLanguage</span><span class="o">.</span><span class="n">IT</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductAllergenResponse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restituisce il mapping slug -&gt; label degli allergeni EU nella lingua scelta.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lang: Lingua desiderata (es. &quot;it&quot;, &quot;en&quot;). Default &quot;it&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ProductAllergenResponse: Mapping slug -&gt; label e stato.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Invertiamo _SLUG_MAP per usare gli slug canonici (IT) come chiavi stabili nell&#39;API</span>
+        <span class="n">inv_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_SLUG_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">ALLERGEN_LABELS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">ALLERGEN_LABELS</span><span class="p">[</span><span class="n">AppLanguage</span><span class="o">.</span><span class="n">IT</span><span class="p">])</span>
+        <span class="c1"># Usiamo a.value per sicurezza ed esplicitezza nel mapping</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">AllergenItem</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="n">inv_map</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+        <span class="k">return</span> <span class="n">ProductAllergenResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="n">items</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="ProductService.bulk_load_products">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.bulk_load_products">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bulk_load_products</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProductCreate</span><span class="p">],</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProductBulkLoadResponse</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Carica o aggiorna massivamente l&#39;anagrafica prodotti.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Carica o aggiorna massivamente l&#39;anagrafica prodotti.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            items: Lista di prodotti da inserire (o da saltare se già presenti).</span>
 <span class="sd">            store_id: ID dello store (multi-tenancy).</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProductBulkLoadResponse: Riepilogo dell&#39;operazione (nuovi vs già presenti).</span>
+<span class="sd">            ProductBulkLoadResponse: Riepilogo dell&#39;operazione.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            DatabaseError: In caso di errore durante il commit complessivo.</span>
+<span class="sd">            DatabaseError: In caso di errore durante il commit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nuovi</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">saltati</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;📦 Starting bulk product upload for store </span><span class="si">%s</span><span class="s2"> with </span><span class="si">%s</span><span class="s2"> items&quot;</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;📦 Bulk upload start: store </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> items&quot;</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="c1"># Usiamo un savepoint per isolare ogni singolo inserimento</span>
-                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">begin_nested</span><span class="p">():</span>
-                    <span class="c1"># Cerchiamo se il prodotto esiste già per questo store</span>
-                    <span class="n">esistente</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
-                        <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
-                            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-                        <span class="p">)</span>
-                        <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+                <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">begin_nested</span><span class="p">():</span>
+                    <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                        <span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                        <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
+                        <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
                     <span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+                    <span class="n">esistente</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">esistente</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                            <span class="n">validate_conservation_method</span><span class="p">(</span>
+                            <span class="k">await</span> <span class="n">validate_conservation_method</span><span class="p">(</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">conservation_method_id</span>
                             <span class="p">)</span>
 
@@ -1253,28 +1287,24 @@ window.runMermaid = runMermaid;</script>
                             <span class="n">store_id</span><span class="o">=</span><span class="n">store_id</span><span class="p">,</span>
                             <span class="n">category</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
                             <span class="n">conservation_method_id</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">conservation_method_id</span><span class="p">,</span>
+                            <span class="n">allergen_mask</span><span class="o">=</span><span class="n">list_to_mask</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">allergens</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">allergens</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                         <span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_p</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>  <span class="c1"># Controlla i vincoli subito</span>
+                        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
                         <span class="n">nuovi</span> <span class="o">+=</span> <span class="mi">1</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;✅ Product created: </span><span class="si">%s</span><span class="s2"> (cat: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># Se preferisci che aggiorni la categoria, decommenta la riga sotto:</span>
-                        <span class="c1"># esistente.category = item.category</span>
                         <span class="n">saltati</span> <span class="o">+=</span> <span class="mi">1</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;↩️  Product already exists: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+                <span class="c1"># Nested rollback happens automatically with &#39;async with self.db.begin_nested()&#39;</span>
                 <span class="n">saltati</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Duplicato saltato via IntegrityError: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>  <span class="c1"># Salva tutto quello che è andato a buon fine</span>
-            <span class="c1"># Invalidate Cache</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Bulk product upload completed: </span><span class="si">%s</span><span class="s2"> new, </span><span class="si">%s</span><span class="s2"> skipped&quot;</span><span class="p">,</span> <span class="n">nuovi</span><span class="p">,</span> <span class="n">saltati</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Bulk upload done: </span><span class="si">%s</span><span class="s2"> new, </span><span class="si">%s</span><span class="s2"> skipped&quot;</span><span class="p">,</span> <span class="n">nuovi</span><span class="p">,</span> <span class="n">saltati</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Database error during bulk commit: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ DB error: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_CONNECTION_ERROR</span><span class="p">,</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="k">return</span> <span class="n">ProductBulkLoadResponse</span><span class="p">(</span>
@@ -1284,42 +1314,66 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span></div>
 
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gen_list_key</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">gluten_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allergen_free</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Genera la chiave di cache deterministica per la lista prodotti.&quot;&quot;&quot;</span>
+        <span class="c1"># La bitmask gestisce intrinsecamente ordine e duplicati.</span>
+        <span class="c1"># Poiché il Router valida gli slug, list_to_mask è sicura.</span>
+        <span class="n">af_mask</span> <span class="o">=</span> <span class="n">list_to_mask</span><span class="p">(</span><span class="n">allergen_free</span><span class="p">)</span> <span class="k">if</span> <span class="n">allergen_free</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">exclude_category</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">gluten_free</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">af_mask</span><span class="si">}</span><span class="s2">&quot;</span>
+
 <div class="viewcode-block" id="ProductService.list_products">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ProductService.list_products">[docs]</a>
     <span class="nd">@cached</span><span class="p">(</span>
         <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;products&quot;</span><span class="p">,</span>
-        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_category</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">exclude_category</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">),</span>
+        <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_list_key</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_products</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">gluten_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allergen_free</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProductResponse</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recupera i prodotti dello store autorizzato con filtri opzionali.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recupera i prodotti dello store autorizzato con filtri.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            store_id: ID dello store (multi-tenancy).</span>
 <span class="sd">            category: Filtra per categoria specifica.</span>
 <span class="sd">            exclude_category: Esclude una categoria specifica.</span>
+<span class="sd">            gluten_free: Se True, solo prodotti senza glutine.</span>
+<span class="sd">            allergen_free: Lista slug allergeni da escludere.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list[ProductResponse]: Prodotti attivi ordinati per nome.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
             <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">conservation_method</span><span class="p">))</span>
             <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">execution_options</span><span class="p">(</span><span class="n">populate_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
-            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="n">category</span><span class="p">)</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="n">category</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">exclude_category</span><span class="p">:</span>
-            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="n">exclude_category</span><span class="p">)</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">category</span> <span class="o">!=</span> <span class="n">exclude_category</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gluten_free</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">allergen_mask</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">Allergen</span><span class="o">.</span><span class="n">GLUTEN</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">allergen_free</span><span class="p">:</span>
+            <span class="n">exclude_mask</span> <span class="o">=</span> <span class="n">list_to_mask</span><span class="p">(</span><span class="n">allergen_free</span><span class="p">)</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">allergen_mask</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">exclude_mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">prodotti</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">prodotti</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;📋 Retrieved </span><span class="si">%s</span><span class="s2"> products for store </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prodotti</span><span class="p">),</span> <span class="n">store_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ProductResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prodotti</span><span class="p">]</span></div>
@@ -1344,15 +1398,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            BusinessLogicError: Se prodotto non trovato, conflitto di versione o duplicato.</span>
 <span class="sd">            DatabaseError: In caso di errore DB.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prodotto</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">product_id</span><span class="p">,</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">product_id</span><span class="p">,</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">prodotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">prodotto</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;⚠️  Product not found: id=</span><span class="si">%s</span><span class="s2"> for store </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
@@ -1370,13 +1422,15 @@ window.runMermaid = runMermaid;</script>
                 <span class="p">},</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">prodotto</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># type: ignore[assignment]</span>
-        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">category</span><span class="p">:</span>
-            <span class="n">prodotto</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">category</span>  <span class="c1"># type: ignore[assignment]</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prodotto</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">category</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prodotto</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">category</span>
         <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">validate_conservation_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">conservation_method_id</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">validate_conservation_method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">store_id</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">conservation_method_id</span><span class="p">)</span>
             <span class="n">prodotto</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">conservation_method_id</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">allergens</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prodotto</span><span class="o">.</span><span class="n">allergen_mask</span> <span class="o">=</span> <span class="n">list_to_mask</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">allergens</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -1385,15 +1439,27 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">prodotto</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="c1"># Re-fetch with relationships and force population to avoid expired attributes</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">options</span><span class="p">(</span>
+                    <span class="n">selectinload</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">conservation_method</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">product_id</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">execution_options</span><span class="p">(</span><span class="n">populate_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+            <span class="n">prodotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one</span><span class="p">()</span>
+
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Product updated: id=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ProductResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">prodotto</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span>
@@ -1404,13 +1470,13 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;❌ Integrity error updating product </span><span class="si">%s</span><span class="s2">: duplicate name&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Product name &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">}</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Error updating product </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_QUERY_ERROR</span><span class="p">,</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
@@ -1431,15 +1497,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;🗑️  Attempting to delete product: id=</span><span class="si">%s</span><span class="s2">, store=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">store_id</span><span class="p">)</span>
 
-        <span class="n">prodotto</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">batches</span><span class="p">))</span>
             <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
                 <span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">product_id</span><span class="p">,</span>
                 <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
                 <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
             <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">prodotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">prodotto</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
@@ -1469,13 +1537,13 @@ window.runMermaid = runMermaid;</script>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;📝 Soft deleting product: id=</span><span class="si">%s</span><span class="s2">, name=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">prodotto</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">prodotto</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;products:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list:*&quot;</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Product soft deleted: id=</span><span class="si">%s</span><span class="s2">, name=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">prodotto</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span>
@@ -1486,7 +1554,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Error deleting product </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_QUERY_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span>
@@ -1512,16 +1580,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Raises:</span>
 <span class="sd">            BusinessLogicError: Se il prodotto non esiste nello store o è soft-deleted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prodotto</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
             <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">conservation_method</span><span class="p">))</span>
             <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
                 <span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">product_id</span><span class="p">,</span>
                 <span class="n">ProductMaster</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
                 <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
             <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">prodotto</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">prodotto</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_PRODUCT_NOT_FOUND</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;ID </span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
@@ -1538,7 +1608,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="ConservationMethodService.__init__">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ConservationMethodService.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span></div>
 
 
@@ -1559,13 +1629,13 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">resets_expiry</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">resets_expiry</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:*&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ConservationMethodResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Method &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">}</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
@@ -1576,14 +1646,12 @@ window.runMermaid = runMermaid;</script>
     <span class="nd">@cached</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;methods&quot;</span><span class="p">,</span> <span class="n">key_builder</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list&quot;</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ConservationMethodResponse</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Elenca i metodi attivi di uno store.&quot;&quot;&quot;</span>
-        <span class="n">methods</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">methods</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ConservationMethodResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">]</span></div>
 
 
@@ -1593,15 +1661,13 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="p">,</span> <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ConservationMethodUpdate</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggiorna un metodo esistente.&quot;&quot;&quot;</span>
-        <span class="n">method</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">method</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1633,19 +1699,19 @@ window.runMermaid = runMermaid;</script>
             <span class="n">method</span><span class="o">.</span><span class="n">resets_expiry</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">resets_expiry</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">method_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ConservationMethodResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Method &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">}</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span>
@@ -1661,15 +1727,13 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.service.ConservationMethodService.delete_method">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Soft delete di un metodo.&quot;&quot;&quot;</span>
-        <span class="n">method</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
-                <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ConservationMethod</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">store_id</span> <span class="o">==</span> <span class="n">store_id</span><span class="p">,</span>
+            <span class="n">ConservationMethod</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">method</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
@@ -1687,42 +1751,38 @@ window.runMermaid = runMermaid;</script>
                 <span class="p">},</span>
             <span class="p">)</span>
 
-        <span class="n">has_products</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ProductMaster</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
-                <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="c1"># Check for products using this method</span>
+        <span class="n">stmt_p</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ProductMaster</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
+            <span class="n">ProductMaster</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">has_products</span><span class="p">:</span>
+        <span class="n">res_p</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt_p</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">res_p</span><span class="o">.</span><span class="n">first</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_OPERATION_NOT_ALLOWED</span><span class="p">,</span>
-                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Metodo in uso da prodotti attivi (es. &#39;</span><span class="si">{</span><span class="n">has_products</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">},</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="s2">&quot;Metodo in uso da prodotti attivi.&quot;</span><span class="p">},</span>
             <span class="p">)</span>
 
-        <span class="n">has_recipes</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Recipe</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">Recipe</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
-                <span class="n">Recipe</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="c1"># Check for recipes using this method</span>
+        <span class="n">stmt_r</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">Recipe</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">Recipe</span><span class="o">.</span><span class="n">conservation_method_id</span> <span class="o">==</span> <span class="n">method_id</span><span class="p">,</span>
+            <span class="n">Recipe</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">has_recipes</span><span class="p">:</span>
+        <span class="n">res_r</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt_r</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">res_r</span><span class="o">.</span><span class="n">first</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_OPERATION_NOT_ALLOWED</span><span class="p">,</span>
-                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Metodo in uso da ricette attive (es. &#39;</span><span class="si">{</span><span class="n">has_recipes</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">},</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="s2">&quot;Metodo in uso da ricette attive.&quot;</span><span class="p">},</span>
             <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">method</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="c1"># Invalidate Cache</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_cache</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:get:</span><span class="si">{</span><span class="n">method_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;methods:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">:list&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">StaleDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_CONFLICT</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products.schemas &mdash; Restrackit 2.8.0 documentation</title>
+  <title>app.modules.products.schemas &mdash; Restrackit 2.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=69ff2ef9"></script>
+      <script src="../../../../_static/documentation_options.js?v=182a64a0"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,6 +491,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../app.html#module-app.database">app.database module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../app.html#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
@@ -646,14 +647,21 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy">Multi-Tenancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/04-api-reference.html">API Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#health">Health</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
 </ul>
@@ -668,6 +676,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/bulk-load</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code></a></li>
@@ -1165,6 +1174,8 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.allergens</span><span class="w"> </span><span class="kn">import</span> <span class="n">VALID_ALLERGEN_SLUGS</span><span class="p">,</span> <span class="n">is_gluten_free</span><span class="p">,</span> <span class="n">list_to_mask</span><span class="p">,</span> <span class="n">mask_to_list</span>
+
 
 <div class="viewcode-block" id="ConservationMethodCreate">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ConservationMethodCreate">[docs]</a>
@@ -1175,9 +1186,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">trigger_event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;OPENING&quot;</span><span class="p">,</span> <span class="s2">&quot;THAWING&quot;</span><span class="p">,</span> <span class="s2">&quot;PRODUCTION_END&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Evento scatenante&quot;</span>
     <span class="p">)</span>
-    <span class="n">duration_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Durata in giorni&quot;</span><span class="p">)</span>
-    <span class="n">duration_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Durata in ore&quot;</span><span class="p">)</span>
-    <span class="n">storage_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tipo di stoccaggio&quot;</span><span class="p">)</span>
+    <span class="n">duration_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Durata in giorni&quot;</span><span class="p">)</span>
+    <span class="n">duration_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Durata in ore&quot;</span><span class="p">)</span>
+    <span class="n">storage_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tipo di stoccaggio&quot;</span><span class="p">)</span>
     <span class="n">resets_expiry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">False</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Se True, la preparazione interrompe il legame con la scadenza ingredienti&quot;</span><span class="p">,</span>
@@ -1188,23 +1199,38 @@ window.runMermaid = runMermaid;</script>
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">normalize_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Conservation method name cannot be empty&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">normalized</span>
-        <span class="k">return</span> <span class="n">v</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Il nome in input.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Il nome normalizzato.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se il nome risulta vuoto dopo la normalizzazione.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Conservation method name cannot be empty&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">normalized</span></div>
 
 
 <div class="viewcode-block" id="ConservationMethodCreate.validate_duration">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ConservationMethodCreate.validate_duration">[docs]</a>
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodCreate</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assicura che venga valorizzato almeno un campo durata.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_days</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_hours</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assicura che venga valorizzato almeno un campo durata.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ConservationMethodCreate: L&#39;istanza validata.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se sia duration_days che duration_hours sono pari a 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_days</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_hours</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Almeno uno tra duration_days e duration_hours deve essere valorizzato&quot;</span>
+                <span class="s2">&quot;Almeno uno tra duration_days e duration_hours deve essere maggiore di 0&quot;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 </div>
@@ -1229,7 +1255,17 @@ window.runMermaid = runMermaid;</script>
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">normalize_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Il nome in input.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str | None: Il nome normalizzato o None se non fornito.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se il nome risulta vuoto dopo la normalizzazione.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized</span><span class="p">:</span>
@@ -1242,12 +1278,19 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ConservationMethodUpdate.validate_duration">[docs]</a>
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConservationMethodUpdate</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assicura che non vengano azzerati entrambi i campi durata se presenti.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assicura che non vengano azzerati entrambi i campi durata se presenti.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ConservationMethodUpdate: L&#39;istanza validata.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se entrambi i campi durata sono impostati a None o 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="s2">&quot;duration_days&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_fields_set</span>
             <span class="ow">and</span> <span class="s2">&quot;duration_hours&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_fields_set</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_days</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_hours</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duration_days</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_days</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duration_hours</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_hours</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Almeno uno tra duration_days e duration_hours deve essere valorizzato&quot;</span>
@@ -1287,6 +1330,12 @@ window.runMermaid = runMermaid;</script>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
     <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Categoria del prodotto&quot;</span><span class="p">)</span>
     <span class="n">conservation_method_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del metodo di conservazione&quot;</span><span class="p">)</span>
+    <span class="n">allergens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Lista allergeni EU presenti (slug). Valori validi: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">VALID_ALLERGEN_SLUGS</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="ProductCreate.normalize_name">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ProductCreate.normalize_name">[docs]</a>
@@ -1296,10 +1345,13 @@ window.runMermaid = runMermaid;</script>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizza il nome in lowercase e rimuove spazi extra.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            v: Nome prodotto in input.</span>
+<span class="sd">            v: Il nome in input.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: Nome normalizzato.</span>
+<span class="sd">            str: Il nome normalizzato.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se il nome risulta vuoto dopo la normalizzazione.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized</span><span class="p">:</span>
@@ -1307,8 +1359,35 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">normalized</span></div>
 
 
+<div class="viewcode-block" id="ProductCreate.validate_allergens">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ProductCreate.validate_allergens">[docs]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;allergens&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_allergens</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida e normalizza la lista degli allergeni.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Lista di slug allergeni.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str]: La lista validata.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se uno slug non è riconosciuto.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Triggers ValueError for unknown slugs</span>
+        <span class="n">list_to_mask</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte Intero&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">}}</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte Intero&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;allergens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latte&quot;</span><span class="p">],</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
     <span class="p">)</span></div>
 
 
@@ -1324,6 +1403,13 @@ window.runMermaid = runMermaid;</script>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
     <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Categoria del prodotto&quot;</span><span class="p">)</span>
     <span class="n">conservation_method_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del metodo di conservazione&quot;</span><span class="p">)</span>
+    <span class="n">allergens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Lista allergeni EU da aggiornare (slug). &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Valori validi: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">VALID_ALLERGEN_SLUGS</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="ProductUpdate.normalize_name">
 <a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ProductUpdate.normalize_name">[docs]</a>
@@ -1337,6 +1423,9 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str | None: Nome normalizzato oppure None se non fornito.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se il nome risulta vuoto dopo la normalizzazione.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">normalized</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -1346,8 +1435,31 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">v</span></div>
 
 
+<div class="viewcode-block" id="ProductUpdate.validate_allergens">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ProductUpdate.validate_allergens">[docs]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;allergens&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_allergens</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida e normalizza la lista degli allergeni.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Lista di slug allergeni.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str] | None: La lista validata.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se uno slug non è riconosciuto.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">list_to_mask</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte Intero UHT&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">}}</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte Intero UHT&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">,</span> <span class="s2">&quot;allergens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latte&quot;</span><span class="p">]}</span>
+        <span class="p">}</span>
     <span class="p">)</span></div>
 
 
@@ -1361,6 +1473,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID dello store&quot;</span><span class="p">)</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
     <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Categoria del prodotto&quot;</span><span class="p">)</span>
+    <span class="n">allergen_mask</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bitmask degli allergeni (Reg. UE 1169/2011)&quot;</span><span class="p">)</span>
+    <span class="n">allergens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lista slug allergeni presenti&quot;</span><span class="p">)</span>
+    <span class="n">gluten_free</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True se il prodotto non contiene glutine&quot;</span><span class="p">)</span>
     <span class="n">conservation_method_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del metodo di conservazione&quot;</span><span class="p">)</span>
     <span class="n">conservation_method</span><span class="p">:</span> <span class="n">ConservationMethodResponse</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Metodo di conservazione associato&quot;</span>
@@ -1370,10 +1485,36 @@ window.runMermaid = runMermaid;</script>
     <span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Timestamp soft delete (UTC)&quot;</span><span class="p">)</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione per optimistic locking&quot;</span><span class="p">)</span>
 
+<div class="viewcode-block" id="ProductResponse.compute_allergen_fields">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ProductResponse.compute_allergen_fields">[docs]</a>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_allergen_fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcola i campi allergens e gluten_free dalla bitmask.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;__dict__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># SQLAlchemy model instance</span>
+            <span class="n">mask</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;allergen_mask&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">allergens</span> <span class="o">=</span> <span class="n">mask_to_list</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">gluten_free</span> <span class="o">=</span> <span class="n">is_gluten_free</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">mask_dict</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;allergen_mask&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;allergens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask_to_list</span><span class="p">(</span><span class="n">mask_dict</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gluten_free&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_gluten_free</span><span class="p">(</span><span class="n">mask_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latte intero&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">}</span>
+            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latte intero&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;allergen_mask&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+                <span class="s2">&quot;allergens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latte&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;gluten_free&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">}</span>
         <span class="p">},</span>
     <span class="p">)</span></div>
 
@@ -1460,6 +1601,41 @@ window.runMermaid = runMermaid;</script>
                 <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;messaggio&quot;</span><span class="p">:</span> <span class="s2">&quot;Operazione completata per DefaultStore&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;riepilogo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nuovi_inseriti&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;gia_presenti&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AllergenItem">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.AllergenItem">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AllergenItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Informazioni su un singolo allergene.&quot;&quot;&quot;</span>
+
+    <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Slug unico dell&#39;allergene (es. &#39;latte&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Etichetta localizzata (es. &#39;Latte e prodotti a base di latte&#39;)&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ProductAllergenResponse">
+<a class="viewcode-back" href="../../../../app.modules.products.html#app.modules.products.schemas.ProductAllergenResponse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductAllergenResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta per la lista degli allergeni disponibili.&quot;&quot;&quot;</span>
+
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato della richiesta&quot;</span><span class="p">)</span>
+    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AllergenItem</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lista degli allergeni disponibili&quot;</span><span class="p">)</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;glutine&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Cereali contenenti glutine&quot;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;latte&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte e prodotti a base di latte&quot;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;uova&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Uova e prodotti a base di uova&quot;</span><span class="p">},</span>
+                <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
