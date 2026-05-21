@@ -1,0 +1,71 @@
+# Pubblicare la demo online (DigitalOcean / qualsiasi VM) + deploy automatico su `main`
+
+Obiettivo: avere una demo pubblica, con HTTPS, e un deploy automatico ogni volta che fai merge su `main`.
+
+## Prerequisiti sulla VM/Droplet
+- Firewall inbound: `22` (SSH), `80` (HTTP), `443` (HTTPS)
+- Docker + Docker Compose installati
+- Una directory di deploy (es. `~/demo-massoni`) che contiene:
+  - `deploy/demo/.env` (da `deploy/demo/.env.example`)
+  - `service_account.json` nella root (se richiesto dal backend)
+
+Nota: non serve clonare la repo sulla VM. I file `deploy/demo/*` e `keycloak-realm-config/*` vengono copiati ad ogni deploy dal workflow.
+
+## Setup una tantum sulla VM/Droplet
+
+Esempio:
+
+```bash
+mkdir -p ~/demo-massoni/deploy/demo
+cd ~/demo-massoni
+```
+
+Crea env demo:
+
+```bash
+cp /path/to/repo/deploy/demo/.env.example ~/demo-massoni/deploy/demo/.env
+```
+
+Imposta `PUBLIC_HOST` (consigliato `ip.sslip.io`):
+
+```bash
+curl -fsSL https://api.ipify.org
+```
+
+Esempio:
+
+```text
+PUBLIC_HOST=<IP>.sslip.io
+```
+
+Poi completa le altre variabili in `deploy/demo/.env`.
+
+## Deploy automatico ad ogni merge su `main`
+
+Il workflow è:
+- [deploy-demo-vm.yml](file:///Users/lucabevi/Desktop/massoni/.github/workflows/deploy-demo-vm.yml)
+
+### Secrets GitHub richiesti
+Repo → Settings → Secrets and variables → Actions:
+
+- `DEMO_VM_HOST`: IP pubblico della VM/Droplet
+- `DEMO_VM_USER`: `root` (DO) o utente admin
+- `DEMO_VM_SSH_KEY`: private key SSH per connettersi alla VM
+
+Opzionale:
+- `DEMO_VM_DEPLOY_DIR`: path (default: `~/demo-massoni`)
+
+Se l’immagine GHCR è privata:
+- `DEMO_GHCR_USERNAME`
+- `DEMO_GHCR_TOKEN` (PAT con `read:packages`)
+
+### Come viene fatto il deploy
+- Copia su VM i file `deploy/demo/docker-compose.yml` e `deploy/demo/Caddyfile`
+- Copia `keycloak-realm-config/*`
+- Fa `docker compose pull` di `app` e `worker` dall’immagine `ghcr.io/<owner>/<repo>:main`
+- Esegue `alembic upgrade head`
+
+## Verifica
+- `https://<IP>.sslip.io/health`
+- `https://<IP>.sslip.io/docs`
+- `https://<IP>.sslip.io/auth`

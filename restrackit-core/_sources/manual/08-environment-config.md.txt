@@ -33,7 +33,10 @@ Riferimenti: {mod}`app.core.clients`, {mod}`app.core.config`
 
 ### Database
 
-- `DATABASE_URL` (obbligatoria): URL DB (PostgreSQL o SQLite).
+- `DATABASE_URL` (obbligatoria): URL DB (PostgreSQL). L'applicazione supporta e normalizza automaticamente i seguenti formati iniettando il driver asincrono `+asyncpg`:
+  - `postgresql://user:password@host:5432/dbname` -> `postgresql+asyncpg://...`
+  - `postgres://user:password@host:5432/dbname` -> `postgresql+asyncpg://...`
+
 - `REDIS_URL` (obbligatoria): URL Redis per caching e code task asincroni. Default: `redis://localhost:6379/0`.
 - `REDIS_CACHE_TTL` (opzionale): TTL di default per la cache in secondi. Default: `3600`.
 - `MAX_UPLOAD_SIZE` (opzionale): Dimensione massima (byte) per l'upload immagini. Default: `10485760` (10MB).
@@ -41,8 +44,8 @@ Riferimenti: {mod}`app.core.clients`, {mod}`app.core.config`
 Esempi:
 
 ```text
-postgresql://user:password@host:5432/dbname
-redis://user:password@host:6379/0
+DATABASE_URL=postgresql://user:password@localhost:5432/app_db
+REDIS_URL=redis://localhost:6379/0
 ```
 
 ### Keycloak (OIDC)

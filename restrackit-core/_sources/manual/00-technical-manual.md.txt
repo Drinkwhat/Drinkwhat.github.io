@@ -4,6 +4,71 @@ Questa documentazione fornisce una panoramica tecnica completa del progetto Rest
 
 ---
 
+## 0. Vision di Prodotto
+
+Il prodotto nasce per offrire ai ristoranti (e cucine professionali) un modo **veloce, affidabile e standardizzato** per gestire:
+
+- registrazione di prodotti e lotti (anche tramite foto/OCR),
+- stampa di etichette coerenti e “a prova di turno”,
+- controllo delle scadenze (primaria e “secondaria” legata alla conservazione dopo apertura/spostamento),
+- tracciabilità minimale ma utile delle operazioni,
+- statistiche concrete per migliorare produzione e ridurre sprechi.
+
+### 0.1 Problema che risolve
+
+In cucina il tempo è poco e gli errori costano:
+
+- etichette mancanti o compilate male,
+- scadenze non chiare o non aggiornate dopo l’apertura,
+- lotti “aperti” troppo a lungo e gestione per memoria,
+- sprechi e ri-lavorazioni,
+- poca visibilità su cosa viene prodotto/consumato/scartato.
+
+La gestione su fogli o procedure non standard non scala quando cambiano turni e persone. Serve uno strumento che renda l’operatività **rapida** e i dati **misurabili**.
+
+### 0.2 Obiettivo principale
+
+Ridurre l’attrito operativo: “carico → stampa → uso/produzione → chiusura” deve essere un flusso rapido e guidato, così da ottenere:
+
+- etichette corrette e consistenti,
+- scadenze gestite bene (incluse quelle di conservazione),
+- una base dati stabile su cui costruire statistiche.
+
+### 0.3 Valore per l’utente
+
+- **Velocità operativa**: pochi passaggi e nessun “blocco” inutile in cucina.
+- **Riduzione errori**: dati standardizzati (lotto, scadenza, conservazione) e flussi chiari.
+- **Tracciabilità semplice**: chi ha fatto cosa e quando, senza complicare l’operatività.
+- **Riduzione sprechi**: evidenza e gestione delle scadenze e dei lotti che rischiano di andare persi.
+- **Miglioramento continuo**: statistiche che trasformano il lavoro quotidiano in insight.
+
+### 0.4 Flusso operativo minimo (MVP)
+
+- **Inventario / lotti (carico)**: inserimento rapido del lotto con scadenza (anche tramite OCR/AI).
+- **Regole di conservazione**: calcolo della scadenza secondaria (TMC/storage) quando necessario.
+- **Produzione (preparazioni)**: registrare una preparazione che consuma lotti input e può creare un lotto output.
+- **Chiusura**: segnare fine preparazione e conclusione lotto per stato + storico eventi.
+- **Etichette**: stampa consistente (nome, lotti, scadenze, conservazione; allergeni dove previsti).
+
+### 0.5 Statistiche: impatto atteso
+
+Le statistiche servono a migliorare produzione e ridurre sprechi, ad esempio:
+
+- frequenza di produzione per ricetta/prodotto,
+- motivi di chiusura/scarto dei lotti,
+- prodotti che scadono spesso (primaria o TMC secondaria),
+- pattern per periodo (giorno/settimana/mese) per ottimizzare quantità e timing.
+
+### 0.6 Notifiche (coerenti con la vision)
+
+Le notifiche devono essere **rare e utili**: segnalano rischi, non “eventi di flusso”.
+
+- prodotti scaduti,
+- TMC secondaria/storage scaduta,
+- eventualmente un digest per manager.
+
+---
+
 ## 1. Architettura del Progetto
 
 Il progetto segue un'architettura **Modular Monolith** basata su **FastAPI**, progettata per essere scalabile e manutenibile.
@@ -46,7 +111,8 @@ graph TD
 - **Prompt Injection Protection**: L'input OCR viene delimitato e separato dalle istruzioni tramite `system_instruction`.
 - **Output Strutturato**: Utilizzo del **JSON Mode** e schemi Pydantic per garantire dati affidabili e pronti all'uso.
 
-5. **Risposta**: I dati strutturati vengono restituiti al client per la conferma.
+5. **Post-Processing OCR**: Il sistema confronta il lotto estratto con lo storico dei lotti salvati per lo stesso prodotto. Se rileva ambiguità comuni (es. `O` vs `0`), applica una correzione automatica basata su firme strutturali, aumentando il confidence score.
+6. **Risposta**: I dati strutturati (ed eventualmente corretti) vengono restituiti al client.
 
 ---
 
@@ -220,10 +286,11 @@ Il database utilizza **PostgreSQL** (v18+) ed è strutturato per supportare la *
    - `id`: PK
    - `store_id`: FK -> stores.id
    - `product_master_id`: FK -> products_master.id
-   - `lot_code`: Lotto definitivo.
+   - `lot_code`: Lotto definitivo (eventualmente corretto dal post-processing).
    - `expiry_date`: Data scadenza.
    - `confidence`: Score affidabilità AI (0.0 - 1.0).
    - `operator_id`: Chi ha caricato il lotto.
+   - *Nota*: Il campo `lot_code_ai` è stato rimosso per semplificare la struttura e favorire la coerenza dei dati.
 
 4. **recipes**
    - `id`: PK

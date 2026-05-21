@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app package &mdash; Restrackit 2.9.0 documentation</title>
+  <title>app package &mdash; Restrackit 2.30.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=182a64a0"></script>
+      <script src="_static/documentation_options.js?v=421e7202"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,46 +57,24 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.database">app.database module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.get_async_database_url"><code class="docutils literal notranslate"><span class="pre">get_async_database_url()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.get_engine_and_session"><code class="docutils literal notranslate"><span class="pre">get_engine_and_session()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.get_db"><code class="docutils literal notranslate"><span class="pre">get_db()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.set_db_tenant_context"><code class="docutils literal notranslate"><span class="pre">set_db_tenant_context()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.database.restore_rls_context"><code class="docutils literal notranslate"><span class="pre">restore_rls_context()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.main">app.main module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.add_request_id_header"><code class="docutils literal notranslate"><span class="pre">add_request_id_header()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.app_error_handler"><code class="docutils literal notranslate"><span class="pre">app_error_handler()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.http_exception_handler"><code class="docutils literal notranslate"><span class="pre">http_exception_handler()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.validation_exception_handler"><code class="docutils literal notranslate"><span class="pre">validation_exception_handler()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.global_exception_handler"><code class="docutils literal notranslate"><span class="pre">global_exception_handler()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.worker">app.worker module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.analyze_inventory_image_task"><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.cleanup_old_uploads"><code class="docutils literal notranslate"><span class="pre">cleanup_old_uploads()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.startup"><code class="docutils literal notranslate"><span class="pre">startup()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.WorkerSettings"><code class="docutils literal notranslate"><span class="pre">WorkerSettings</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.worker.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#app-database-module">app.database module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app-main-module">app.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app-worker-module">app.worker module</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="markdown_docs.html">Documentazione Manuale (Markdown)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="manual/00-technical-manual.html">📘 Documentazione Tecnica - Restrackit Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#vision-di-prodotto">0. Vision di Prodotto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#problema-che-risolve">0.1 Problema che risolve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#obiettivo-principale">0.2 Obiettivo principale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#valore-per-lutente">0.3 Valore per l’utente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#flusso-operativo-minimo-mvp">0.4 Flusso operativo minimo (MVP)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#statistiche-impatto-atteso">0.5 Statistiche: impatto atteso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#notifiche-coerenti-con-la-vision">0.6 Notifiche (coerenti con la vision)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#architettura-del-progetto">1. Architettura del Progetto</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#struttura-ad-alto-livello">🏗️ Struttura ad Alto Livello</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#flusso-dei-dati-principale-analisi-etichetta">🔄 Flusso dei Dati Principale (Analisi Etichetta)</a></li>
@@ -174,6 +152,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#enable-debug-logging">Enable Debug Logging</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#view-logs">View Logs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#database-debug">Database Debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#notifications">Notifications</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
@@ -215,6 +194,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
@@ -234,12 +214,16 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-batch-batch-id-move-storage"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/batch/{batch_id}/move-storage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-inventory-batch-batch-id-complete"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/batch/{batch_id}/complete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-inventory-batch-batch-id-events"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/inventory/batch/{batch_id}/events</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a><ul>
@@ -251,6 +235,43 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-products-product-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/products/{product_id}</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#categories-categories">Categories (<code class="docutils literal notranslate"><span class="pre">/categories</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-categories"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-categories"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-categories-category-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-categories-category-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-categories-category-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/categories/{category_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#units-of-measure-units-of-measure">Units of Measure (<code class="docutils literal notranslate"><span class="pre">/units-of-measure</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-units-of-measure"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-units-of-measure"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/units-of-measure/{uom_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#legacy-removed-conservation-methods">Legacy (removed): Conservation Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#storage-methods-storage-methods">Storage Methods (<code class="docutils literal notranslate"><span class="pre">/storage-methods</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-storage-methods"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-storage-methods"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/storage-methods/{method_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/storage-methods/{method_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#product-storage-rules-products-product-id-storage-rules">Product Storage Rules (<code class="docutils literal notranslate"><span class="pre">/products/{product_id}/storage-rules</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#kitchen-module-kitchen">Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#ricette">Ricette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#preparazioni">Preparazioni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#stats-module-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
@@ -263,11 +284,20 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#entity-relationship-diagram">Entity Relationship Diagram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#table-definitions">Table Definitions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#stores"><code class="docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#storage-methods"><code class="docutils literal notranslate"><span class="pre">storage_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#product-storage-rules"><code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#categories"><code class="docutils literal notranslate"><span class="pre">categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#preparations-e-preparation-items"><code class="docutils literal notranslate"><span class="pre">preparations</span></code> e <code class="docutils literal notranslate"><span class="pre">preparation_items</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#notifications"><code class="docutils literal notranslate"><span class="pre">notifications</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships">Relationships</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
 </ul>
@@ -596,9 +626,8 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#haccp-compliance-tmc-calculation">3. HACCP Compliance &amp; TMC Calculation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#mandatory-conservation-method">📋 Mandatory Conservation Method</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#expiry-date-calculation-tmc">🧮 Expiry Date Calculation (TMC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#haccp-compliance-expiry-logic">3. HACCP Compliance &amp; Expiry Logic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#expiry-date-calculation">🧮 Expiry Date Calculation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
@@ -685,6 +714,54 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="manual/16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#dati-utilizzati">Dati utilizzati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#multi-tenancy-store">Multi-tenancy (store)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#api-reference-stats">API Reference (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-preparations-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/preparations/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-recipes-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-recipes-top-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top-series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-ingredients-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/ingredients/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#note-su-bucket-e-week">Note su bucket e “week”</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/17-publish-app-fast.html">Pubblicare la demo online (DigitalOcean / qualsiasi VM) + deploy automatico su <code class="docutils literal notranslate"><span class="pre">main</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#prerequisiti-sulla-vm-droplet">Prerequisiti sulla VM/Droplet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#setup-una-tantum-sulla-vm-droplet">Setup una tantum sulla VM/Droplet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#deploy-automatico-ad-ogni-merge-su-main">Deploy automatico ad ogni merge su <code class="docutils literal notranslate"><span class="pre">main</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/17-publish-app-fast.html#secrets-github-richiesti">Secrets GitHub richiesti</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/17-publish-app-fast.html#come-viene-fatto-il-deploy">Come viene fatto il deploy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#verifica">Verifica</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/18-production-completion.html">Completamento Produzione (Preparazione + Lotto)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#ui-operatore-ui">UI Operatore (<code class="docutils literal notranslate"><span class="pre">/ui</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-preparazione-completata">1) Conferma “Preparazione completata”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-lotto-concluso">2) Conferma “Lotto concluso”</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#vincolo-di-sequenzialita">Vincolo di sequenzialità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-fine-preparazione">Conferma fine preparazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-fine-lotto">Conferma fine lotto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#lista-motivi-i18n">Lista motivi (i18n)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#storico-eventi-del-lotto">Storico eventi del lotto</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#persistenza-e-tracciabilita">Persistenza e tracciabilità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#notifiche-automatiche-team">Notifiche automatiche (team)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -740,6 +817,19 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="app.core.html">app.core package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.arq">app.core.arq module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.arq.SerializablePrimitive"><code class="docutils literal notranslate"><span class="pre">SerializablePrimitive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.arq.SerializableValue"><code class="docutils literal notranslate"><span class="pre">SerializableValue</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.arq.arq_serializer"><code class="docutils literal notranslate"><span class="pre">arq_serializer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.arq.arq_deserializer"><code class="docutils literal notranslate"><span class="pre">arq_deserializer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.arq.ArqService"><code class="docutils literal notranslate"><span class="pre">ArqService</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.arq.ArqService.__init__"><code class="docutils literal notranslate"><span class="pre">ArqService.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.arq.ArqService.get_pool"><code class="docutils literal notranslate"><span class="pre">ArqService.get_pool()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.arq.get_redis_pool"><code class="docutils literal notranslate"><span class="pre">get_redis_pool()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.clients">app.core.clients module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.clients.get_vision_client"><code class="docutils literal notranslate"><span class="pre">get_vision_client()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.clients.get_gemini_client"><code class="docutils literal notranslate"><span class="pre">get_gemini_client()</span></code></a></li>
@@ -774,6 +864,7 @@
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.BUS_OPERATION_NOT_ALLOWED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_OPERATION_NOT_ALLOWED</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.BUS_PARSING_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_PARSING_ERROR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.BUS_CONFLICT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_CONFLICT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.BUS_RATE_LIMIT_EXCEEDED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_RATE_LIMIT_EXCEEDED</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_CONNECTION_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_CONNECTION_ERROR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_INTEGRITY_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_INTEGRITY_ERROR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.error_catalog.ErrorCode.DB_QUERY_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_QUERY_ERROR</span></code></a></li>
@@ -798,30 +889,41 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.errors">app.core.errors module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ErrorPayload"><code class="docutils literal notranslate"><span class="pre">ErrorPayload</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorPayload.code"><code class="docutils literal notranslate"><span class="pre">ErrorPayload.code</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorPayload.message"><code class="docutils literal notranslate"><span class="pre">ErrorPayload.message</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorPayload.severity"><code class="docutils literal notranslate"><span class="pre">ErrorPayload.severity</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorPayload.action"><code class="docutils literal notranslate"><span class="pre">ErrorPayload.action</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorPayload.details"><code class="docutils literal notranslate"><span class="pre">ErrorPayload.details</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.AUTH_MISSING_HEADER"><code class="docutils literal notranslate"><span class="pre">ErrorCode.AUTH_MISSING_HEADER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.AUTH_INVALID_TOKEN"><code class="docutils literal notranslate"><span class="pre">ErrorCode.AUTH_INVALID_TOKEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.AUTH_USER_NOT_FOUND"><code class="docutils literal notranslate"><span class="pre">ErrorCode.AUTH_USER_NOT_FOUND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.AUTH_FORBIDDEN"><code class="docutils literal notranslate"><span class="pre">ErrorCode.AUTH_FORBIDDEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.AUTH_STORE_ACCESS_DENIED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.AUTH_STORE_ACCESS_DENIED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_INVALID_INPUT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_INVALID_INPUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_MISSING_FIELD"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_MISSING_FIELD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_INVALID_FORMAT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_INVALID_FORMAT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_EMPTY_FILE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_EMPTY_FILE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_FILE_TOO_LARGE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_FILE_TOO_LARGE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_NO_TEXT_FOUND"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_NO_TEXT_FOUND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.VAL_IMAGE_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.VAL_IMAGE_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_RESOURCE_NOT_FOUND"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_RESOURCE_NOT_FOUND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_PRODUCT_NOT_FOUND"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_PRODUCT_NOT_FOUND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_BATCH_NOT_FOUND"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_BATCH_NOT_FOUND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_ALREADY_EXISTS"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_ALREADY_EXISTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_OPERATION_NOT_ALLOWED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_OPERATION_NOT_ALLOWED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_PARSING_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_PARSING_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_CONFLICT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_CONFLICT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.BUS_RATE_LIMIT_EXCEEDED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.BUS_RATE_LIMIT_EXCEEDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.DB_CONNECTION_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_CONNECTION_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.DB_INTEGRITY_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_INTEGRITY_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.DB_QUERY_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_QUERY_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.DB_REDIS_NOT_INITIALIZED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_REDIS_NOT_INITIALIZED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.DB_REDIS_SERIALIZATION_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.DB_REDIS_SERIALIZATION_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.EXT_SERVICE_UNAVAILABLE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_SERVICE_UNAVAILABLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.EXT_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_TIMEOUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.EXT_API_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_API_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.EXT_VISION_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_VISION_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.EXT_GEMINI_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXT_GEMINI_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.SYS_INTERNAL_ERROR"><code class="docutils literal notranslate"><span class="pre">ErrorCode.SYS_INTERNAL_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorCode.SYS_NOT_IMPLEMENTED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.SYS_NOT_IMPLEMENTED</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ErrorResponse"><code class="docutils literal notranslate"><span class="pre">ErrorResponse</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorResponse.error"><code class="docutils literal notranslate"><span class="pre">ErrorResponse.error</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.ErrorResponse.request_id"><code class="docutils literal notranslate"><span class="pre">ErrorResponse.request_id</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.AppError"><code class="docutils literal notranslate"><span class="pre">AppError</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.AppError.__init__"><code class="docutils literal notranslate"><span class="pre">AppError.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.core.html#app.core.errors.AppError.to_dict"><code class="docutils literal notranslate"><span class="pre">AppError.to_dict()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.AuthenticationError"><code class="docutils literal notranslate"><span class="pre">AuthenticationError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.BusinessLogicError"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.DatabaseError"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.AppSystemError"><code class="docutils literal notranslate"><span class="pre">AppSystemError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.errors.ExternalServiceError"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.i18n">app.core.i18n module</a><ul>
@@ -879,7 +981,7 @@
 <li class="toctree-l3"><a class="reference internal" href="app.modules.auth.html">app.modules.auth package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#module-app.modules.auth.cache">app.modules.auth.cache module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#module-app.modules.auth.dependencies">app.modules.auth.dependencies module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app-modules-auth-dependencies-module">app.modules.auth.dependencies module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#module-app.modules.auth.router">app.modules.auth.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.auth.html#app-modules-auth-schemas-module">app.modules.auth.schemas module</a></li>
 </ul>
@@ -887,33 +989,59 @@
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html">app.modules.inventory package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-models-module">app.modules.inventory.models module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.router">app.modules.inventory.router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-router-module">app.modules.inventory.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-schemas-module">app.modules.inventory.schemas module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.service">app.modules.inventory.service module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-service-module">app.modules.inventory.service module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.kitchen.html">app.modules.kitchen package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-models-module">app.modules.kitchen.models module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#module-app.modules.kitchen.router">app.modules.kitchen.router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-router-module">app.modules.kitchen.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-schemas-module">app.modules.kitchen.schemas module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#module-app.modules.kitchen.service">app.modules.kitchen.service module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-service-module">app.modules.kitchen.service module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.notifications.html">app.modules.notifications package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.notifications.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.notifications.html#app-modules-notifications-models-module">app.modules.notifications.models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.notifications.html#app-modules-notifications-router-module">app.modules.notifications.router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.notifications.html#app-modules-notifications-schemas-module">app.modules.notifications.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.notifications.html#app-modules-notifications-service-module">app.modules.notifications.service module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.products.html">app.modules.products package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#module-app.modules.products.conservation_router">app.modules.products.conservation_router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-categories-router-module">app.modules.products.categories_router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-models-module">app.modules.products.models module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#module-app.modules.products.router">app.modules.products.router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-router-module">app.modules.products.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-schemas-module">app.modules.products.schemas module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#module-app.modules.products.service">app.modules.products.service module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-service-module">app.modules.products.service module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-storage-router-module">app.modules.products.storage_router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-uom-router-module">app.modules.products.uom_router module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="app.modules.setup.html">app.modules.setup package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.setup.html">app.modules.setup package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.setup.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.setup.html#app-modules-setup-router-module">app.modules.setup.router module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.stats.html">app.modules.stats package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.stats.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.stats.html#app-modules-stats-router-module">app.modules.stats.router module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.stats.html#app-modules-stats-schemas-module">app.modules.stats.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.stats.html#app-modules-stats-service-module">app.modules.stats.service module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.store.html">app.modules.store package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.store.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.store.html#app-modules-store-models-module">app.modules.store.models module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.store.html#module-app.modules.store.trigger">app.modules.store.trigger module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.ui.html">app.modules.ui package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.ui.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.ui.html#module-app.modules.ui.router">app.modules.ui.router module</a></li>
 </ul>
 </li>
 </ul>
@@ -922,23 +1050,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="app.services.html">app.services package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.services.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="app.services.html#module-app.services.ai_agent">app.services.ai_agent module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.prodotto"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.prodotto</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.lotto"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.lotto</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.scadenza"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.scadenza</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.OCRDataResponse.confidence"><code class="docutils literal notranslate"><span class="pre">OCRDataResponse.confidence</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ai_agent.search_product_tool"><code class="docutils literal notranslate"><span class="pre">search_product_tool()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService.__init__"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService.client"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService.client</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ai_agent.InventoryAgentService.analyze_ocr_text"><code class="docutils literal notranslate"><span class="pre">InventoryAgentService.analyze_ocr_text()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="app.services.html#app-services-ai-agent-module">app.services.ai_agent module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.services.html#module-app.services.image_processing">app.services.image_processing module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.image_processing.convert_to_jpeg_bytes"><code class="docutils literal notranslate"><span class="pre">convert_to_jpeg_bytes()</span></code></a></li>
 </ul>
@@ -952,6 +1064,28 @@
 <li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ocr.GoogleVisionOCRService"><code class="docutils literal notranslate"><span class="pre">GoogleVisionOCRService</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr.GoogleVisionOCRService.__init__"><code class="docutils literal notranslate"><span class="pre">GoogleVisionOCRService.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr.GoogleVisionOCRService.extract_text"><code class="docutils literal notranslate"><span class="pre">GoogleVisionOCRService.extract_text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.services.html#module-app.services.ocr_post_processing">app.services.ocr_post_processing module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.MatchResult"><code class="docutils literal notranslate"><span class="pre">MatchResult</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.MatchResult.corrected_lot"><code class="docutils literal notranslate"><span class="pre">MatchResult.corrected_lot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.MatchResult.match_type"><code class="docutils literal notranslate"><span class="pre">MatchResult.match_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.MatchResult.accuracy"><code class="docutils literal notranslate"><span class="pre">MatchResult.accuracy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.MatchResult.confidence_boost"><code class="docutils literal notranslate"><span class="pre">MatchResult.confidence_boost</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#id0"><code class="docutils literal notranslate"><span class="pre">MatchResult.corrected_lot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#id1"><code class="docutils literal notranslate"><span class="pre">MatchResult.match_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#id2"><code class="docutils literal notranslate"><span class="pre">MatchResult.accuracy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#id3"><code class="docutils literal notranslate"><span class="pre">MatchResult.confidence_boost</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.MatchResult.__init__"><code class="docutils literal notranslate"><span class="pre">MatchResult.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor"><code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.AMBIGUOUS_PAIRS"><code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor.AMBIGUOUS_PAIRS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.are_ambiguous"><code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor.are_ambiguous()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.get_structural_pattern"><code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor.get_structural_pattern()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.find_best_match"><code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor.find_best_match()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -982,10 +1116,24 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.allergens">app.shared.allergens module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.list_to_mask"><code class="docutils literal notranslate"><span class="pre">list_to_mask()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.mask_to_list"><code class="docutils literal notranslate"><span class="pre">mask_to_list()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.is_gluten_free"><code class="docutils literal notranslate"><span class="pre">is_gluten_free()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.combine_masks"><code class="docutils literal notranslate"><span class="pre">combine_masks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen"><code class="docutils literal notranslate"><span class="pre">Allergen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.GLUTEN"><code class="docutils literal notranslate"><span class="pre">Allergen.GLUTEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.CRUSTACEANS"><code class="docutils literal notranslate"><span class="pre">Allergen.CRUSTACEANS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.EGGS"><code class="docutils literal notranslate"><span class="pre">Allergen.EGGS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.FISH"><code class="docutils literal notranslate"><span class="pre">Allergen.FISH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.PEANUTS"><code class="docutils literal notranslate"><span class="pre">Allergen.PEANUTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.SOY"><code class="docutils literal notranslate"><span class="pre">Allergen.SOY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.MILK"><code class="docutils literal notranslate"><span class="pre">Allergen.MILK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.TREE_NUTS"><code class="docutils literal notranslate"><span class="pre">Allergen.TREE_NUTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.CELERY"><code class="docutils literal notranslate"><span class="pre">Allergen.CELERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.MUSTARD"><code class="docutils literal notranslate"><span class="pre">Allergen.MUSTARD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.SESAME"><code class="docutils literal notranslate"><span class="pre">Allergen.SESAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.SULPHITES"><code class="docutils literal notranslate"><span class="pre">Allergen.SULPHITES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.LUPIN"><code class="docutils literal notranslate"><span class="pre">Allergen.LUPIN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.MOLLUSCS"><code class="docutils literal notranslate"><span class="pre">Allergen.MOLLUSCS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.allergens.Allergen.ALL"><code class="docutils literal notranslate"><span class="pre">Allergen.ALL</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.cache">app.shared.cache module</a><ul>
@@ -1000,10 +1148,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#app-shared-schemas-module">app.shared.schemas module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.validators">app.shared.validators module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.validators.validate_conservation_method"><code class="docutils literal notranslate"><span class="pre">validate_conservation_method()</span></code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -1012,561 +1156,14 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-app.database">
-<span id="app-database-module"></span><h2>app.database module<a class="headerlink" href="#module-app.database" title="Link to this heading"></a></h2>
-<p>Database configuration and session management module.</p>
-<p>This module handles:
-- SQLAlchemy async engine creation and configuration
-- Async session factory management
-- Dependency injection for async database sessions in FastAPI routes
-- Support for both PostgreSQL and SQLite databases</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="app.database.get_async_database_url">
-<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_async_database_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_async_database_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_async_database_url" title="Link to this definition"></a></dt>
-<dd><p>Converts a standard database URL to its async equivalent.
-- postgresql:// -&gt; postgresql+asyncpg://
-- sqlite:/// -&gt; sqlite+aiosqlite:///</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>url</strong> (<em>str</em>)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.database.get_engine_and_session">
-<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_engine_and_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_engine_and_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_engine_and_session" title="Link to this definition"></a></dt>
-<dd><p>Create SQLAlchemy async engine and session factory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Async engine and session factory.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[AsyncEngine, async_sessionmaker[AsyncSession]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.database.Base">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">Base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#Base"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.Base" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DeclarativeBase</span></code></p>
-<p>Base class for all SQLAlchemy models (SQLAlchemy 2.0 style).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<em>Any</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="app.database.Base.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#app.database.Base.__init__" title="Link to this definition"></a></dt>
-<dd><p>A simple constructor that allows initialization from kwargs.</p>
-<p>Sets attributes on the constructed instance using the names and
-values in <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
-<p>Only keys that are present as
-attributes of the instance’s class are allowed. These could be,
-for example, any mapped columns or relationships.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> (<em>Any</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.database.Base.metadata">
-<span class="sig-name descname"><span class="pre">metadata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">MetaData</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">MetaData()</span></span><a class="headerlink" href="#app.database.Base.metadata" title="Link to this definition"></a></dt>
-<dd><p>Refers to the <code class="xref py py-class docutils literal notranslate"><span class="pre">_schema.MetaData</span></code> collection that will be used
-for new <code class="xref py py-class docutils literal notranslate"><span class="pre">_schema.Table</span></code> objects.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><span class="xref std std-ref">orm_declarative_metadata</span></p>
-</div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.database.Base.registry">
-<span class="sig-name descname"><span class="pre">registry</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">registry</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;sqlalchemy.orm.decl_api.registry</span> <span class="pre">object&gt;</span></span><a class="headerlink" href="#app.database.Base.registry" title="Link to this definition"></a></dt>
-<dd><p>Refers to the <code class="xref py py-class docutils literal notranslate"><span class="pre">_orm.registry</span></code> in use where new
-<code class="xref py py-class docutils literal notranslate"><span class="pre">_orm.Mapper</span></code> objects will be associated.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.database.load_models">
-<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">load_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#load_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.load_models" title="Link to this definition"></a></dt>
-<dd><p>Importa esplicitamente tutti i modelli SQLAlchemy dell’applicazione.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.database.get_db">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#get_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.get_db" title="Link to this definition"></a></dt>
-<dd><p>FastAPI dependency that yields an async database session.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>AsyncGenerator</em>[<em>AsyncSession</em>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.database.set_db_tenant_context">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">set_db_tenant_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#set_db_tenant_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.set_db_tenant_context" title="Link to this definition"></a></dt>
-<dd><p>Sets the PostgreSQL session variable for Row Level Security.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>AsyncSession</em>)</p></li>
-<li><p><strong>store_id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.database.restore_rls_context">
-<span class="sig-prename descclassname"><span class="pre">app.database.</span></span><span class="sig-name descname"><span class="pre">restore_rls_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/database.html#restore_rls_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.database.restore_rls_context" title="Link to this definition"></a></dt>
-<dd><p>Event listener that automatically restores the RLS context
-whenever a new transaction begins on a session.
-Note: For AsyncSession, ‘connection’ is an AsyncConnection.
-We must use connection.sync_connection to execute sync commands
-if the event doesn’t support async, or use run_sync.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="app-database-module">
+<h2>app.database module<a class="headerlink" href="#app-database-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-app.main">
-<span id="app-main-module"></span><h2>app.main module<a class="headerlink" href="#module-app.main" title="Link to this heading"></a></h2>
-<p>Restrackit FastAPI Application - Main Entry Point.</p>
-<p>This is the core FastAPI application that:
-- Configures CORS and security middleware
-- Sets up global exception handlers
-- Registers API routers
-- Provides health check endpoint</p>
-<p>Note: Database schema management is handled externally via Alembic migrations,
-not automatically at startup.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.lifespan">
-<span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">lifespan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#lifespan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.lifespan" title="Link to this definition"></a></dt>
-<dd><p>Gestisce il ciclo di vita dell’applicazione FastAPI.</p>
-<p>All’avvio importa i modelli SQLAlchemy (registrandoli nel registry) prima che
-l’app inizi a gestire richieste. Inizializza inoltre la connessione a Redis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>_</strong> (<em>FastAPI</em>) – Istanza FastAPI (non utilizzata; richiesta dalla firma dell’hook lifespan).</p>
-</dd>
-<dt class="field-even">Yields<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>None</em> – Controllo al runtime dell’applicazione.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Exception</strong> – Propaga eventuali errori di import/inizializzazione.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>AsyncIterator</em>[None]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.add_request_id_header">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">add_request_id_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#add_request_id_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.add_request_id_header" title="Link to this definition"></a></dt>
-<dd><p>Aggiunge header X-Request-ID per il tracing delle richieste.</p>
-<p>Il valore viene validato per prevenire injection (header/log) e normalizzato.
-Se mancante o non valido, viene generato un nuovo UUID.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>Request</em>) – Richiesta FastAPI in ingresso.</p></li>
-<li><p><strong>call_next</strong> (<em>Callable</em><em>[</em><em>[</em><em>Request</em><em>]</em><em>, </em><em>Awaitable</em><em>[</em><em>Response</em><em>]</em><em>]</em>) – Handler downstream.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>La risposta con X-Request-ID aggiunto negli header.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Response</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.app_error_handler">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">app_error_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#app_error_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.app_error_handler" title="Link to this definition"></a></dt>
-<dd><p>Gestisce AppError e restituisce una risposta JSON standardizzata.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>Request</em>) – Richiesta FastAPI corrente.</p></li>
-<li><p><strong>exc</strong> (<a class="reference internal" href="app.core.html#app.core.errors.AppError" title="app.core.errors.AppError"><em>AppError</em></a>) – Eccezione applicativa già normalizzata (AppError o sottoclasse).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Payload standard con <code class="docutils literal notranslate"><span class="pre">error</span></code> e <code class="docutils literal notranslate"><span class="pre">request_id</span></code>.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JSONResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.http_exception_handler">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">http_exception_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#http_exception_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.http_exception_handler" title="Link to this definition"></a></dt>
-<dd><p>Converte alcune HTTPException standard in AppError per risposta uniforme.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>Request</em>) – Richiesta FastAPI corrente.</p></li>
-<li><p><strong>exc</strong> (<em>HTTPException</em>) – Eccezione HTTP generata dal framework o da route.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Risposta standardizzata conforme al formato errori dell’app.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JSONResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.validation_exception_handler">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">validation_exception_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#validation_exception_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.validation_exception_handler" title="Link to this definition"></a></dt>
-<dd><p>Converte errori di validazione FastAPI (422) in errore applicativo (400).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>Request</em>) – Richiesta FastAPI corrente.</p></li>
-<li><p><strong>exc</strong> (<em>RequestValidationError</em>) – Eccezione di validazione generata da FastAPI/Pydantic.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Risposta standardizzata con ErrorCode.VAL_INVALID_INPUT.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JSONResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.global_exception_handler">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">global_exception_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#global_exception_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.global_exception_handler" title="Link to this definition"></a></dt>
-<dd><p>Gestisce eccezioni non intercettate. Dettagli su Sentry, log locale sintetico.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>Request</em>) – Richiesta FastAPI corrente.</p></li>
-<li><p><strong>exc</strong> (<em>Exception</em>) – Eccezione non gestita.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Risposta 500 standardizzata.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JSONResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.main.health">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">health</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/main.html#health"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.health" title="Link to this definition"></a></dt>
-<dd><p>Health check endpoint.
-Checks application availability, database and Redis connectivity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Status indicator for uptime monitoring (e.g., Pulsetic)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
-</dd>
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db</strong> (<em>Annotated</em><em>[</em><em>AsyncSession</em><em>, </em><em>Depends</em><em>(</em><em>dependency=~app.database.get_db</em><em>, </em><em>use_cache=True</em><em>, </em><em>scope=None</em><em>)</em><em>]</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="app-main-module">
+<h2>app.main module<a class="headerlink" href="#app-main-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-app.worker">
-<span id="app-worker-module"></span><h2>app.worker module<a class="headerlink" href="#module-app.worker" title="Link to this heading"></a></h2>
-<dl class="py type">
-<dt class="sig sig-object py" id="app.worker.SerializablePrimitive">
-<span class="property"><span class="k"><span class="pre">type</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">SerializablePrimitive</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#app.worker.SerializablePrimitive" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py type">
-<dt class="sig sig-object py" id="app.worker.SerializableValue">
-<span class="property"><span class="k"><span class="pre">type</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">SerializableValue</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#app.worker.SerializablePrimitive" title="app.worker.SerializablePrimitive"><span class="pre">SerializablePrimitive</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue"><span class="pre">SerializableValue</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue"><span class="pre">SerializableValue</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.worker.SerializableValue" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.analyze_inventory_image_task">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">analyze_inventory_image_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#analyze_inventory_image_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.analyze_inventory_image_task" title="Link to this definition"></a></dt>
-<dd><p>Background task to analyze an inventory image using OCR and AI.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ctx</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue"><em>SerializableValue</em></a><em>]</em>) – Task context provided by arq.</p></li>
-<li><p><strong>file_path</strong> (<em>str</em>) – Local path to the uploaded image file.</p></li>
-<li><p><strong>store_id</strong> (<em>int</em>) – Store identifier for product matching.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The result of the analysis (completed or failed).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict[str, <a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue">SerializableValue</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.cleanup_old_uploads">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">cleanup_old_uploads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#cleanup_old_uploads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.cleanup_old_uploads" title="Link to this definition"></a></dt>
-<dd><p>Periodic task to remove orphaned files in /app/uploads.</p>
-<p>Files older than 1 hour are considered orphans (e.g. from failed/crashed tasks).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> (<em>dict</em>) – Task context provided by arq.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The number of orphaned files deleted.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.startup">
-<span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">startup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#startup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.startup" title="Link to this definition"></a></dt>
-<dd><p>Worker startup logic.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> (<em>dict</em>) – Task context provided by arq.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.shutdown">
-<span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#shutdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.shutdown" title="Link to this definition"></a></dt>
-<dd><p>Worker shutdown logic.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> (<em>dict</em>) – Task context provided by arq.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.arq_serializer">
-<span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">arq_serializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#arq_serializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.arq_serializer" title="Link to this definition"></a></dt>
-<dd><p>Custom msgpack serializer for arq that handles date and datetime objects.</p>
-<p>Arq uses this to serialize job arguments and results. Since msgpack does not
-natively support date/datetime, this encoder converts them to ISO strings.
-Pydantic’s <cite>model_validate</cite> handles the conversion back to objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue"><em>SerializableValue</em></a>) – The value to serialize.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The msgpack-encoded byte string.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bytes</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.arq_deserializer">
-<span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">arq_deserializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#arq_deserializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.arq_deserializer" title="Link to this definition"></a></dt>
-<dd><p>Custom msgpack deserializer for arq.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>bytes</em>) – The msgpack-encoded byte string.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The unpacked Python object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue">SerializableValue</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">WorkerSettings</span></span><a class="reference internal" href="_modules/app/worker.html#WorkerSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.WorkerSettings" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Arq worker configuration.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.settings">
-<span class="sig-name descname"><span class="pre">settings</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Settings(google_api_key='dummy',</span> <span class="pre">google_application_credentials='/tmp/dummy-service-account.json',</span> <span class="pre">database_url='sqlite:///:memory:',</span> <span class="pre">KEYCLOAK_URL='http://localhost:8080',</span> <span class="pre">KEYCLOAK_INTERNAL_URL=None,</span> <span class="pre">KEYCLOAK_REALM='dummy',</span> <span class="pre">KEYCLOAK_CLIENT_ID='dummy',</span> <span class="pre">cors_origins=['*'],</span> <span class="pre">public_base_url='http://localhost:8000',</span> <span class="pre">cors_allow_credentials=False,</span> <span class="pre">sentry_dsn=None,</span> <span class="pre">sentry_send_pii=False,</span> <span class="pre">sentry_traces_sample_rate=0.1,</span> <span class="pre">sentry_profiles_sample_rate=0.1,</span> <span class="pre">apitally_client_id=None,</span> <span class="pre">environment='local',</span> <span class="pre">max_upload_size=10485760,</span> <span class="pre">redis_url='redis://localhost:6379/0',</span> <span class="pre">redis_cache_ttl=3600)</span></span><a class="headerlink" href="#app.worker.WorkerSettings.settings" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.functions">
-<span class="sig-name descname"><span class="pre">functions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;function</span> <span class="pre">analyze_inventory_image_task&gt;]</span></span><a class="headerlink" href="#app.worker.WorkerSettings.functions" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.cron_jobs">
-<span class="sig-name descname"><span class="pre">cron_jobs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CronJob</span> <span class="pre">name=cron:cleanup_old_uploads</span> <span class="pre">coroutine=&lt;function</span> <span class="pre">cleanup_old_uploads&gt;</span> <span class="pre">month=None</span> <span class="pre">day=None</span> <span class="pre">weekday=None</span> <span class="pre">hour=None</span> <span class="pre">minute=0</span> <span class="pre">second=0</span> <span class="pre">microsecond=123456</span> <span class="pre">run_at_startup=False</span> <span class="pre">unique=True</span> <span class="pre">job_id=None</span> <span class="pre">timeout_s=None</span> <span class="pre">keep_result_s=0</span> <span class="pre">keep_result_forever=False</span> <span class="pre">max_tries=1</span> <span class="pre">next_run=None&gt;]</span></span><a class="headerlink" href="#app.worker.WorkerSettings.cron_jobs" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.redis_settings">
-<span class="sig-name descname"><span class="pre">redis_settings</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">RedisSettings(host='localhost',</span> <span class="pre">port=6379,</span> <span class="pre">unix_socket_path=None,</span> <span class="pre">database=0,</span> <span class="pre">username=None,</span> <span class="pre">password=None,</span> <span class="pre">ssl=False,</span> <span class="pre">ssl_keyfile=None,</span> <span class="pre">ssl_certfile=None,</span> <span class="pre">ssl_cert_reqs='required',</span> <span class="pre">ssl_ca_certs=None,</span> <span class="pre">ssl_ca_data=None,</span> <span class="pre">ssl_check_hostname=False,</span> <span class="pre">conn_timeout=1,</span> <span class="pre">conn_retries=5,</span> <span class="pre">conn_retry_delay=1,</span> <span class="pre">max_connections=None,</span> <span class="pre">sentinel=False,</span> <span class="pre">sentinel_master='mymaster',</span> <span class="pre">retry_on_timeout=False,</span> <span class="pre">retry_on_error=None,</span> <span class="pre">retry=None)</span></span><a class="headerlink" href="#app.worker.WorkerSettings.redis_settings" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.on_startup">
-<span class="sig-name descname"><span class="pre">on_startup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.worker.WorkerSettings.on_startup" title="Link to this definition"></a></dt>
-<dd><p>Worker startup logic.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> (<em>dict</em>) – Task context provided by arq.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.on_shutdown">
-<span class="sig-name descname"><span class="pre">on_shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.worker.WorkerSettings.on_shutdown" title="Link to this definition"></a></dt>
-<dd><p>Worker shutdown logic.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> (<em>dict</em>) – Task context provided by arq.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.job_serializer">
-<span class="sig-name descname"><span class="pre">job_serializer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.worker.WorkerSettings.job_serializer" title="Link to this definition"></a></dt>
-<dd><p>Custom msgpack serializer for arq that handles date and datetime objects.</p>
-<p>Arq uses this to serialize job arguments and results. Since msgpack does not
-natively support date/datetime, this encoder converts them to ISO strings.
-Pydantic’s <cite>model_validate</cite> handles the conversion back to objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue"><em>SerializableValue</em></a>) – The value to serialize.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The msgpack-encoded byte string.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bytes</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.worker.WorkerSettings.job_deserializer">
-<span class="sig-name descname"><span class="pre">job_deserializer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.worker.WorkerSettings.job_deserializer" title="Link to this definition"></a></dt>
-<dd><p>Custom msgpack deserializer for arq.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>bytes</em>) – The msgpack-encoded byte string.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The unpacked Python object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#app.worker.SerializableValue" title="app.worker.SerializableValue">SerializableValue</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.worker.ArqService">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">ArqService</span></span><a class="reference internal" href="_modules/app/worker.html#ArqService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.ArqService" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Service to handle arq Redis connection pool (singleton).</p>
-<p>This service ensures a single connection pool is used across the worker
-and the application, improving performance and consistency.</p>
-<dl class="field-list simple">
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="app.worker.ArqService.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#ArqService.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.ArqService.__init__" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.worker.ArqService.get_pool">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_pool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#ArqService.get_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.ArqService.get_pool" title="Link to this definition"></a></dt>
-<dd><p>Get or create the arq Redis connection pool.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The shared connection pool.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>ArqRedis</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="app.worker.get_redis_pool">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.worker.</span></span><span class="sig-name descname"><span class="pre">get_redis_pool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/worker.html#get_redis_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.worker.get_redis_pool" title="Link to this definition"></a></dt>
-<dd><p>Legacy helper for backward compatibility with arq expectations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The shared arq Redis connection pool.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>ArqRedis</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="app-worker-module">
+<h2>app.worker module<a class="headerlink" href="#app-worker-module" title="Link to this heading"></a></h2>
 </section>
 </section>
 

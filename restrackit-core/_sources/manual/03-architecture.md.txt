@@ -48,9 +48,13 @@ restrackit-core/
 │   │   │   └── service.py     # Business logic
 │   │   │
 │   │   ├── products/          # Product Catalog
-│   │   │   ├── models.py      # ProductMaster entity
-│   │   │   ├── router.py      # /products endpoints
-│   │   │   └── service.py     # CRUD logic
+│   │   │   ├── models.py              # ProductMaster, Category, UnitOfMeasure entities
+│   │   │   ├── router.py              # /products endpoints
+│   │   │   ├── categories_router.py   # /categories endpoints
+│   │   │   ├── uom_router.py          # /units-of-measure endpoints
+│   │   │   ├── storage_router.py      # /storage-methods endpoints
+│   │   │   ├── schemas.py             # Pydantic DTOs
+│   │   │   └── service.py             # CRUD logic (ProductService, CategoryService, UnitOfMeasureService)
 │   │   │
 │   │   ├── store/             # Multi-tenancy
 │   │   │   └── models.py      # Store entity
@@ -92,7 +96,7 @@ restrackit-core/
 
 - **OCR**: Google Cloud Vision API
 - **LLM**: Google Gemini 2.0 Flash (via `google-genai` SDK)
-- **Database**: PostgreSQL 16 (Alpine)
+- **Database**: PostgreSQL 18 (Alpine)
 - **Cache & Queue**: Redis 7.2 (with msgpack serialization)
 - **Task Queue**: arq (Async Redis Queue)
 
@@ -155,6 +159,13 @@ A specialized bitmask-based system for EU-compliant allergen tracking:
 - **I18n Support**: Dedicated mapping endpoints (`/products/allergens`) provide localized labels (IT/EN) for frontend display.
 - **Strict Typing**: Uses `AppAllergen` Enum to prevent invalid data entry and ensure consistency across the API.
 - **Filtering**: Efficiently supports queries like "gluten-free" or "free from X, Y, Z" using bitwise operators in the database.
+### 7. OCR Post-Processing (`app/services/ocr_post_processing.py`)
+
+A specialized engine for intelligent lot code correction:
+- **Structural Matching**: Uses "structural signatures" (mapping characters to categories like `A`, `N`, or `X` for ambiguous characters) to compare new lots with historical data.
+- **Ambiguity Resolution**: Handles common OCR errors (e.g., swapping `0`/`O`, `1`/`I`, `5`/`S`) by validating differences against a known ambiguity map.
+- **Context-Aware Boost**: Increases AI confidence score when a lot code matches a known pattern from the product's history, reducing manual revisions.
+- **DRY Architecture**: Uses a unified source of truth for ambiguous character pairs, automatically shared between structural matching and positional validation logic.
 
 ## Data Flow: Image Analysis
 
@@ -164,8 +175,9 @@ A specialized bitmask-based system for EU-compliant allergen tracking:
 4. **Prompt Injection Protection**: Untrusted OCR text is wrapped in delimiters (`[START_OCR]...[END_OCR]`) and isolated using **System Instructions**.
 5. **Structured Output**: Enforces valid JSON results via **JSON Schema Mode** and Pydantic models.
 6. **Tool Use**: Gemini calls `search_product_tool` to validate product name against `products_master` table.
-7. **Response**: Structured JSON is returned to the client for confirmation.
-8. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table.
+7. **Post-Processing**: `LotCodePostProcessor` compares the extracted lot with historical lots for the same product to correct common OCR ambiguities.
+8. **Response**: Structured JSON is returned to the client (including a `warning` if the product wasn't identified).
+9. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table. Note: the deprecated `lot_code_ai` field has been removed to simplify the schema.
 
 ## Multi-Tenancy & Security
 

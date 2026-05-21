@@ -51,24 +51,16 @@ The specific link between a preparation and the inventory batches used as ingred
 
 ---
 
-## 3. HACCP Compliance & TMC Calculation
+## 3. HACCP Compliance & Expiry Logic
 
-The module enforces strict food safety tracking through the **Temperature Monitoring Certificate (TMC)** / Expiry logic.
+Il modulo garantisce tracciabilità e sicurezza alimentare creando un nuovo **Batch** per ogni preparazione.
 
-### 📋 Mandatory Conservation Method
-Every **Recipe** must be linked to a `ConservationMethod`. This method defines:
-- `trigger_event`: Usually `PRODUCTION_END` for preparations.
-- `duration_days` and `duration_hours`: The shelf life of the preparation.
+### 🧮 Expiry Date Calculation
+Quando viene registrata una preparazione, la scadenza del nuovo lotto viene calcolata così:
 
-### 🧮 Expiry Date Calculation (TMC)
-When a preparation is recorded, the system automatically calculates the expiry dates for the new lot:
-
-1.  **Primary Expiry (`expiry_date`)**: 
-    - Calculated as the **minimum** of the expiry dates of all ingredients used.
-    - If no ingredients have an expiry date, it defaults to tomorrow.
-2.  **Secondary Expiry (`secondary_expiry_at`)**:
-    - Calculated by adding the recipe's `ConservationMethod` duration to the current time.
-    - **Capping**: The secondary expiry is automatically capped at the end of the primary expiry date to ensure safety.
+1. **Expiry (`expiry_date`)**:
+   - calcolata come **minimo** tra le `expiry_date` dei lotti ingredienti usati;
+   - se non è disponibile alcuna scadenza dagli ingredienti, la scadenza di default è “domani” (UTC).
 
 ---
 
@@ -86,7 +78,7 @@ Recipes in Restrackit are intrinsically linked to the inventory via the **Semila
 All endpoints are prefixed with `/kitchen` and require authentication.
 
 ### Recipes Management
-- **POST** `/kitchen/recipes`: Create a new recipe (requires `conservation_method_id`).
+- **POST** `/kitchen/recipes`: Create a new recipe (requires `ingredients`).
 - **GET** `/kitchen/recipes`: List all recipes for the current store.
 - **GET** `/kitchen/recipes/{id}`: Get details of a specific recipe.
 - **PATCH** `/kitchen/recipes/{id}`: Update a recipe (supports optimistic locking via `version`).
@@ -99,7 +91,7 @@ All endpoints are prefixed with `/kitchen` and require authentication.
 ### Preparation Recording
 - **POST** `/kitchen/preparations`: Record a new preparation.
   - **Auto-Inventory**: Creates a new `Batch` for the recipe's product.
-  - **TMC Logic**: Calculates primary and secondary expiry dates.
+  - **Expiry Logic**: Calculates `expiry_date` for the new batch.
   - **Validation**: Verifies that ingredients batches are active.
 - **GET** `/kitchen/preparations`: List preparation history with filters.
 
@@ -112,7 +104,6 @@ All endpoints are prefixed with `/kitchen` and require authentication.
 POST /kitchen/recipes
 {
   "name": "Tomato Sauce (Base)",
-  "conservation_method_id": 5,
   "ingredients": [
     {"product_master_id": 101, "standard_quantity": 5.0, "unit": "kg"}
   ]

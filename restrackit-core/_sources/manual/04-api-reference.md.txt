@@ -46,8 +46,16 @@ Health check endpoint (senza dipendenze di dominio).
 
 ## Inventory Module (`/inventory`)
 
-file=<image_file_bytes>
-background=true  # Optional: if true, returns job_id immediately
+### `POST /inventory/analyze`
+
+Analizza una foto di etichetta con OCR + Agent.
+
+**Request** (multipart/form-data):
+
+```bash
+curl -H "Authorization: Bearer ${TOKEN}" \
+  -F "file=@label.jpg" \
+  "http://localhost:8000/inventory/analyze?background=false"
 ```
 
 **Response** (200 OK - Synchronous):
@@ -59,7 +67,8 @@ background=true  # Optional: if true, returns job_id immediately
     "prodotto": "latte intero",
     "lotto": "L12345",
     "scadenza": "2024-12-31",
-    "confidence": 0.95
+    "confidence": 0.95,
+    "is_corrected": false
   },
   "warning": null,
   "raw_ocr_debug": "LATTE INTERO L12345 SCAD 31/12/24"
@@ -140,13 +149,12 @@ Authorization: Bearer <token>
 {
   "product_name": "latte intero",
   "lot_code": "L12345",
-  "lotto_proposto_ai": "L12345",
   "expiry_date": "2024-12-31",
   "confidence": 0.95
 }
 ```
 
-**Response** (200 OK):
+**Response** (201 Created):
 
 ```json
 {
@@ -155,12 +163,16 @@ Authorization: Bearer <token>
   "batch_id": 42,
   "product_name": "latte intero",
   "lot_code": "L12345",
-  "lot_code_ai": "L12345",
   "expiry_date": "2024-12-31",
+  "current_storage_method_id": null,
+  "storage_expiry_at": null,
   "store_id": 1,
   "operator_id": "chef_marco",
   "confidence": 0.95,
-  "created_at": "2024-02-05T10:00:00Z"
+  "created_at": "2024-02-05T10:00:00Z",
+  "updated_at": "2024-02-05T10:00:00Z",
+  "deleted_at": null,
+  "version": 1
 }
 ```
 
@@ -211,7 +223,7 @@ Authorization: Bearer <token>
 
 ### `PUT /inventory/batch/{batch_id}`
 
-Update manual details of an existing batch. Note: `lot_code_ai` is immutable.
+Update manual details of an existing batch.
 
 **Request**:
 
@@ -269,6 +281,41 @@ Authorization: Bearer <token>
   "message": "Lotto rimosso dal magazzino."
 }
 ```
+
+---
+
+### `POST /inventory/batch/{batch_id}/move-storage`
+
+Sposta un lotto su un nuovo `storage_method_id` e ricalcola `storage_expiry_at` usando la regola **(ProductMaster, StorageMethod)**.
+
+**Request**:
+
+```json
+POST /inventory/batch/42/move-storage
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "version": 1,
+  "storage_method_id": 12
+}
+```
+
+---
+
+### `POST /inventory/batch/{batch_id}/complete`
+
+Segna un lotto come **concluso/esaurito**. Valorizza `batches.finished_at` e crea un record append-only in `batch_events`.
+
+Documentazione completa del flusso (preparazione + lotto): [18-production-completion.md](18-production-completion.md)
+
+Nota: richiede un body con `reason` (motivo standardizzato) e `notes` opzionali.
+
+---
+
+### `GET /inventory/batch/{batch_id}/events`
+
+Elenca lo storico eventi append-only del lotto (completamento preparazione, completamento lotto, ecc.).
 
 ---
 
@@ -407,6 +454,222 @@ Soft delete prodotto (optimistic locking: `version` query param).
 DELETE /products/101?version=1
 Authorization: Bearer <token>
 ```
+
+---
+
+## Categories (`/categories`)
+
+Catalogo categorie prodotto, scoped per store. Richiede `PRODUCTS_READ` / `PRODUCTS_WRITE`.
+
+### `POST /categories`
+
+```json
+POST /categories
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "name": "latticini" }
+```
+
+**Response** (201 Created):
+
+```json
+{ "id": 1, "store_id": 1, "name": "latticini", "version": 1, "created_at": "...", "updated_at": "...", "deleted_at": null }
+```
+
+**Errors**: `409` nome già esistente per lo store.
+
+---
+
+### `GET /categories`
+
+Lista categorie attive (non soft-deleted) dello store. Supporta `?include_deleted=true`.
+
+---
+
+### `GET /categories/{category_id}`
+
+Dettaglio categoria.
+
+---
+
+### `PUT /categories/{category_id}`
+
+Aggiornamento (optimistic locking: `version` nel body).
+
+```json
+{ "version": 1, "name": "dairy" }
+```
+
+---
+
+### `DELETE /categories/{category_id}`
+
+Soft delete (optimistic locking: `version` query param).
+
+```http
+DELETE /categories/1?version=1
+```
+
+---
+
+## Units of Measure (`/units-of-measure`)
+
+Catalogo unità di misura, scoped per store. Richiede `PRODUCTS_READ` / `PRODUCTS_WRITE`.
+
+### `POST /units-of-measure`
+
+```json
+POST /units-of-measure
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "name": "chilogrammo", "symbol": "kg" }
+```
+
+**Response** (201 Created):
+
+```json
+{ "id": 1, "store_id": 1, "name": "chilogrammo", "symbol": "kg", "version": 1, "created_at": "...", "updated_at": "...", "deleted_at": null }
+```
+
+**Errors**: `409` simbolo già esistente per lo store.
+
+---
+
+### `GET /units-of-measure`
+
+Lista unità attive dello store. Supporta `?include_deleted=true`.
+
+---
+
+### `GET /units-of-measure/{uom_id}`
+
+Dettaglio unità.
+
+---
+
+### `PUT /units-of-measure/{uom_id}`
+
+Aggiornamento (optimistic locking: `version` nel body).
+
+---
+
+### `DELETE /units-of-measure/{uom_id}`
+
+Soft delete (optimistic locking: `version` query param).
+
+---
+
+## Legacy (removed): Conservation Methods
+
+Questa sezione è stata rimossa: l’API non espone più `/conservation-methods`.
+
+---
+
+## Storage Methods (`/storage-methods`)
+
+Catalogo dei metodi di storage definito a livello store (es. “Frigo”, “Freezer”, “Banco”).
+
+### `POST /storage-methods`
+
+```json
+POST /storage-methods
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Frigo"
+}
+```
+
+---
+
+### `GET /storage-methods`
+
+Lista metodi di storage attivi dello store.
+
+---
+
+### `PUT /storage-methods/{method_id}`
+
+Aggiornamento (optimistic locking: `version` nel body).
+
+---
+
+### `DELETE /storage-methods/{method_id}`
+
+Soft delete (optimistic locking: `version` query param).
+
+---
+
+## Product Storage Rules (`/products/{product_id}/storage-rules`)
+
+Regole per definire la durata (delta time) per la coppia **(ProductMaster, StorageMethod)**.
+
+### `GET /products/{product_id}/storage-rules`
+
+Lista regole attive per il prodotto.
+
+---
+
+### `POST /products/{product_id}/storage-rules`
+
+```json
+POST /products/101/storage-rules
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "storage_method_id": 12,
+  "duration_days": 2,
+  "duration_hours": 0
+}
+```
+
+---
+
+### `PUT /products/{product_id}/storage-rules/{rule_id}`
+
+Aggiornamento (optimistic locking: `version` nel body).
+
+---
+
+### `DELETE /products/{product_id}/storage-rules/{rule_id}`
+
+Soft delete (optimistic locking: `version` query param).
+
+## Kitchen Module (`/kitchen`)
+
+### Ricette
+
+- `POST /kitchen/recipes` (richiede `ingredients`)
+- `GET /kitchen/recipes` (paginazione + filtro `name`)
+- `GET /kitchen/recipes/{recipe_id}`
+- `PATCH /kitchen/recipes/{recipe_id}` (optimistic locking: `version` nel body)
+- `DELETE /kitchen/recipes/{recipe_id}` (optimistic locking: `version` query param)
+- `GET /kitchen/recipes/{recipe_id}/availability` (lotti attivi per ingrediente)
+
+### Preparazioni
+
+- `POST /kitchen/preparations` (registra una preparazione e crea un lotto `PREP-*`)
+- `POST /kitchen/preparations/{preparation_id}/complete` (conferma fine preparazione)
+- `GET /kitchen/preparations` (storico con filtri)
+- `GET /kitchen/preparations/{preparation_id}` (dettaglio)
+
+---
+
+## Stats Module (`/stats`)
+
+Statistiche per manager (trend cucina + overview batch). Documentazione completa: [16-stats-module.md](16-stats-module.md)
+
+- `GET /stats/overview`
+- `GET /stats/kitchen/preparations/series` (bucket `day|week|month`)
+- `GET /stats/kitchen/recipes/top`
+- `GET /stats/kitchen/recipes/top-series` (bucket `day|week|month`)
+- `GET /stats/kitchen/ingredients/top`
+- `GET /stats/inventory/batches/overview`
+- `GET /stats/inventory/batches/series` (metric `created|finished`, bucket `day|week|month`)
 
 ---
 

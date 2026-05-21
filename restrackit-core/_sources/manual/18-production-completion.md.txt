@@ -1,0 +1,161 @@
+# Completamento Produzione (Preparazione + Lotto)
+
+Questa funzionalità introduce un flusso **strutturato e tracciabile** per registrare due conferme distinte:
+
+1. **Preparazione completata** (fase cucina)
+2. **Lotto concluso** (fase magazzino / consumo totale)
+
+Ogni conferma:
+
+- salva un **timestamp** preciso (UTC)
+- registra **operatore**, **motivo** (per chiusura lotto) e **note**
+- crea un record **append-only** nello storico del lotto
+- è **immutabile** dopo la conferma
+
+---
+
+## Permessi (RBAC)
+
+- `POST /kitchen/preparations/{id}/complete` richiede `kitchen:write_preparation`
+- `POST /inventory/batch/{id}/complete` richiede `inventory:write`
+- `GET /inventory/batch/{id}/events` richiede `inventory:read`
+
+Riferimenti nel codice:
+
+- Permessi: [auth/schemas.py](../app/modules/auth/schemas.py)
+- Mapping ruolo → permessi: [auth/dependencies.py](../app/modules/auth/dependencies.py)
+
+---
+
+## UI Operatore (`/ui`)
+
+### 1) Conferma “Preparazione completata”
+
+- Vai in **Kitchen → Preparazioni**
+- Nella riga della preparazione, usa **Completa**
+- Inserisci note (opzionale) e conferma
+
+Effetto:
+
+- `preparations.completed_at` viene valorizzato
+- viene registrato un evento `preparation_completed` sul lotto output (se presente)
+
+### 2) Conferma “Lotto concluso”
+
+- Vai in **Inventory → Lotti**
+- Usa **Concludi**
+- Seleziona un motivo e inserisci note (opzionale), poi conferma
+
+Effetto:
+
+- `batches.is_empty=True`
+- `batches.finished_at` viene valorizzato
+- viene registrato un evento `batch_completed`
+
+---
+
+## Vincolo di sequenzialità
+
+Se un lotto è l’output di una preparazione (`preparations.output_batch_id`), non è possibile concluderlo prima che la preparazione risulti completata:
+
+- tentativo di `POST /inventory/batch/{id}/complete` senza `preparations.completed_at` → **400** (`ERR_BUS_005`)
+
+---
+
+## API
+
+### Conferma fine preparazione
+
+`POST /kitchen/preparations/{preparation_id}/complete`
+
+Body:
+
+```json
+{ "notes": "opzionale" }
+```
+
+### Conferma fine lotto
+
+`POST /inventory/batch/{batch_id}/complete`
+
+Body:
+
+```json
+{ "reason": "sold_out", "notes": "opzionale" }
+```
+
+Motivi supportati (`reason`):
+
+- `sold_out`
+- `expired`
+- `damaged`
+- `qc_reject`
+- `inventory_adjustment`
+- `other`
+
+### Lista motivi (i18n)
+
+`GET /inventory/batch-completion-reasons?lang=it|en`
+
+Utile per popolare la UI con etichette localizzate mantenendo gli slug stabili (`sold_out`, `expired`, ...).
+
+### Storico eventi del lotto
+
+`GET /inventory/batch/{batch_id}/events`
+
+Risposta (esempio):
+
+```json
+[
+  {
+    "id": 1,
+    "batch_id": 10,
+    "preparation_id": 7,
+    "event_type": "preparation_completed",
+    "operator_id": "chef01",
+    "notes": "ok",
+    "occurred_at": "2026-05-15T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "batch_id": 10,
+    "preparation_id": 7,
+    "event_type": "batch_completed",
+    "reason": "sold_out",
+    "operator_id": "chef01",
+    "notes": "finito",
+    "occurred_at": "2026-05-15T20:30:00Z"
+  }
+]
+```
+
+---
+
+## Persistenza e tracciabilità
+
+Tabelle/campi coinvolti:
+
+- `preparations.output_batch_id` (link al lotto output della preparazione)
+- `preparations.completed_at` (timestamp “preparazione completata”)
+- `batches.finished_at` (timestamp “lotto concluso”)
+- `batch_events` (storico append-only con operatore, note e timestamp)
+
+Questi dati sono consultabili anche tramite statistiche: il modulo Stats utilizza `batches.finished_at` per la serie `metric=finished`.
+
+---
+
+## Notifiche automatiche (team)
+
+Alla conferma di preparazione/lotto, l’app prova a mettere in coda un job `send_team_notification_task` che invia un messaggio ai team:
+
+- logistics
+- quality
+- admin
+
+Configurazione ENV (opzionali):
+
+- `NOTIFICATIONS_LOGISTICS_WEBHOOK_URL`
+- `NOTIFICATIONS_QUALITY_WEBHOOK_URL`
+- `NOTIFICATIONS_ADMIN_WEBHOOK_URL`
+
+Se non sono configurate, le notifiche vengono saltate e **non bloccano** le API.

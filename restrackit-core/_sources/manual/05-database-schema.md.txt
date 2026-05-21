@@ -1,6 +1,6 @@
 # Database Schema
 
-Complete database schema documentation for Restrackit.
+Schema del database PostgreSQL usato da Restrackit.
 
 ## Entity Relationship Diagram
 
@@ -15,26 +15,93 @@ Complete database schema documentation for Restrackit.
 │ phone               │
 │ email               │
 │ is_active           │
+│ notify_expiring_today│
 │ created_at          │
 └──────────┬──────────┘
            │
            │ 1:N
            │
-      ┌────┴─────────────────────┐
-      │                          │
-      ▼                          ▼
-┌────────────────┐      ┌─────────────────┐
-│products_master │      │    batches      │
-├────────────────┤      ├─────────────────┤
-│ id (PK)        │◄─────┤ product_master_id (FK)
-│ store_id (FK)  │      │ store_id (FK)   │
-│ name           │      │ operator_id     │
-│ category       │      │ lot_code        │
-│                │      │ lot_code_ai     │
-└────────────────┘      │ expiry_date     │
-                        │ confidence      │
-                        │ is_empty        │
-                        └─────────────────┘
+      ┌────┴────────────────────────┬─────────────────────────────────────┐
+      │                                                                     │
+      ▼                             ▼                             ▼                             ▼
+┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+│   storage_methods   │  │     categories      │  │  units_of_measure   │  │   products_master   │
+├─────────────────────┤  ├─────────────────────┤  ├─────────────────────┤  ├─────────────────────┤
+│ id (PK)             │  │ id (PK)             │  │ id (PK)             │  │ id (PK)             │
+│ store_id (FK)       │  │ store_id (FK)       │  │ store_id (FK)       │  │ store_id (FK)       │
+│ name (UC per store) │  │ name (UC per store) │  │ name                │  │ name (UC per store) │
+│ version / deleted_at│  │ version / deleted_at│  │ symbol (UC store)   │  │ category_id (FK)    │
+└──────────┬──────────┘  └─────────────────────┘  │ version / deleted_at│  │ allergen_mask       │
+           │                         ▲             └─────────────────────┘  └──────────┬──────────┘
+           │ 1:N                                                         │ 1:N
+           ▼                                                             ▼
+┌──────────────────────────────┐                                 ┌──────────────────────────────┐
+│     product_storage_rules     │                                 │            batches            │
+├──────────────────────────────┤                                 ├──────────────────────────────┤
+│ id (PK)                      │                                 │ id (PK)                      │
+│ store_id (FK)                │                                 │ store_id (FK)                │
+│ product_master_id (FK)       │                                 │ product_master_id (FK)       │
+│ storage_method_id (FK)       │                                 │ lot_code                     │
+│ duration_days/hours          │                                 │ expiry_date                  │
+│ version / deleted_at         │                                 │ current_storage_method_id FK │
+└──────────────────────────────┘                                 │ storage_expiry_at            │
+                                                                  │ confidence / is_empty        │
+                                                                  └──────────┬───────────────────┘
+                                                                             │ 1:N
+                                                                             ▼
+                                                                  ┌──────────────────────────────┐
+                                                                  │      batch_storage_moves      │
+                                                                  ├──────────────────────────────┤
+                                                                  │ id (PK)                      │
+                                                                  │ store_id (FK)                │
+                                                                  │ batch_id (FK)                │
+                                                                  │ from_storage_method_id (FK)  │
+                                                                  │ to_storage_method_id (FK)    │
+                                                                  │ computed_storage_expiry_at    │
+                                                                  │ operator_id / moved_at        │
+                                                                  └──────────────────────────────┘
+
+┌──────────────────────────────┐
+│            recipes            │
+├──────────────────────────────┤
+│ id (PK)                      │
+│ store_id (FK)                │
+│ product_master_id (FK)       │
+│ name (UC per store)          │
+└──────────┬───────────────────┘
+           │ 1:N
+           ▼
+┌──────────────────────────────┐
+│       recipe_ingredients       │
+├──────────────────────────────┤
+│ id (PK)                      │
+│ recipe_id (FK)               │
+│ product_master_id (FK)       │
+│ standard_quantity            │
+│ unit_of_measure_id (FK)      │
+└──────────┬───────────────────┘
+           │ 1:N
+           ▼
+┌──────────────────────────────┐
+│         preparations           │
+├──────────────────────────────┤
+│ id (PK)                      │
+│ store_id (FK)                │
+│ recipe_id (FK)               │
+│ operator_id                  │
+│ created_at                   │
+└──────────┬───────────────────┘
+           │ 1:N
+           ▼
+┌──────────────────────────────┐
+│       preparation_items        │
+├──────────────────────────────┤
+│ id (PK)                      │
+│ preparation_id (FK)          │
+│ batch_id (FK)                │
+│ quantity_used                │
+│ unit_of_measure_id (FK)      │
+└──────────────────────────────┘
 ```
 
 ## Table Definitions
@@ -52,48 +119,124 @@ CREATE TABLE stores (
   phone VARCHAR(20),
   email VARCHAR(255),
   is_active BOOLEAN DEFAULT TRUE,
+  notify_expiring_today BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
 
-**Indexes**:
+**Note**: tabella tenant. Con RLS attivo, ogni richiesta lavora su un solo `store_id`.
 
-- PRIMARY KEY on `id`
+---
+
+### `storage_methods`
+
+Catalogo dei metodi di storage definito a livello store.
+
+```sql
+CREATE TABLE storage_methods (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  name VARCHAR(100) NOT NULL,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT _store_storage_method_name_uc UNIQUE (name, store_id)
+);
+```
+
+---
+
+### `product_storage_rules`
+
+Regole per definire una durata (delta time) per la coppia **(ProductMaster, StorageMethod)**.
+
+```sql
+CREATE TABLE product_storage_rules (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  product_master_id INTEGER NOT NULL REFERENCES products_master(id),
+  storage_method_id INTEGER NOT NULL REFERENCES storage_methods(id),
+  duration_days INTEGER NOT NULL DEFAULT 0,
+  duration_hours INTEGER NOT NULL DEFAULT 0,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT _store_product_storage_rule_uc UNIQUE (store_id, product_master_id, storage_method_id)
+);
+```
+
+---
+
+### `categories`
+
+Catalogo categorie prodotto, scoped per store. Soft-delete + optimistic locking.
+
+```sql
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  name VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+  CONSTRAINT _store_category_name_uc UNIQUE (name, store_id)
+);
+```
+
+---
+
+### `units_of_measure`
+
+Catalogo unità di misura, scoped per store. Soft-delete + optimistic locking.
+
+```sql
+CREATE TABLE units_of_measure (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  name VARCHAR(100) NOT NULL,
+  symbol VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+  CONSTRAINT _store_uom_symbol_uc UNIQUE (symbol, store_id)
+);
+```
 
 ---
 
 ### `products_master`
 
-Product catalog scoped per store.
+Catalogo prodotti (ingredienti e semilavorati) per store.
 
 ```sql
 CREATE TABLE products_master (
   id INTEGER PRIMARY KEY,
   store_id INTEGER NOT NULL REFERENCES stores(id),
-  name VARCHAR NOT NULL,
-  category VARCHAR,
-
+  name VARCHAR(255) NOT NULL,
+  category_id INTEGER NOT NULL REFERENCES categories(id),
+  allergen_mask INTEGER NOT NULL DEFAULT 0,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
   CONSTRAINT _store_product_name_uc UNIQUE (name, store_id)
 );
 ```
 
-**Fields**:
+**Note**: `category_id` è FK a `categories`. Il campo `category` (stringa) è esposto via property ORM per compatibilità API.
 
-- `store_id`: Foreign key to `stores.id`.
-- `name`: Product name. Unique within the same store.
-
-**Indexes**:
-
-- INDEX on `store_id`
-- INDEX on `name`
-- UNIQUE CONSTRAINT on `(name, store_id)`
+**Allergeni**: `allergen_mask` è una bitmask (0 = nessun allergene). La lista “slug” è esposta via API (`GET /products/allergens`).
 
 ---
 
 ### `batches`
 
-Inventory batches (lotti).
+Lotti di magazzino (tracciabilità + scadenze).
+
+---
 
 ```sql
 CREATE TABLE batches (
@@ -101,25 +244,24 @@ CREATE TABLE batches (
   store_id INTEGER NOT NULL REFERENCES stores(id),
   product_master_id INTEGER NOT NULL REFERENCES products_master(id),
 
-  lot_code VARCHAR NOT NULL,
-  lot_code_ai VARCHAR NOT NULL,
+  lot_code VARCHAR(255) NOT NULL,
   expiry_date DATE NOT NULL,
-  operator_id VARCHAR NOT NULL,
+  current_storage_method_id INTEGER REFERENCES storage_methods(id),
+  storage_expiry_at TIMESTAMP WITH TIME ZONE,
+  operator_id VARCHAR(255) NOT NULL,
 
   confidence FLOAT NOT NULL DEFAULT 0.0,
   is_empty BOOLEAN NOT NULL DEFAULT FALSE,
 
-  created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, -- Stored in Rome Time
-  finished_at TIMESTAMP WITHOUT TIME ZONE
+  finished_at TIMESTAMP WITH TIME ZONE,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT check_confidence_range CHECK (confidence >= 0 AND confidence <= 1)
 );
 ```
-
-**Fields**:
-
-- `lot_code`: The official lot code (confirmed by operator).
-- `lot_code_ai`: The original AI proposal (immutable audit trail).
-- `confidence`: AI confidence score (0.0 - 1.0).
-- `is_empty`: Logical deletion/consumption flag.
 
 **Indexes**:
 
@@ -129,14 +271,140 @@ CREATE TABLE batches (
 - INDEX on `operator_id`
 - INDEX on `is_empty`
 - INDEX on `created_at`
+- INDEX on `current_storage_method_id`
+- INDEX on `storage_expiry_at`
+- INDEX on `(store_id, product_master_id, created_at)` per post-processing OCR e storico lotti
 
 ---
 
-## Relationships
+### `batch_storage_moves`
 
-1. **Store to Products**: One-to-Many (`stores.id` -> `products_master.store_id`).
-2. **Store to Batches**: One-to-Many (`stores.id` -> `batches.store_id`).
-3. **Product to Batches**: One-to-Many (`products_master.id` -> `batches.product_master_id`).
+Storico dei trasferimenti di uno specifico lotto tra metodi di storage, con scadenza calcolata.
+
+```sql
+CREATE TABLE batch_storage_moves (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  batch_id INTEGER NOT NULL REFERENCES batches(id),
+  from_storage_method_id INTEGER REFERENCES storage_methods(id),
+  to_storage_method_id INTEGER NOT NULL REFERENCES storage_methods(id),
+  computed_storage_expiry_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  operator_id VARCHAR(255) NOT NULL,
+  moved_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+---
+
+### `recipes`
+
+Definizione ricetta per lo store. Ogni ricetta è collegata:
+
+- a un prodotto “semilavorato” (`product_master_id`) creato in fase di creazione ricetta.
+
+```sql
+CREATE TABLE recipes (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  product_master_id INTEGER NOT NULL REFERENCES products_master(id),
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+  CONSTRAINT _store_recipe_name_uc UNIQUE (name, store_id)
+);
+```
+
+---
+
+### `recipe_ingredients`
+
+Tabella di composizione ricetta → ingredienti (prodotti).
+
+```sql
+CREATE TABLE recipe_ingredients (
+  id INTEGER PRIMARY KEY,
+  recipe_id INTEGER NOT NULL REFERENCES recipes(id),
+  product_master_id INTEGER NOT NULL REFERENCES products_master(id),
+  standard_quantity FLOAT NOT NULL DEFAULT 0.0,
+  unit_of_measure_id INTEGER NOT NULL REFERENCES units_of_measure(id)
+);
+```
+
+**Note**: `unit_of_measure_id` è FK a `units_of_measure`. Il campo `unit` (stringa simbolo) è esposto via property ORM.
+
+---
+
+### `preparations` e `preparation_items`
+
+- `preparations`: esecuzione di una ricetta (chi/quando/notes).
+- `preparation_items`: link ai lotti specifici usati (tracciabilità) con quantità effettiva.
+
+```sql
+CREATE TABLE preparations (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  recipe_id INTEGER NOT NULL REFERENCES recipes(id),
+  operator_id VARCHAR(255) NOT NULL,
+  notes TEXT,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE preparation_items (
+  id INTEGER PRIMARY KEY,
+  preparation_id INTEGER NOT NULL REFERENCES preparations(id),
+  batch_id INTEGER NOT NULL REFERENCES batches(id),
+  quantity_used FLOAT NOT NULL DEFAULT 0.0,
+  unit_of_measure_id INTEGER NOT NULL REFERENCES units_of_measure(id)
+);
+```
+
+---
+
+### `notifications`
+
+Notifiche di sistema per scadenze e avvisi operativi.
+
+```sql
+CREATE TABLE notifications (
+  id INTEGER PRIMARY KEY,
+  store_id INTEGER NOT NULL REFERENCES stores(id),
+  type VARCHAR(50) NOT NULL,
+  severity VARCHAR(20) NOT NULL DEFAULT 'info',
+  message VARCHAR(1000) NOT NULL,
+  is_read BOOLEAN NOT NULL DEFAULT FALSE,
+  data JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT _store_type_message_uc UNIQUE (store_id, type, message)
+);
+```
+
+**Indexes**:
+- INDEX on `store_id`
+- INDEX on `type`
+- INDEX on `severity`
+- INDEX on `is_read`
+- INDEX on `created_at`
+
+## Relationships (high level)
+
+1. **Store → Products**: 1:N (`stores.id` → `products_master.store_id`)
+2. **Store → Categories**: 1:N (`stores.id` → `categories.store_id`)
+3. **Store → Units of Measure**: 1:N (`stores.id` → `units_of_measure.store_id`)
+4. **Store → Storage Methods**: 1:N (`stores.id` → `storage_methods.store_id`)
+5. **Store → Product Storage Rules**: 1:N (`stores.id` → `product_storage_rules.store_id`)
+6. **Category → Products**: 1:N (`categories.id` → `products_master.category_id`)
+7. **Product → Batches**: 1:N (`products_master.id` → `batches.product_master_id`)
+8. **Batch → Storage Moves**: 1:N (`batches.id` → `batch_storage_moves.batch_id`)
+9. **Recipe → Ingredients**: 1:N (`recipes.id` → `recipe_ingredients.recipe_id`)
+10. **UnitOfMeasure → RecipeIngredients**: 1:N (`units_of_measure.id` → `recipe_ingredients.unit_of_measure_id`)
+11. **UnitOfMeasure → PreparationItems**: 1:N (`units_of_measure.id` → `preparation_items.unit_of_measure_id`)
+12. **Recipe → Preparations**: 1:N (`recipes.id` → `preparations.recipe_id`)
+13. **Preparation → PreparationItems**: 1:N (`preparations.id` → `preparation_items.preparation_id`)
+14. **PreparationItem → Batch**: N:1 (`preparation_items.batch_id` → `batches.id`)
 
 ## Data Integrity
 
@@ -149,27 +417,53 @@ To ensure strict isolation between tenants (stores), the database uses PostgreSQ
 1. **Mechanism**: Each table containing tenant data has RLS enabled and **forced** (`FORCE ROW LEVEL SECURITY`). This ensures isolation even when the application connects as the table owner.
 2. **Policy**: Access is restricted based on the PostgreSQL session variable `app.current_store_id`.
 3. **Context Injection**: The application sets this variable at the start of each transaction using:
+
    ```sql
    SET LOCAL app.current_store_id = 'target_store_id';
    ```
+
 4. **Enforced Tables**:
    - `stores`
+   - `categories`
+   - `units_of_measure`
    - `products_master`
-   - `conservation_methods`
+   - `storage_methods`
+   - `product_storage_rules`
    - `batches`
+   - `batch_storage_moves`
    - `recipes`
    - `preparations`
-   - (and all related association tables)
+   - `recipe_ingredients` (via subquery su `recipes`)
+   - `preparation_items` (via subquery su `preparations`)
+   - `notifications`
 
 **Important**: While RLS is active, application-level filters (`.filter(Model.store_id == id)`) should still be used as a "Defense in Depth" measure.
 
-- **Constraints**:
-  - Products must have unique names within a store.
-  - Batches must be linked to a valid Store and Product.
+**Constraints (principali)**:
+
+- `UNIQUE(name, store_id)` per `products_master`, `recipes`, `storage_methods`, `categories`
+- `UNIQUE(symbol, store_id)` per `units_of_measure`
+- `UNIQUE(store_id, product_master_id, storage_method_id)` per `product_storage_rules`
+- `check_confidence_range` su `batches.confidence` (0..1)
+- Soft-delete con `deleted_at` e concorrenza ottimistica con `version` (SQLAlchemy `version_id_col`)
 
 ## Migrations
 
 Managed via Alembic (`alembic/`).
 
-- `23ae1b6e7610`: Initial schema.
-- `4098d00978da`: Update inventory models and constraints.
+- `4cd83ab9da51`: initial schema (store/products/batches/kitchen).
+- `cbecf25d234d`: legacy conservation methods + `secondary_expiry_at` (poi rimossi).
+- `61c26aa0f816`: recipe → `product_master_id` (legacy note: includeva vincoli legati a conservation).
+- `25ac1b937143`: legacy `resets_expiry` su conservation methods (poi rimosso).
+- `25ac1b937144`: indice composito storico lotti.
+- `25ac1b937145` / `b7c8d9e0f1a2`: rimozione `lot_code_ai` da `batches`.
+- `e3d8f7a1b2c3`: Row Level Security.
+- `d4e5f6a7b8c9`: product storage rules + batch storage moves + `storage_expiry_at`.
+- `6a3f46f52112`: rimozione `conservation_methods` + `secondary_expiry_at`.
+- `a1b2c3d4e5f6`: `allergen_mask` su `products_master`.
+- `f7a9c0b1d2e3`: `batch_completion_events` e tabella `batch_events`.
+- `aa12bb34cc56`: colonna `reason` su `batch_events`.
+- `c1d2e3f4a5b6`: merge heads (completion + cleanup).
+- `d1e2f3a4b5c6`: aggiunta tabella `notifications` e colonna `notify_expiring_today` su `stores`.
+- `9b46f6d70928`: tabelle `categories` e `units_of_measure`; migrazione dati `products_master.category` → FK; migrazione `recipe_ingredients.unit` / `preparation_items.unit` → FK.
+- `e1f2a3b4c5d6`: merge head — unifica `9b46f6d70928` e `d1e2f3a4b5c6` in un singolo percorso lineare.

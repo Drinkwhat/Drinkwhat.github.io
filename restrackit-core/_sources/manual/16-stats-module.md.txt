@@ -1,0 +1,181 @@
+# Stats Module (Dashboard Manager)
+
+Questo modulo espone **statistiche operative** per il manager (trend di cucina e stato batch/magazzino), tramite:
+
+- **API JSON** sotto `/stats`
+- **Dashboard UI** nella UI desktop (`/ui/#/stats`)
+
+L’obiettivo principale è supportare decisioni come “cosa conviene preparare questa settimana” basandosi su **storico preparazioni** e **consumo ingredienti**.
+
+---
+
+## Permessi (RBAC)
+
+Gli endpoint `/stats/*` sono protetti da `RequirePermission(Permission.STATS_READ)`:
+
+- Permission: `stats:read`
+- Ruoli abilitati di default: `chef`, `manager` (e `admin` via `ADMIN_ALL`)
+
+Riferimenti nel codice:
+
+- Permessi: [auth/schemas.py](../app/modules/auth/schemas.py)
+- Mapping ruolo → permessi: [auth/dependencies.py](../app/modules/auth/dependencies.py)
+
+---
+
+## Dati utilizzati
+
+Il modulo calcola le statistiche usando tabelle già presenti:
+
+- **Kitchen**
+  - `preparations` (data evento = `created_at`)
+  - `preparation_items` (quantità ingredienti usati)
+  - `recipes` (nome ricetta)
+- **Inventory**
+  - `batches` (creazione, scadenza, stato `is_empty`, eventuale `finished_at`)
+
+Join principali:
+
+- Consumo ingredienti: `preparation_items` → `batches` → `products_master`
+- Top ricette: `preparations` → `recipes`
+
+---
+
+## Multi-tenancy (store)
+
+Le statistiche sono sempre calcolate nello **store selezionato**:
+
+- Se l’utente ha accesso a più store, deve passare l’header `x-target-store`
+- In UI la selezione avviene dalla topbar (select “Store …”)
+
+Esempio:
+
+```bash
+TOKEN="<bearer-token>"
+curl -H "Authorization: Bearer ${TOKEN}" \
+  -H "x-target-store: 1" \
+  http://localhost:8000/stats/overview
+```
+
+---
+
+## API Reference (`/stats`)
+
+### `GET /stats/overview`
+
+Ritorna un riepilogo “KPI”:
+
+- preparazioni ultimi 7/30 giorni
+- top ricette 7 giorni
+- top ingredienti 7 giorni (per quantità usata)
+- overview batch (attivi, scaduti, in scadenza, ecc.)
+
+```bash
+curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" \
+  http://localhost:8000/stats/overview
+```
+
+---
+
+### `GET /stats/kitchen/preparations/series`
+
+Serie temporale del numero di preparazioni.
+
+**Query params**
+
+- `bucket`: `day|week|month` (default: `week`)
+- `date_from`: datetime ISO (opzionale)
+- `date_to`: datetime ISO (opzionale)
+
+```bash
+curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" \
+  "http://localhost:8000/stats/kitchen/preparations/series?bucket=week&date_from=2026-05-01T00:00:00Z&date_to=2026-05-31T23:59:59Z"
+```
+
+---
+
+### `GET /stats/kitchen/recipes/top`
+
+Top ricette per numero preparazioni nel range.
+
+**Query params**
+
+- `date_from`, `date_to`: datetime ISO (opzionali)
+- `limit`: 1..50 (default: 10)
+
+---
+
+### `GET /stats/kitchen/recipes/top-series`
+
+Trend “top ricette” raggruppato per bucket nel range.
+
+**Query params**
+
+- `bucket`: `day|week|month` (default: `week`)
+- `date_from`, `date_to`: datetime ISO (opzionali)
+- `limit`: 1..20 (default: 5) → numero ricette considerate (top globali nel range)
+
+---
+
+### `GET /stats/kitchen/ingredients/top`
+
+Top ingredienti per quantità usata (somma `quantity_used`) nel range.
+
+**Query params**
+
+- `date_from`, `date_to`: datetime ISO (opzionali)
+- `limit`: 1..50 (default: 10)
+
+Nota: le quantità sono aggregate per `unit` (es. kg, l) e **non** vengono convertite tra unità diverse.
+
+---
+
+### `GET /stats/inventory/batches/overview`
+
+Overview stato lotti.
+
+**Query params**
+
+- `as_of`: `YYYY-MM-DD` (default: oggi)
+- `expiring_days`: 1..365 (default: 7)
+
+---
+
+### `GET /stats/inventory/batches/series`
+
+Serie temporale creazione/chiusura lotti.
+
+**Query params**
+
+- `bucket`: `day|week|month` (default: `week`)
+- `metric`: `created|finished` (default: `created`)
+- `date_from`, `date_to`: datetime ISO (opzionali)
+
+---
+
+## UI Dashboard (`/ui/#/stats`)
+
+La pagina “Stats” mostra:
+
+- KPI sintetici (preparazioni e batch)
+- Trend top ricette per bucket (day/week/month)
+- Serie preparazioni per bucket
+- Top ingredienti (consumi) nel range selezionato
+- Overview batch (totale/attivi/vuoti/scaduti/in scadenza)
+
+**Filtri**
+
+- `Bucket`: day/week/month
+- `Da` / `A`: date (la UI converte automaticamente in range UTC)
+- `Top`: quante ricette includere nel trend “top-series”
+
+---
+
+## Note su bucket e “week”
+
+Il calcolo del bucket dipende dal DB:
+
+- PostgreSQL: `week` usa ISO week (`IYYY-IW`)
+- SQLite (test): `week` usa `%Y-%W`
+
+In produzione (PostgreSQL) il formato è stabile e ISO-friendly.

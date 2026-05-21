@@ -254,15 +254,22 @@ psql -U ${DB_USER} -d ${DB_NAME} -h localhost
 \dt
 
 # Show table structure
-\d batch
+\d batches
 
 # Run query
-SELECT * FROM batch LIMIT 5;
+SELECT * FROM batches LIMIT 5;
+```
 
-# SQLite
-sqlite3 ./restrackit.db
-.tables
-.schema batch
+### Notifications
+
+```bash
+# Get unread notifications
+curl "http://localhost:8000/notifications?unread_only=true" \
+  -H "Authorization: Bearer ${TOKEN}"
+
+# Mark as read
+curl -X PATCH http://localhost:8000/notifications/1/read \
+  -H "Authorization: Bearer ${TOKEN}"
 ```
 
 ## 📚 Useful Links
