@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.stats.schemas &mdash; Restrackit 2.30.0 documentation</title>
+  <title>app.modules.stats.schemas &mdash; Restrackit 2.30.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=421e7202"></script>
+      <script src="../../../../_static/documentation_options.js?v=e666f61b"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1159,6 +1159,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/16-stats-module.html#get-stats-kitchen-ingredients-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/ingredients/top</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
@@ -1401,6 +1402,24 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
     <span class="n">metric</span><span class="p">:</span> <span class="n">BatchSeriesMetric</span> <span class="o">=</span> <span class="n">BatchSeriesMetric</span><span class="o">.</span><span class="n">created</span></div>
+
+
+
+<div class="viewcode-block" id="WasteItem">
+<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteItem">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WasteItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">category_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="WasteParams">
+<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WasteParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></div>
 
 </pre></div>
 

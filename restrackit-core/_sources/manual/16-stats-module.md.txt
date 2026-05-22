@@ -33,11 +33,13 @@ Il modulo calcola le statistiche usando tabelle già presenti:
   - `recipes` (nome ricetta)
 - **Inventory**
   - `batches` (creazione, scadenza, stato `is_empty`, eventuale `finished_at`)
+  - `batch_events` (audit trail ciclo vita lotti: `event_type`, `reason`, `occurred_at`)
 
 Join principali:
 
 - Consumo ingredienti: `preparation_items` → `batches` → `products_master`
 - Top ricette: `preparations` → `recipes`
+- Sprechi: `batch_events` → `batches` → `products_master` → `categories`
 
 ---
 
@@ -150,6 +152,41 @@ Serie temporale creazione/chiusura lotti.
 - `bucket`: `day|week|month` (default: `week`)
 - `metric`: `created|finished` (default: `created`)
 - `date_from`, `date_to`: datetime ISO (opzionali)
+
+---
+
+### `GET /stats/inventory/waste`
+
+Sprechi/scarti raggruppati per prodotto e motivazione di completamento lotto.
+
+**Query params**
+
+- `date_from`, `date_to`: datetime ISO (opzionali, default: ultimi 30 giorni)
+- `limit`: 1..200 (default: 50)
+
+**Risposta** (`list[WasteItem]`):
+
+```json
+[
+  {
+    "product_master_id": 3,
+    "product_name": "pollo",
+    "category_name": "carni",
+    "reason": "expired",
+    "count": 4
+  }
+]
+```
+
+Valori `reason` possibili: `sold_out`, `expired`, `damaged`, `qc_reject`, `inventory_adjustment`, `other`.
+
+Solo eventi `BatchEvent.event_type == "batch_completed"` con `reason` non nullo vengono inclusi.
+I risultati sono ordinati per `count` decrescente.
+
+```bash
+curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" \
+  "http://localhost:8000/stats/inventory/waste?date_from=2026-05-01T00:00:00Z&limit=20"
+```
 
 ---
 

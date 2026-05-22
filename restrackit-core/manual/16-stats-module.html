@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stats Module (Dashboard Manager) &mdash; Restrackit 2.30.0 documentation</title>
+  <title>Stats Module (Dashboard Manager) &mdash; Restrackit 2.30.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=421e7202"></script>
+      <script src="../_static/documentation_options.js?v=e666f61b"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -726,6 +726,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#get-stats-kitchen-ingredients-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/ingredients/top</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
@@ -846,6 +847,7 @@
 <li><p><strong>Inventory</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">batches</span></code> (creazione, scadenza, stato <code class="docutils literal notranslate"><span class="pre">is_empty</span></code>, eventuale <code class="docutils literal notranslate"><span class="pre">finished_at</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">batch_events</span></code> (audit trail ciclo vita lotti: <code class="docutils literal notranslate"><span class="pre">event_type</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>, <code class="docutils literal notranslate"><span class="pre">occurred_at</span></code>)</p></li>
 </ul>
 </li>
 </ul>
@@ -853,6 +855,7 @@
 <ul class="simple">
 <li><p>Consumo ingredienti: <code class="docutils literal notranslate"><span class="pre">preparation_items</span></code> → <code class="docutils literal notranslate"><span class="pre">batches</span></code> → <code class="docutils literal notranslate"><span class="pre">products_master</span></code></p></li>
 <li><p>Top ricette: <code class="docutils literal notranslate"><span class="pre">preparations</span></code> → <code class="docutils literal notranslate"><span class="pre">recipes</span></code></p></li>
+<li><p>Sprechi: <code class="docutils literal notranslate"><span class="pre">batch_events</span></code> → <code class="docutils literal notranslate"><span class="pre">batches</span></code> → <code class="docutils literal notranslate"><span class="pre">products_master</span></code> → <code class="docutils literal notranslate"><span class="pre">categories</span></code></p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -955,6 +958,35 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <li><p><code class="docutils literal notranslate"><span class="pre">metric</span></code>: <code class="docutils literal notranslate"><span class="pre">created|finished</span></code> (default: <code class="docutils literal notranslate"><span class="pre">created</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">date_from</span></code>, <code class="docutils literal notranslate"><span class="pre">date_to</span></code>: datetime ISO (opzionali)</p></li>
 </ul>
+</section>
+<hr class="docutils" />
+<section id="get-stats-inventory-waste">
+<h3><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code><a class="headerlink" href="#get-stats-inventory-waste" title="Link to this heading"></a></h3>
+<p>Sprechi/scarti raggruppati per prodotto e motivazione di completamento lotto.</p>
+<p><strong>Query params</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">date_from</span></code>, <code class="docutils literal notranslate"><span class="pre">date_to</span></code>: datetime ISO (opzionali, default: ultimi 30 giorni)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limit</span></code>: 1..200 (default: 50)</p></li>
+</ul>
+<p><strong>Risposta</strong> (<code class="docutils literal notranslate"><span class="pre">list[WasteItem]</span></code>):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;product_master_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;product_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pollo&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;category_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;carni&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;expired&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Valori <code class="docutils literal notranslate"><span class="pre">reason</span></code> possibili: <code class="docutils literal notranslate"><span class="pre">sold_out</span></code>, <code class="docutils literal notranslate"><span class="pre">expired</span></code>, <code class="docutils literal notranslate"><span class="pre">damaged</span></code>, <code class="docutils literal notranslate"><span class="pre">qc_reject</span></code>, <code class="docutils literal notranslate"><span class="pre">inventory_adjustment</span></code>, <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+<p>Solo eventi <code class="docutils literal notranslate"><span class="pre">BatchEvent.event_type</span> <span class="pre">==</span> <span class="pre">&quot;batch_completed&quot;</span></code> con <code class="docutils literal notranslate"><span class="pre">reason</span></code> non nullo vengono inclusi.
+I risultati sono ordinati per <code class="docutils literal notranslate"><span class="pre">count</span></code> decrescente.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;x-target-store: 1&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;http://localhost:8000/stats/inventory/waste?date_from=2026-05-01T00:00:00Z&amp;limit=20&quot;</span>
+</pre></div>
+</div>
 </section>
 </section>
 <hr class="docutils" />
