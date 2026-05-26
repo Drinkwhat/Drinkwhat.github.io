@@ -406,6 +406,18 @@ CREATE TABLE notifications (
 13. **Preparation → PreparationItems**: 1:N (`preparations.id` → `preparation_items.preparation_id`)
 14. **PreparationItem → Batch**: N:1 (`preparation_items.batch_id` → `batches.id`)
 
+## Dual-ID Architecture
+
+API path parameters use opaque `public_id` UUID columns, while internal integer PKs are preserved for FK relationships and query efficiency.
+
+| Layer | ID Type | Used For |
+|-------|---------|----------|
+| API path params | `public_id` (UUID) | External resource identification, IDOR prevention |
+| Internal FK joins | `id` (INTEGER PK) | Database relationships, index performance |
+| Response DTOs | Both | `id` retained for backwards compat (deprecato) |
+
+Service methods accept `uuid.UUID` from routers, translate to internal `id` via a single SELECT on the indexed `public_id` column, then use `id` for all FK operations.
+
 ## Data Integrity
 
 - **Multi-Tenancy**: All queries MUST filter by `store_id` to prevent data leaks between restaurants. This is enforced at the database level using **Row Level Security (RLS)**.
@@ -446,6 +458,7 @@ To ensure strict isolation between tenants (stores), the database uses PostgreSQ
 - `UNIQUE(store_id, product_master_id, storage_method_id)` per `product_storage_rules`
 - `check_confidence_range` su `batches.confidence` (0..1)
 - Soft-delete con `deleted_at` e concorrenza ottimistica con `version` (SQLAlchemy `version_id_col`)
+- `UNIQUE public_id` su 9 tabelle esposte via API (UUID generato server-side, opaco, immutabile)
 
 ## Migrations
 
@@ -467,3 +480,4 @@ Managed via Alembic (`alembic/`).
 - `d1e2f3a4b5c6`: aggiunta tabella `notifications` e colonna `notify_expiring_today` su `stores`.
 - `9b46f6d70928`: tabelle `categories` e `units_of_measure`; migrazione dati `products_master.category` → FK; migrazione `recipe_ingredients.unit` / `preparation_items.unit` → FK.
 - `e1f2a3b4c5d6`: merge head — unifica `9b46f6d70928` e `d1e2f3a4b5c6` in un singolo percorso lineare.
+- `a9b8c7d6e5f4`: `public_id UUID` opaco su 9 tabelle API-exposed (IDOR prevention).

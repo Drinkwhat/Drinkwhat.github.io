@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture Overview &mdash; Restrackit 2.30.1 documentation</title>
+  <title>Architecture Overview &mdash; Restrackit 2.33.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=e666f61b"></script>
+      <script src="../_static/documentation_options.js?v=d061ace9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -201,7 +201,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#monitoring-observability">4. Monitoring &amp; Observability</a></li>
 </ul>
 </li>
 </ul>
@@ -298,6 +299,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
 </ul>
@@ -878,6 +880,7 @@
 │   │   ├── allergens.py       # EU Allergen bitmask logic
 │   │   ├── allergen_enum.py   # Allergen definitions (i18n ready)
 │   │   ├── cache.py           # Redis @cached decorator
+│   │   ├── mixins.py          # SQLAlchemy mixins (PublicIdMixin, TimestampVersionMixin)
 │   │   └── rate_limit.py      # Redis expensive_op_limiter
 │   │
 │   ├── database.py            # SQLAlchemy Session
@@ -1028,8 +1031,18 @@
 <li><p><strong>Granular Permissions</strong>: A custom <code class="docutils literal notranslate"><span class="pre">RequirePermission</span></code> dependency maps Keycloak roles to fine-grained action permissions (e.g., <code class="docutils literal notranslate"><span class="pre">INVENTORY_WRITE</span></code>).</p></li>
 </ul>
 </section>
+<section id="opaque-uuid-api-ids">
+<h3>3. Opaque UUID API IDs<a class="headerlink" href="#opaque-uuid-api-ids" title="Link to this heading"></a></h3>
+<p>All API path parameters use <code class="docutils literal notranslate"><span class="pre">public_id</span></code> (UUID v4) instead of sequential integer PKs:</p>
+<ul class="simple">
+<li><p><strong>IDOR prevention</strong>: sequential integers allow enumeration of all resources across stores. UUIDs make enumeration infeasible.</p></li>
+<li><p><strong>Implementation</strong>: <code class="docutils literal notranslate"><span class="pre">PublicIdMixin</span></code> (<code class="docutils literal notranslate"><span class="pre">app/shared/mixins.py</span></code>) adds <code class="docutils literal notranslate"><span class="pre">public_id</span> <span class="pre">UUID</span> <span class="pre">UNIQUE</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code> to 9 tables. Routers accept <code class="docutils literal notranslate"><span class="pre">uuid.UUID</span></code> path params; service methods translate to internal integer IDs via a single indexed lookup.</p></li>
+<li><p><strong>Zero FK impact</strong>: internal integer PKs and all FK relationships are unchanged — only the API surface changes.</p></li>
+<li><p><strong>Tables covered</strong>: <code class="docutils literal notranslate"><span class="pre">products_master</span></code>, <code class="docutils literal notranslate"><span class="pre">categories</span></code>, <code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code>, <code class="docutils literal notranslate"><span class="pre">storage_methods</span></code>, <code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code>, <code class="docutils literal notranslate"><span class="pre">batches</span></code>, <code class="docutils literal notranslate"><span class="pre">recipes</span></code>, <code class="docutils literal notranslate"><span class="pre">preparations</span></code>, <code class="docutils literal notranslate"><span class="pre">notifications</span></code>.</p></li>
+</ul>
+</section>
 <section id="monitoring-observability">
-<h3>3. Monitoring &amp; Observability<a class="headerlink" href="#monitoring-observability" title="Link to this heading"></a></h3>
+<h3>4. Monitoring &amp; Observability<a class="headerlink" href="#monitoring-observability" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Request Tracing</strong>: Every request is assigned a unique <code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code>, propagated through logs, database contexts, and external service calls for end-to-end tracing.</p></li>
 <li><p><strong>Sentry</strong>: Captures unhandled exceptions and performance bottlenecks with release tracking tied to Git commit hashes.</p></li>

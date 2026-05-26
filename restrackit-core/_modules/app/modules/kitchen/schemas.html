@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.30.1 documentation</title>
+  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.33.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=e666f61b"></script>
+      <script src="../../../../_static/documentation_options.js?v=d061ace9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -634,7 +634,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
 </ul>
 </li>
 </ul>
@@ -731,6 +732,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
 </ul>
@@ -1245,6 +1247,7 @@ window.runMermaid = runMermaid;</script>
   <h1>Source code for app.modules.kitchen.schemas</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">TypedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UUID</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.kitchen.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecipeIngredient</span>
@@ -1425,6 +1428,7 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for returning a recipe.&quot;&quot;&quot;</span>
 
     <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
@@ -1567,9 +1571,11 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for returning a preparation.&quot;&quot;&quot;</span>
 
     <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">output_batch_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">output_batch_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">completed_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span>
@@ -1579,7 +1585,21 @@ window.runMermaid = runMermaid;</script>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PreparationItemResponse</span><span class="p">]</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_output_batch_public_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Populate output_batch_public_id from the output_batch ORM relationship.&quot;&quot;&quot;</span>
+        <span class="n">output_batch</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;output_batch&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output_batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output_batch</span><span class="p">,</span> <span class="s2">&quot;public_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;output_batch_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pid</span>
+            <span class="k">elif</span> <span class="n">pid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># ORM instance — inject via __dict__ so Pydantic can read it</span>
+                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;output_batch_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pid</span>
+        <span class="k">return</span> <span class="n">data</span></div>
 
 
 

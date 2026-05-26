@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.30.1 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.33.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=e666f61b"></script>
+      <script src="../../../../_static/documentation_options.js?v=d061ace9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -634,7 +634,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
 </ul>
 </li>
 </ul>
@@ -731,6 +732,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
 </ul>
@@ -1249,6 +1251,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UUID</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
 
@@ -1257,23 +1260,9 @@ window.runMermaid = runMermaid;</script>
 <span class="n">_EXAMPLE_PRODUCT_NAME</span> <span class="o">=</span> <span class="s2">&quot;Latte Intero&quot;</span>
 
 
-<div class="viewcode-block" id="BatchConfirm">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchConfirm</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dati tecnici del prodotto inviati dopo la revisione dello chef.</span>
-<span class="sd">    L&#39;identità (store/operatore) è gestita dal middleware.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_BatchValidatorsMixin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validator comuni a BatchConfirm e BatchUpdate.&quot;&quot;&quot;</span>
 
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome validato in anagrafica&quot;</span><span class="p">)</span>
-    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lotto alfanumerico dell&#39;etichetta&quot;</span><span class="p">)</span>
-    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Formato YYYY-MM-DD&quot;</span><span class="p">)</span>
-    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Punteggio AI salvato per controllo qualità&quot;</span>
-    <span class="p">)</span>
-
-<div class="viewcode-block" id="BatchConfirm.validate_expiry_date">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm.validate_expiry_date">[docs]</a>
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;expiry_date&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_expiry_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
@@ -1295,8 +1284,41 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il formato della data deve essere YYYY-MM-DD&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Formato data non valido&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Formato data non valido&quot;</span><span class="p">)</span>
 
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;lot_code&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_lot_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che il lotto non sia vuoto.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Codice lotto in input.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Lotto normalizzato (lowercase, trimmed).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se il lotto è vuoto o None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il codice lotto non può essere vuoto&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="BatchConfirm">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchConfirm</span><span class="p">(</span><span class="n">_BatchValidatorsMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dati tecnici del prodotto inviati dopo la revisione dello chef.</span>
+<span class="sd">    L&#39;identità (store/operatore) è gestita dal middleware.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome validato in anagrafica&quot;</span><span class="p">)</span>
+    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lotto alfanumerico dell&#39;etichetta&quot;</span><span class="p">)</span>
+    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Formato YYYY-MM-DD&quot;</span><span class="p">)</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Punteggio AI salvato per controllo qualità&quot;</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="BatchConfirm.validate_product_name">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm.validate_product_name">[docs]</a>
@@ -1316,27 +1338,6 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">&quot;NON_IDENTIFICATO&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Devi selezionare un prodotto valido&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="BatchConfirm.validate_lot_code">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm.validate_lot_code">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;lot_code&quot;</span><span class="p">)</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">validate_lot_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che il lotto non sia vuoto.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            v: Codice lotto in input.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: Lotto normalizzato (lowercase, trimmed).</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Se il lotto è vuoto o None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il codice lotto non può essere vuoto&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
@@ -1424,6 +1425,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato dell&#39;operazione&quot;</span><span class="p">)</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Messaggio descrittivo&quot;</span><span class="p">)</span>
     <span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del lotto creato&quot;</span><span class="p">)</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico del lotto&quot;</span><span class="p">)</span>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
     <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto confermato&quot;</span><span class="p">)</span>
     <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data di scadenza&quot;</span><span class="p">)</span>
@@ -1488,7 +1490,7 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="BatchUpdate">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchUpdate">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchUpdate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchUpdate</span><span class="p">(</span><span class="n">_BatchValidatorsMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema per la modifica di un lotto (immutabile dopo la creazione).&quot;&quot;&quot;</span>
 
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
@@ -1497,32 +1499,6 @@ window.runMermaid = runMermaid;</script>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
     <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto confermato&quot;</span><span class="p">)</span>
     <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Formato YYYY-MM-DD&quot;</span><span class="p">)</span>
-
-<div class="viewcode-block" id="BatchUpdate.validate_expiry_date">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchUpdate.validate_expiry_date">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;expiry_date&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">validate_expiry_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida e converte il formato della data di scadenza.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            v: Data come stringa ``YYYY-MM-DD`` oppure ``date``.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            date: Data di scadenza normalizzata.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Se il formato non è valido.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">v</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il formato della data deve essere YYYY-MM-DD&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Formato data non valido&quot;</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="BatchUpdate.validate_product_name">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchUpdate.validate_product_name">[docs]</a>
@@ -1542,27 +1518,6 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Devi selezionare un prodotto valido&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="BatchUpdate.validate_lot_code">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchUpdate.validate_lot_code">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;lot_code&quot;</span><span class="p">)</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">validate_lot_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che il lotto non sia vuoto.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            v: Codice lotto in input.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: Lotto normalizzato (lowercase, trimmed).</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Se il lotto è vuoto o None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il codice lotto non può essere vuoto&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 </div>
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Database Schema &mdash; Restrackit 2.30.1 documentation</title>
+  <title>Database Schema &mdash; Restrackit 2.33.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=e666f61b"></script>
+      <script src="../_static/documentation_options.js?v=d061ace9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -201,7 +201,8 @@
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
 </ul>
 </li>
 </ul>
@@ -298,6 +299,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dual-id-architecture">Dual-ID Architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-integrity">Data Integrity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#row-level-security-rls">Row Level Security (RLS)</a></li>
 </ul>
@@ -1196,6 +1198,33 @@
 <li><p><strong>PreparationItem → Batch</strong>: N:1 (<code class="docutils literal notranslate"><span class="pre">preparation_items.batch_id</span></code> → <code class="docutils literal notranslate"><span class="pre">batches.id</span></code>)</p></li>
 </ol>
 </section>
+<section id="dual-id-architecture">
+<h2>Dual-ID Architecture<a class="headerlink" href="#dual-id-architecture" title="Link to this heading"></a></h2>
+<p>API path parameters use opaque <code class="docutils literal notranslate"><span class="pre">public_id</span></code> UUID columns, while internal integer PKs are preserved for FK relationships and query efficiency.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer</p></th>
+<th class="head"><p>ID Type</p></th>
+<th class="head"><p>Used For</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>API path params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">public_id</span></code> (UUID)</p></td>
+<td><p>External resource identification, IDOR prevention</p></td>
+</tr>
+<tr class="row-odd"><td><p>Internal FK joins</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">id</span></code> (INTEGER PK)</p></td>
+<td><p>Database relationships, index performance</p></td>
+</tr>
+<tr class="row-even"><td><p>Response DTOs</p></td>
+<td><p>Both</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">id</span></code> retained for backwards compat (deprecato)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Service methods accept <code class="docutils literal notranslate"><span class="pre">uuid.UUID</span></code> from routers, translate to internal <code class="docutils literal notranslate"><span class="pre">id</span></code> via a single SELECT on the indexed <code class="docutils literal notranslate"><span class="pre">public_id</span></code> column, then use <code class="docutils literal notranslate"><span class="pre">id</span></code> for all FK operations.</p>
+</section>
 <section id="data-integrity">
 <h2>Data Integrity<a class="headerlink" href="#data-integrity" title="Link to this heading"></a></h2>
 <ul class="simple">
@@ -1238,6 +1267,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">UNIQUE(store_id,</span> <span class="pre">product_master_id,</span> <span class="pre">storage_method_id)</span></code> per <code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">check_confidence_range</span></code> su <code class="docutils literal notranslate"><span class="pre">batches.confidence</span></code> (0..1)</p></li>
 <li><p>Soft-delete con <code class="docutils literal notranslate"><span class="pre">deleted_at</span></code> e concorrenza ottimistica con <code class="docutils literal notranslate"><span class="pre">version</span></code> (SQLAlchemy <code class="docutils literal notranslate"><span class="pre">version_id_col</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UNIQUE</span> <span class="pre">public_id</span></code> su 9 tabelle esposte via API (UUID generato server-side, opaco, immutabile)</p></li>
 </ul>
 </section>
 </section>
@@ -1261,6 +1291,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">d1e2f3a4b5c6</span></code>: aggiunta tabella <code class="docutils literal notranslate"><span class="pre">notifications</span></code> e colonna <code class="docutils literal notranslate"><span class="pre">notify_expiring_today</span></code> su <code class="docutils literal notranslate"><span class="pre">stores</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">9b46f6d70928</span></code>: tabelle <code class="docutils literal notranslate"><span class="pre">categories</span></code> e <code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code>; migrazione dati <code class="docutils literal notranslate"><span class="pre">products_master.category</span></code> → FK; migrazione <code class="docutils literal notranslate"><span class="pre">recipe_ingredients.unit</span></code> / <code class="docutils literal notranslate"><span class="pre">preparation_items.unit</span></code> → FK.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">e1f2a3b4c5d6</span></code>: merge head — unifica <code class="docutils literal notranslate"><span class="pre">9b46f6d70928</span></code> e <code class="docutils literal notranslate"><span class="pre">d1e2f3a4b5c6</span></code> in un singolo percorso lineare.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a9b8c7d6e5f4</span></code>: <code class="docutils literal notranslate"><span class="pre">public_id</span> <span class="pre">UUID</span></code> opaco su 9 tabelle API-exposed (IDOR prevention).</p></li>
 </ul>
 </section>
 </section>

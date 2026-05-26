@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Restrackit 2.30.1 documentation</title>
+  <title>Index &mdash; Restrackit 2.33.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e666f61b"></script>
+      <script src="_static/documentation_options.js?v=d061ace9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -634,7 +634,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">3. Monitoring &amp; Observability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
 </ul>
 </li>
 </ul>
@@ -731,6 +732,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
 </ul>
@@ -1451,6 +1453,13 @@ window.runMermaid = runMermaid;</script>
 </li>
       </ul></li>
       <li>
+    app.shared.mixins
+
+      <ul>
+        <li><a href="app.shared.html#module-app.shared.mixins">module</a>
+</li>
+      </ul></li>
+      <li>
     app.shared.rate_limit
 
       <ul>
@@ -1583,6 +1592,8 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="app.core.html#app.core.logging.create_uvicorn_access_log_filter_from_env">create_uvicorn_access_log_filter_from_env() (in module app.core.logging)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.created_at">created_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorSeverity.CRITICAL">CRITICAL (app.core.error_catalog.ErrorSeverity attribute)</a>
 </li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.CRUSTACEANS">CRUSTACEANS (app.shared.allergen_enum.Allergen attribute)</a>
@@ -1617,14 +1628,14 @@ window.runMermaid = runMermaid;</script>
         <li><a href="app.core.html#app.core.errors.ErrorCode.DB_QUERY_ERROR">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.DB_REDIS_NOT_INITIALIZED">DB_REDIS_NOT_INITIALIZED (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
         <li><a href="app.core.html#app.core.errors.ErrorCode.DB_REDIS_NOT_INITIALIZED">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.DB_REDIS_SERIALIZATION_ERROR">DB_REDIS_SERIALIZATION_ERROR (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
@@ -1634,6 +1645,8 @@ window.runMermaid = runMermaid;</script>
       <li><a href="app.core.html#app.core.redis.RedisService.delete_cache">delete_cache() (app.core.redis.RedisService method)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.delete_pattern">delete_pattern() (app.core.redis.RedisService method)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.deleted_at">deleted_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.disconnect">disconnect() (app.core.redis.RedisService method)</a>
 </li>
@@ -1861,6 +1874,8 @@ window.runMermaid = runMermaid;</script>
 </li>
         <li><a href="app.shared.html#module-app.shared.cache">app.shared.cache</a>
 </li>
+        <li><a href="app.shared.html#module-app.shared.mixins">app.shared.mixins</a>
+</li>
         <li><a href="app.shared.html#module-app.shared.rate_limit">app.shared.rate_limit</a>
 </li>
       </ul></li>
@@ -1898,6 +1913,12 @@ window.runMermaid = runMermaid;</script>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.PEANUTS">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.mixins.PublicIdMixin.public_id">public_id (app.shared.mixins.PublicIdMixin attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.mixins.PublicIdMixin">PublicIdMixin (class in app.shared.mixins)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1974,6 +1995,10 @@ window.runMermaid = runMermaid;</script>
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin">TimestampVersionMixin (class in app.shared.mixins)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.TREE_NUTS">TREE_NUTS (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -1993,6 +2018,8 @@ window.runMermaid = runMermaid;</script>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.modules.ui.html#app.modules.ui.router.ui_root">ui_root() (in module app.modules.ui.router)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.updated_at">updated_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.logging.UvicornAccessLogFilter">UvicornAccessLogFilter (class in app.core.logging)</a>
 </li>
@@ -2046,6 +2073,8 @@ window.runMermaid = runMermaid;</script>
         <li><a href="app.core.html#app.core.errors.ErrorCode.VAL_NO_TEXT_FOUND">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.version">version (app.shared.mixins.TimestampVersionMixin attribute)</a>
+</li>
       <li><a href="app.modules.ui.html#app.modules.ui.router.vite_client_noop">vite_client_noop() (in module app.modules.ui.router)</a>
 </li>
   </ul></td>

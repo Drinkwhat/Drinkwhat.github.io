@@ -69,6 +69,7 @@ restrackit-core/
 │   │   ├── allergens.py       # EU Allergen bitmask logic
 │   │   ├── allergen_enum.py   # Allergen definitions (i18n ready)
 │   │   ├── cache.py           # Redis @cached decorator
+│   │   ├── mixins.py          # SQLAlchemy mixins (PublicIdMixin, TimestampVersionMixin)
 │   │   └── rate_limit.py      # Redis expensive_op_limiter
 │   │
 │   ├── database.py            # SQLAlchemy Session
@@ -190,7 +191,16 @@ The system implements a dual-layer isolation strategy:
 - **JWT Validation**: Real-time token validation against Keycloak JWKS with localized caching in Redis for performance.
 - **Granular Permissions**: A custom `RequirePermission` dependency maps Keycloak roles to fine-grained action permissions (e.g., `INVENTORY_WRITE`).
 
-### 3. Monitoring & Observability
+### 3. Opaque UUID API IDs
+
+All API path parameters use `public_id` (UUID v4) instead of sequential integer PKs:
+
+- **IDOR prevention**: sequential integers allow enumeration of all resources across stores. UUIDs make enumeration infeasible.
+- **Implementation**: `PublicIdMixin` (`app/shared/mixins.py`) adds `public_id UUID UNIQUE NOT NULL` to 9 tables. Routers accept `uuid.UUID` path params; service methods translate to internal integer IDs via a single indexed lookup.
+- **Zero FK impact**: internal integer PKs and all FK relationships are unchanged — only the API surface changes.
+- **Tables covered**: `products_master`, `categories`, `units_of_measure`, `storage_methods`, `product_storage_rules`, `batches`, `recipes`, `preparations`, `notifications`.
+
+### 4. Monitoring & Observability
 - **Request Tracing**: Every request is assigned a unique `X-Request-ID`, propagated through logs, database contexts, and external service calls for end-to-end tracing.
 - **Sentry**: Captures unhandled exceptions and performance bottlenecks with release tracking tied to Git commit hashes.
 - **Apitally**: Provides real-time insights into API usage, response times, and error rates without impacting performance.
