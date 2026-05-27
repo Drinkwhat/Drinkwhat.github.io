@@ -1,0 +1,1044 @@
+# RESTRACKIT
+
+**ELABORATO PER IL CORSO DI BASI DI DATI**
+
+Luca Bevilacqua — matr. ___________
+
+---
+
+## STRUTTURA DELL'ELABORATO
+
+La presente documentazione tratta nel dettaglio la progettazione e l'implementazione del sistema informativo **Restrackit**, un backend per la tracciabilità degli inventari in cucine professionali e ristoranti conformi agli standard HACCP. L'elaborato è strutturato come segue:
+
+1. Introduzione
+2. Analisi dei requisiti
+   - 2.1 – Requisiti in linguaggio naturale
+   - 2.2 – Estrazione dei concetti fondamentali
+3. Progetto dello schema concettuale
+   - 3.1 – Sviluppo dell'ambito "Auth & Store"
+   - 3.2 – Sviluppo dell'ambito "Catalogo Prodotti"
+   - 3.3 – Sviluppo dell'ambito "Inventario & Batch"
+   - 3.4 – Sviluppo dell'ambito "Cucina & Ricette"
+   - 3.5 – Sviluppo dell'ambito "Preparazioni"
+   - 3.6 – Sviluppo dell'ambito "Notifiche"
+   - 3.7 – Anteprima dello schema generale
+4. Specifiche funzionali
+   - 4.1 – Analisi delle funzionalità richieste
+   - 4.2 – Registrazione nuovo batch tramite OCR
+   - 4.3 – Visualizzare lotti in scadenza per store
+   - 4.4 – Visualizzare storico spostamenti di un batch
+   - 4.5 – Eseguire una preparazione (consumare batch)
+   - 4.6 – Visualizzare prodotti con regole di conservazione
+   - 4.7 – Consultare storico preparazioni per ricetta
+   - 4.8 – Aggiungere o modificare prodotti nel catalogo
+5. Il progetto logico
+   - 5.1 – Schemi di navigazione
+   - 5.2 – Frequenza e costo degli accessi
+   - 5.3 – Trasformazioni dello schema concettuale
+   - 5.4 – Progetto logico per il modello relazionale
+   - 5.5 – Traduzione delle operazioni in Query SQL
+6. Il progetto fisico
+   - 6.1 – Indicizzazione di attributi
+   - 6.2 – Ordinamento su attributi
+7. L'interfaccia utente
+   - 7.1 – Il manager
+   - 7.2 – L'operatore
+8. Glossario
+
+---
+
+## 1 – INTRODUZIONE
+
+Il progetto consiste nella realizzazione di un sistema database che funga da supporto a un backend REST per la gestione della tracciabilità degli inventari in ambienti professionali di ristorazione. Il sistema, denominato **Restrackit**, permette ai ristoranti e alle cucine professionali di registrare, monitorare e tracciare ogni lotto di materia prima e preparazione culinaria nel rispetto delle normative HACCP (Hazard Analysis and Critical Control Points).
+
+Il database dovrà non solo immagazzinare informazioni relative agli utenti iscritti, ai lotti di prodotto e alle preparazioni effettuate, ma dovrà anche modellare aspetti relativi al mondo operativo della cucina, come ad esempio i metodi di conservazione applicabili a ciascun prodotto, le regole di scadenza derivate dallo spostamento di un lotto tra diversi metodi di conservazione, le ricette standardizzate e il tracciamento dei batch di materie prime consumate in ogni preparazione. Si adotta un unico sistema informativo unificato — anziché sistemi separati — perché i dati relativi all'autenticazione, all'inventario, alle ricette e alle notifiche sono strettamente interconnessi e si preferisce un accesso uniforme e coerente alle informazioni.
+
+Questo comporta che vi saranno interfacce di accesso al database diverse, a seconda che l'utente sia un **Manager** (responsabile della configurazione del catalogo prodotti, delle ricette e della visualizzazione del cruscotto di controllo scadenze) o un **Operatore di cucina** (addetto alla registrazione dei lotti tramite scansione OCR di etichette fisiche, alla registrazione delle preparazioni e alla gestione dell'inventario attivo).
+
+Il sistema informativo offrirà quindi due client distinti. Il client dell'operatore sarà integrato in un'applicazione mobile che interagisce con l'API REST del backend, mentre il client del manager sarà una dashboard web che permette la configurazione e il monitoraggio. In questa relazione verrà esposta la progettazione del database che supporta entrambe le interfacce.
+
+Una caratteristica fondamentale del sistema è il supporto alla **multi-tenancy**: ogni ristorante o cucina professionale è identificato come uno **Store**, e tutti i dati presenti nel database sono isolati per store tramite Row-Level Security (RLS) di PostgreSQL. Questo permette a più clienti di condividere la stessa istanza del database mantenendo la completa separazione dei dati.
+
+---
+
+## 2 – ANALISI DEI REQUISITI
+
+### 2.1 – Requisiti in linguaggio naturale
+
+La seguente descrizione riporta in linguaggio naturale i requisiti per il sistema informativo:
+
+*"L'azienda commissionante richiede un sistema informatico per la gestione della tracciabilità degli inventari in cucine professionali, in conformità con le normative HACCP. Il sistema deve permettere la registrazione e il monitoraggio di ogni lotto di prodotto alimentare, con particolare attenzione alla tracciabilità delle scadenze e dei movimenti di conservazione.*
+
+*Il sistema deve poter memorizzare la lista degli utenti registrati, ciascuno dei quali avrà un proprio account associato a un indirizzo email e una password. Gli utenti hanno un ruolo specifico che determina le operazioni che possono compiere: il ruolo chef permette di registrare lotti e preparazioni, il ruolo manager permette inoltre di configurare il catalogo prodotti e visualizzare report, mentre il ruolo admin ha accesso completo al sistema. Ogni utente appartiene a un unico Store.*
+
+*Ogni ristorante o cucina professionale è rappresentato come uno Store. Uno store dispone di un catalogo di Prodotti (ProductMaster), ciascuno dei quali appartiene obbligatoriamente a una Categoria. I prodotti possono essere conservati secondo diversi Metodi di conservazione (ad esempio: temperatura ambiente, refrigerazione, congelamento). Per ogni combinazione prodotto-metodo di conservazione è possibile definire una Regola di scadenza (ProductStorageRule), che specifica la durata aggiuntiva — espressa in giorni e ore — garantita da quel metodo di conservazione per quel prodotto specifico.*
+
+*Un Batch rappresenta un lotto fisico di un prodotto: ha un codice lotto, una data di scadenza originale indicata sull'etichetta, un metodo di conservazione corrente e una data di scadenza ricalcolata in base al metodo di conservazione attuale. I batch vengono registrati dagli operatori tramite scansione OCR di etichette fisiche: il sistema estrae automaticamente i dati dall'immagine (codice lotto, data di scadenza, nome prodotto) tramite Google Cloud Vision e un modello AI (Gemini), e l'operatore ne conferma la correttezza prima della registrazione definitiva. Il campo confidence indica il grado di affidabilità dell'estrazione automatica.*
+
+*Un batch può essere spostato da un metodo di conservazione a un altro: ogni spostamento viene registrato in modo permanente come un BatchStorageMove, che traccia il metodo di origine, il metodo di destinazione, la data dello spostamento e la nuova data di scadenza calcolata. Analogamente, ogni evento rilevante sul ciclo di vita di un batch — come la sua creazione, il suo svuotamento o il suo utilizzo in una preparazione — viene registrato in modo permanente come un BatchEvent, a fini di audit HACCP.*
+
+*Il sistema gestisce anche un modulo di cucina basato su Ricette. Una Ricetta definisce un piatto o una preparazione standardizzata: specifica il prodotto risultante (output), una lista di Ingredienti con le relative quantità e unità di misura, e una descrizione del procedimento. Una Preparazione rappresenta l'esecuzione concreta di una ricetta: traccia quali batch specifici di materie prime sono stati consumati (PreparationItem), con le rispettive quantità, e a quale batch di output ha dato origine.*
+
+*Il sistema invia Notifiche automatiche quando i batch di un determinato store si avvicinano alla data di scadenza. Le notifiche hanno una severità (critica, avviso, informativa) e possono contenere dati strutturati aggiuntivi come i riferimenti ai prodotti coinvolti.*
+
+*Sia i BatchStorageMove che i BatchEvent e le Preparazioni completate sono storicizzati in modo permanente per garantire la piena tracciabilità richiesta dalle normative HACCP."*
+
+### 2.2 – Estrazione dei concetti fondamentali
+
+Individiuamo le parole e le espressioni chiave che ci consentiranno di realizzare uno schema significativo del progetto. I termini di rilievo sono: **store**, **utente**, **ruolo**, **prodotto** (ProductMaster), **categoria**, **metodo di conservazione**, **regola di scadenza**, **batch** (lotto), **codice lotto**, **data di scadenza**, **confidence**, **OCR**, **spostamento di conservazione** (BatchStorageMove), **evento batch** (BatchEvent), **ricetta**, **ingrediente**, **unità di misura**, **preparazione**, **batch di output**, **notifica**, **severità**, **HACCP**.
+
+Le entità principali identificate sono le seguenti:
+
+| NOME | TIPO | DESCRIZIONE |
+|------|------|-------------|
+| STORE | E | Rappresenta una cucina/ristorante cliente del sistema |
+| USER | E | Rappresenta un utente del sistema con ruolo e store di appartenenza |
+| CATEGORY | E | Categoria di prodotto (es. carni, latticini, verdure) |
+| UNIT_OF_MEASURE | E | Unità di misura (es. kg, litri, pezzi) |
+| STORAGE_METHOD | E | Metodo di conservazione (es. frigo, freezer, t. ambiente) |
+| PRODUCT_MASTER | E | Anagrafica di un prodotto del catalogo dello store |
+| PRODUCT_STORAGE_RULE | R | Lega un prodotto a un metodo di conservazione con la durata garantita |
+| BATCH | E | Lotto fisico di un prodotto con codice lotto e data scadenza |
+| BATCH_STORAGE_MOVE | E | Spostamento di conservazione di un batch (audit trail) |
+| BATCH_EVENT | E | Evento sul ciclo di vita di un batch (audit HACCP) |
+| RECIPE | E | Ricetta standardizzata con elenco ingredienti e prodotto risultante |
+| RECIPE_INGREDIENT | R | Lega una ricetta ai prodotti ingrediente con quantità e UoM |
+| PREPARATION | E | Esecuzione concreta di una ricetta |
+| PREPARATION_ITEM | R | Lega una preparazione ai batch consumati con quantità |
+| NOTIFICATION | E | Notifica automatica di scadenza imminente per uno store |
+| BELONGS_TO | R | Lega l'utente allo store di appartenenza |
+| HAS_CATEGORY | R | Lega il prodotto alla sua categoria |
+| USES_STORAGE | R | Lega il batch al metodo di conservazione corrente |
+| PRODUCED_BY | R | Lega il batch di output alla preparazione che lo ha generato |
+
+---
+
+## 3 – PROGETTO DELLO SCHEMA CONCETTUALE
+
+Lo sviluppo dello schema Entity-Relationship procederà per fasi successive. Lo schema generale può essere suddiviso nei seguenti ambiti:
+
+- Auth & Store
+- Catalogo Prodotti
+- Inventario & Batch
+- Cucina & Ricette
+- Preparazioni
+- Notifiche
+
+### 3.1 – Sviluppo dell'ambito "Auth & Store"
+
+Questo ambito modella la struttura di accesso al sistema. Ogni Store rappresenta un'entità cliente (ristorante o cucina professionale). Ad ogni Store appartengono uno o più User. Ogni User ha un ruolo — ENUM tra `chef`, `manager`, `admin` — che determina i permessi di accesso alle funzionalità. Un utente appartiene a uno e un solo store.
+
+```mermaid
+erDiagram
+    STORE {
+        int id PK
+        string name
+        string address
+        string city
+        string phone
+        string email
+        bool is_active
+        bool notify_expiring_today
+        datetime created_at
+        datetime updated_at
+    }
+
+    USER {
+        int id PK
+        int store_id FK
+        string username
+        string email
+        string password_hash
+        string first_name
+        string last_name
+        enum role
+        bool is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    STORE ||--o{ USER : "ha"
+```
+
+Il campo `role` è un ENUM con valori `chef`, `manager`, `admin`. Il vincolo che un utente appartenga a un solo store è un vincolo di partecipazione (1,1) lato User.
+
+### 3.2 – Sviluppo dell'ambito "Catalogo Prodotti"
+
+Questo ambito modella il catalogo dei prodotti di ogni store. I prodotti sono organizzati in Categorie, possono essere associati a più Metodi di conservazione, e per ogni combinazione prodotto-metodo è definita una Regola di scadenza.
+
+```mermaid
+erDiagram
+    STORE ||--o{ CATEGORY : "possiede"
+    STORE ||--o{ UNIT_OF_MEASURE : "possiede"
+    STORE ||--o{ STORAGE_METHOD : "possiede"
+    STORE ||--o{ PRODUCT_MASTER : "possiede"
+
+    CATEGORY {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        string name
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    UNIT_OF_MEASURE {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        string name
+        string symbol
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    STORAGE_METHOD {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        string name
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    PRODUCT_MASTER {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        int category_id FK
+        string name
+        int allergen_mask
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    PRODUCT_STORAGE_RULE {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        int product_master_id FK
+        int storage_method_id FK
+        int duration_days
+        int duration_hours
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    PRODUCT_MASTER }o--|| CATEGORY : "appartiene a"
+    PRODUCT_MASTER ||--o{ PRODUCT_STORAGE_RULE : "ha regole"
+    STORAGE_METHOD ||--o{ PRODUCT_STORAGE_RULE : "definisce"
+```
+
+Il campo `allergen_mask` è una maschera di bit che codifica la presenza degli allergeni principali (glutine, lattosio, uova, ecc.) per performance nelle query di filtraggio. La relazione `PRODUCT_STORAGE_RULE` è un'associazione ternaria ridotta a entità propria (con chiave alternativa su `store_id, product_master_id, storage_method_id`).
+
+Tutte le entità del catalogo supportano il **soft delete** tramite il campo `deleted_at` (nullable) e l'**optimistic locking** tramite `version`, per gestire accessi concorrenti senza blocchi pessimistici.
+
+### 3.3 – Sviluppo dell'ambito "Inventario & Batch"
+
+Questo è l'ambito centrale del sistema. Un Batch rappresenta un lotto fisico di un prodotto: ha un codice lotto, una data di scadenza originale, un metodo di conservazione corrente e una data di scadenza ricalcolata. Ogni spostamento di metodo di conservazione genera un BatchStorageMove (append-only). Ogni evento significativo genera un BatchEvent (append-only).
+
+```mermaid
+erDiagram
+    PRODUCT_MASTER ||--o{ BATCH : "istanziato in"
+    STORAGE_METHOD ||--o{ BATCH : "conserva"
+    STORE ||--o{ BATCH : "appartiene a"
+
+    BATCH {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        int product_master_id FK
+        string lot_code
+        date expiry_date
+        int current_storage_method_id FK
+        datetime storage_expiry_at
+        string operator_id
+        float confidence
+        bool is_empty
+        datetime created_at
+        datetime updated_at
+        datetime finished_at
+        datetime deleted_at
+        int version
+    }
+
+    BATCH ||--o{ BATCH_STORAGE_MOVE : "genera"
+    BATCH ||--o{ BATCH_EVENT : "genera"
+
+    BATCH_STORAGE_MOVE {
+        int id PK
+        int store_id FK
+        int batch_id FK
+        int from_storage_method_id FK
+        int to_storage_method_id FK
+        datetime computed_storage_expiry_at
+        string operator_id
+        datetime moved_at
+    }
+
+    BATCH_EVENT {
+        int id PK
+        int store_id FK
+        int batch_id FK
+        int preparation_id FK
+        string event_type
+        string reason
+        string operator_id
+        string notes
+        datetime occurred_at
+    }
+```
+
+Il campo `confidence` (0.0–1.0) indica l'affidabilità dell'estrazione OCR automatica dei dati del lotto. `BatchStorageMove` e `BatchEvent` sono tabelle **append-only** (nessun UPDATE o DELETE): garantiscono l'audit trail richiesto dalla normativa HACCP.
+
+### 3.4 – Sviluppo dell'ambito "Cucina & Ricette"
+
+Una Ricetta definisce un piatto o una preparazione standardizzata. È legata a un prodotto risultante (ProductMaster), e contiene una lista di ingredienti, ognuno dei quali specifica un prodotto, una quantità standard e un'unità di misura.
+
+```mermaid
+erDiagram
+    STORE ||--o{ RECIPE : "possiede"
+    PRODUCT_MASTER ||--o{ RECIPE : "è output di"
+
+    RECIPE {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        int product_master_id FK
+        string name
+        text description
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    RECIPE ||--o{ RECIPE_INGREDIENT : "composta da"
+    PRODUCT_MASTER ||--o{ RECIPE_INGREDIENT : "ingrediente in"
+    UNIT_OF_MEASURE ||--o{ RECIPE_INGREDIENT : "quantificato in"
+
+    RECIPE_INGREDIENT {
+        int id PK
+        int recipe_id FK
+        int product_master_id FK
+        float standard_quantity
+        int unit_of_measure_id FK
+    }
+```
+
+### 3.5 – Sviluppo dell'ambito "Preparazioni"
+
+Una Preparazione è l'esecuzione concreta di una ricetta. Traccia i batch specifici consumati (PreparationItem) con le relative quantità, e produce un batch di output (opzionale, presente solo al completamento).
+
+```mermaid
+erDiagram
+    STORE ||--o{ PREPARATION : "appartiene a"
+    RECIPE ||--o{ PREPARATION : "eseguita come"
+    BATCH ||--o| PREPARATION : "output di"
+
+    PREPARATION {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        int recipe_id FK
+        int output_batch_id FK
+        string operator_id
+        text notes
+        datetime completed_at
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        int version
+    }
+
+    PREPARATION ||--o{ PREPARATION_ITEM : "consuma"
+    BATCH ||--o{ PREPARATION_ITEM : "consumato in"
+    UNIT_OF_MEASURE ||--o{ PREPARATION_ITEM : "quantificato in"
+
+    PREPARATION_ITEM {
+        int id PK
+        int preparation_id FK
+        int batch_id FK
+        float quantity_used
+        int unit_of_measure_id FK
+    }
+```
+
+Il campo `output_batch_id` è opzionale (nullable) e viene valorizzato solo al completamento della preparazione, quando viene creato il batch del prodotto finito risultante.
+
+### 3.6 – Sviluppo dell'ambito "Notifiche"
+
+Le notifiche sono generate automaticamente dal sistema (job cron periodico) quando i batch di uno store si avvicinano alla scadenza. Hanno una severità e possono contenere dati strutturati in formato JSON.
+
+```mermaid
+erDiagram
+    STORE ||--o{ NOTIFICATION : "riceve"
+
+    NOTIFICATION {
+        int id PK
+        uuid public_id UK
+        int store_id FK
+        string type
+        string severity
+        string message
+        json data
+        bool is_read
+        datetime created_at
+    }
+```
+
+Il campo `severity` assume valori `critical`, `warning`, `info`. Il campo `data` (JSONB su PostgreSQL) contiene metadati strutturati, ad esempio la lista di `batch_id` e `lot_code` dei lotti in scadenza.
+
+### 3.7 – Anteprima dello schema generale
+
+Di seguito si riporta lo schema E-R completo del sistema, unendo tutti gli ambiti precedentemente descritti:
+
+```mermaid
+erDiagram
+    STORE ||--o{ USER : "ha"
+    STORE ||--o{ CATEGORY : "possiede"
+    STORE ||--o{ UNIT_OF_MEASURE : "possiede"
+    STORE ||--o{ STORAGE_METHOD : "possiede"
+    STORE ||--o{ PRODUCT_MASTER : "possiede"
+    STORE ||--o{ BATCH : "appartiene a"
+    STORE ||--o{ RECIPE : "possiede"
+    STORE ||--o{ PREPARATION : "appartiene a"
+    STORE ||--o{ NOTIFICATION : "riceve"
+
+    PRODUCT_MASTER }o--|| CATEGORY : "appartiene a"
+    PRODUCT_MASTER ||--o{ PRODUCT_STORAGE_RULE : "ha regole"
+    STORAGE_METHOD ||--o{ PRODUCT_STORAGE_RULE : "definisce"
+    PRODUCT_MASTER ||--o{ BATCH : "istanziato in"
+    STORAGE_METHOD ||--o{ BATCH : "conserva"
+
+    BATCH ||--o{ BATCH_STORAGE_MOVE : "genera"
+    BATCH ||--o{ BATCH_EVENT : "genera"
+
+    PRODUCT_MASTER ||--o{ RECIPE : "è output di"
+    RECIPE ||--o{ RECIPE_INGREDIENT : "composta da"
+    PRODUCT_MASTER ||--o{ RECIPE_INGREDIENT : "ingrediente in"
+    UNIT_OF_MEASURE ||--o{ RECIPE_INGREDIENT : "quantificato in"
+
+    RECIPE ||--o{ PREPARATION : "eseguita come"
+    BATCH ||--o| PREPARATION : "output di"
+    PREPARATION ||--o{ PREPARATION_ITEM : "consuma"
+    BATCH ||--o{ PREPARATION_ITEM : "consumato in"
+    UNIT_OF_MEASURE ||--o{ PREPARATION_ITEM : "quantificato in"
+    PREPARATION ||--o{ BATCH_EVENT : "genera"
+```
+
+---
+
+## 4 – SPECIFICHE FUNZIONALI
+
+### 4.1 – Analisi delle funzionalità richieste
+
+Le principali funzionalità previste sono le seguenti:
+
+- **Registrazione nuovo batch tramite OCR** (operatori)
+- **Visualizzare lotti in scadenza per store** (manager e operatori)
+- **Visualizzare storico spostamenti di un batch** (manager e operatori)
+- **Eseguire una preparazione** (operatori)
+- **Visualizzare prodotti con regole di conservazione** (manager)
+- **Consultare storico preparazioni per ricetta** (manager)
+- **Aggiungere o modificare prodotti nel catalogo** (manager e admin)
+
+### 4.2 – Registrazione nuovo batch tramite OCR
+
+Un operatore fotografa l'etichetta di un lotto. Il sistema esegue l'OCR automatico e suggerisce i dati estratti (codice lotto, data scadenza, prodotto). L'operatore conferma e il batch viene creato.
+
+**ENTITÀ COINVOLTE:** Batch, ProductMaster, StorageMethod, Store, User
+
+**ASSOCIAZIONI COINVOLTE:** PRODUCT_MASTER → BATCH, STORE → BATCH, USES_STORAGE
+
+```mermaid
+erDiagram
+    STORE ||--o{ BATCH : "appartiene a"
+    PRODUCT_MASTER ||--o{ BATCH : "istanziato in"
+    STORAGE_METHOD ||--o{ BATCH : "conserva (opz.)"
+
+    BATCH {
+        uuid public_id
+        string lot_code
+        date expiry_date
+        float confidence
+        string operator_id
+        bool is_empty
+    }
+```
+
+### 4.3 – Visualizzare lotti in scadenza per store
+
+Il manager visualizza tutti i lotti attivi (non svuotati) il cui `expiry_date` o `storage_expiry_at` è entro un orizzonte configurabile.
+
+**ENTITÀ COINVOLTE:** Batch, ProductMaster, Store
+
+**ASSOCIAZIONI COINVOLTE:** STORE → BATCH, PRODUCT_MASTER → BATCH
+
+```mermaid
+erDiagram
+    STORE ||--o{ BATCH : "ha lotti"
+    BATCH }o--|| PRODUCT_MASTER : "di prodotto"
+
+    BATCH {
+        date expiry_date
+        datetime storage_expiry_at
+        bool is_empty
+        string lot_code
+    }
+
+    PRODUCT_MASTER {
+        string name
+    }
+```
+
+### 4.4 – Visualizzare storico spostamenti di un batch
+
+L'operatore o il manager vuole vedere la storia completa dei movimenti di conservazione di un batch specifico, per tracciabilità HACCP.
+
+**ENTITÀ COINVOLTE:** Batch, BatchStorageMove, StorageMethod
+
+**ASSOCIAZIONI COINVOLTE:** BATCH → BATCH_STORAGE_MOVE
+
+```mermaid
+erDiagram
+    BATCH ||--o{ BATCH_STORAGE_MOVE : "genera"
+    STORAGE_METHOD ||--o{ BATCH_STORAGE_MOVE : "da (origine)"
+    STORAGE_METHOD ||--o{ BATCH_STORAGE_MOVE : "a (destinazione)"
+
+    BATCH_STORAGE_MOVE {
+        datetime moved_at
+        datetime computed_storage_expiry_at
+        string operator_id
+    }
+```
+
+### 4.5 – Eseguire una preparazione (consumare batch)
+
+L'operatore registra una preparazione selezionando la ricetta e i batch specifici di materie prime da consumare, con le rispettive quantità.
+
+**ENTITÀ COINVOLTE:** Preparation, PreparationItem, Batch, Recipe, UnitOfMeasure
+
+**ASSOCIAZIONI COINVOLTE:** RECIPE → PREPARATION, PREPARATION → PREPARATION_ITEM, BATCH → PREPARATION_ITEM
+
+```mermaid
+erDiagram
+    RECIPE ||--o{ PREPARATION : "eseguita come"
+    PREPARATION ||--o{ PREPARATION_ITEM : "consuma"
+    BATCH ||--o{ PREPARATION_ITEM : "consumato in"
+    UNIT_OF_MEASURE ||--o{ PREPARATION_ITEM : "quantificato in"
+
+    PREPARATION {
+        string operator_id
+        text notes
+        datetime completed_at
+    }
+
+    PREPARATION_ITEM {
+        float quantity_used
+    }
+```
+
+### 4.6 – Visualizzare prodotti con regole di conservazione
+
+Il manager visualizza per ogni prodotto i metodi di conservazione configurati e le rispettive durate garantite.
+
+**ENTITÀ COINVOLTE:** ProductMaster, ProductStorageRule, StorageMethod
+
+**ASSOCIAZIONI COINVOLTE:** PRODUCT_MASTER → PRODUCT_STORAGE_RULE, STORAGE_METHOD → PRODUCT_STORAGE_RULE
+
+```mermaid
+erDiagram
+    PRODUCT_MASTER ||--o{ PRODUCT_STORAGE_RULE : "ha regole"
+    STORAGE_METHOD ||--o{ PRODUCT_STORAGE_RULE : "definisce"
+
+    PRODUCT_STORAGE_RULE {
+        int duration_days
+        int duration_hours
+    }
+```
+
+### 4.7 – Consultare storico preparazioni per ricetta
+
+Il manager vuole vedere tutte le preparazioni eseguite per una determinata ricetta, con data, operatore e batch di output prodotto.
+
+**ENTITÀ COINVOLTE:** Recipe, Preparation, Batch
+
+**ASSOCIAZIONI COINVOLTE:** RECIPE → PREPARATION, PREPARATION → BATCH (output)
+
+```mermaid
+erDiagram
+    RECIPE ||--o{ PREPARATION : "eseguita come"
+    PREPARATION ||--o| BATCH : "produce"
+
+    PREPARATION {
+        datetime completed_at
+        string operator_id
+    }
+
+    BATCH {
+        string lot_code
+        date expiry_date
+    }
+```
+
+### 4.8 – Aggiungere o modificare prodotti nel catalogo
+
+Il manager (o admin) aggiunge un nuovo prodotto al catalogo dello store, specificandone la categoria. Successivamente può aggiungere le regole di conservazione per il prodotto.
+
+**ENTITÀ COINVOLTE:** ProductMaster, Category, Store
+
+**ASSOCIAZIONI COINVOLTE:** STORE → PRODUCT_MASTER, PRODUCT_MASTER → CATEGORY
+
+```mermaid
+erDiagram
+    STORE ||--o{ PRODUCT_MASTER : "possiede"
+    PRODUCT_MASTER }o--|| CATEGORY : "appartiene a"
+
+    PRODUCT_MASTER {
+        uuid public_id
+        string name
+        int allergen_mask
+    }
+```
+
+---
+
+## 5 – IL PROGETTO LOGICO
+
+### 5.1 – Schemi di navigazione
+
+**5.1.1 – Registrazione nuovo batch tramite OCR**
+Inserimento diretto di una nuova istanza nella tabella Batch, con valorizzazione dei campi `product_master_id`, `lot_code`, `expiry_date`, `operator_id`, `confidence`, `store_id`. A seguito dell'inserimento viene automaticamente creato un BatchEvent di tipo `CREATED`.
+
+**5.1.2 – Visualizzare lotti in scadenza per store**
+Scansione di tutte le istanze della relazione Batch filtrate per `store_id`, `is_empty = false` e con `expiry_date` o `storage_expiry_at` entro la soglia configurata. Join con ProductMaster per recuperare il nome del prodotto.
+
+**5.1.3 – Visualizzare storico spostamenti di un batch**
+Scansione di tutte le istanze di BatchStorageMove filtrate per `batch_id`, ordinate per `moved_at` DESC. Join con StorageMethod (due join: `from_storage_method_id` e `to_storage_method_id`) per recuperare i nomi dei metodi.
+
+**5.1.4 – Eseguire una preparazione**
+Inserimento di una nuova istanza in Preparation, seguito dall'inserimento di N istanze in PreparationItem (una per ogni batch consumato). Al completamento, aggiornamento di `output_batch_id` in Preparation e creazione di un Batch di output. Per ogni batch consumato viene creato un BatchEvent di tipo `USED`.
+
+**5.1.5 – Visualizzare prodotti con regole di conservazione**
+Scansione di ProductMaster filtrata per `store_id`. Join con ProductStorageRule e StorageMethod per recuperare le regole configurate.
+
+**5.1.6 – Consultare storico preparazioni per ricetta**
+Scansione di Preparation filtrata per `recipe_id` e `store_id`, ordinata per `created_at` DESC. Join opzionale con Batch (su `output_batch_id`) per il lotto di output.
+
+**5.1.7 – Aggiungere o modificare prodotti nel catalogo**
+Inserimento di una nuova istanza in ProductMaster (con incremento di `version` ad ogni aggiornamento). La Categoria deve esistere (FK constraint). Successiva aggiunta opzionale di ProductStorageRule.
+
+### 5.2 – Frequenza e costo degli accessi
+
+La tabella seguente riporta i volumi di dati stimati per le entità del sistema:
+
+| NOME | TIPO | VOLUME DI DATI |
+|------|------|----------------|
+| STORE | E | 100 |
+| USER | E | 500 |
+| CATEGORY | E | 500 |
+| UNIT_OF_MEASURE | E | 200 |
+| STORAGE_METHOD | E | 300 |
+| PRODUCT_MASTER | E | 50.000 |
+| PRODUCT_STORAGE_RULE | R | 5.000 |
+| BATCH | E | 500.000 |
+| BATCH_STORAGE_MOVE | E | 800.000 |
+| BATCH_EVENT | E | 1.500.000 |
+| RECIPE | E | 2.000 |
+| RECIPE_INGREDIENT | R | 10.000 |
+| PREPARATION | E | 100.000 |
+| PREPARATION_ITEM | R | 300.000 |
+| NOTIFICATION | E | 200.000 |
+
+La tabella seguente riporta la frequenza delle operazioni principali:
+
+| Numero | Funzionalità | Frequenza |
+|--------|-------------|-----------|
+| 1 | Registrazione nuovo batch | 500/Giorno |
+| 2 | Lotti in scadenza per store | 200/Giorno |
+| 3 | Storico spostamenti batch | 100/Giorno |
+| 4 | Eseguire una preparazione | 150/Giorno |
+| 5 | Prodotti con regole conservazione | 50/Giorno |
+| 6 | Storico preparazioni per ricetta | 30/Giorno |
+| 7 | Aggiunta/modifica prodotti catalogo | 20/Giorno |
+
+**TABELLA DEGLI ACCESSI**
+
+| Operazione | Concetto | Entità/Assoc. | L/S | N. accessi | Totale/mese |
+|-----------|---------|--------------|-----|-----------|-------------|
+| 1 – Registrazione batch | Batch | E | S | 1 | 15.000 |
+| 1 – Registrazione batch | ProductMaster | E | L | 1 | 15.000 |
+| 1 – Registrazione batch | BatchEvent | E | S | 1 | 15.000 |
+| 2 – Lotti in scadenza | Batch | E | L | 5.000 | 3.000.000 |
+| 2 – Lotti in scadenza | ProductMaster | E | L | 50 | 30.000 |
+| 3 – Storico spostamenti | BatchStorageMove | E | L | 10 | 30.000 |
+| 3 – Storico spostamenti | StorageMethod | E | L | 20 | 60.000 |
+| 4 – Eseguire preparazione | Preparation | E | S | 1 | 4.500 |
+| 4 – Eseguire preparazione | PreparationItem | R | S | 5 | 22.500 |
+| 4 – Eseguire preparazione | Batch | E | L+S | 5 | 22.500 |
+| 4 – Eseguire preparazione | BatchEvent | E | S | 5 | 22.500 |
+| 5 – Prodotti con regole | ProductMaster | E | L | 500 | 750.000 |
+| 5 – Prodotti con regole | ProductStorageRule | R | L | 500 | 750.000 |
+| 6 – Storico preparazioni | Preparation | E | L | 100 | 90.000 |
+| 6 – Storico preparazioni | Batch | E | L | 100 | 90.000 |
+| 7 – Modifica catalogo | ProductMaster | E | S | 1 | 600 |
+| 7 – Modifica catalogo | Category | E | L | 5 | 3.000 |
+
+### 5.3 – Trasformazioni dello schema concettuale
+
+In questa sezione si riportano le trasformazioni applicate allo schema concettuale prima della traduzione nel modello relazionale.
+
+**5.3.1 – Scelta delle chiavi primarie**
+
+Ogni entità è identificata da una chiave primaria intera auto-incrementale (`id`). Per le entità esposte tramite API REST, è presente un campo aggiuntivo `public_id` di tipo UUID (generato automaticamente), che funge da identificatore pubblico. Questa scelta garantisce l'opacità degli identificatori esposti all'esterno (prevenzione IDOR), mantenendo al tempo stesso le performance delle join interne tramite interi.
+
+**5.3.2 – Eliminazione delle gerarchie di generalizzazione**
+
+Nello schema concettuale non sono presenti gerarchie di generalizzazione proprie. Le entità `BatchStorageMove` e `BatchEvent` potrebbero essere viste come specializzazioni di un generico "evento su Batch", ma si è scelto di mantenerle come entità separate perché hanno strutture e semantiche ben distinte.
+
+**5.3.3 – Soft delete**
+
+Tutte le entità del catalogo (Category, UnitOfMeasure, StorageMethod, ProductMaster, ProductStorageRule, Recipe, Preparation) supportano il soft delete tramite il campo `deleted_at` (nullable). Una entità con `deleted_at IS NOT NULL` è considerata eliminata logicamente ma i suoi dati rimangono nel database per garantire la consistenza dei riferimenti storici.
+
+**5.3.4 – Optimistic locking**
+
+Le entità del catalogo soggette ad aggiornamento concorrente espongono il campo `version` (intero, incrementato ad ogni UPDATE). Questo meccanismo previene lost-update in scenari multi-utente senza blocchi pessimistici.
+
+**5.3.5 – Nota su Redis**
+
+Il sistema usa Redis come livello di cache read-through per le query frequenti (es. lista prodotti, store config) e come coda di job (arq) per le elaborazioni asincrone (OCR, notifiche). Redis non persiste dati primari: è un livello ausiliario che ottimizza le performance del sistema informativo. Per la progettazione logica si considera un unico database PostgreSQL come fonte di verità.
+
+### 5.4 – Progetto logico per il modello relazionale
+
+**5.4.1 – Traduzione delle entità**
+
+La traduzione delle entità produce le seguenti relazioni (il campo sottolineato è la chiave primaria):
+
+- **USER:** User(<u>id</u>, store_id, username, email, password_hash, first_name, last_name, role, is_active, created_at, updated_at) — AK: email
+
+- **STORE:** Store(<u>id</u>, name, address, city, phone, email, is_active, notify_expiring_today, created_at, updated_at)
+
+- **CATEGORY:** Category(<u>id</u>, public_id, store_id, name, created_at, updated_at, deleted_at, version) — AK: (name, store_id)
+
+- **UNIT_OF_MEASURE:** UnitOfMeasure(<u>id</u>, public_id, store_id, name, symbol, created_at, updated_at, deleted_at, version) — AK: (symbol, store_id)
+
+- **STORAGE_METHOD:** StorageMethod(<u>id</u>, public_id, store_id, name, created_at, updated_at, deleted_at, version) — AK: (name, store_id)
+
+- **PRODUCT_MASTER:** ProductMaster(<u>id</u>, public_id, store_id, category_id, name, allergen_mask, created_at, updated_at, deleted_at, version) — AK: (name, store_id)
+
+- **PRODUCT_STORAGE_RULE:** ProductStorageRule(<u>id</u>, public_id, store_id, product_master_id, storage_method_id, duration_days, duration_hours, created_at, updated_at, deleted_at, version) — AK: (store_id, product_master_id, storage_method_id)
+
+- **BATCH:** Batch(<u>id</u>, public_id, store_id, product_master_id, lot_code, expiry_date, current_storage_method_id, storage_expiry_at, operator_id, confidence, is_empty, created_at, updated_at, finished_at, deleted_at, version)
+
+- **BATCH_STORAGE_MOVE:** BatchStorageMove(<u>id</u>, store_id, batch_id, from_storage_method_id, to_storage_method_id, computed_storage_expiry_at, operator_id, moved_at)
+
+- **BATCH_EVENT:** BatchEvent(<u>id</u>, store_id, batch_id, preparation_id, event_type, reason, operator_id, notes, occurred_at)
+
+- **RECIPE:** Recipe(<u>id</u>, public_id, store_id, product_master_id, name, description, created_at, updated_at, deleted_at, version) — AK: (name, store_id)
+
+- **RECIPE_INGREDIENT:** RecipeIngredient(<u>id</u>, recipe_id, product_master_id, standard_quantity, unit_of_measure_id)
+
+- **PREPARATION:** Preparation(<u>id</u>, public_id, store_id, recipe_id, output_batch_id, operator_id, notes, completed_at, created_at, updated_at, deleted_at, version)
+
+- **PREPARATION_ITEM:** PreparationItem(<u>id</u>, preparation_id, batch_id, quantity_used, unit_of_measure_id)
+
+- **NOTIFICATION:** Notification(<u>id</u>, public_id, store_id, type, severity, message, data, is_read, created_at) — AK: (store_id, type, message)
+
+**5.4.2 – Traduzione delle associazioni**
+
+Le associazioni binarie 1:N sono state tradotte aggiungendo la chiave esterna nella tabella "many". Le associazioni N:M con attributi propri (RecipeIngredient, PreparationItem, ProductStorageRule) sono diventate tabelle proprie.
+
+- **BELONGS_TO (User → Store):** FK `store_id` in User REFERENCES Store
+- **HAS_CATEGORY (ProductMaster → Category):** FK `category_id` in ProductMaster REFERENCES Category
+- **USES_STORAGE (Batch → StorageMethod):** FK `current_storage_method_id` in Batch REFERENCES StorageMethod (nullable)
+- **BATCH_MOVES (BatchStorageMove → Batch):** FK `batch_id` in BatchStorageMove REFERENCES Batch; FK `from_storage_method_id` REFERENCES StorageMethod (nullable); FK `to_storage_method_id` REFERENCES StorageMethod
+- **BATCH_EVENTS (BatchEvent → Batch):** FK `batch_id` in BatchEvent REFERENCES Batch; FK `preparation_id` REFERENCES Preparation (nullable)
+- **RECIPE_OUTPUT (Recipe → ProductMaster):** FK `product_master_id` in Recipe REFERENCES ProductMaster
+- **RECIPE_INGREDIENTS (RecipeIngredient):** FK `recipe_id` REFERENCES Recipe; FK `product_master_id` REFERENCES ProductMaster; FK `unit_of_measure_id` REFERENCES UnitOfMeasure
+- **PREP_FROM_RECIPE (Preparation → Recipe):** FK `recipe_id` in Preparation REFERENCES Recipe
+- **PREP_OUTPUT (Preparation → Batch):** FK `output_batch_id` in Preparation REFERENCES Batch (nullable)
+- **PREP_ITEMS (PreparationItem):** FK `preparation_id` REFERENCES Preparation; FK `batch_id` REFERENCES Batch; FK `unit_of_measure_id` REFERENCES UnitOfMeasure
+
+### 5.5 – Traduzione delle operazioni in Query SQL
+
+**5.5.1 – Registrazione nuovo batch**
+
+```sql
+INSERT INTO batch (
+    public_id, store_id, product_master_id,
+    lot_code, expiry_date, operator_id, confidence, is_empty,
+    created_at, updated_at, version
+) VALUES (
+    gen_random_uuid(), :store_id, :product_master_id,
+    :lot_code, :expiry_date, :operator_id, :confidence, false,
+    NOW(), NOW(), 1
+);
+```
+
+**5.5.2 – Visualizzare lotti in scadenza per store**
+
+```sql
+SELECT
+    b.public_id,
+    b.lot_code,
+    b.expiry_date,
+    b.storage_expiry_at,
+    pm.name AS product_name,
+    sm.name AS storage_method
+FROM batch b
+JOIN products_master pm ON pm.id = b.product_master_id
+LEFT JOIN storage_methods sm ON sm.id = b.current_storage_method_id
+WHERE b.store_id = :store_id
+  AND b.is_empty = false
+  AND b.deleted_at IS NULL
+  AND (
+      b.expiry_date <= NOW() + INTERVAL ':days days'
+      OR b.storage_expiry_at <= NOW() + INTERVAL ':days days'
+  )
+ORDER BY COALESCE(b.storage_expiry_at, b.expiry_date::timestamp) ASC;
+```
+
+**5.5.3 – Storico spostamenti di un batch**
+
+```sql
+SELECT
+    sm_from.name AS from_method,
+    sm_to.name AS to_method,
+    bsm.computed_storage_expiry_at,
+    bsm.operator_id,
+    bsm.moved_at
+FROM batch_storage_moves bsm
+LEFT JOIN storage_methods sm_from ON sm_from.id = bsm.from_storage_method_id
+JOIN storage_methods sm_to ON sm_to.id = bsm.to_storage_method_id
+WHERE bsm.batch_id = :batch_id
+  AND bsm.store_id = :store_id
+ORDER BY bsm.moved_at DESC;
+```
+
+**5.5.4 – Eseguire una preparazione**
+
+```sql
+-- Inserimento preparazione
+INSERT INTO preparations (
+    public_id, store_id, recipe_id, operator_id, notes,
+    created_at, updated_at, version
+) VALUES (
+    gen_random_uuid(), :store_id, :recipe_id, :operator_id, :notes,
+    NOW(), NOW(), 1
+) RETURNING id;
+
+-- Inserimento item consumati (ripetuto per ogni batch)
+INSERT INTO preparation_items (
+    preparation_id, batch_id, quantity_used, unit_of_measure_id
+) VALUES (:preparation_id, :batch_id, :quantity_used, :unit_of_measure_id);
+
+-- Evento batch per ogni batch consumato
+INSERT INTO batch_events (
+    store_id, batch_id, preparation_id, event_type, reason, operator_id, occurred_at
+) VALUES (
+    :store_id, :batch_id, :preparation_id, 'USED', 'PREPARATION', :operator_id, NOW()
+);
+```
+
+**5.5.5 – Prodotti con regole di conservazione**
+
+```sql
+SELECT
+    pm.public_id,
+    pm.name AS product_name,
+    sm.name AS storage_method,
+    psr.duration_days,
+    psr.duration_hours
+FROM products_master pm
+JOIN product_storage_rules psr ON psr.product_master_id = pm.id
+JOIN storage_methods sm ON sm.id = psr.storage_method_id
+WHERE pm.store_id = :store_id
+  AND pm.deleted_at IS NULL
+  AND psr.deleted_at IS NULL
+ORDER BY pm.name, sm.name;
+```
+
+**5.5.6 – Storico preparazioni per ricetta**
+
+```sql
+SELECT
+    p.public_id,
+    p.operator_id,
+    p.completed_at,
+    p.created_at,
+    b.lot_code AS output_lot_code,
+    b.expiry_date AS output_expiry_date
+FROM preparations p
+LEFT JOIN batch b ON b.id = p.output_batch_id
+WHERE p.recipe_id = :recipe_id
+  AND p.store_id = :store_id
+  AND p.deleted_at IS NULL
+ORDER BY p.created_at DESC;
+```
+
+**5.5.7 – Aggiunta di un prodotto al catalogo**
+
+```sql
+INSERT INTO products_master (
+    public_id, store_id, category_id, name, allergen_mask,
+    created_at, updated_at, version
+) VALUES (
+    gen_random_uuid(), :store_id, :category_id, :name, :allergen_mask,
+    NOW(), NOW(), 1
+);
+```
+
+---
+
+## 6 – IL PROGETTO FISICO
+
+### 6.1 – Indicizzazione di attributi
+
+Di seguito si elencano gli indici previsti per le tabelle principali del sistema, con la motivazione della scelta:
+
+- **User** (id, store_id, username, email, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `store_id` perché usato in ogni query filtrata per store*
+  — *Indice su `email` perché chiave alternativa usata per l'autenticazione*
+
+- **Store** (id, name, ...)
+  — *Indice su `id` perché chiave primaria*
+
+- **Category, UnitOfMeasure, StorageMethod** (id, public_id, store_id, name, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `public_id` perché chiave alternativa esposta via API*
+  — *Indice su `store_id` perché filtro principale in ogni query*
+  — *Indice su `name` perché usato per ricerche testuali e ordinamento*
+
+- **ProductMaster** (id, public_id, store_id, category_id, name, created_at, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `public_id` perché chiave alternativa API*
+  — *Indice su `store_id` perché filtro principale*
+  — *Indice su `name` per ricerche e ordinamento*
+  — *Indice su `created_at` per ordinamento temporale*
+  — *Indice su `category_id` per join frequenti*
+
+- **ProductStorageRule** (id, store_id, product_master_id, storage_method_id, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice composto su `(store_id, product_master_id, storage_method_id)` perché chiave alternativa e join critica*
+
+- **Batch** (id, public_id, store_id, product_master_id, lot_code, expiry_date, is_empty, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `public_id` perché chiave alternativa API*
+  — *Indice composto su `(store_id, product_master_id, created_at)` per query inventario con filtri combinati*
+  — *Indice su `lot_code` perché usato come chiave di ricerca manuale*
+  — *Indice su `is_empty` per filtrare lotti attivi nelle query di dashboard*
+  — *Indice su `expiry_date` e `storage_expiry_at` per query di scadenza*
+
+- **BatchStorageMove** (id, store_id, batch_id, moved_at, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `batch_id` per recupero storico*
+  — *Indice su `moved_at` per ordinamento temporale*
+
+- **BatchEvent** (id, store_id, batch_id, occurred_at, event_type, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `batch_id` per recupero storico HACCP*
+  — *Indice su `occurred_at` per ordinamento temporale*
+  — *Indice su `event_type` per filtraggio per tipo evento*
+
+- **Recipe** (id, public_id, store_id, name, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `store_id` per filtro per store*
+  — *Indice su `name` per ricerca e ordinamento*
+
+- **RecipeIngredient** (id, recipe_id, product_master_id, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `recipe_id` per join con Recipe*
+  — *Indice su `product_master_id` per join con ProductMaster*
+
+- **Preparation** (id, public_id, store_id, recipe_id, completed_at, created_at, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `store_id` per filtro per store*
+  — *Indice su `recipe_id` per join con Recipe*
+  — *Indice su `created_at` per ordinamento temporale*
+
+- **PreparationItem** (id, preparation_id, batch_id, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `preparation_id` per join con Preparation*
+  — *Indice su `batch_id` per tracciabilità batch*
+
+- **Notification** (id, public_id, store_id, is_read, created_at, ...)
+  — *Indice su `id` perché chiave primaria*
+  — *Indice su `store_id` per filtro per store*
+  — *Indice composto su `(store_id, is_read)` per query dashboard notifiche non lette*
+  — *Indice su `created_at` per ordinamento*
+
+### 6.2 – Ordinamento su attributi
+
+- **Batch:** ordinamento fisico su `expiry_date ASC` poiché la query più frequente è quella sui lotti in scadenza; permette di sfruttare una scansione sequenziale sull'indice.
+
+- **BatchStorageMove:** ordinamento su `moved_at DESC` perché lo storico viene visualizzato con l'evento più recente per primo.
+
+- **BatchEvent:** ordinamento su `occurred_at DESC` per la stessa motivazione dello storico spostamenti.
+
+- **Notification:** ordinamento su `(is_read ASC, created_at DESC)` in modo da presentare prima le notifiche non lette e, tra queste, le più recenti.
+
+- **Preparation:** ordinamento su `created_at DESC` perché la lista preparazioni mostra le più recenti per prime.
+
+---
+
+## 7 – L'INTERFACCIA UTENTE
+
+L'interfaccia utente del sistema Restrackit è composta da due client distinti che accedono al medesimo backend REST.
+
+**Schermata iniziale:** Al primo avvio, l'utente inserisce le proprie credenziali (email e password). Il sistema verifica le credenziali e restituisce un token JWT contenente il `store_id` e il `role`. Le sessioni sono gestite tramite token con scadenza configurabile.
+
+### 7.1 – Il Manager
+
+Il manager ha accesso a una **dashboard web** con le seguenti sezioni:
+
+- **Dashboard scadenze:** visualizzazione dei lotti attivi in scadenza entro 1, 3 e 7 giorni, con possibilità di filtrare per categoria o metodo di conservazione
+- **Catalogo prodotti:** gestione dell'anagrafica prodotti, categorie, unità di misura, metodi di conservazione e regole di scadenza per prodotto
+- **Ricette:** creazione e modifica delle ricette standardizzate con elenco ingredienti
+- **Report preparazioni:** storico delle preparazioni eseguite, filtrabili per ricetta, operatore e periodo
+- **Notifiche:** lista delle notifiche di sistema con possibilità di marcarle come lette
+
+### 7.2 – L'Operatore
+
+L'operatore ha accesso a una **applicazione mobile** con le seguenti funzionalità:
+
+- **Scansione etichetta:** fotografia dell'etichetta di un lotto; il sistema esegue l'OCR automatico e suggerisce codice lotto, data di scadenza e prodotto; l'operatore conferma o corregge i dati prima del salvataggio
+- **Inventario attivo:** lista dei lotti attivi dello store con possibilità di marcare un lotto come svuotato
+- **Spostamento conservazione:** registrazione dello spostamento di un lotto da un metodo di conservazione a un altro (es. da frigo a freezer)
+- **Registrazione preparazione:** selezione della ricetta, scelta dei batch di materie prime da consumare con le rispettive quantità, e conferma della preparazione
+
+---
+
+## 8 – GLOSSARIO
+
+| TERMINE | SIGNIFICATO |
+|---------|-------------|
+| Allergen mask | Campo intero usato come maschera di bit per codificare la presenza degli allergeni principali in un prodotto. Ogni bit corrisponde a un allergene specifico (es. bit 0 = glutine, bit 1 = crostacei, ecc.). Permette query di filtraggio per allergeni con operazioni bitwise efficienti. |
+| Batch | Sinonimo di "lotto". Rappresenta una quantità fisica di un prodotto identificata da un codice lotto e una data di scadenza. È l'unità base di tracciabilità del sistema. |
+| BatchEvent | Evento relativo al ciclo di vita di un batch (es. CREATED, MARKED_EMPTY, USED). Tabella append-only che costituisce il log di audit HACCP. |
+| BatchStorageMove | Spostamento di un batch da un metodo di conservazione a un altro. Ogni spostamento ricalcola la data di scadenza e viene registrato in modo permanente. |
+| Confidence | Valore decimale tra 0.0 e 1.0 che indica l'affidabilità dell'estrazione OCR automatica dei dati dal batch. Un valore basso segnala all'operatore di verificare i dati con attenzione. |
+| HACCP | Hazard Analysis and Critical Control Points. Metodologia per l'analisi e il controllo dei rischi alimentari, obbligatoria per le cucine professionali. Il sistema supporta la conformità HACCP tramite tracciabilità completa dei lotti. |
+| Lotto | Vedi Batch. |
+| Multi-tenancy | Architettura dove più clienti (store) condividono la stessa istanza del database mantenendo i dati completamente separati. Nel sistema è implementata tramite Row-Level Security di PostgreSQL: ogni riga ha `store_id` e le policy RLS garantiscono l'isolamento. |
+| OCR | Optical Character Recognition. Tecnologia per l'estrazione di testo da immagini. Nel sistema viene usato Google Cloud Vision per estrarre i dati dalle etichette dei lotti. |
+| Optimistic locking | Meccanismo di controllo della concorrenza che non blocca le righe in lettura. Ogni entità ha un campo `version`: un UPDATE fallisce se la versione è cambiata dall'ultima lettura, segnalando un conflitto. |
+| Preparation | Esecuzione concreta di una ricetta standardizzata. Traccia i batch di materie prime consumati e il batch di prodotto finito generato. |
+| ProductMaster | Anagrafica di un prodotto del catalogo dello store. Rappresenta la definizione astratta di un prodotto (nome, categoria, allergeni), di cui i Batch sono le istanze fisiche. |
+| ProductStorageRule | Regola che definisce la durata aggiuntiva garantita da un specifico metodo di conservazione per un determinato prodotto. Usata per ricalcolare la data di scadenza effettiva dopo uno spostamento. |
+| Recipe | Ricetta standardizzata che definisce un piatto o una preparazione: specifica il prodotto risultante, la lista di ingredienti con quantità e unità di misura, e la descrizione del procedimento. |
+| RecipeIngredient | Associazione tra una ricetta e un prodotto ingrediente, con la quantità standard e l'unità di misura. |
+| Soft delete | Tecnica per cui le righe non vengono fisicamente cancellate ma marcate come eliminate tramite il campo `deleted_at`. Permette di mantenere la consistenza dei riferimenti storici e la possibilità di recupero. |
+| Store | Entità che rappresenta un ristorante o una cucina professionale cliente del sistema. È la radice della multi-tenancy: tutti i dati appartengono a uno store specifico. |
+| UUID | Universally Unique Identifier. Identificatore a 128 bit usato come chiave alternativa pubblica nelle API REST. Previene l'enumerazione sequenziale delle risorse (attacco IDOR). |
