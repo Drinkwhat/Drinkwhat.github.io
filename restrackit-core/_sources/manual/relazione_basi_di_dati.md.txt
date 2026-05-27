@@ -711,6 +711,8 @@ Nello schema concettuale non sono presenti gerarchie di generalizzazione proprie
 
 Tutte le entità del catalogo (Category, UnitOfMeasure, StorageMethod, ProductMaster, ProductStorageRule, Recipe, Preparation) supportano il soft delete tramite il campo `deleted_at` (nullable). Una entità con `deleted_at IS NOT NULL` è considerata eliminata logicamente ma i suoi dati rimangono nel database per garantire la consistenza dei riferimenti storici.
 
+I vincoli di unicità sulle chiavi alternative di Category, UnitOfMeasure e StorageMethod sono implementati come **partial unique index** con predicato `WHERE deleted_at IS NULL`. Questo garantisce che il vincolo sia applicato esclusivamente sulle righe attive, permettendo la ricreazione di un'entità con lo stesso nome/simbolo dopo una cancellazione logica — comportamento impossibile con un `UNIQUE CONSTRAINT` classico che include tutte le righe indipendentemente dallo stato di eliminazione.
+
 **5.3.4 – Optimistic locking**
 
 Le entità del catalogo soggette ad aggiornamento concorrente espongono il campo `version` (intero, incrementato ad ogni UPDATE). Questo meccanismo previene lost-update in scenari multi-utente senza blocchi pessimistici.
@@ -920,6 +922,7 @@ Di seguito si elencano gli indici previsti per le tabelle principali del sistema
   — *Indice su `public_id` perché chiave alternativa esposta via API*
   — *Indice su `store_id` perché filtro principale in ogni query*
   — *Indice su `name` perché usato per ricerche testuali e ordinamento*
+  — *Partial unique index su `(name, store_id) WHERE deleted_at IS NULL` (su `symbol` per UnitOfMeasure): garantisce unicità solo fra righe attive, permettendo la ricreazione dell'entità dopo soft-delete senza violare il vincolo*
 
 - **ProductMaster** (id, public_id, store_id, category_id, name, created_at, ...)
   — *Indice su `id` perché chiave primaria*
