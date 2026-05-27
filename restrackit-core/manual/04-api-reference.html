@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Reference &mdash; Restrackit 2.34.1 documentation</title>
+  <title>API Reference &mdash; Restrackit 2.35.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=fa42d93e"></script>
+      <script src="../_static/documentation_options.js?v=2fef177e"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1239,8 +1239,8 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <hr class="docutils" />
 <section id="get-products-product-id">
 <h3><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/{product_id}</span></code><a class="headerlink" href="#get-products-product-id" title="Link to this heading"></a></h3>
-<p>Dettaglio prodotto.</p>
-<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /products/101</span>
+<p>Dettaglio prodotto. <code class="docutils literal notranslate"><span class="pre">product_id</span></code> è il campo <code class="docutils literal notranslate"><span class="pre">public_id</span></code> (UUID) della response, <strong>non</strong> <code class="docutils literal notranslate"><span class="pre">id</span></code> (intero).</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">GET /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890</span>
 <span class="err">Authorization: Bearer &lt;token&gt;</span>
 </pre></div>
 </div>
@@ -1249,7 +1249,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <section id="put-products-product-id">
 <h3><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/products/{product_id}</span></code><a class="headerlink" href="#put-products-product-id" title="Link to this heading"></a></h3>
 <p>Aggiornamento prodotto (optimistic locking: <code class="docutils literal notranslate"><span class="pre">version</span></code> nel body).</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/produc</span><span class="kc">ts</span><span class="err">/</span><span class="mi">101</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/produc</span><span class="kc">ts</span><span class="err">/a</span><span class="mi">1</span><span class="err">b</span><span class="mi">2</span><span class="err">c</span><span class="mi">3</span><span class="err">d</span><span class="mf">4-e5</span><span class="kc">f</span><span class="mi">6-7890-</span><span class="err">abcd</span><span class="mf">-e</span><span class="kc">f</span><span class="mi">1234567890</span>
 <span class="err">Co</span><span class="kc">ntent</span><span class="mi">-</span><span class="err">Type</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span>
 <span class="err">Au</span><span class="kc">t</span><span class="err">horiza</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="p">:</span><span class="w"> </span><span class="err">Bearer</span><span class="w"> </span><span class="err">&lt;</span><span class="kc">t</span><span class="err">oke</span><span class="kc">n</span><span class="err">&gt;</span>
 
@@ -1265,7 +1265,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <section id="delete-products-product-id">
 <h3><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/products/{product_id}</span></code><a class="headerlink" href="#delete-products-product-id" title="Link to this heading"></a></h3>
 <p>Soft delete prodotto (optimistic locking: <code class="docutils literal notranslate"><span class="pre">version</span></code> query param).</p>
-<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">DELETE /products/101?version=1</span>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">DELETE /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890?version=1</span>
 <span class="err">Authorization: Bearer &lt;token&gt;</span>
 </pre></div>
 </div>
@@ -1405,7 +1405,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <hr class="docutils" />
 <section id="post-products-product-id-storage-rules">
 <h3><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/products/{product_id}/storage-rules</span></code><a class="headerlink" href="#post-products-product-id-storage-rules" title="Link to this heading"></a></h3>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/produc</span><span class="kc">ts</span><span class="err">/</span><span class="mi">101</span><span class="err">/s</span><span class="kc">t</span><span class="err">orage</span><span class="mi">-</span><span class="err">rules</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/produc</span><span class="kc">ts</span><span class="err">/a</span><span class="mi">1</span><span class="err">b</span><span class="mi">2</span><span class="err">c</span><span class="mi">3</span><span class="err">d</span><span class="mf">4-e5</span><span class="kc">f</span><span class="mi">6-7890-</span><span class="err">abcd</span><span class="mf">-e</span><span class="kc">f</span><span class="mi">1234567890</span><span class="err">/s</span><span class="kc">t</span><span class="err">orage</span><span class="mi">-</span><span class="err">rules</span>
 <span class="err">Au</span><span class="kc">t</span><span class="err">horiza</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="p">:</span><span class="w"> </span><span class="err">Bearer</span><span class="w"> </span><span class="err">&lt;</span><span class="kc">t</span><span class="err">oke</span><span class="kc">n</span><span class="err">&gt;</span>
 <span class="err">Co</span><span class="kc">ntent</span><span class="mi">-</span><span class="err">Type</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span>
 

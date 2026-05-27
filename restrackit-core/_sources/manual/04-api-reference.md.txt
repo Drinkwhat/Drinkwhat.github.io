@@ -421,10 +421,10 @@ Authorization: Bearer <token>
 
 ### `GET /products/{product_id}`
 
-Dettaglio prodotto.
+Dettaglio prodotto. `product_id` è il campo `public_id` (UUID) della response, **non** `id` (intero).
 
 ```http
-GET /products/101
+GET /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890
 Authorization: Bearer <token>
 ```
 
@@ -435,7 +435,7 @@ Authorization: Bearer <token>
 Aggiornamento prodotto (optimistic locking: `version` nel body).
 
 ```json
-PUT /products/101
+PUT /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -453,7 +453,7 @@ Authorization: Bearer <token>
 Soft delete prodotto (optimistic locking: `version` query param).
 
 ```http
-DELETE /products/101?version=1
+DELETE /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890?version=1
 Authorization: Bearer <token>
 ```
 
@@ -618,7 +618,7 @@ Lista regole attive per il prodotto.
 ### `POST /products/{product_id}/storage-rules`
 
 ```json
-POST /products/101/storage-rules
+POST /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890/storage-rules
 Authorization: Bearer <token>
 Content-Type: application/json
 
