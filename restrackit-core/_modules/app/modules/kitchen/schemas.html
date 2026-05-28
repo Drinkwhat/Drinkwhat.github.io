@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.35.2 documentation</title>
+  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.36.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=bc6f190d"></script>
+      <script src="../../../../_static/documentation_options.js?v=2e10c7e6"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1532,7 +1532,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreparationCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for creating a preparation.&quot;&quot;&quot;</span>
 
-    <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID della ricetta&quot;</span><span class="p">)</span>
+    <span class="n">recipe_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID della ricetta&quot;</span><span class="p">)</span>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Note opzionali sulla preparazione&quot;</span><span class="p">)</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PreparationItemCreate</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lista dei lotti utilizzati&quot;</span>
@@ -1578,6 +1578,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Note opzionali di completamento&quot;</span><span class="p">)</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della preparazione (optimistic locking)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del metodo di conservazione da assegnare al lotto output&quot;</span>
     <span class="p">)</span></div>
 
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen package &mdash; Restrackit 2.35.2 documentation</title>
+  <title>app.modules.kitchen package &mdash; Restrackit 2.36.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=bc6f190d"></script>
+      <script src="_static/documentation_options.js?v=2e10c7e6"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1261,7 +1261,7 @@ allergen_masks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>recipe_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>recipe_id</strong> (<em>UUID</em>)</p></li>
 <li><p><strong>notes</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>items</strong> (<em>Annotated</em><em>[</em><em>list</em><em>[</em><em>PreparationItemCreate</em><em>]</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>]</em>)</p></li>
 </ul>
@@ -1269,7 +1269,7 @@ allergen_masks.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">recipe_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<span class="sig-name descname"><span class="pre">recipe_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1333,7 +1333,7 @@ allergen_masks.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">PreparationComplete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#PreparationComplete"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">PreparationComplete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_method_public_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#PreparationComplete"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema per confermare il completamento di una preparazione.</p>
 <dl class="field-list simple">
@@ -1341,6 +1341,7 @@ allergen_masks.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>notes</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>storage_method_public_id</strong> (<em>UUID</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1352,6 +1353,11 @@ allergen_masks.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">version</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">storage_method_public_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
 <dd></dd></dl>
 
 </dd></dl>
