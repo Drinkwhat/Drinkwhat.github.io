@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Database Schema &mdash; Restrackit 2.35.1 documentation</title>
+  <title>Database Schema &mdash; Restrackit 2.35.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=8b979367"></script>
+      <script src="../_static/documentation_options.js?v=bc6f190d"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1087,6 +1087,15 @@
 </div>
 <p><strong>Note</strong>: <code class="docutils literal notranslate"><span class="pre">category_id</span></code> è FK a <code class="docutils literal notranslate"><span class="pre">categories</span></code>. Il campo <code class="docutils literal notranslate"><span class="pre">category</span></code> (stringa) è esposto via property ORM per compatibilità API.</p>
 <p><strong>Allergeni</strong>: <code class="docutils literal notranslate"><span class="pre">allergen_mask</span></code> è una bitmask (0 = nessun allergene). La lista “slug” è esposta via API (<code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/products/allergens</span></code>).</p>
+<p><strong>Indexes</strong>:</p>
+<ul class="simple">
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">store_id</span></code></p></li>
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">category_id</span></code></p></li>
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">created_at</span></code>, <code class="docutils literal notranslate"><span class="pre">updated_at</span></code></p></li>
+<li><p>COMPOSITE INDEX <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">name)</span></code> — ottimizza listing prodotti per tenant e lookup combinati sotto RLS (store_id-first è preferibile al unique constraint <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">store_id)</span></code> per query che filtrano solo per store)</p></li>
+<li><p>UNIQUE INDEX <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">store_id)</span></code> — chiave alternativa (unicità nome per store)</p></li>
+</ul>
 </section>
 <hr class="docutils" />
 <section id="batches">
@@ -1127,7 +1136,8 @@
 <li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">created_at</span></code></p></li>
 <li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">current_storage_method_id</span></code></p></li>
 <li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span></code></p></li>
-<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">product_master_id,</span> <span class="pre">created_at)</span></code> per post-processing OCR e storico lotti</p></li>
+<li><p>COMPOSITE INDEX <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">product_master_id,</span> <span class="pre">created_at)</span></code> — per post-processing OCR e storico lotti con filtri combinati</p></li>
+<li><p>BRIN INDEX on <code class="docutils literal notranslate"><span class="pre">created_at</span></code> — tabella append-only con correlazione fisica naturale; ~100× più piccolo di B-tree per range scan temporali</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -1146,6 +1156,13 @@
 <span class="p">);</span>
 </pre></div>
 </div>
+<p><strong>Indexes</strong>:</p>
+<ul class="simple">
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">store_id</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_id</span></code>, <code class="docutils literal notranslate"><span class="pre">operator_id</span></code></p></li>
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">from_storage_method_id</span></code>, <code class="docutils literal notranslate"><span class="pre">to_storage_method_id</span></code></p></li>
+<li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">moved_at</span></code></p></li>
+<li><p>BRIN INDEX on <code class="docutils literal notranslate"><span class="pre">moved_at</span></code> — tabella append-only; per range scan temporali è ~100× più compatto del B-tree singolo</p></li>
+</ul>
 </section>
 <hr class="docutils" />
 <section id="recipes">

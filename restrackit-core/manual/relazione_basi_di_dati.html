@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RESTRACKIT &mdash; Restrackit 2.35.1 documentation</title>
+  <title>RESTRACKIT &mdash; Restrackit 2.35.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=8b979367"></script>
+      <script src="../_static/documentation_options.js?v=bc6f190d"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -2389,7 +2389,8 @@ Inserimento di una nuova istanza in ProductMaster (con incremento di <code class
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">store_id</span></code> perché filtro principale</em>
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">name</span></code> per ricerche e ordinamento</em>
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">created_at</span></code> per ordinamento temporale</em>
-— <em>Indice su <code class="docutils literal notranslate"><span class="pre">category_id</span></code> per join frequenti</em></p></li>
+— <em>Indice su <code class="docutils literal notranslate"><span class="pre">category_id</span></code> per join frequenti</em>
+— <em>Indice composto su <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">name)</span></code>: con <code class="docutils literal notranslate"><span class="pre">store_id</span></code> come colonna guida ottimizza il listing prodotti per tenant (query <code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">store_id</span> <span class="pre">=</span> <span class="pre">?</span></code>) meglio del vincolo di unicità <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">store_id)</span></code> che ha ordine inverso</em></p></li>
 <li><p><strong>ProductStorageRule</strong> (id, store_id, product_master_id, storage_method_id, …)
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">id</span></code> perché chiave primaria</em>
 — <em>Indice composto su <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">product_master_id,</span> <span class="pre">storage_method_id)</span></code> perché chiave alternativa e join critica</em></p></li>
@@ -2399,11 +2400,13 @@ Inserimento di una nuova istanza in ProductMaster (con incremento di <code class
 — <em>Indice composto su <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">product_master_id,</span> <span class="pre">created_at)</span></code> per query inventario con filtri combinati</em>
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">lot_code</span></code> perché usato come chiave di ricerca manuale</em>
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">is_empty</span></code> per filtrare lotti attivi nelle query di dashboard</em>
-— <em>Indice su <code class="docutils literal notranslate"><span class="pre">expiry_date</span></code> e <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span></code> per query di scadenza</em></p></li>
+— <em>Indice su <code class="docutils literal notranslate"><span class="pre">expiry_date</span></code> e <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span></code> per query di scadenza</em>
+— <em>Indice BRIN su <code class="docutils literal notranslate"><span class="pre">created_at</span></code>: la tabella è append-only e i record vengono inseriti in ordine cronologico, garantendo correlazione fisica naturale tra posizione del blocco e valore del timestamp. Un BRIN memorizza solo i valori min/max per intervallo di blocchi, risultando ~100× più compatto di un B-tree singolo su <code class="docutils literal notranslate"><span class="pre">created_at</span></code> pur mantenendo efficienza per range scan temporali</em></p></li>
 <li><p><strong>BatchStorageMove</strong> (id, store_id, batch_id, moved_at, …)
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">id</span></code> perché chiave primaria</em>
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">batch_id</span></code> per recupero storico</em>
-— <em>Indice su <code class="docutils literal notranslate"><span class="pre">moved_at</span></code> per ordinamento temporale</em></p></li>
+— <em>Indice su <code class="docutils literal notranslate"><span class="pre">moved_at</span></code> per ordinamento temporale</em>
+— <em>Indice BRIN su <code class="docutils literal notranslate"><span class="pre">moved_at</span></code>: stessa motivazione di <code class="docutils literal notranslate"><span class="pre">Batch.created_at</span></code> — tabella append-only con correlazione fisica, efficiente per range scan temporali</em></p></li>
 <li><p><strong>BatchEvent</strong> (id, store_id, batch_id, occurred_at, event_type, …)
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">id</span></code> perché chiave primaria</em>
 — <em>Indice su <code class="docutils literal notranslate"><span class="pre">batch_id</span></code> per recupero storico HACCP</em>

@@ -931,6 +931,7 @@ Di seguito si elencano gli indici previsti per le tabelle principali del sistema
   — *Indice su `name` per ricerche e ordinamento*
   — *Indice su `created_at` per ordinamento temporale*
   — *Indice su `category_id` per join frequenti*
+  — *Indice composto su `(store_id, name)`: con `store_id` come colonna guida ottimizza il listing prodotti per tenant (query `WHERE store_id = ?`) meglio del vincolo di unicità `(name, store_id)` che ha ordine inverso*
 
 - **ProductStorageRule** (id, store_id, product_master_id, storage_method_id, ...)
   — *Indice su `id` perché chiave primaria*
@@ -943,11 +944,13 @@ Di seguito si elencano gli indici previsti per le tabelle principali del sistema
   — *Indice su `lot_code` perché usato come chiave di ricerca manuale*
   — *Indice su `is_empty` per filtrare lotti attivi nelle query di dashboard*
   — *Indice su `expiry_date` e `storage_expiry_at` per query di scadenza*
+  — *Indice BRIN su `created_at`: la tabella è append-only e i record vengono inseriti in ordine cronologico, garantendo correlazione fisica naturale tra posizione del blocco e valore del timestamp. Un BRIN memorizza solo i valori min/max per intervallo di blocchi, risultando ~100× più compatto di un B-tree singolo su `created_at` pur mantenendo efficienza per range scan temporali*
 
 - **BatchStorageMove** (id, store_id, batch_id, moved_at, ...)
   — *Indice su `id` perché chiave primaria*
   — *Indice su `batch_id` per recupero storico*
   — *Indice su `moved_at` per ordinamento temporale*
+  — *Indice BRIN su `moved_at`: stessa motivazione di `Batch.created_at` — tabella append-only con correlazione fisica, efficiente per range scan temporali*
 
 - **BatchEvent** (id, store_id, batch_id, occurred_at, event_type, ...)
   — *Indice su `id` perché chiave primaria*

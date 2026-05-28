@@ -239,6 +239,14 @@ CREATE TABLE products_master (
 
 **Allergeni**: `allergen_mask` è una bitmask (0 = nessun allergene). La lista “slug” è esposta via API (`GET /products/allergens`).
 
+**Indexes**:
+- INDEX on `store_id`
+- INDEX on `name`
+- INDEX on `category_id`
+- INDEX on `created_at`, `updated_at`
+- COMPOSITE INDEX `(store_id, name)` — ottimizza listing prodotti per tenant e lookup combinati sotto RLS (store_id-first è preferibile al unique constraint `(name, store_id)` per query che filtrano solo per store)
+- UNIQUE INDEX `(name, store_id)` — chiave alternativa (unicità nome per store)
+
 ---
 
 ### `batches`
@@ -282,7 +290,8 @@ CREATE TABLE batches (
 - INDEX on `created_at`
 - INDEX on `current_storage_method_id`
 - INDEX on `storage_expiry_at`
-- INDEX on `(store_id, product_master_id, created_at)` per post-processing OCR e storico lotti
+- COMPOSITE INDEX `(store_id, product_master_id, created_at)` — per post-processing OCR e storico lotti con filtri combinati
+- BRIN INDEX on `created_at` — tabella append-only con correlazione fisica naturale; ~100× più piccolo di B-tree per range scan temporali
 
 ---
 
@@ -302,6 +311,12 @@ CREATE TABLE batch_storage_moves (
   moved_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
+
+**Indexes**:
+- INDEX on `store_id`, `batch_id`, `operator_id`
+- INDEX on `from_storage_method_id`, `to_storage_method_id`
+- INDEX on `moved_at`
+- BRIN INDEX on `moved_at` — tabella append-only; per range scan temporali è ~100× più compatto del B-tree singolo
 
 ---
 
