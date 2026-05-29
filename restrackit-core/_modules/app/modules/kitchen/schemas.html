@@ -1314,10 +1314,10 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">RecipeIngredientCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for creating a recipe ingredient.&quot;&quot;&quot;</span>
 
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del prodotto ingrediente&quot;</span><span class="p">)</span>
+    <span class="n">product_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del prodotto ingrediente&quot;</span><span class="p">)</span>
     <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità standard per la ricetta&quot;</span><span class="p">)</span>
-    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura (es. kg, l, pz)&quot;</span>
+    <span class="n">unit_of_measure_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID dell&#39;unità di misura (es. kg, l, pz)&quot;</span>
     <span class="p">)</span></div>
 
 
@@ -1361,8 +1361,16 @@ window.runMermaid = runMermaid;</script>
                 <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Fajitas&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Ricetta standard per Fajitas&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;product_master_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                    <span class="p">{</span><span class="s2">&quot;product_master_id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;product_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                        <span class="s2">&quot;unit_of_measure_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;product_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440002&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+                        <span class="s2">&quot;unit_of_measure_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -1410,8 +1418,8 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">_RecipeIngredientData</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Intermediate dict produced by ``resolve_allergen_mask``.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">product_master_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">allergen_mask</span><span class="p">:</span> <span class="nb">int</span>
@@ -1422,8 +1430,8 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">RecipeIngredientResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for returning a recipe ingredient.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">product_master_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">allergen_mask</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bitmask allergeni dell&#39;ingrediente&quot;</span><span class="p">)</span>
@@ -1461,11 +1469,12 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># ORM instance: always convert to TypedDict so the return type is uniform.</span>
         <span class="c1"># allergen_mask falls back to 0 when product_master is not eagerly loaded.</span>
         <span class="n">pm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_master&quot;</span><span class="p">)</span>
+        <span class="n">uom</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unit_of_measure&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-            <span class="s2">&quot;product_master_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">product_master_id</span><span class="p">,</span>
+            <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">public_id</span><span class="p">,</span>
+            <span class="s2">&quot;product_master_public_id&quot;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">standard_quantity</span><span class="p">,</span>
-            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">uom</span><span class="o">.</span><span class="n">symbol</span> <span class="k">if</span> <span class="n">uom</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="s2">&quot;allergen_mask&quot;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">allergen_mask</span> <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
         <span class="p">}</span></div>
 </div>
@@ -1477,9 +1486,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">RecipeResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for returning a recipe.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
@@ -1521,7 +1528,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreparationItemCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for creating a preparation item.&quot;&quot;&quot;</span>
 
-    <span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del lotto utilizzato&quot;</span><span class="p">)</span>
+    <span class="n">batch_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del lotto utilizzato&quot;</span><span class="p">)</span>
     <span class="n">quantity_used</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità utilizzata&quot;</span><span class="p">)</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura&quot;</span><span class="p">)</span></div>
 
@@ -1541,11 +1548,19 @@ window.runMermaid = runMermaid;</script>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;recipe_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;recipe_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Preparazione per il servizio serale&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;batch_id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">},</span>
-                    <span class="p">{</span><span class="s2">&quot;batch_id&quot;</span><span class="p">:</span> <span class="mi">102</span><span class="p">,</span> <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;batch_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;batch_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440002&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -1591,13 +1606,13 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filters for listing preparations.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        recipe_id: Filter by recipe ID.</span>
+<span class="sd">        recipe_public_id: Filter by recipe public UUID.</span>
 <span class="sd">        operator_id: Filter by operator identifier.</span>
 <span class="sd">        date_from: Include preparations created at or after this timestamp.</span>
 <span class="sd">        date_to: Include preparations created at or before this timestamp.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per ID ricetta&quot;</span><span class="p">)</span>
+    <span class="n">recipe_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per UUID pubblico ricetta&quot;</span><span class="p">)</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per ID operatore&quot;</span><span class="p">)</span>
     <span class="n">date_from</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data inizio (&gt;=)&quot;</span><span class="p">)</span>
     <span class="n">date_to</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data fine (&lt;=)&quot;</span><span class="p">)</span></div>
@@ -1609,12 +1624,29 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreparationItemResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for returning a preparation item.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">batch_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">quantity_used</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_public_ids</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Populate public_id and batch_public_id from ORM relationships.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="c1"># ORM instance</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;batch&quot;</span><span class="p">)</span>
+        <span class="n">uom</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unit_of_measure&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">public_id</span><span class="p">,</span>
+            <span class="s2">&quot;batch_public_id&quot;</span><span class="p">:</span> <span class="n">batch</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">quantity_used</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">uom</span><span class="o">.</span><span class="n">symbol</span> <span class="k">if</span> <span class="n">uom</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="p">}</span></div>
 
 
 
@@ -1623,11 +1655,8 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreparationResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for returning a preparation.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">output_batch_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">recipe_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">output_batch_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
@@ -1642,16 +1671,23 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_output_batch_public_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Populate output_batch_public_id from the output_batch ORM relationship.&quot;&quot;&quot;</span>
-        <span class="n">output_batch</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;output_batch&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">output_batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output_batch</span><span class="p">,</span> <span class="s2">&quot;public_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">pid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;output_batch_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pid</span>
-            <span class="k">elif</span> <span class="n">pid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># ORM instance — inject via __dict__ so Pydantic can read it</span>
-                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;output_batch_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pid</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_public_ids</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Populate recipe_public_id and output_batch_public_id from ORM relationships.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="c1"># ORM instance</span>
+        <span class="n">recipe</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recipe&quot;</span><span class="p">)</span>
+        <span class="n">output_batch</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_batch&quot;</span><span class="p">)</span>
+
+        <span class="n">recipe_public_id</span> <span class="o">=</span> <span class="n">recipe</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">recipe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">output_batch_public_id</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">output_batch</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">output_batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Inject into __dict__ so Pydantic can read via from_attributes</span>
+        <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;recipe_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">recipe_public_id</span>
+        <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;output_batch_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_batch_public_id</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 
@@ -1664,9 +1700,11 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSummary</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimal batch information used in availability responses.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span></div>
+    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 
@@ -1679,7 +1717,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    that can be used when recording a preparation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">product_master_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span>
@@ -1693,11 +1731,11 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Availability response for a recipe.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        recipe_id: Recipe identifier.</span>
+<span class="sd">        recipe_public_id: Recipe public UUID.</span>
 <span class="sd">        ingredients: Per-ingredient availability information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">recipe_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">ingredients</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IngredientAvailability</span><span class="p">]</span></div>
 
 </pre></div>

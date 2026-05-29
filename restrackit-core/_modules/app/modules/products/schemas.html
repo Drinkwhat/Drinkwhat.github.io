@@ -1372,8 +1372,7 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DTO di risposta per uno storage method.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        id: ID del metodo.</span>
-<span class="sd">        store_id: ID dello store.</span>
+<span class="sd">        public_id: Public UUID del metodo.</span>
 <span class="sd">        name: Nome del metodo.</span>
 <span class="sd">        created_at: Timestamp creazione (UTC).</span>
 <span class="sd">        updated_at: Timestamp ultimo aggiornamento (UTC).</span>
@@ -1381,9 +1380,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        version: Versione per optimistic locking.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
     <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span>
@@ -1539,9 +1536,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProductResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta con i dati di un prodotto.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del prodotto&quot;</span><span class="p">)</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del prodotto&quot;</span><span class="p">)</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID dello store&quot;</span><span class="p">)</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">_FIELD_NAME</span><span class="p">)</span>
     <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">_FIELD_CATEGORY</span><span class="p">)</span>
     <span class="n">allergen_mask</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bitmask degli allergeni (Reg. UE 1169/2011)&quot;</span><span class="p">)</span>
@@ -1574,8 +1569,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;00000000-0000-0000-0000-000000000001&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latte intero&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;allergen_mask&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
@@ -1593,12 +1587,12 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Payload per creare una regola (ProductMaster, StorageMethod) → durata.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        storage_method_id: ID dello storage method.</span>
+<span class="sd">        storage_method_public_id: Public UUID dello storage method.</span>
 <span class="sd">        duration_days: Durata in giorni.</span>
 <span class="sd">        duration_hours: Durata in ore.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">storage_method_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID storage method&quot;</span><span class="p">)</span>
+    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID dello storage method&quot;</span><span class="p">)</span>
     <span class="n">duration_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Durata in giorni&quot;</span><span class="p">)</span>
     <span class="n">duration_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Durata in ore&quot;</span><span class="p">)</span>
 
@@ -1656,10 +1650,9 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DTO di risposta per una regola storage.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        id: ID della regola.</span>
-<span class="sd">        store_id: ID dello store.</span>
-<span class="sd">        product_master_id: ID del prodotto.</span>
-<span class="sd">        storage_method_id: ID dello storage method.</span>
+<span class="sd">        public_id: Public UUID della regola.</span>
+<span class="sd">        product_master_public_id: Public UUID del prodotto.</span>
+<span class="sd">        storage_method_public_id: Public UUID dello storage method.</span>
 <span class="sd">        duration_days: Durata in giorni.</span>
 <span class="sd">        duration_hours: Durata in ore.</span>
 <span class="sd">        created_at: Timestamp creazione (UTC).</span>
@@ -1668,11 +1661,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        version: Versione per optimistic locking.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">storage_method_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">product_master_public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">duration_days</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">duration_hours</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
@@ -1680,7 +1671,27 @@ window.runMermaid = runMermaid;</script>
     <span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_uuids</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estrae i public_id dalle relationship ORM.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;product_master&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">sm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;storage_method&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">public_id</span><span class="p">,</span>
+            <span class="s2">&quot;product_master_public_id&quot;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">pm</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;storage_method_public_id&quot;</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">sm</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;duration_days&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">duration_days</span><span class="p">,</span>
+            <span class="s2">&quot;duration_hours&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">duration_hours</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="s2">&quot;updated_at&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">updated_at</span><span class="p">,</span>
+            <span class="s2">&quot;deleted_at&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">deleted_at</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+        <span class="p">}</span></div>
 
 
 
@@ -1699,8 +1710,8 @@ window.runMermaid = runMermaid;</script>
                 <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
                 <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latte intero&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
-                    <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mozzarella&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;00000000-0000-0000-0000-000000000001&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;latte intero&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;00000000-0000-0000-0000-000000000002&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mozzarella&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Latticini&quot;</span><span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -1857,9 +1868,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">CategoryResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DTO di risposta per una categoria.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
     <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span>
@@ -1925,9 +1934,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnitOfMeasureResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DTO di risposta per un&#39;unità di misura.&quot;&quot;&quot;</span>
 
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
