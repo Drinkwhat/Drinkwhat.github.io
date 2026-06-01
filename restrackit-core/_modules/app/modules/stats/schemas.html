@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.stats.schemas &mdash; Restrackit 2.36.2 documentation</title>
+  <title>app.modules.stats.schemas &mdash; Restrackit 2.41.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2e10c7e6"></script>
+      <script src="../../../../_static/documentation_options.js?v=4f998c1d"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1266,6 +1266,15 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/slo.html#note">Note</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1304,6 +1313,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="StatsBucket">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.StatsBucket">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatsBucket</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Time-bucketing granularity for time-series queries.&quot;&quot;&quot;</span>
+
     <span class="n">day</span> <span class="o">=</span> <span class="s2">&quot;day&quot;</span>
     <span class="n">week</span> <span class="o">=</span> <span class="s2">&quot;week&quot;</span>
     <span class="n">month</span> <span class="o">=</span> <span class="s2">&quot;month&quot;</span></div>
@@ -1313,6 +1324,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="BatchSeriesMetric">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchSeriesMetric">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesMetric</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which batch lifecycle event to count in a series.&quot;&quot;&quot;</span>
+
     <span class="n">created</span> <span class="o">=</span> <span class="s2">&quot;created&quot;</span>
     <span class="n">finished</span> <span class="o">=</span> <span class="s2">&quot;finished&quot;</span></div>
 
@@ -1321,6 +1334,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TimeSeriesPoint">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TimeSeriesPoint">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TimeSeriesPoint</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single data point in a time series.&quot;&quot;&quot;</span>
+
     <span class="n">period</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span></div>
 
@@ -1329,6 +1344,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TopRecipeItem">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipeItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipeItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated preparation count for a single recipe.&quot;&quot;&quot;</span>
+
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">recipe_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">count</span><span class="p">:</span> <span class="nb">int</span></div>
@@ -1338,6 +1355,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TopRecipesByPeriod">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesByPeriod">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesByPeriod</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top recipes grouped by time period.&quot;&quot;&quot;</span>
+
     <span class="n">period</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TopRecipeItem</span><span class="p">]</span></div>
 
@@ -1346,6 +1365,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TopIngredientItem">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopIngredientItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopIngredientItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated usage for a single ingredient.&quot;&quot;&quot;</span>
+
     <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">quantity</span><span class="p">:</span> <span class="nb">float</span>
@@ -1356,6 +1377,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="BatchOverview">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchOverview">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchOverview</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Snapshot of batch counts at a given date.&quot;&quot;&quot;</span>
+
     <span class="n">as_of</span><span class="p">:</span> <span class="n">date</span>
     <span class="n">expiring_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span>
     <span class="n">total</span><span class="p">:</span> <span class="nb">int</span>
@@ -1369,6 +1392,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="StatsOverview">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.StatsOverview">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatsOverview</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dashboard-level statistics overview.&quot;&quot;&quot;</span>
+
     <span class="n">preparations_7d</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">preparations_30d</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">top_recipes_7d</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TopRecipeItem</span><span class="p">]</span>
@@ -1407,6 +1432,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="DateRangeParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.DateRangeParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DateRangeParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional date range filter shared by multiple stat queries.&quot;&quot;&quot;</span>
+
     <span class="n">date_from</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">date_to</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -1415,6 +1442,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="SeriesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.SeriesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for time-bucketed series queries.&quot;&quot;&quot;</span>
+
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span></div>
 
 
@@ -1422,6 +1451,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TopRecipesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-recipes ranking queries.&quot;&quot;&quot;</span>
+
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -1429,6 +1460,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TopRecipesSeriesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesSeriesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-recipes trend series.&quot;&quot;&quot;</span>
+
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
 
@@ -1437,6 +1470,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TopIngredientsParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopIngredientsParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopIngredientsParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-ingredients usage queries.&quot;&quot;&quot;</span>
+
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
 
@@ -1444,6 +1479,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="BatchOverviewParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchOverviewParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchOverviewParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for the batch snapshot endpoint.&quot;&quot;&quot;</span>
+
     <span class="n">as_of</span><span class="p">:</span> <span class="n">date</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">expiring_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span></div>
 
@@ -1452,6 +1489,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="BatchSeriesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchSeriesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for batch lifecycle time-series queries.&quot;&quot;&quot;</span>
+
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
     <span class="n">metric</span><span class="p">:</span> <span class="n">BatchSeriesMetric</span> <span class="o">=</span> <span class="n">BatchSeriesMetric</span><span class="o">.</span><span class="n">created</span></div>
 
@@ -1460,6 +1499,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="WasteItem">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WasteItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated waste record for a single product.&quot;&quot;&quot;</span>
+
     <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">category_name</span><span class="p">:</span> <span class="nb">str</span>
@@ -1471,6 +1512,8 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="WasteParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WasteParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for waste statistics queries.&quot;&quot;&quot;</span>
+
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></div>
 
 </pre></div>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.ocr_post_processing &mdash; Restrackit 2.36.2 documentation</title>
+  <title>app.services.ocr_post_processing &mdash; Restrackit 2.41.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2e10c7e6"></script>
+      <script src="../../../_static/documentation_options.js?v=4f998c1d"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1266,6 +1266,15 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#note">Note</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1295,11 +1304,10 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for app.services.ocr_post_processing</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 
 
 <div class="viewcode-block" id="MatchResult">
@@ -1427,19 +1435,27 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            MatchResult: Il risultato dell&#39;analisi con la proposta di correzione.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_lot</span> <span class="ow">or</span> <span class="n">raw_lot</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Lot code missing or empty&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
         <span class="n">raw_lot</span> <span class="o">=</span> <span class="n">raw_lot</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="c1"># Se non c&#39;è storico o c&#39;è un match esatto, restituiamo subito il valore</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">historical_lots</span> <span class="ow">or</span> <span class="n">raw_lot</span> <span class="ow">in</span> <span class="p">[</span><span class="n">h</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">historical_lots</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="n">MatchResult</span><span class="p">(</span>
-                <span class="n">corrected_lot</span><span class="o">=</span><span class="n">raw_lot</span><span class="p">,</span>
-                <span class="n">match_type</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span> <span class="k">if</span> <span class="n">historical_lots</span> <span class="k">else</span> <span class="s2">&quot;raw&quot;</span><span class="p">,</span>
-                <span class="n">accuracy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">match_type</span> <span class="o">=</span> <span class="s2">&quot;exact&quot;</span> <span class="k">if</span> <span class="n">historical_lots</span> <span class="k">else</span> <span class="s2">&quot;raw&quot;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Lot code </span><span class="si">%s</span><span class="s2"> match: type=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="n">match_type</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
         <span class="c1"># 2. Controllo Posizionale delle Ambiguità</span>
         <span class="n">best_match</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_find_fuzzy_match</span><span class="p">(</span><span class="n">raw_lot</span><span class="p">,</span> <span class="n">historical_lots</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">best_match</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;Lot code fuzzy corrected: </span><span class="si">%s</span><span class="s2"> → </span><span class="si">%s</span><span class="s2"> accuracy=</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">raw_lot</span><span class="p">,</span>
+                <span class="n">best_match</span><span class="o">.</span><span class="n">corrected_lot</span><span class="p">,</span>
+                <span class="n">best_match</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Lot code accepted as new (raw): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">best_match</span>
             <span class="k">if</span> <span class="n">best_match</span>

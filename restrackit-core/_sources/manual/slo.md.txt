@@ -1,0 +1,47 @@
+# Service Level Objectives — Restrackit Core
+
+## Overview
+
+SLO formali per gli endpoint critici. Le alert rules Prometheus corrispondenti sono in
+`deploy/monitoring/prometheus/rules/alerts.yml`.
+
+---
+
+## API Endpoints
+
+| Endpoint | Metrica | Soglia | Finestra |
+|----------|---------|--------|---------|
+| `POST /inventory/batches` (scan OCR) | Latenza p99 | ≤ 3 s | 5 min rolling |
+| `GET /inventory/batches` (list) | Latenza p99 | ≤ 300 ms | 5 min rolling |
+| `GET /products` (catalog) | Latenza p99 | ≤ 200 ms | 5 min rolling |
+| `POST /kitchen/prep-completions` | Latenza p99 | ≤ 500 ms | 5 min rolling |
+| `GET /health` (liveness) | Latenza p99 | ≤ 50 ms | 1 min rolling |
+| Tutti gli endpoint | Error rate (5xx) | ≤ 1% | 5 min rolling |
+
+## Worker arq
+
+| Task | Metrica | Soglia | Finestra |
+|------|---------|--------|---------|
+| `analyze_inventory_image_task` | Durata p95 | ≤ 60 s | — |
+| `check_expired_batches_task` | Durata p95 | ≤ 30 s | — |
+| Tutti i task | Queue lag | ≤ 120 s | — |
+| Tutti i task | Failure rate | ≤ 2% | 1 h rolling |
+
+## Alert Routing
+
+| Severity | Destinazione |
+|----------|-------------|
+| `critical` | PagerDuty + Slack `#alerts-critical` |
+| `warning` | Slack `#alerts-warning` |
+
+## Grafana
+
+Dashboard principale: **Restrackit Core** (`deploy/monitoring/grafana/dashboards/restrackit.json`).
+Include pannello "SLO Burn Rate" (error rate vs budget del 1% su finestra 30 min).
+
+## Note
+
+- L'endpoint OCR ha un budget di latenza più alto (3 s) perché include chiamate a Google Vision API.
+- I SLO worker vengono monitorati separatamente via `arq_job_duration_seconds` e
+  `arq_job_failures_total` (non via `http_request_duration_seconds`).
+- Revisione SLO: semestrale o dopo ogni incidente P1.

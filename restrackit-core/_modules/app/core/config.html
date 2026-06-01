@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.36.2 documentation</title>
+  <title>app.core.config &mdash; Restrackit 2.41.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2e10c7e6"></script>
+      <script src="../../../_static/documentation_options.js?v=4f998c1d"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1266,6 +1266,15 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#note">Note</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1377,6 +1386,22 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># Redis Configuration</span>
     <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">redis_cache_ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># Default 1 hour</span>
+
+    <span class="c1"># Prometheus metrics (PROMETHEUS_ENABLED=true exposes /metrics)</span>
+    <span class="n">prometheus_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># OpenTelemetry tracing (OTEL_ENABLED=true activates auto-instrumentation)</span>
+    <span class="n">otel_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">otel_endpoint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># e.g. &quot;http://tempo:4317&quot;</span>
+    <span class="n">otel_service_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;restrackit-core&quot;</span>
+
+    <span class="c1"># Datadog APM (DATADOG_ENABLED=true patches ddtrace at startup)</span>
+    <span class="n">datadog_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Worker Prometheus metrics server port (0 = disabled)</span>
+    <span class="c1"># When set, the arq worker exposes /metrics on this port so Prometheus</span>
+    <span class="c1"># can scrape it independently from the API process.</span>
+    <span class="n">worker_metrics_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">65535</span><span class="p">)</span>
 
     <span class="c1"># Pydantic V2: uses model_config instead of inner Config class</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>

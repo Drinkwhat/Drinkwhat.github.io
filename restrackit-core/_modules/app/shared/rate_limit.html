@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared.rate_limit &mdash; Restrackit 2.36.2 documentation</title>
+  <title>app.shared.rate_limit &mdash; Restrackit 2.41.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2e10c7e6"></script>
+      <script src="../../../_static/documentation_options.js?v=4f998c1d"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1266,6 +1266,15 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/slo.html#note">Note</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1301,6 +1310,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">BusinessLogicError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">redis_service</span>
 
 
@@ -1342,6 +1352,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Skip if redis is not available</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">ready</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Rate limiter bypassed: Redis unavailable (fail-open)&quot;</span><span class="p">)</span>
             <span class="k">return</span>
 
         <span class="n">client</span> <span class="o">=</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">client</span>
@@ -1362,13 +1373,21 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">expire</span><span class="p">(</span><span class="n">redis_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_seconds</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;⚠️ Rate limit exceeded: user=</span><span class="si">%s</span><span class="s2"> path=</span><span class="si">%s</span><span class="s2"> count=</span><span class="si">%d</span><span class="s2"> limit=</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">s&quot;</span><span class="p">,</span>
+                    <span class="n">user_id</span><span class="p">,</span>
+                    <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">count</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">window_seconds</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">BusinessLogicError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_RATE_LIMIT_EXCEEDED</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">BusinessLogicError</span><span class="p">:</span>
             <span class="k">raise</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="c1"># Don&#39;t block requests if Redis fails for rate limiting</span>
-            <span class="k">pass</span></div>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;⚠️ Rate limiter Redis error (fail-open): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span></div>
 
+            <span class="c1"># Don&#39;t block requests if Redis fails for rate limiting</span>
 
 
 <span class="c1"># Pre-defined limiters</span>
