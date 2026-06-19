@@ -942,16 +942,18 @@ Encapsulates key patterns and model validation for Auth-related data.</p>
 <span id="app-modules-auth-router-module"></span><h2>app.modules.auth.router module<a class="headerlink" href="#module-app.modules.auth.router" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.modules.auth.router.logout">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.router.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redirect_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/router.html#logout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.router.logout" title="Link to this definition"></a></dt>
-<dd><p>Esegue il logout su Keycloak e reindirizza alla documentazione API.</p>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.router.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redirect_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_token_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/router.html#logout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.router.logout" title="Link to this definition"></a></dt>
+<dd><p>Esegue il logout su Keycloak e reindirizza alla pagina configurata.</p>
 <p>Costruisce l’URL di logout di Keycloak impostando <code class="docutils literal notranslate"><span class="pre">post_logout_redirect_uri</span></code>
 verso <code class="docutils literal notranslate"><span class="pre">/docs</span></code> basandosi sulla <code class="docutils literal notranslate"><span class="pre">public_base_url</span></code> configurata per prevenire
 host-header injection.</p>
+<p>Keycloak 18+ (spec RP-Initiated Logout 1.0) richiede <code class="docutils literal notranslate"><span class="pre">id_token_hint</span></code> per
+onorare <code class="docutils literal notranslate"><span class="pre">post_logout_redirect_uri</span></code>; il frontend deve passarlo come query param.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> – Richiesta FastAPI corrente (usata per il tipo Request injection).</p></li>
-<li><p><strong>redirect_to</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>redirect_to</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Percorso relativo verso cui redirigere dopo il logout.</p></li>
+<li><p><strong>id_token_hint</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID token dell’utente (<code class="docutils literal notranslate"><span class="pre">keycloak.idToken</span></code>), necessario in KC18+.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
