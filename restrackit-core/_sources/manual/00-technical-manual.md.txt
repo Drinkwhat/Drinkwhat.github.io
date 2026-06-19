@@ -248,9 +248,11 @@ Tutte le risposte di errore seguono lo schema standard con `error.code` (es. `ER
 - **PUT** `/{id}`: Modifica dettagli prodotto.
 - **DELETE** `/{id}`: Eliminazione prodotto (se non usato in lotti).
 
-### ⚙️ Setup Module (`/setup`)
+### ⚙️ Setup Module (`/setup`) — solo admin
 
-- **POST** `/test-products`: Popola il DB con dati di test e crea uno store di default.
+- **POST** `/seed-demo`: Popola lo store demo (id=1) con un dataset completo e testabile
+  (cataloghi, prodotti, lotti con scadenze varie, ricette, preparazioni, notifiche).
+  Query `?reset=true` per rigenerare da zero. Richiede ruolo `admin`; disabilitato in production.
 
 ### 🍳 Kitchen Module (`/kitchen`)
 

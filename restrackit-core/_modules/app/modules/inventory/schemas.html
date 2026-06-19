@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.47.1 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.50.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=146fb393"></script>
+      <script src="../../../../_static/documentation_options.js?v=2c8afa5e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -529,7 +529,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#setup-module-setup">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#system">🏥 System</a></li>
 </ul>
@@ -707,8 +707,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#stats-module-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/seed-demo</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#common-error-codes">Common Error Codes</a></li>
@@ -1379,6 +1378,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Punteggio AI salvato per controllo qualità&quot;</span>
     <span class="p">)</span>
+    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico del metodo di conservazione iniziale del lotto&quot;</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="BatchConfirm.validate_product_name">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm.validate_product_name">[docs]</a>
@@ -1408,6 +1410,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="s2">&quot;lot_code&quot;</span><span class="p">:</span> <span class="s2">&quot;LOT123ABC&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;expiry_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-12-31&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+                <span class="s2">&quot;storage_method_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440010&quot;</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>

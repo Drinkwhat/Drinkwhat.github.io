@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory package &mdash; Restrackit 2.47.1 documentation</title>
+  <title>app.modules.inventory package &mdash; Restrackit 2.50.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=146fb393"></script>
+      <script src="_static/documentation_options.js?v=2c8afa5e"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -96,7 +96,7 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#setup-module-setup">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#system">🏥 System</a></li>
 </ul>
@@ -274,8 +274,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#stats-module-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/seed-demo</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#common-error-codes">Common Error Codes</a></li>
@@ -889,7 +888,7 @@
 <p>Schema per le operazioni di carico merce.</p>
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchConfirm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lot_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchConfirm"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchConfirm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lot_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_method_public_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchConfirm"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_BatchValidatorsMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Dati tecnici del prodotto inviati dopo la revisione dello chef.
 L’identità (store/operatore) è gestita dal middleware.</p>
@@ -900,6 +899,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <li><p><strong>lot_code</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>expiry_date</strong> (<em>date</em>)</p></li>
 <li><p><strong>confidence</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>storage_method_public_id</strong> (<em>UUID</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -921,6 +921,11 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">confidence</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">storage_method_public_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">

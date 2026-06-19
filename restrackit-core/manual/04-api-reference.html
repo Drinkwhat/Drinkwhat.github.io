@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Reference &mdash; Restrackit 2.47.1 documentation</title>
+  <title>API Reference &mdash; Restrackit 2.50.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=146fb393"></script>
+      <script src="../_static/documentation_options.js?v=2c8afa5e"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -96,7 +96,7 @@
 <li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#setup-module-setup">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#system">🏥 System</a></li>
 </ul>
@@ -274,8 +274,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#stats-module-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#post-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/seed-demo</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#common-error-codes">Common Error Codes</a></li>
@@ -1478,31 +1477,49 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
 <hr class="docutils" />
 <section id="setup-module-setup">
 <h2>Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)<a class="headerlink" href="#setup-module-setup" title="Link to this heading"></a></h2>
-<section id="post-setup-test-products">
-<h3><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code><a class="headerlink" href="#post-setup-test-products" title="Link to this heading"></a></h3>
-<p>Initialize the database with a default store and test products. Useful for first-run setup.</p>
+<blockquote>
+<div><p><strong>Solo admin.</strong> Tutti gli endpoint <code class="docutils literal notranslate"><span class="pre">/setup</span></code> richiedono il permesso <code class="docutils literal notranslate"><span class="pre">ADMIN_ALL</span></code>
+(ruolo <code class="docutils literal notranslate"><span class="pre">admin</span></code>) e sono disabilitati in ambiente <code class="docutils literal notranslate"><span class="pre">production</span></code> (rispondono <code class="docutils literal notranslate"><span class="pre">404</span></code>).</p>
+</div></blockquote>
+<section id="post-setup-seed-demo">
+<h3><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/seed-demo</span></code><a class="headerlink" href="#post-setup-seed-demo" title="Link to this heading"></a></h3>
+<p>Popola lo store demo (<code class="docutils literal notranslate"><span class="pre">id=1</span></code>) con un dataset completo e testabile in un’unica
+chiamata: cataloghi (categorie, unità di misura, metodi di conservazione),
+prodotti con regole di conservazione, lotti a scadenza futura/imminente/passata
+e vuoti, ricette con ingredienti, preparazioni eseguibili e notifiche.</p>
+<p><strong>Query params</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code> (bool, default <code class="docutils literal notranslate"><span class="pre">false</span></code>) — se <code class="docutils literal notranslate"><span class="pre">true</span></code> cancella lo store demo e lo
+rigenera da zero (stato pulito ad ogni esecuzione). Senza <code class="docutils literal notranslate"><span class="pre">reset</span></code> l’operazione
+è idempotente e non reinserisce dati se lo store esiste già.</p></li>
+</ul>
 <p><strong>Request</strong>:</p>
-<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">POST /setup/test-products</span>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">POST /setup/seed-demo?reset=true</span>
+<span class="err">Authorization: Bearer &lt;admin_token&gt;</span>
 </pre></div>
 </div>
 <p><strong>Response</strong> (200 OK):</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Setup completato delegando a carica_anagrafica&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;imported_ids&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Store demo popolato con dataset completo.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;store_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reseeded&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;counts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;units_of_measure&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;storage_methods&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;products&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;batches&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recipes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recipe_ingredients&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;preparations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;preparation_items&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;notifications&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-</section>
-<section id="post-setup-test-kitchen">
-<h3><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code><a class="headerlink" href="#post-setup-test-kitchen" title="Link to this heading"></a></h3>
-<p>Popola dati di test per il modulo kitchen (ricette e ingredienti).</p>
-<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="err">POST /setup/test-kitchen</span>
-</pre></div>
-</div>
-<p>Risposta: vedi schema <code class="docutils literal notranslate"><span class="pre">SetupKitchenResponse</span></code> nello Swagger (<code class="docutils literal notranslate"><span class="pre">/docs</span></code>).</p>
+<p>Se chiamato senza <code class="docutils literal notranslate"><span class="pre">reset</span></code> su store già popolato risponde <code class="docutils literal notranslate"><span class="pre">200</span></code> con
+<code class="docutils literal notranslate"><span class="pre">&quot;reseeded&quot;:</span> <span class="pre">false</span></code>. Per chef/manager risponde <code class="docutils literal notranslate"><span class="pre">403</span></code>; in <code class="docutils literal notranslate"><span class="pre">production</span></code> risponde <code class="docutils literal notranslate"><span class="pre">404</span></code>.</p>
 </section>
 </section>
 <hr class="docutils" />

@@ -678,37 +678,53 @@ Statistiche per manager (trend cucina + overview batch). Documentazione completa
 
 ## Setup Module (`/setup`)
 
-### `POST /setup/test-products`
+> **Solo admin.** Tutti gli endpoint `/setup` richiedono il permesso `ADMIN_ALL`
+> (ruolo `admin`) e sono disabilitati in ambiente `production` (rispondono `404`).
 
-Initialize the database with a default store and test products. Useful for first-run setup.
+### `POST /setup/seed-demo`
+
+Popola lo store demo (`id=1`) con un dataset completo e testabile in un'unica
+chiamata: cataloghi (categorie, unità di misura, metodi di conservazione),
+prodotti con regole di conservazione, lotti a scadenza futura/imminente/passata
+e vuoti, ricette con ingredienti, preparazioni eseguibili e notifiche.
+
+**Query params**:
+
+- `reset` (bool, default `false`) — se `true` cancella lo store demo e lo
+  rigenera da zero (stato pulito ad ogni esecuzione). Senza `reset` l'operazione
+  è idempotente e non reinserisce dati se lo store esiste già.
 
 **Request**:
 
 ```http
-POST /setup/test-products
+POST /setup/seed-demo?reset=true
+Authorization: Bearer <admin_token>
 ```
 
 **Response** (200 OK):
 
 ```json
 {
-  "message": "Setup completato delegando a carica_anagrafica",
-  "result": {
-    "status": "success",
-    "imported_ids": [...]
+  "message": "Store demo popolato con dataset completo.",
+  "store_id": 1,
+  "reseeded": true,
+  "counts": {
+    "categories": 8,
+    "units_of_measure": 2,
+    "storage_methods": 3,
+    "products": 15,
+    "batches": 30,
+    "recipes": 3,
+    "recipe_ingredients": 11,
+    "preparations": 4,
+    "preparation_items": 12,
+    "notifications": 5
   }
 }
 ```
 
-### `POST /setup/test-kitchen`
-
-Popola dati di test per il modulo kitchen (ricette e ingredienti).
-
-```http
-POST /setup/test-kitchen
-```
-
-Risposta: vedi schema `SetupKitchenResponse` nello Swagger (`/docs`).
+Se chiamato senza `reset` su store già popolato risponde `200` con
+`"reseeded": false`. Per chef/manager risponde `403`; in `production` risponde `404`.
 
 ---
 

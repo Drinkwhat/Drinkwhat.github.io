@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.47.1 documentation</title>
+  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.50.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=146fb393"></script>
+      <script src="../../../../_static/documentation_options.js?v=2c8afa5e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -529,7 +529,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#setup-module-setup">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/00-technical-manual.html#system">🏥 System</a></li>
 </ul>
@@ -707,8 +707,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#stats-module-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#setup-module-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-test-products"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-products</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-test-kitchen"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/test-kitchen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/setup/seed-demo</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#common-error-codes">Common Error Codes</a></li>
@@ -1539,6 +1538,20 @@ window.runMermaid = runMermaid;</script>
 
 
 
+<div class="viewcode-block" id="StorageRuleSummary">
+<a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.schemas.StorageRuleSummary">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StorageRuleSummary</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metodo di conservazione compatibile con il semilavorato di una ricetta.&quot;&quot;&quot;</span>
+
+    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">storage_method_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">duration_days</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">duration_hours</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="RecipeResponse">
 <a class="viewcode-back" href="../../../../app.modules.kitchen.html#app.modules.kitchen.schemas.RecipeResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RecipeResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -1560,6 +1573,10 @@ window.runMermaid = runMermaid;</script>
     <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">duration_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">duration_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">storage_rules</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StorageRuleSummary</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Metodi di conservazione compatibili (dalla tabella product_storage_rules)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -1572,12 +1589,24 @@ window.runMermaid = runMermaid;</script>
         <span class="n">pm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;product_master&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">rules</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="s2">&quot;storage_rules&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="n">rules</span><span class="p">:</span>
-                <span class="n">rule</span> <span class="o">=</span> <span class="n">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">summaries</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
                 <span class="n">sm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="s2">&quot;storage_method&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;storage_method_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">sm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
-                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;duration_days&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">duration_days</span>
-                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;duration_hours&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">duration_hours</span>
+                <span class="k">if</span> <span class="n">sm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="s2">&quot;deleted_at&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">StorageRuleSummary</span><span class="p">(</span>
+                            <span class="n">storage_method_public_id</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">public_id</span><span class="p">,</span>
+                            <span class="n">storage_method_name</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">duration_days</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">duration_days</span><span class="p">,</span>
+                            <span class="n">duration_hours</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">duration_hours</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;storage_rules&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summaries</span>
+            <span class="k">if</span> <span class="n">summaries</span><span class="p">:</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="n">summaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;storage_method_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="n">storage_method_public_id</span>
+                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;duration_days&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="n">duration_days</span>
+                <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;duration_hours&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="n">duration_hours</span>
         <span class="k">return</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="RecipeResponse.compute_aggregates">
@@ -1672,8 +1701,8 @@ window.runMermaid = runMermaid;</script>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della preparazione (optimistic locking)&quot;</span>
     <span class="p">)</span>
-    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del metodo di conservazione da assegnare al lotto output&quot;</span>
+    <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del metodo di conservazione da assegnare al lotto output&quot;</span>
     <span class="p">)</span></div>
 
 
