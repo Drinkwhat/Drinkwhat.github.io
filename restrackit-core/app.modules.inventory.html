@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory package &mdash; Restrackit 2.50.4 documentation</title>
+  <title>app.modules.inventory package &mdash; Restrackit 2.51.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d0fbe0f9"></script>
+      <script src="_static/documentation_options.js?v=5d5fb007"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -782,6 +782,24 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="manual/mermaid_diagrams.html">Diagrammi Mermaid — Restrackit Basi di Dati</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag1-png-schema-scheletro">diag1.png — Schema Scheletro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag2-png-ambito-auth-store">diag2.png — Ambito Auth &amp; Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag3-png-ambito-catalogo-prodotti">diag3.png — Ambito Catalogo Prodotti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag4-png-ambito-inventario-batch">diag4.png — Ambito Inventario &amp; Batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag5-png-ambito-cucina-ricette">diag5.png — Ambito Cucina &amp; Ricette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag6-png-ambito-preparazioni">diag6.png — Ambito Preparazioni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag7-png-ambito-notifiche">diag7.png — Ambito Notifiche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag8-png-schema-concettuale-finale-completo">diag8.png — Schema Concettuale Finale (completo)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag9-png-nav-1-registrazione-batch-via-ocr">diag9.png — Nav. 1: Registrazione batch via OCR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag10-png-nav-2-lotti-in-scadenza-per-store">diag10.png — Nav. 2: Lotti in scadenza per store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag11-png-nav-3-storico-spostamenti-di-un-batch">diag11.png — Nav. 3: Storico spostamenti di un batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag12-png-nav-4-eseguire-una-preparazione">diag12.png — Nav. 4: Eseguire una preparazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag13-png-nav-5-prodotti-con-regole-di-conservazione">diag13.png — Nav. 5: Prodotti con regole di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag14-png-nav-6-storico-preparazioni-per-ricetta">diag14.png — Nav. 6: Storico preparazioni per ricetta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="manual/relazione_basi_di_dati.html">RESTRACKIT</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#struttura-dell-elaborato">STRUTTURA DELL’ELABORATO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#introduzione">1 – INTRODUZIONE</a></li>
@@ -1069,7 +1087,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lot_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_storage_method_public_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_expiry_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finished_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wasted_quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wasted_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.inventory.schemas.</span></span><span class="sig-name descname"><span class="pre">BatchResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lot_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_storage_method_public_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_expiry_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finished_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wasted_quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wasted_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/inventory/schemas.html#BatchResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Risposta dopo il conferimento di un lotto.</p>
 <dl class="field-list simple">
@@ -1082,7 +1100,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <li><p><strong>lot_code</strong> (<em>str</em>)</p></li>
 <li><p><strong>expiry_date</strong> (<em>date</em>)</p></li>
 <li><p><strong>current_storage_method_public_id</strong> (<em>UUID</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>storage_expiry_at</strong> (<em>datetime</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>storage_expiry_at</strong> (<em>datetime</em>)</p></li>
 <li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
 <li><p><strong>confidence</strong> (<em>float</em>)</p></li>
 <li><p><strong>is_empty</strong> (<em>bool</em>)</p></li>
@@ -1133,7 +1151,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">storage_expiry_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<span class="sig-name descname"><span class="pre">storage_expiry_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

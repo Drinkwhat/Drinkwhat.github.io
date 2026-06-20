@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture Overview &mdash; Restrackit 2.51.0 documentation</title>
+  <title>Diagrammi Mermaid — Restrackit Basi di Dati &mdash; Restrackit 2.51.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -19,11 +19,447 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        all_mermaids.forEach((el) => {
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+        await mermaid.run();
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? all_mermaids.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            if(all_mermaids.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else if(svgs.size() !== mermaids_to_add_zoom) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else {
+                svgs.each(function() {
+                    var svg = d3.select(this);
+                    svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+                    var inner = svg.select("g");
+                    var zoom = d3.zoom().on("zoom", function(event) {
+                        inner.attr("transform", event.transform);
+                    });
+                    svg.call(zoom);
+                });
+            }
+        }
+    } else if(all_mermaids.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API Reference" href="04-api-reference.html" />
-    <link rel="prev" title="Installation &amp; Setup Guide" href="02-setup.html" /> 
+    <link rel="next" title="RESTRACKIT" href="relazione_basi_di_dati.html" />
+    <link rel="prev" title="Sistema di Versionamento Automatico" href="VERSIONING.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -178,31 +614,31 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Architecture Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#system-design">System Design</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#directory-structure">Directory Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#technology-stack">Technology Stack</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#backend">Backend</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ai-data">AI &amp; Data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#devops">DevOps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-architecture.html">Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#system-design">System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#technology-stack">Technology Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#backend">Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-data">AI &amp; Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#devops">DevOps</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#key-components">Key Components</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#key-components">Key Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#row-level-security-rls">1. Row Level Security (RLS)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#monitoring-observability">4. Monitoring &amp; Observability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
 </ul>
 </li>
 </ul>
@@ -782,22 +1218,22 @@
 <li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="mermaid_diagrams.html">Diagrammi Mermaid — Restrackit Basi di Dati</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag1-png-schema-scheletro">diag1.png — Schema Scheletro</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag2-png-ambito-auth-store">diag2.png — Ambito Auth &amp; Store</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag3-png-ambito-catalogo-prodotti">diag3.png — Ambito Catalogo Prodotti</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag4-png-ambito-inventario-batch">diag4.png — Ambito Inventario &amp; Batch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag5-png-ambito-cucina-ricette">diag5.png — Ambito Cucina &amp; Ricette</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag6-png-ambito-preparazioni">diag6.png — Ambito Preparazioni</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag7-png-ambito-notifiche">diag7.png — Ambito Notifiche</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag8-png-schema-concettuale-finale-completo">diag8.png — Schema Concettuale Finale (completo)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag9-png-nav-1-registrazione-batch-via-ocr">diag9.png — Nav. 1: Registrazione batch via OCR</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag10-png-nav-2-lotti-in-scadenza-per-store">diag10.png — Nav. 2: Lotti in scadenza per store</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag11-png-nav-3-storico-spostamenti-di-un-batch">diag11.png — Nav. 3: Storico spostamenti di un batch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag12-png-nav-4-eseguire-una-preparazione">diag12.png — Nav. 4: Eseguire una preparazione</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag13-png-nav-5-prodotti-con-regole-di-conservazione">diag13.png — Nav. 5: Prodotti con regole di conservazione</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag14-png-nav-6-storico-preparazioni-per-ricetta">diag14.png — Nav. 6: Storico preparazioni per ricetta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Diagrammi Mermaid — Restrackit Basi di Dati</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#diag1-png-schema-scheletro">diag1.png — Schema Scheletro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag2-png-ambito-auth-store">diag2.png — Ambito Auth &amp; Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag3-png-ambito-catalogo-prodotti">diag3.png — Ambito Catalogo Prodotti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag4-png-ambito-inventario-batch">diag4.png — Ambito Inventario &amp; Batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag5-png-ambito-cucina-ricette">diag5.png — Ambito Cucina &amp; Ricette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag6-png-ambito-preparazioni">diag6.png — Ambito Preparazioni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag7-png-ambito-notifiche">diag7.png — Ambito Notifiche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag8-png-schema-concettuale-finale-completo">diag8.png — Schema Concettuale Finale (completo)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag9-png-nav-1-registrazione-batch-via-ocr">diag9.png — Nav. 1: Registrazione batch via OCR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag10-png-nav-2-lotti-in-scadenza-per-store">diag10.png — Nav. 2: Lotti in scadenza per store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag11-png-nav-3-storico-spostamenti-di-un-batch">diag11.png — Nav. 3: Storico spostamenti di un batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag12-png-nav-4-eseguire-una-preparazione">diag12.png — Nav. 4: Eseguire una preparazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag13-png-nav-5-prodotti-con-regole-di-conservazione">diag13.png — Nav. 5: Prodotti con regole di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag14-png-nav-6-storico-preparazioni-per-ricetta">diag14.png — Nav. 6: Storico preparazioni per ricetta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="relazione_basi_di_dati.html">RESTRACKIT</a><ul>
@@ -878,9 +1314,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../markdown_docs.html">Documentazione Manuale (Markdown)</a></li>
-      <li class="breadcrumb-item active">Architecture Overview</li>
+      <li class="breadcrumb-item active">Diagrammi Mermaid — Restrackit Basi di Dati</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/manual/03-architecture.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/manual/mermaid_diagrams.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -888,252 +1324,434 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="architecture-overview">
-<h1>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading"></a></h1>
-<section id="system-design">
-<h2>System Design<a class="headerlink" href="#system-design" title="Link to this heading"></a></h2>
-<p>Restrackit is a FastAPI-based REST API for restaurant inventory management with AI-powered image analysis, designed using a <strong>Modular Monolith</strong> architecture.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────┐
-│                      Client (App/Web)                       │
-└────────────────────────┬────────────────────────────────────┘
-                         │ HTTP/REST (JSON)
-                         ▼
-        ┌────────────────────────────────────┐
-        │      FastAPI Application           │      ┌──────────────┐
-        │  (app/main.py)                     │◄────►│    Redis     │
-        └────────────┬───────────┬───────────┘      │(Cache/Queue) │
-                     │           │                  └──────────────┘
-    ┌────────────────┼───────────┼────────────────────────┐
-    │                │           │                        │
-    ▼                ▼           ▼                        ▼
-┌──────────┐   ┌──────────┐ ┌─────────────┐        ┌─────────────┐
-│ Vision   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
-│ API      │   │ Agent    │ │ Database    │        │ (Async Task)│
-│(OCR)     │   │ (AI)     │ │ (Data)      │        │             │
-└──────────┘   └──────────┘ └─────────────┘        └─────────────┘
-</pre></div>
-</div>
-</section>
-<section id="directory-structure">
-<h2>Directory Structure<a class="headerlink" href="#directory-structure" title="Link to this heading"></a></h2>
-<p>The codebase follows a domain-driven structure under <code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>restrackit-core/
-├── .github/workflows/         # CI/CD Pipelines
-├── alembic/                   # Database Migrations
-├── app/
-│   ├── core/                  # Core infrastructure
-│   │   ├── config.py          # Settings management
-│   │   ├── error_catalog.py   # Standardized error codes
-│   │   ├── errors.py          # Exception hierarchy
-│   │   └── logging.py         # Structured logging
-│   │
-│   ├── modules/               # Domain Modules
-│   │   ├── inventory/         # Batch &amp; OCR logic
-│   │   │   ├── models.py      # Batch entity
-│   │   │   ├── router.py      # /inventory endpoints
-│   │   │   ├── schemas.py     # Pydantic models
-│   │   │   └── service.py     # Business logic
-│   │   │
-│   │   ├── products/          # Product Catalog
-│   │   │   ├── models.py              # ProductMaster, Category, UnitOfMeasure entities
-│   │   │   ├── router.py              # /products endpoints
-│   │   │   ├── categories_router.py   # /categories endpoints
-│   │   │   ├── uom_router.py          # /units-of-measure endpoints
-│   │   │   ├── storage_router.py      # /storage-methods endpoints
-│   │   │   ├── schemas.py             # Pydantic DTOs
-│   │   │   └── service.py             # CRUD logic (ProductService, CategoryService, UnitOfMeasureService)
-│   │   │
-│   │   ├── store/             # Multi-tenancy
-│   │   │   └── models.py      # Store entity
-│   │   │
-│   │   └── setup/             # Dev tools
-│   │
-│   ├── services/              # External Integrations
-│   │   ├── ocr.py             # Google Vision Client
-│   │   └── ai_agent.py        # Gemini Agent Logic
-│   │
-│   ├── shared/                # Shared utilities
-│   │   ├── allergens.py       # EU Allergen bitmask logic
-│   │   ├── allergen_enum.py   # Allergen definitions (i18n ready)
-│   │   ├── cache.py           # Redis @cached decorator
-│   │   ├── mixins.py          # SQLAlchemy mixins (PublicIdMixin, TimestampVersionMixin)
-│   │   └── rate_limit.py      # Redis expensive_op_limiter
-│   │
-│   ├── database.py            # SQLAlchemy Session
-│   ├── worker.py              # arq Background Worker
-│   └── main.py                # App Entry Point
-│
-├── tests/                     # Test Suite
-│   ├── unit/
-│   └── integration/
-│
-├── Dockerfile                 # Multi-stage build
-└── deploy/                    # Docker Compose stacks (local/staging/prod)
-</pre></div>
-</div>
-</section>
-<section id="technology-stack">
-<h2>Technology Stack<a class="headerlink" href="#technology-stack" title="Link to this heading"></a></h2>
-<section id="backend">
-<h3>Backend<a class="headerlink" href="#backend" title="Link to this heading"></a></h3>
+  <section id="diagrammi-mermaid-restrackit-basi-di-dati">
+<h1>Diagrammi Mermaid — Restrackit Basi di Dati<a class="headerlink" href="#diagrammi-mermaid-restrackit-basi-di-dati" title="Link to this heading"></a></h1>
+<p>Vai su <strong>https://mermaid.live</strong>, incolla ciascun blocco, clicca <strong>Download PNG</strong>,
+rinomina il file come indicato e mettilo nella cartella <code class="docutils literal notranslate"><span class="pre">screenshots/</span></code>.</p>
+<p>Legenda colori:</p>
 <ul class="simple">
-<li><p><strong>Framework</strong>: FastAPI (Python &gt;= 3.14)</p></li>
-<li><p><strong>ORM</strong>: SQLAlchemy 2.0 (Sync/Async ready)</p></li>
-<li><p><strong>Migrations</strong>: Alembic</p></li>
-<li><p><strong>Linter</strong>: Ruff (replaces Flake8/Black/Isort)</p></li>
+<li><p>🔵 Blu = Entità</p></li>
+<li><p>🟠 Arancione tratteggiato = Tabella di audit append-only (non è un’entità debole: ha PK propria)</p></li>
+<li><p>🟢 Verde = Tabella associativa (entità-relazione)</p></li>
+<li><p>🟡 Giallo = Relazione (rombo)</p></li>
 </ul>
-</section>
-<section id="ai-data">
-<h3>AI &amp; Data<a class="headerlink" href="#ai-data" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>OCR</strong>: Google Cloud Vision API</p></li>
-<li><p><strong>LLM</strong>: Google Gemini 2.0 Flash (via <code class="docutils literal notranslate"><span class="pre">google-genai</span></code> SDK)</p></li>
-<li><p><strong>Database</strong>: PostgreSQL 18 (Alpine)</p></li>
-<li><p><strong>Cache &amp; Queue</strong>: Redis 7.2 (with msgpack serialization)</p></li>
-<li><p><strong>Task Queue</strong>: arq (Async Redis Queue)</p></li>
-</ul>
-</section>
-<section id="devops">
-<h3>DevOps<a class="headerlink" href="#devops" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>Container</strong>: Docker (Multi-stage: Builder -&gt; Runtime)</p></li>
-<li><p><strong>CI/CD</strong>: GitHub Actions (Lint, Test, Build, Docs)</p></li>
-<li><p><strong>Testing</strong>: Pytest + Coverage (100% target)</p></li>
-<li><p><strong>Monitoring</strong>: Sentry (Error Tracking) + Apitally (API Analytics)</p></li>
-</ul>
-</section>
-</section>
-<section id="key-components">
-<h2>Key Components<a class="headerlink" href="#key-components" title="Link to this heading"></a></h2>
-<section id="modular-architecture-app-modules">
-<h3>1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)<a class="headerlink" href="#modular-architecture-app-modules" title="Link to this heading"></a></h3>
-<p>Each module (<code class="docutils literal notranslate"><span class="pre">inventory</span></code>, <code class="docutils literal notranslate"><span class="pre">products</span></code>) is self-contained with its own:</p>
-<ul class="simple">
-<li><p><strong>Router</strong>: Defines API endpoints</p></li>
-<li><p><strong>Service</strong>: Implements business logic</p></li>
-<li><p><strong>Models</strong>: Defines DB tables</p></li>
-<li><p><strong>Schemas</strong>: Defines DTOs (Data Transfer Objects)</p></li>
-</ul>
-</section>
-<section id="error-handling-app-core-errors-py">
-<h3>2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)<a class="headerlink" href="#error-handling-app-core-errors-py" title="Link to this heading"></a></h3>
-<p>Standardized error handling using <code class="docutils literal notranslate"><span class="pre">AppError</span></code> and specific codes (<code class="docutils literal notranslate"><span class="pre">ERR_...</span></code>):</p>
-<ul class="simple">
-<li><p>All errors return a uniform JSON structure.</p></li>
-<li><p>Unhandled exceptions are caught by global middleware and returned as 500 System Errors.</p></li>
-</ul>
-</section>
-<section id="ai-agent-app-services-ai-agent-py">
-<h3>3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)<a class="headerlink" href="#ai-agent-app-services-ai-agent-py" title="Link to this heading"></a></h3>
-<p>A specialized service that:</p>
-<ol class="arabic simple">
-<li><p>Receives raw OCR text.</p></li>
-<li><p>Uses a custom tool (<code class="docutils literal notranslate"><span class="pre">search_product_tool</span></code>) to query the DB for product matches.</p></li>
-<li><p>Returns structured data (Product, Lot, Expiry, Confidence).</p></li>
-</ol>
-</section>
-<section id="caching-system-app-shared-cache-py">
-<h3>4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)<a class="headerlink" href="#caching-system-app-shared-cache-py" title="Link to this heading"></a></h3>
-<p>Implementation of an asynchronous caching layer:</p>
-<ul class="simple">
-<li><p><strong>Decorator <code class="docutils literal notranslate"><span class="pre">&#64;cached</span></code></strong>: Applied to service methods (including <code class="docutils literal notranslate"><span class="pre">products</span></code> and <code class="docutils literal notranslate"><span class="pre">kitchen</span></code>) to cache results in Redis.</p></li>
-<li><p><strong>Serialization</strong>: Efficient binary serialization using <code class="docutils literal notranslate"><span class="pre">msgpack</span></code> with custom encoders for <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code>.</p></li>
-<li><p><strong>Model Hydration</strong>: Automatically reconstructs Pydantic models from cache hits.</p></li>
-<li><p><strong>Fail-Open</strong>: If Redis is unavailable, the system transparently falls back to database queries, ensuring high availability.</p></li>
-<li><p><strong>Selective Invalidation</strong>: Cache entries are automatically invalidated on resource updates or deletions using key pattern matching.</p></li>
-</ul>
-</section>
-<section id="background-tasks-app-worker-py">
-<h3>5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)<a class="headerlink" href="#background-tasks-app-worker-py" title="Link to this heading"></a></h3>
-<p>Asynchronous task processing using <code class="docutils literal notranslate"><span class="pre">arq</span></code>:</p>
-<ul class="simple">
-<li><p><strong>Singleton Pool</strong>: Uses a persistent Redis connection pool to minimize overhead.</p></li>
-<li><p><strong>Msgpack Serialization</strong>: Custom serializers for <code class="docutils literal notranslate"><span class="pre">arq</span></code> that handle <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects via ISO conversion.</p></li>
-<li><p><strong>Status Mapping</strong>: Detailed job tracking that distinguishes between <code class="docutils literal notranslate"><span class="pre">arq</span></code> execution state and internal task result status (e.g., catching AI failures).</p></li>
-<li><p><strong>Offloading</strong>: Moves heavy OCR and AI analysis to a separate worker process.</p></li>
-<li><p><strong>Shared Storage</strong>: Uses Docker volumes (<code class="docutils literal notranslate"><span class="pre">uploads_data</span></code>) for temporary file processing between the API and workers.</p></li>
-<li><p><strong>Monitoring</strong>: Real-time status retrieval via <code class="docutils literal notranslate"><span class="pre">/inventory/analyze/{job_id}</span></code>.</p></li>
-</ul>
-</section>
-<section id="allergen-management-app-shared-allergens-py">
-<h3>6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)<a class="headerlink" href="#allergen-management-app-shared-allergens-py" title="Link to this heading"></a></h3>
-<p>A specialized bitmask-based system for EU-compliant allergen tracking:</p>
-<ul class="simple">
-<li><p><strong>Bitmask Storage</strong>: Allergens are stored as a single integer (bitmask) in the <code class="docutils literal notranslate"><span class="pre">ProductMaster.allergen_mask</span></code> column, ensuring extreme performance for filtering.</p></li>
-<li><p><strong>I18n Support</strong>: Dedicated mapping endpoints (<code class="docutils literal notranslate"><span class="pre">/products/allergens</span></code>) provide localized labels (IT/EN) for frontend display.</p></li>
-<li><p><strong>Strict Typing</strong>: Uses <code class="docutils literal notranslate"><span class="pre">AppAllergen</span></code> Enum to prevent invalid data entry and ensure consistency across the API.</p></li>
-<li><p><strong>Filtering</strong>: Efficiently supports queries like “gluten-free” or “free from X, Y, Z” using bitwise operators in the database.</p></li>
-</ul>
-</section>
-<section id="ocr-post-processing-app-services-ocr-post-processing-py">
-<h3>7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)<a class="headerlink" href="#ocr-post-processing-app-services-ocr-post-processing-py" title="Link to this heading"></a></h3>
-<p>A specialized engine for intelligent lot code correction:</p>
-<ul class="simple">
-<li><p><strong>Structural Matching</strong>: Uses “structural signatures” (mapping characters to categories like <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">N</span></code>, or <code class="docutils literal notranslate"><span class="pre">X</span></code> for ambiguous characters) to compare new lots with historical data.</p></li>
-<li><p><strong>Ambiguity Resolution</strong>: Handles common OCR errors (e.g., swapping <code class="docutils literal notranslate"><span class="pre">0</span></code>/<code class="docutils literal notranslate"><span class="pre">O</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>/<code class="docutils literal notranslate"><span class="pre">I</span></code>, <code class="docutils literal notranslate"><span class="pre">5</span></code>/<code class="docutils literal notranslate"><span class="pre">S</span></code>) by validating differences against a known ambiguity map.</p></li>
-<li><p><strong>Context-Aware Boost</strong>: Increases AI confidence score when a lot code matches a known pattern from the product’s history, reducing manual revisions.</p></li>
-<li><p><strong>DRY Architecture</strong>: Uses a unified source of truth for ambiguous character pairs, automatically shared between structural matching and positional validation logic.</p></li>
-</ul>
-</section>
-</section>
-<section id="data-flow-image-analysis">
-<h2>Data Flow: Image Analysis<a class="headerlink" href="#data-flow-image-analysis" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p><strong>Upload</strong>: Client sends image to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code>.</p></li>
-<li><p><strong>OCR</strong>: <code class="docutils literal notranslate"><span class="pre">OCRService</span></code> calls Google Vision to get text.</p></li>
-<li><p><strong>Agent</strong>: <code class="docutils literal notranslate"><span class="pre">InventoryAgentService</span></code> sends text + store context to Gemini.</p></li>
-<li><p><strong>Prompt Injection Protection</strong>: Untrusted OCR text is wrapped in delimiters (<code class="docutils literal notranslate"><span class="pre">[START_OCR]...[END_OCR]</span></code>) and isolated using <strong>System Instructions</strong>.</p></li>
-<li><p><strong>Structured Output</strong>: Enforces valid JSON results via <strong>JSON Schema Mode</strong> and Pydantic models.</p></li>
-<li><p><strong>Tool Use</strong>: Gemini calls <code class="docutils literal notranslate"><span class="pre">search_product_tool</span></code> to validate product name against <code class="docutils literal notranslate"><span class="pre">products_master</span></code> table.</p></li>
-<li><p><strong>Post-Processing</strong>: <code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor</span></code> compares the extracted lot with historical lots for the same product to correct common OCR ambiguities.</p></li>
-<li><p><strong>Response</strong>: Structured JSON is returned to the client (including a <code class="docutils literal notranslate"><span class="pre">warning</span></code> if the product wasn’t identified).</p></li>
-<li><p><strong>Confirm</strong>: Client sends validated data to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code> to save in <code class="docutils literal notranslate"><span class="pre">batches</span></code> table. Note: the deprecated <code class="docutils literal notranslate"><span class="pre">lot_code_ai</span></code> field has been removed to simplify the schema.</p></li>
-</ol>
-</section>
-<section id="multi-tenancy-security">
-<h2>Multi-Tenancy &amp; Security<a class="headerlink" href="#multi-tenancy-security" title="Link to this heading"></a></h2>
-<section id="row-level-security-rls">
-<h3>1. Row Level Security (RLS)<a class="headerlink" href="#row-level-security-rls" title="Link to this heading"></a></h3>
-<p>The system implements a dual-layer isolation strategy:</p>
-<ul class="simple">
-<li><p><strong>Application Layer</strong>: All service queries are scoped by <code class="docutils literal notranslate"><span class="pre">store_id</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">filter(ProductMaster.store_id</span> <span class="pre">==</span> <span class="pre">store_id)</span></code>).</p></li>
-<li><p><strong>Database Layer</strong>: PostgreSQL Row Level Security is enabled on core tables. The application uses a <code class="docutils literal notranslate"><span class="pre">SET</span> <span class="pre">LOCAL</span> <span class="pre">app.current_store_id</span></code> command within every transaction to enforce isolation at the database level, preventing data leaks even in case of application bugs.</p></li>
-</ul>
-</section>
-<section id="authentication-keycloak-oidc">
-<h3>2. Authentication (Keycloak OIDC)<a class="headerlink" href="#authentication-keycloak-oidc" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>JWT Validation</strong>: Real-time token validation against Keycloak JWKS with localized caching in Redis for performance.</p></li>
-<li><p><strong>Granular Permissions</strong>: A custom <code class="docutils literal notranslate"><span class="pre">RequirePermission</span></code> dependency maps Keycloak roles to fine-grained action permissions (e.g., <code class="docutils literal notranslate"><span class="pre">INVENTORY_WRITE</span></code>).</p></li>
-</ul>
-</section>
-<section id="opaque-uuid-api-ids">
-<h3>3. Opaque UUID API IDs<a class="headerlink" href="#opaque-uuid-api-ids" title="Link to this heading"></a></h3>
-<p>All API path parameters use <code class="docutils literal notranslate"><span class="pre">public_id</span></code> (UUID v4) instead of sequential integer PKs:</p>
-<ul class="simple">
-<li><p><strong>IDOR prevention</strong>: sequential integers allow enumeration of all resources across stores. UUIDs make enumeration infeasible.</p></li>
-<li><p><strong>Implementation</strong>: <code class="docutils literal notranslate"><span class="pre">PublicIdMixin</span></code> (<code class="docutils literal notranslate"><span class="pre">app/shared/mixins.py</span></code>) adds <code class="docutils literal notranslate"><span class="pre">public_id</span> <span class="pre">UUID</span> <span class="pre">UNIQUE</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code> to 9 tables. Routers accept <code class="docutils literal notranslate"><span class="pre">uuid.UUID</span></code> path params; service methods translate to internal integer IDs via a single indexed lookup.</p></li>
-<li><p><strong>Zero FK impact</strong>: internal integer PKs and all FK relationships are unchanged — only the API surface changes.</p></li>
-<li><p><strong>Tables covered</strong>: <code class="docutils literal notranslate"><span class="pre">products_master</span></code>, <code class="docutils literal notranslate"><span class="pre">categories</span></code>, <code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code>, <code class="docutils literal notranslate"><span class="pre">storage_methods</span></code>, <code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code>, <code class="docutils literal notranslate"><span class="pre">batches</span></code>, <code class="docutils literal notranslate"><span class="pre">recipes</span></code>, <code class="docutils literal notranslate"><span class="pre">preparations</span></code>, <code class="docutils literal notranslate"><span class="pre">notifications</span></code>.</p></li>
-</ul>
-</section>
-<section id="monitoring-observability">
-<h3>4. Monitoring &amp; Observability<a class="headerlink" href="#monitoring-observability" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>Request Tracing</strong>: Every request is assigned a unique <code class="docutils literal notranslate"><span class="pre">X-Request-ID</span></code>, propagated through logs, database contexts, and external service calls for end-to-end tracing.</p></li>
-<li><p><strong>Sentry</strong>: Captures unhandled exceptions and performance bottlenecks with release tracking tied to Git commit hashes.</p></li>
-<li><p><strong>Apitally</strong>: Provides real-time insights into API usage, response times, and error rates without impacting performance.</p></li>
-</ul>
-</section>
-</section>
+<hr class="docutils" />
+<section id="diag1-png-schema-scheletro">
+<h2>diag1.png — Schema Scheletro<a class="headerlink" href="#diag1-png-schema-scheletro" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;city&quot;]:::entity
+    USER[&quot;&lt;b&gt;USER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;username&lt;br/&gt;role&quot;]:::entity
+    NOTIFICATION[&quot;&lt;b&gt;NOTIFICATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;type&lt;br/&gt;severity&quot;]:::entity
+    PRODUCT[&quot;&lt;b&gt;PRODUCT&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;name&quot;]:::entity
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;product_id (FK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&quot;]:::entity
+    RECIPE[&quot;&lt;b&gt;RECIPE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;name&quot;]:::entity
+    PREPARATION[&quot;&lt;b&gt;PREPARATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;recipe_id (FK)&lt;br/&gt;store_id (FK)&quot;]:::entity
+
+    R1{&quot;appartiene&quot;}:::rel
+    R2{&quot;invia&quot;}:::rel
+    R3{&quot;possiede&quot;}:::rel
+    R4{&quot;istanziato in&quot;}:::rel
+    R5{&quot;eseguita come&quot;}:::rel
+    R6{&quot;consuma&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| USER
+    STORE ---|&quot;(0,N)&quot;| R2 ---|&quot;(1,1)&quot;| NOTIFICATION
+    STORE ---|&quot;(0,N)&quot;| R3 ---|&quot;(1,1)&quot;| PRODUCT
+    PRODUCT ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| BATCH
+    RECIPE ---|&quot;(0,N)&quot;| R5 ---|&quot;(1,1)&quot;| PREPARATION
+    BATCH ---|&quot;(0,N)&quot;| R6 ---|&quot;(0,N)&quot;| PREPARATION
+    </pre></section>
+<hr class="docutils" />
+<section id="diag2-png-ambito-auth-store">
+<h2>diag2.png — Ambito Auth &amp; Store<a class="headerlink" href="#diag2-png-ambito-auth-store" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;address&lt;br/&gt;city&lt;br/&gt;phone&lt;br/&gt;email&lt;br/&gt;is_active&lt;br/&gt;notify_expiring_today&lt;br/&gt;created_at&lt;br/&gt;updated_at&quot;]:::entity
+
+    USER[&quot;&lt;b&gt;USER&lt;/b&gt;&lt;br/&gt;──────────────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;username&lt;br/&gt;email&lt;br/&gt;password_hash&lt;br/&gt;first_name&lt;br/&gt;last_name&lt;br/&gt;role (chef|manager|admin)&lt;br/&gt;is_active&lt;br/&gt;created_at&lt;br/&gt;updated_at&quot;]:::entity
+
+    R1{&quot;ha&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| USER
+    </pre></section>
+<hr class="docutils" />
+<section id="diag3-png-ambito-catalogo-prodotti">
+<h2>diag3.png — Ambito Catalogo Prodotti<a class="headerlink" href="#diag3-png-ambito-catalogo-prodotti" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    CATEGORY[&quot;&lt;b&gt;CATEGORY&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    UNIT_OF_MEASURE[&quot;&lt;b&gt;UNIT_OF_MEASURE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;symbol&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    PRODUCT_MASTER[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;category_id (FK)&lt;br/&gt;allergen_mask&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    STORAGE_METHOD[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    PRODUCT_STORAGE_RULE[&quot;&lt;b&gt;PRODUCT_STORAGE_RULE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;storage_method_id (FK)&lt;br/&gt;duration_days&lt;br/&gt;duration_hours&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::assoc
+
+    R1{&quot;possiede&quot;}:::rel
+    R2{&quot;possiede&quot;}:::rel
+    R3{&quot;possiede&quot;}:::rel
+    R4{&quot;possiede&quot;}:::rel
+    R5{&quot;appartiene a&quot;}:::rel
+    R6{&quot;ha regola&quot;}:::rel
+    R7{&quot;usato in&quot;}:::rel
+    R8{&quot;possiede&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| CATEGORY
+    STORE ---|&quot;(0,N)&quot;| R2 ---|&quot;(1,1)&quot;| UNIT_OF_MEASURE
+    STORE ---|&quot;(0,N)&quot;| R3 ---|&quot;(1,1)&quot;| PRODUCT_MASTER
+    STORE ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| STORAGE_METHOD
+    PRODUCT_MASTER ---|&quot;(1,1)&quot;| R5 ---|&quot;(0,N)&quot;| CATEGORY
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R6 ---|&quot;(1,1)&quot;| PRODUCT_STORAGE_RULE
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R7 ---|&quot;(1,1)&quot;| PRODUCT_STORAGE_RULE
+    STORE ---|&quot;(0,N)&quot;| R8 ---|&quot;(1,1)&quot;| PRODUCT_STORAGE_RULE
+    </pre></section>
+<hr class="docutils" />
+<section id="diag4-png-ambito-inventario-batch">
+<h2>diag4.png — Ambito Inventario &amp; Batch<a class="headerlink" href="#diag4-png-ambito-inventario-batch" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity  fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef weakent fill:#FDEBD0,stroke:#15446B,color:#000,font-weight:bold,stroke-dasharray:5 5
+    classDef rel     fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    PRODUCT_MASTER[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+    STORAGE_METHOD[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;current_storage_method_id (FK)&lt;br/&gt;storage_expiry_at&lt;br/&gt;operator_id&lt;br/&gt;confidence&lt;br/&gt;is_empty&lt;br/&gt;finished_at&lt;br/&gt;wasted_quantity&lt;br/&gt;wasted_unit_id (FK)&lt;br/&gt;deleted_at&lt;br/&gt;version&quot;]:::entity
+    BATCH_STORAGE_MOVE[&quot;&lt;b&gt;BATCH_STORAGE_MOVE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;from_storage_method_id (FK)&lt;br/&gt;to_storage_method_id (FK)&lt;br/&gt;computed_storage_expiry_at&lt;br/&gt;operator_id&lt;br/&gt;moved_at&quot;]:::weakent
+    BATCH_EVENT[&quot;&lt;b&gt;BATCH_EVENT&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;preparation_id (FK)&lt;br/&gt;event_type&lt;br/&gt;reason&lt;br/&gt;operator_id&lt;br/&gt;notes&lt;br/&gt;occurred_at&quot;]:::weakent
+
+    R1{&quot;istanziato in&quot;}:::rel
+    R2{&quot;conserva&quot;}:::rel
+    R3{&quot;genera spostamento&quot;}:::rel
+    R4{&quot;genera evento&quot;}:::rel
+    R5{&quot;da metodo&quot;}:::rel
+    R6{&quot;a metodo&quot;}:::rel
+
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| BATCH
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R2 ---|&quot;(1,1)&quot;| BATCH
+    BATCH ---|&quot;(0,N)&quot;| R3 ---|&quot;(1,1)&quot;| BATCH_STORAGE_MOVE
+    BATCH ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| BATCH_EVENT
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R5 ---|&quot;(0,1)&quot;| BATCH_STORAGE_MOVE
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R6 ---|&quot;(1,1)&quot;| BATCH_STORAGE_MOVE
+    </pre></section>
+<hr class="docutils" />
+<section id="diag5-png-ambito-cucina-ricette">
+<h2>diag5.png — Ambito Cucina &amp; Ricette<a class="headerlink" href="#diag5-png-ambito-cucina-ricette" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    PRODUCT_MASTER[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+    UNIT_OF_MEASURE[&quot;&lt;b&gt;UNIT_OF_MEASURE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;symbol&quot;]:::entity
+    RECIPE[&quot;&lt;b&gt;RECIPE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;name&lt;br/&gt;description&lt;br/&gt;deleted_at&lt;br/&gt;version&quot;]:::entity
+    RECIPE_INGREDIENT[&quot;&lt;b&gt;RECIPE_INGREDIENT&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;recipe_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;standard_quantity&lt;br/&gt;unit_of_measure_id (FK)&quot;]:::assoc
+
+    R1{&quot;output di&quot;}:::rel
+    R2{&quot;composta da&quot;}:::rel
+    R3{&quot;ingrediente di&quot;}:::rel
+    R4{&quot;misurato in&quot;}:::rel
+
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| RECIPE
+    RECIPE ---|&quot;(1,N)&quot;| R2 ---|&quot;(1,1)&quot;| RECIPE_INGREDIENT
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R3 ---|&quot;(1,1)&quot;| RECIPE_INGREDIENT
+    UNIT_OF_MEASURE ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| RECIPE_INGREDIENT
+    </pre></section>
+<hr class="docutils" />
+<section id="diag6-png-ambito-preparazioni">
+<h2>diag6.png — Ambito Preparazioni<a class="headerlink" href="#diag6-png-ambito-preparazioni" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    RECIPE[&quot;&lt;b&gt;RECIPE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+    BATCH_OUT[&quot;&lt;b&gt;BATCH&lt;/b&gt; (output)&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;product_master_id (FK)&quot;]:::entity
+    PREPARATION[&quot;&lt;b&gt;PREPARATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;recipe_id (FK)&lt;br/&gt;output_batch_id (FK)&lt;br/&gt;operator_id&lt;br/&gt;notes&lt;br/&gt;completed_at&lt;br/&gt;deleted_at&lt;br/&gt;version&quot;]:::entity
+    BATCH_IN[&quot;&lt;b&gt;BATCH&lt;/b&gt; (input)&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;product_master_id (FK)&quot;]:::entity
+    UNIT_OF_MEASURE[&quot;&lt;b&gt;UNIT_OF_MEASURE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;symbol&quot;]:::entity
+    PREPARATION_ITEM[&quot;&lt;b&gt;PREPARATION_ITEM&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;preparation_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;quantity_used&lt;br/&gt;unit_of_measure_id (FK)&quot;]:::assoc
+
+    R1{&quot;eseguita come&quot;}:::rel
+    R2{&quot;produce output&quot;}:::rel
+    R3{&quot;consuma&quot;}:::rel
+    R4{&quot;usato in&quot;}:::rel
+    R5{&quot;misurato in&quot;}:::rel
+
+    RECIPE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| PREPARATION
+    BATCH_OUT ---|&quot;(0,1)&quot;| R2 ---|&quot;(0,1)&quot;| PREPARATION
+    PREPARATION ---|&quot;(1,N)&quot;| R3 ---|&quot;(1,1)&quot;| PREPARATION_ITEM
+    BATCH_IN ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| PREPARATION_ITEM
+    UNIT_OF_MEASURE ---|&quot;(0,N)&quot;| R5 ---|&quot;(1,1)&quot;| PREPARATION_ITEM
+    </pre></section>
+<hr class="docutils" />
+<section id="diag7-png-ambito-notifiche">
+<h2>diag7.png — Ambito Notifiche<a class="headerlink" href="#diag7-png-ambito-notifiche" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;city&quot;]:::entity
+    NOTIFICATION[&quot;&lt;b&gt;NOTIFICATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;type&lt;br/&gt;severity&lt;br/&gt;message&lt;br/&gt;data (JSONB)&lt;br/&gt;is_read&lt;br/&gt;created_at&quot;]:::entity
+
+    R1{&quot;riceve&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| NOTIFICATION
+    </pre></section>
+<hr class="docutils" />
+<section id="diag8-png-schema-concettuale-finale-completo">
+<h2>diag8.png — Schema Concettuale Finale (completo)<a class="headerlink" href="#diag8-png-schema-concettuale-finale-completo" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity  fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc   fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef weakent fill:#FDEBD0,stroke:#15446B,color:#000,font-weight:bold,stroke-dasharray:5 5
+    classDef rel     fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;address&lt;br/&gt;city&lt;br/&gt;phone&lt;br/&gt;email&lt;br/&gt;is_active&lt;br/&gt;notify_expiring_today&quot;]:::entity
+    USER[&quot;&lt;b&gt;USER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;username&lt;br/&gt;email&lt;br/&gt;password_hash&lt;br/&gt;role&lt;br/&gt;is_active&quot;]:::entity
+    CATEGORY[&quot;&lt;b&gt;CATEGORY&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    UNIT_OF_MEASURE[&quot;&lt;b&gt;UNIT_OF_MEASURE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;symbol&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    STORAGE_METHOD[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    NOTIFICATION[&quot;&lt;b&gt;NOTIFICATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;type&lt;br/&gt;severity&lt;br/&gt;message&lt;br/&gt;data (JSONB)&lt;br/&gt;is_read&lt;br/&gt;created_at&quot;]:::entity
+    PRODUCT_MASTER[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;category_id (FK)&lt;br/&gt;name&lt;br/&gt;allergen_mask&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    PRODUCT_STORAGE_RULE[&quot;&lt;b&gt;PRODUCT_STORAGE_RULE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;storage_method_id (FK)&lt;br/&gt;duration_days&lt;br/&gt;duration_hours&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::assoc
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;current_storage_method_id (FK)&lt;br/&gt;storage_expiry_at&lt;br/&gt;operator_id&lt;br/&gt;confidence&lt;br/&gt;is_empty&lt;br/&gt;finished_at&lt;br/&gt;wasted_quantity&lt;br/&gt;wasted_unit_id (FK)&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    BATCH_STORAGE_MOVE[&quot;&lt;b&gt;BATCH_STORAGE_MOVE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;from_storage_method_id (FK)&lt;br/&gt;to_storage_method_id (FK)&lt;br/&gt;computed_storage_expiry_at&lt;br/&gt;operator_id&lt;br/&gt;moved_at&quot;]:::weakent
+    BATCH_EVENT[&quot;&lt;b&gt;BATCH_EVENT&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;preparation_id (FK)&lt;br/&gt;event_type&lt;br/&gt;reason&lt;br/&gt;operator_id&lt;br/&gt;notes&lt;br/&gt;occurred_at&quot;]:::weakent
+    RECIPE[&quot;&lt;b&gt;RECIPE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;name&lt;br/&gt;description&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    RECIPE_INGREDIENT[&quot;&lt;b&gt;RECIPE_INGREDIENT&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;recipe_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;unit_of_measure_id (FK)&lt;br/&gt;standard_quantity&quot;]:::assoc
+    PREPARATION[&quot;&lt;b&gt;PREPARATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;recipe_id (FK)&lt;br/&gt;output_batch_id (FK)&lt;br/&gt;operator_id&lt;br/&gt;notes&lt;br/&gt;completed_at&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    PREPARATION_ITEM[&quot;&lt;b&gt;PREPARATION_ITEM&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;preparation_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;unit_of_measure_id (FK)&lt;br/&gt;quantity_used&quot;]:::assoc
+
+    R1{&quot;ha&quot;}:::rel
+    R2{&quot;possiede&quot;}:::rel
+    R3{&quot;possiede&quot;}:::rel
+    R4{&quot;possiede&quot;}:::rel
+    R5{&quot;riceve&quot;}:::rel
+    R6{&quot;possiede&quot;}:::rel
+    R7{&quot;ha&quot;}:::rel
+    R8{&quot;ha&quot;}:::rel
+    R9{&quot;appartiene a&quot;}:::rel
+    R10{&quot;ha regola&quot;}:::rel
+    R11{&quot;usato in&quot;}:::rel
+    R12{&quot;istanziato in&quot;}:::rel
+    R13{&quot;conserva&quot;}:::rel
+    R14{&quot;genera&quot;}:::rel
+    R15{&quot;genera&quot;}:::rel
+    R16{&quot;output di&quot;}:::rel
+    R17{&quot;composta da&quot;}:::rel
+    R18{&quot;ingrediente di&quot;}:::rel
+    R19{&quot;misurato in&quot;}:::rel
+    R20{&quot;eseguita come&quot;}:::rel
+    R21{&quot;produce output&quot;}:::rel
+    R22{&quot;consuma&quot;}:::rel
+    R23{&quot;usato in&quot;}:::rel
+    R24{&quot;misurato in&quot;}:::rel
+    R25{&quot;collegato a&quot;}:::rel
+    R26{&quot;possiede&quot;}:::rel
+    R27{&quot;possiede&quot;}:::rel
+    R28{&quot;possiede&quot;}:::rel
+    R29{&quot;possiede&quot;}:::rel
+    R30{&quot;spreco in&quot;}:::rel
+    R31{&quot;da metodo&quot;}:::rel
+    R32{&quot;a metodo&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| USER
+    STORE ---|&quot;(0,N)&quot;| R2 ---|&quot;(1,1)&quot;| CATEGORY
+    STORE ---|&quot;(0,N)&quot;| R3 ---|&quot;(1,1)&quot;| UNIT_OF_MEASURE
+    STORE ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| STORAGE_METHOD
+    STORE ---|&quot;(0,N)&quot;| R5 ---|&quot;(1,1)&quot;| NOTIFICATION
+    STORE ---|&quot;(0,N)&quot;| R6 ---|&quot;(1,1)&quot;| PRODUCT_MASTER
+    STORE ---|&quot;(0,N)&quot;| R7 ---|&quot;(1,1)&quot;| RECIPE
+    STORE ---|&quot;(0,N)&quot;| R8 ---|&quot;(1,1)&quot;| PREPARATION
+    PRODUCT_MASTER ---|&quot;(1,1)&quot;| R9 ---|&quot;(0,N)&quot;| CATEGORY
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R10 ---|&quot;(1,1)&quot;| PRODUCT_STORAGE_RULE
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R11 ---|&quot;(1,1)&quot;| PRODUCT_STORAGE_RULE
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R12 ---|&quot;(1,1)&quot;| BATCH
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R13 ---|&quot;(1,1)&quot;| BATCH
+    BATCH ---|&quot;(0,N)&quot;| R14 ---|&quot;(1,1)&quot;| BATCH_STORAGE_MOVE
+    BATCH ---|&quot;(0,N)&quot;| R15 ---|&quot;(1,1)&quot;| BATCH_EVENT
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R16 ---|&quot;(1,1)&quot;| RECIPE
+    RECIPE ---|&quot;(1,N)&quot;| R17 ---|&quot;(1,1)&quot;| RECIPE_INGREDIENT
+    PRODUCT_MASTER ---|&quot;(0,N)&quot;| R18 ---|&quot;(1,1)&quot;| RECIPE_INGREDIENT
+    UNIT_OF_MEASURE ---|&quot;(0,N)&quot;| R19 ---|&quot;(1,1)&quot;| RECIPE_INGREDIENT
+    RECIPE ---|&quot;(0,N)&quot;| R20 ---|&quot;(1,1)&quot;| PREPARATION
+    BATCH ---|&quot;(0,1)&quot;| R21 ---|&quot;(0,1)&quot;| PREPARATION
+    PREPARATION ---|&quot;(1,N)&quot;| R22 ---|&quot;(1,1)&quot;| PREPARATION_ITEM
+    BATCH ---|&quot;(0,N)&quot;| R23 ---|&quot;(1,1)&quot;| PREPARATION_ITEM
+    UNIT_OF_MEASURE ---|&quot;(0,N)&quot;| R24 ---|&quot;(1,1)&quot;| PREPARATION_ITEM
+    BATCH_EVENT ---|&quot;(0,1)&quot;| R25 ---|&quot;(0,N)&quot;| PREPARATION
+    STORE ---|&quot;(0,N)&quot;| R26 ---|&quot;(1,1)&quot;| BATCH
+    STORE ---|&quot;(0,N)&quot;| R27 ---|&quot;(1,1)&quot;| PRODUCT_STORAGE_RULE
+    STORE ---|&quot;(0,N)&quot;| R28 ---|&quot;(1,1)&quot;| BATCH_STORAGE_MOVE
+    STORE ---|&quot;(0,N)&quot;| R29 ---|&quot;(1,1)&quot;| BATCH_EVENT
+    UNIT_OF_MEASURE ---|&quot;(0,N)&quot;| R30 ---|&quot;(0,1)&quot;| BATCH
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R31 ---|&quot;(0,1)&quot;| BATCH_STORAGE_MOVE
+    STORAGE_METHOD ---|&quot;(0,N)&quot;| R32 ---|&quot;(1,1)&quot;| BATCH_STORAGE_MOVE
+    </pre></section>
+<hr class="docutils" />
+<section id="diag9-png-nav-1-registrazione-batch-via-ocr">
+<h2>diag9.png — Nav. 1: Registrazione batch via OCR<a class="headerlink" href="#diag9-png-nav-1-registrazione-batch-via-ocr" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    PM[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    SM[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;current_storage_method_id (FK)&lt;br/&gt;confidence&lt;br/&gt;is_empty&quot;]:::entity
+
+    R1{&quot;possiede&quot;}:::rel
+    R2{&quot;istanziato in&quot;}:::rel
+    R3{&quot;conserva&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| BATCH
+    PM ---|&quot;(0,N)&quot;| R2 ---|&quot;(1,1)&quot;| BATCH
+    SM ---|&quot;(0,N)&quot;| R3 ---|&quot;(0,1)&quot;| BATCH
+    </pre></section>
+<hr class="docutils" />
+<section id="diag10-png-nav-2-lotti-in-scadenza-per-store">
+<h2>diag10.png — Nav. 2: Lotti in scadenza per store<a class="headerlink" href="#diag10-png-nav-2-lotti-in-scadenza-per-store" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;store_id (FK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;storage_expiry_at&lt;br/&gt;is_empty&quot;]:::entity
+    PM[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+
+    R1{&quot;ha lotti&quot;}:::rel
+    R2{&quot;di prodotto&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| BATCH
+    BATCH ---|&quot;(1,1)&quot;| R2 ---|&quot;(0,N)&quot;| PM
+    </pre></section>
+<hr class="docutils" />
+<section id="diag11-png-nav-3-storico-spostamenti-di-un-batch">
+<h2>diag11.png — Nav. 3: Storico spostamenti di un batch<a class="headerlink" href="#diag11-png-nav-3-storico-spostamenti-di-un-batch" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity  fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef weakent fill:#FDEBD0,stroke:#15446B,color:#000,font-weight:bold,stroke-dasharray:5 5
+    classDef rel     fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;lot_code&lt;br/&gt;product_master_id (FK)&quot;]:::entity
+    BSM[&quot;&lt;b&gt;BATCH_STORAGE_MOVE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;from_storage_method_id (FK)&lt;br/&gt;to_storage_method_id (FK)&lt;br/&gt;computed_storage_expiry_at&lt;br/&gt;moved_at&quot;]:::weakent
+    SM_DA[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;(da / origine)&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    SM_A[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;(a / destinazione)&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+
+    R1{&quot;genera&quot;}:::rel
+    R2{&quot;proveniente da&quot;}:::rel
+    R3{&quot;trasferito a&quot;}:::rel
+
+    BATCH ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| BSM
+    BSM ---|&quot;(1,1)&quot;| R2 ---|&quot;(0,N)&quot;| SM_DA
+    BSM ---|&quot;(1,1)&quot;| R3 ---|&quot;(0,N)&quot;| SM_A
+    </pre></section>
+<hr class="docutils" />
+<section id="diag12-png-nav-4-eseguire-una-preparazione">
+<h2>diag12.png — Nav. 4: Eseguire una preparazione<a class="headerlink" href="#diag12-png-nav-4-eseguire-una-preparazione" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    RECIPE[&quot;&lt;b&gt;RECIPE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+    PREP[&quot;&lt;b&gt;PREPARATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;recipe_id (FK)&lt;br/&gt;store_id (FK)&lt;br/&gt;operator_id&lt;br/&gt;completed_at&quot;]:::entity
+    PI[&quot;&lt;b&gt;PREPARATION_ITEM&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;preparation_id (FK)&lt;br/&gt;batch_id (FK)&lt;br/&gt;quantity_used&lt;br/&gt;unit_of_measure_id (FK)&quot;]:::assoc
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;product_master_id (FK)&quot;]:::entity
+    UOM[&quot;&lt;b&gt;UNIT_OF_MEASURE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;symbol&quot;]:::entity
+
+    R1{&quot;eseguita come&quot;}:::rel
+    R2{&quot;consuma&quot;}:::rel
+    R3{&quot;usato in&quot;}:::rel
+    R4{&quot;misurato in&quot;}:::rel
+
+    RECIPE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| PREP
+    PREP ---|&quot;(1,N)&quot;| R2 ---|&quot;(1,1)&quot;| PI
+    BATCH ---|&quot;(0,N)&quot;| R3 ---|&quot;(1,1)&quot;| PI
+    UOM ---|&quot;(0,N)&quot;| R4 ---|&quot;(1,1)&quot;| PI
+    </pre></section>
+<hr class="docutils" />
+<section id="diag13-png-nav-5-prodotti-con-regole-di-conservazione">
+<h2>diag13.png — Nav. 5: Prodotti con regole di conservazione<a class="headerlink" href="#diag13-png-nav-5-prodotti-con-regole-di-conservazione" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    PM[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&lt;br/&gt;allergen_mask&quot;]:::entity
+    PSR[&quot;&lt;b&gt;PRODUCT_STORAGE_RULE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;product_master_id (FK)&lt;br/&gt;storage_method_id (FK)&lt;br/&gt;duration_days&lt;br/&gt;duration_hours&quot;]:::assoc
+    SM[&quot;&lt;b&gt;STORAGE_METHOD&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+
+    R1{&quot;ha regola&quot;}:::rel
+    R2{&quot;applica a&quot;}:::rel
+
+    PM ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| PSR
+    PSR ---|&quot;(1,1)&quot;| R2 ---|&quot;(0,N)&quot;| SM
+    </pre></section>
+<hr class="docutils" />
+<section id="diag14-png-nav-6-storico-preparazioni-per-ricetta">
+<h2>diag14.png — Nav. 6: Storico preparazioni per ricetta<a class="headerlink" href="#diag14-png-nav-6-storico-preparazioni-per-ricetta" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    RECIPE[&quot;&lt;b&gt;RECIPE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&lt;br/&gt;store_id (FK)&quot;]:::entity
+    PREP[&quot;&lt;b&gt;PREPARATION&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;recipe_id (FK)&lt;br/&gt;output_batch_id (FK)&lt;br/&gt;completed_at&lt;br/&gt;created_at&quot;]:::entity
+    BATCH[&quot;&lt;b&gt;BATCH&lt;/b&gt; (output)&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;lot_code&lt;br/&gt;expiry_date&lt;br/&gt;product_master_id (FK)&quot;]:::entity
+
+    R1{&quot;eseguita come&quot;}:::rel
+    R2{&quot;produce&quot;}:::rel
+
+    RECIPE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| PREP
+    PREP ---|&quot;(0,1)&quot;| R2 ---|&quot;(0,1)&quot;| BATCH
+    </pre></section>
+<hr class="docutils" />
+<section id="diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">
+<h2>diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo<a class="headerlink" href="#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo" title="Link to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE[&quot;&lt;b&gt;STORE&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;name&quot;]:::entity
+    PM[&quot;&lt;b&gt;PRODUCT_MASTER&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;category_id (FK)&lt;br/&gt;allergen_mask&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+    CAT[&quot;&lt;b&gt;CATEGORY&lt;/b&gt;&lt;br/&gt;──────────&lt;br/&gt;id (PK)&lt;br/&gt;public_id&lt;br/&gt;store_id (FK)&lt;br/&gt;name&lt;br/&gt;version&lt;br/&gt;deleted_at&quot;]:::entity
+
+    R1{&quot;possiede&quot;}:::rel
+    R2{&quot;appartiene a&quot;}:::rel
+
+    STORE ---|&quot;(0,N)&quot;| R1 ---|&quot;(1,1)&quot;| PM
+    PM ---|&quot;(1,1)&quot;| R2 ---|&quot;(0,N)&quot;| CAT
+    </pre></section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="02-setup.html" class="btn btn-neutral float-left" title="Installation &amp; Setup Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="04-api-reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="VERSIONING.html" class="btn btn-neutral float-left" title="Sistema di Versionamento Automatico" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="relazione_basi_di_dati.html" class="btn btn-neutral float-right" title="RESTRACKIT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,449 @@
+# Diagrammi Mermaid — Restrackit Basi di Dati
+
+Vai su **https://mermaid.live**, incolla ciascun blocco, clicca **Download PNG**,
+rinomina il file come indicato e mettilo nella cartella `screenshots/`.
+
+Legenda colori:
+- 🔵 Blu = Entità
+- 🟠 Arancione tratteggiato = Tabella di audit append-only (non è un'entità debole: ha PK propria)
+- 🟢 Verde = Tabella associativa (entità-relazione)
+- 🟡 Giallo = Relazione (rombo)
+
+---
+
+## diag1.png — Schema Scheletro
+
+```mermaid
+flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name<br/>city"]:::entity
+    USER["<b>USER</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>username<br/>role"]:::entity
+    NOTIFICATION["<b>NOTIFICATION</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>type<br/>severity"]:::entity
+    PRODUCT["<b>PRODUCT</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>name"]:::entity
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>product_id (FK)<br/>lot_code<br/>expiry_date"]:::entity
+    RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>name"]:::entity
+    PREPARATION["<b>PREPARATION</b><br/>──────────<br/>id (PK)<br/>recipe_id (FK)<br/>store_id (FK)"]:::entity
+
+    R1{"appartiene"}:::rel
+    R2{"invia"}:::rel
+    R3{"possiede"}:::rel
+    R4{"istanziato in"}:::rel
+    R5{"eseguita come"}:::rel
+    R6{"consuma"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| USER
+    STORE ---|"(0,N)"| R2 ---|"(1,1)"| NOTIFICATION
+    STORE ---|"(0,N)"| R3 ---|"(1,1)"| PRODUCT
+    PRODUCT ---|"(0,N)"| R4 ---|"(1,1)"| BATCH
+    RECIPE ---|"(0,N)"| R5 ---|"(1,1)"| PREPARATION
+    BATCH ---|"(0,N)"| R6 ---|"(0,N)"| PREPARATION
+```
+
+---
+
+## diag2.png — Ambito Auth & Store
+
+```mermaid
+flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────────────<br/>id (PK)<br/>name<br/>address<br/>city<br/>phone<br/>email<br/>is_active<br/>notify_expiring_today<br/>created_at<br/>updated_at"]:::entity
+
+    USER["<b>USER</b><br/>──────────────────<br/>id (PK)<br/>store_id (FK)<br/>username<br/>email<br/>password_hash<br/>first_name<br/>last_name<br/>role (chef|manager|admin)<br/>is_active<br/>created_at<br/>updated_at"]:::entity
+
+    R1{"ha"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| USER
+```
+
+---
+
+## diag3.png — Ambito Catalogo Prodotti
+
+```mermaid
+flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+    CATEGORY["<b>CATEGORY</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>version<br/>deleted_at"]:::entity
+    UNIT_OF_MEASURE["<b>UNIT_OF_MEASURE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>symbol<br/>version<br/>deleted_at"]:::entity
+    PRODUCT_MASTER["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>category_id (FK)<br/>allergen_mask<br/>version<br/>deleted_at"]:::entity
+    STORAGE_METHOD["<b>STORAGE_METHOD</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>version<br/>deleted_at"]:::entity
+    PRODUCT_STORAGE_RULE["<b>PRODUCT_STORAGE_RULE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>product_master_id (FK)<br/>storage_method_id (FK)<br/>duration_days<br/>duration_hours<br/>version<br/>deleted_at"]:::assoc
+
+    R1{"possiede"}:::rel
+    R2{"possiede"}:::rel
+    R3{"possiede"}:::rel
+    R4{"possiede"}:::rel
+    R5{"appartiene a"}:::rel
+    R6{"ha regola"}:::rel
+    R7{"usato in"}:::rel
+    R8{"possiede"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| CATEGORY
+    STORE ---|"(0,N)"| R2 ---|"(1,1)"| UNIT_OF_MEASURE
+    STORE ---|"(0,N)"| R3 ---|"(1,1)"| PRODUCT_MASTER
+    STORE ---|"(0,N)"| R4 ---|"(1,1)"| STORAGE_METHOD
+    PRODUCT_MASTER ---|"(1,1)"| R5 ---|"(0,N)"| CATEGORY
+    PRODUCT_MASTER ---|"(0,N)"| R6 ---|"(1,1)"| PRODUCT_STORAGE_RULE
+    STORAGE_METHOD ---|"(0,N)"| R7 ---|"(1,1)"| PRODUCT_STORAGE_RULE
+    STORE ---|"(0,N)"| R8 ---|"(1,1)"| PRODUCT_STORAGE_RULE
+```
+
+---
+
+## diag4.png — Ambito Inventario & Batch
+
+```mermaid
+flowchart TD
+    classDef entity  fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef weakent fill:#FDEBD0,stroke:#15446B,color:#000,font-weight:bold,stroke-dasharray:5 5
+    classDef rel     fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    PRODUCT_MASTER["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+    STORAGE_METHOD["<b>STORAGE_METHOD</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>product_master_id (FK)<br/>lot_code<br/>expiry_date<br/>current_storage_method_id (FK)<br/>storage_expiry_at<br/>operator_id<br/>confidence<br/>is_empty<br/>finished_at<br/>wasted_quantity<br/>wasted_unit_id (FK)<br/>deleted_at<br/>version"]:::entity
+    BATCH_STORAGE_MOVE["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>batch_id (FK)<br/>from_storage_method_id (FK)<br/>to_storage_method_id (FK)<br/>computed_storage_expiry_at<br/>operator_id<br/>moved_at"]:::weakent
+    BATCH_EVENT["<b>BATCH_EVENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>batch_id (FK)<br/>preparation_id (FK)<br/>event_type<br/>reason<br/>operator_id<br/>notes<br/>occurred_at"]:::weakent
+
+    R1{"istanziato in"}:::rel
+    R2{"conserva"}:::rel
+    R3{"genera spostamento"}:::rel
+    R4{"genera evento"}:::rel
+    R5{"da metodo"}:::rel
+    R6{"a metodo"}:::rel
+
+    PRODUCT_MASTER ---|"(0,N)"| R1 ---|"(1,1)"| BATCH
+    STORAGE_METHOD ---|"(0,N)"| R2 ---|"(1,1)"| BATCH
+    BATCH ---|"(0,N)"| R3 ---|"(1,1)"| BATCH_STORAGE_MOVE
+    BATCH ---|"(0,N)"| R4 ---|"(1,1)"| BATCH_EVENT
+    STORAGE_METHOD ---|"(0,N)"| R5 ---|"(0,1)"| BATCH_STORAGE_MOVE
+    STORAGE_METHOD ---|"(0,N)"| R6 ---|"(1,1)"| BATCH_STORAGE_MOVE
+```
+
+---
+
+## diag5.png — Ambito Cucina & Ricette
+
+```mermaid
+flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    PRODUCT_MASTER["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+    UNIT_OF_MEASURE["<b>UNIT_OF_MEASURE</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>name<br/>symbol"]:::entity
+    RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>product_master_id (FK)<br/>name<br/>description<br/>deleted_at<br/>version"]:::entity
+    RECIPE_INGREDIENT["<b>RECIPE_INGREDIENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>recipe_id (FK)<br/>product_master_id (FK)<br/>standard_quantity<br/>unit_of_measure_id (FK)"]:::assoc
+
+    R1{"output di"}:::rel
+    R2{"composta da"}:::rel
+    R3{"ingrediente di"}:::rel
+    R4{"misurato in"}:::rel
+
+    PRODUCT_MASTER ---|"(0,N)"| R1 ---|"(1,1)"| RECIPE
+    RECIPE ---|"(1,N)"| R2 ---|"(1,1)"| RECIPE_INGREDIENT
+    PRODUCT_MASTER ---|"(0,N)"| R3 ---|"(1,1)"| RECIPE_INGREDIENT
+    UNIT_OF_MEASURE ---|"(0,N)"| R4 ---|"(1,1)"| RECIPE_INGREDIENT
+```
+
+---
+
+## diag6.png — Ambito Preparazioni
+
+```mermaid
+flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+    BATCH_OUT["<b>BATCH</b> (output)<br/>──────────<br/>id (PK)<br/>lot_code<br/>expiry_date<br/>product_master_id (FK)"]:::entity
+    PREPARATION["<b>PREPARATION</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>recipe_id (FK)<br/>output_batch_id (FK)<br/>operator_id<br/>notes<br/>completed_at<br/>deleted_at<br/>version"]:::entity
+    BATCH_IN["<b>BATCH</b> (input)<br/>──────────<br/>id (PK)<br/>lot_code<br/>expiry_date<br/>product_master_id (FK)"]:::entity
+    UNIT_OF_MEASURE["<b>UNIT_OF_MEASURE</b><br/>──────────<br/>id (PK)<br/>name<br/>symbol"]:::entity
+    PREPARATION_ITEM["<b>PREPARATION_ITEM</b><br/>──────────<br/>id (PK)<br/>public_id<br/>preparation_id (FK)<br/>batch_id (FK)<br/>quantity_used<br/>unit_of_measure_id (FK)"]:::assoc
+
+    R1{"eseguita come"}:::rel
+    R2{"produce output"}:::rel
+    R3{"consuma"}:::rel
+    R4{"usato in"}:::rel
+    R5{"misurato in"}:::rel
+
+    RECIPE ---|"(0,N)"| R1 ---|"(1,1)"| PREPARATION
+    BATCH_OUT ---|"(0,1)"| R2 ---|"(0,1)"| PREPARATION
+    PREPARATION ---|"(1,N)"| R3 ---|"(1,1)"| PREPARATION_ITEM
+    BATCH_IN ---|"(0,N)"| R4 ---|"(1,1)"| PREPARATION_ITEM
+    UNIT_OF_MEASURE ---|"(0,N)"| R5 ---|"(1,1)"| PREPARATION_ITEM
+```
+
+---
+
+## diag7.png — Ambito Notifiche
+
+```mermaid
+flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name<br/>city"]:::entity
+    NOTIFICATION["<b>NOTIFICATION</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>type<br/>severity<br/>message<br/>data (JSONB)<br/>is_read<br/>created_at"]:::entity
+
+    R1{"riceve"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| NOTIFICATION
+```
+
+---
+
+## diag8.png — Schema Concettuale Finale (completo)
+
+```mermaid
+flowchart TD
+    classDef entity  fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc   fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef weakent fill:#FDEBD0,stroke:#15446B,color:#000,font-weight:bold,stroke-dasharray:5 5
+    classDef rel     fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name<br/>address<br/>city<br/>phone<br/>email<br/>is_active<br/>notify_expiring_today"]:::entity
+    USER["<b>USER</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>username<br/>email<br/>password_hash<br/>role<br/>is_active"]:::entity
+    CATEGORY["<b>CATEGORY</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>version<br/>deleted_at"]:::entity
+    UNIT_OF_MEASURE["<b>UNIT_OF_MEASURE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>symbol<br/>version<br/>deleted_at"]:::entity
+    STORAGE_METHOD["<b>STORAGE_METHOD</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>version<br/>deleted_at"]:::entity
+    NOTIFICATION["<b>NOTIFICATION</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>type<br/>severity<br/>message<br/>data (JSONB)<br/>is_read<br/>created_at"]:::entity
+    PRODUCT_MASTER["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>category_id (FK)<br/>name<br/>allergen_mask<br/>version<br/>deleted_at"]:::entity
+    PRODUCT_STORAGE_RULE["<b>PRODUCT_STORAGE_RULE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>product_master_id (FK)<br/>storage_method_id (FK)<br/>duration_days<br/>duration_hours<br/>version<br/>deleted_at"]:::assoc
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>product_master_id (FK)<br/>lot_code<br/>expiry_date<br/>current_storage_method_id (FK)<br/>storage_expiry_at<br/>operator_id<br/>confidence<br/>is_empty<br/>finished_at<br/>wasted_quantity<br/>wasted_unit_id (FK)<br/>version<br/>deleted_at"]:::entity
+    BATCH_STORAGE_MOVE["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>batch_id (FK)<br/>from_storage_method_id (FK)<br/>to_storage_method_id (FK)<br/>computed_storage_expiry_at<br/>operator_id<br/>moved_at"]:::weakent
+    BATCH_EVENT["<b>BATCH_EVENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>batch_id (FK)<br/>preparation_id (FK)<br/>event_type<br/>reason<br/>operator_id<br/>notes<br/>occurred_at"]:::weakent
+    RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>product_master_id (FK)<br/>name<br/>description<br/>version<br/>deleted_at"]:::entity
+    RECIPE_INGREDIENT["<b>RECIPE_INGREDIENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>recipe_id (FK)<br/>product_master_id (FK)<br/>unit_of_measure_id (FK)<br/>standard_quantity"]:::assoc
+    PREPARATION["<b>PREPARATION</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>recipe_id (FK)<br/>output_batch_id (FK)<br/>operator_id<br/>notes<br/>completed_at<br/>version<br/>deleted_at"]:::entity
+    PREPARATION_ITEM["<b>PREPARATION_ITEM</b><br/>──────────<br/>id (PK)<br/>public_id<br/>preparation_id (FK)<br/>batch_id (FK)<br/>unit_of_measure_id (FK)<br/>quantity_used"]:::assoc
+
+    R1{"ha"}:::rel
+    R2{"possiede"}:::rel
+    R3{"possiede"}:::rel
+    R4{"possiede"}:::rel
+    R5{"riceve"}:::rel
+    R6{"possiede"}:::rel
+    R7{"ha"}:::rel
+    R8{"ha"}:::rel
+    R9{"appartiene a"}:::rel
+    R10{"ha regola"}:::rel
+    R11{"usato in"}:::rel
+    R12{"istanziato in"}:::rel
+    R13{"conserva"}:::rel
+    R14{"genera"}:::rel
+    R15{"genera"}:::rel
+    R16{"output di"}:::rel
+    R17{"composta da"}:::rel
+    R18{"ingrediente di"}:::rel
+    R19{"misurato in"}:::rel
+    R20{"eseguita come"}:::rel
+    R21{"produce output"}:::rel
+    R22{"consuma"}:::rel
+    R23{"usato in"}:::rel
+    R24{"misurato in"}:::rel
+    R25{"collegato a"}:::rel
+    R26{"possiede"}:::rel
+    R27{"possiede"}:::rel
+    R28{"possiede"}:::rel
+    R29{"possiede"}:::rel
+    R30{"spreco in"}:::rel
+    R31{"da metodo"}:::rel
+    R32{"a metodo"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| USER
+    STORE ---|"(0,N)"| R2 ---|"(1,1)"| CATEGORY
+    STORE ---|"(0,N)"| R3 ---|"(1,1)"| UNIT_OF_MEASURE
+    STORE ---|"(0,N)"| R4 ---|"(1,1)"| STORAGE_METHOD
+    STORE ---|"(0,N)"| R5 ---|"(1,1)"| NOTIFICATION
+    STORE ---|"(0,N)"| R6 ---|"(1,1)"| PRODUCT_MASTER
+    STORE ---|"(0,N)"| R7 ---|"(1,1)"| RECIPE
+    STORE ---|"(0,N)"| R8 ---|"(1,1)"| PREPARATION
+    PRODUCT_MASTER ---|"(1,1)"| R9 ---|"(0,N)"| CATEGORY
+    PRODUCT_MASTER ---|"(0,N)"| R10 ---|"(1,1)"| PRODUCT_STORAGE_RULE
+    STORAGE_METHOD ---|"(0,N)"| R11 ---|"(1,1)"| PRODUCT_STORAGE_RULE
+    PRODUCT_MASTER ---|"(0,N)"| R12 ---|"(1,1)"| BATCH
+    STORAGE_METHOD ---|"(0,N)"| R13 ---|"(1,1)"| BATCH
+    BATCH ---|"(0,N)"| R14 ---|"(1,1)"| BATCH_STORAGE_MOVE
+    BATCH ---|"(0,N)"| R15 ---|"(1,1)"| BATCH_EVENT
+    PRODUCT_MASTER ---|"(0,N)"| R16 ---|"(1,1)"| RECIPE
+    RECIPE ---|"(1,N)"| R17 ---|"(1,1)"| RECIPE_INGREDIENT
+    PRODUCT_MASTER ---|"(0,N)"| R18 ---|"(1,1)"| RECIPE_INGREDIENT
+    UNIT_OF_MEASURE ---|"(0,N)"| R19 ---|"(1,1)"| RECIPE_INGREDIENT
+    RECIPE ---|"(0,N)"| R20 ---|"(1,1)"| PREPARATION
+    BATCH ---|"(0,1)"| R21 ---|"(0,1)"| PREPARATION
+    PREPARATION ---|"(1,N)"| R22 ---|"(1,1)"| PREPARATION_ITEM
+    BATCH ---|"(0,N)"| R23 ---|"(1,1)"| PREPARATION_ITEM
+    UNIT_OF_MEASURE ---|"(0,N)"| R24 ---|"(1,1)"| PREPARATION_ITEM
+    BATCH_EVENT ---|"(0,1)"| R25 ---|"(0,N)"| PREPARATION
+    STORE ---|"(0,N)"| R26 ---|"(1,1)"| BATCH
+    STORE ---|"(0,N)"| R27 ---|"(1,1)"| PRODUCT_STORAGE_RULE
+    STORE ---|"(0,N)"| R28 ---|"(1,1)"| BATCH_STORAGE_MOVE
+    STORE ---|"(0,N)"| R29 ---|"(1,1)"| BATCH_EVENT
+    UNIT_OF_MEASURE ---|"(0,N)"| R30 ---|"(0,1)"| BATCH
+    STORAGE_METHOD ---|"(0,N)"| R31 ---|"(0,1)"| BATCH_STORAGE_MOVE
+    STORAGE_METHOD ---|"(0,N)"| R32 ---|"(1,1)"| BATCH_STORAGE_MOVE
+```
+
+---
+
+## diag9.png — Nav. 1: Registrazione batch via OCR
+
+```mermaid
+flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+    PM["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+    SM["<b>STORAGE_METHOD</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>product_master_id (FK)<br/>lot_code<br/>expiry_date<br/>current_storage_method_id (FK)<br/>confidence<br/>is_empty"]:::entity
+
+    R1{"possiede"}:::rel
+    R2{"istanziato in"}:::rel
+    R3{"conserva"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| BATCH
+    PM ---|"(0,N)"| R2 ---|"(1,1)"| BATCH
+    SM ---|"(0,N)"| R3 ---|"(0,1)"| BATCH
+```
+
+---
+
+## diag10.png — Nav. 2: Lotti in scadenza per store
+
+```mermaid
+flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>store_id (FK)<br/>product_master_id (FK)<br/>lot_code<br/>expiry_date<br/>storage_expiry_at<br/>is_empty"]:::entity
+    PM["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+
+    R1{"ha lotti"}:::rel
+    R2{"di prodotto"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| BATCH
+    BATCH ---|"(1,1)"| R2 ---|"(0,N)"| PM
+```
+
+---
+
+## diag11.png — Nav. 3: Storico spostamenti di un batch
+
+```mermaid
+flowchart LR
+    classDef entity  fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef weakent fill:#FDEBD0,stroke:#15446B,color:#000,font-weight:bold,stroke-dasharray:5 5
+    classDef rel     fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>lot_code<br/>product_master_id (FK)"]:::entity
+    BSM["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>batch_id (FK)<br/>from_storage_method_id (FK)<br/>to_storage_method_id (FK)<br/>computed_storage_expiry_at<br/>moved_at"]:::weakent
+    SM_DA["<b>STORAGE_METHOD</b><br/>(da / origine)<br/>──────────<br/>id (PK)<br/>name"]:::entity
+    SM_A["<b>STORAGE_METHOD</b><br/>(a / destinazione)<br/>──────────<br/>id (PK)<br/>name"]:::entity
+
+    R1{"genera"}:::rel
+    R2{"proveniente da"}:::rel
+    R3{"trasferito a"}:::rel
+
+    BATCH ---|"(0,N)"| R1 ---|"(1,1)"| BSM
+    BSM ---|"(1,1)"| R2 ---|"(0,N)"| SM_DA
+    BSM ---|"(1,1)"| R3 ---|"(0,N)"| SM_A
+```
+
+---
+
+## diag12.png — Nav. 4: Eseguire una preparazione
+
+```mermaid
+flowchart TD
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+    PREP["<b>PREPARATION</b><br/>──────────<br/>id (PK)<br/>recipe_id (FK)<br/>store_id (FK)<br/>operator_id<br/>completed_at"]:::entity
+    PI["<b>PREPARATION_ITEM</b><br/>──────────<br/>id (PK)<br/>preparation_id (FK)<br/>batch_id (FK)<br/>quantity_used<br/>unit_of_measure_id (FK)"]:::assoc
+    BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>lot_code<br/>expiry_date<br/>product_master_id (FK)"]:::entity
+    UOM["<b>UNIT_OF_MEASURE</b><br/>──────────<br/>id (PK)<br/>name<br/>symbol"]:::entity
+
+    R1{"eseguita come"}:::rel
+    R2{"consuma"}:::rel
+    R3{"usato in"}:::rel
+    R4{"misurato in"}:::rel
+
+    RECIPE ---|"(0,N)"| R1 ---|"(1,1)"| PREP
+    PREP ---|"(1,N)"| R2 ---|"(1,1)"| PI
+    BATCH ---|"(0,N)"| R3 ---|"(1,1)"| PI
+    UOM ---|"(0,N)"| R4 ---|"(1,1)"| PI
+```
+
+---
+
+## diag13.png — Nav. 5: Prodotti con regole di conservazione
+
+```mermaid
+flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef assoc  fill:#E8F5E9,stroke:#27825C,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    PM["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)<br/>allergen_mask"]:::entity
+    PSR["<b>PRODUCT_STORAGE_RULE</b><br/>──────────<br/>id (PK)<br/>product_master_id (FK)<br/>storage_method_id (FK)<br/>duration_days<br/>duration_hours"]:::assoc
+    SM["<b>STORAGE_METHOD</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+
+    R1{"ha regola"}:::rel
+    R2{"applica a"}:::rel
+
+    PM ---|"(0,N)"| R1 ---|"(1,1)"| PSR
+    PSR ---|"(1,1)"| R2 ---|"(0,N)"| SM
+```
+
+---
+
+## diag14.png — Nav. 6: Storico preparazioni per ricetta
+
+```mermaid
+flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>name<br/>store_id (FK)"]:::entity
+    PREP["<b>PREPARATION</b><br/>──────────<br/>id (PK)<br/>recipe_id (FK)<br/>output_batch_id (FK)<br/>completed_at<br/>created_at"]:::entity
+    BATCH["<b>BATCH</b> (output)<br/>──────────<br/>id (PK)<br/>lot_code<br/>expiry_date<br/>product_master_id (FK)"]:::entity
+
+    R1{"eseguita come"}:::rel
+    R2{"produce"}:::rel
+
+    RECIPE ---|"(0,N)"| R1 ---|"(1,1)"| PREP
+    PREP ---|"(0,1)"| R2 ---|"(0,1)"| BATCH
+```
+
+---
+
+## diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo
+
+```mermaid
+flowchart LR
+    classDef entity fill:#D6EAF8,stroke:#15446B,color:#000,font-weight:bold
+    classDef rel    fill:#FFFDE7,stroke:#F9A825,color:#000,font-weight:bold
+
+    STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
+    PM["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>category_id (FK)<br/>allergen_mask<br/>version<br/>deleted_at"]:::entity
+    CAT["<b>CATEGORY</b><br/>──────────<br/>id (PK)<br/>public_id<br/>store_id (FK)<br/>name<br/>version<br/>deleted_at"]:::entity
+
+    R1{"possiede"}:::rel
+    R2{"appartiene a"}:::rel
+
+    STORE ---|"(0,N)"| R1 ---|"(1,1)"| PM
+    PM ---|"(1,1)"| R2 ---|"(0,N)"| CAT
+```
