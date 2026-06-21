@@ -140,8 +140,17 @@ Implementation of an asynchronous caching layer:
 - **Decorator `@cached`**: Applied to service methods (including `products` and `kitchen`) to cache results in Redis.
 - **Serialization**: Efficient binary serialization using `msgpack` with custom encoders for `date`/`datetime`.
 - **Model Hydration**: Automatically reconstructs Pydantic models from cache hits.
-- **Fail-Open**: If Redis is unavailable, the system transparently falls back to database queries, ensuring high availability.
+- **Fail-Open**: If Redis is unavailable, the system transparently falls back to database queries, ensuring high availability. A `WARNING` log is emitted for every bypass to make cache degradation visible in observability tooling.
 - **Selective Invalidation**: Cache entries are automatically invalidated on resource updates or deletions using key pattern matching.
+
+### 8. ORM Loading Strategy (`app/modules/*/models.py`)
+
+All SQLAlchemy relationships use `lazy="raise"` instead of `lazy="selectin"`:
+
+- **No implicit loads**: accessing a relationship without an explicit `.options()` call raises `InvalidRequestError` immediately, preventing accidental N+1 queries in production.
+- **Explicit eager loading**: every service method that returns a response shape requiring related data declares the required `selectinload()` chains in the query's `.options()`. This makes the access pattern visible and reviewable in the service layer.
+- **Test suite as guardian**: `lazy="raise"` turns the test suite into an automatic detector for missing eager loads — any unloaded relationship surfaces as a hard error during testing, not as a silent extra query in production.
+- **Cascade safety**: `cascade="all, delete-orphan"` collections (`Recipe.ingredients`, `Preparation.items`, `ProductMaster.batches`) retain `lazy="raise"`; SQLAlchemy handles the cascade load implicitly during delete, which is tested and confirmed safe.
 
 ### 5. Background Tasks (`app/worker.py`)
 
