@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.52.3 documentation</title>
+  <title>app.core.config &mdash; Restrackit 2.52.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=f8d8e486"></script>
+      <script src="../../../_static/documentation_options.js?v=3351744b"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1333,9 +1333,16 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">SettingsConfigDict</span>
+
+<span class="c1"># Environments treated as non-production for security-sensitive toggles</span>
+<span class="c1"># (interactive API docs, verbose request logging). Default-deny: any other</span>
+<span class="c1"># value — including &quot;production&quot;, typos, or unknown names — is treated as</span>
+<span class="c1"># production so those features fail safe (OWASP API9).</span>
+<span class="n">NON_PRODUCTION_ENVIRONMENTS</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="s2">&quot;staging&quot;</span><span class="p">})</span>
 
 
 <div class="viewcode-block" id="Settings">
@@ -1385,6 +1392,38 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># (e.g. redirects), avoiding host-header injection.</span>
     <span class="n">public_base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
+    <span class="c1"># Trusted hosts allowlist for the Host header (anti host-header injection).</span>
+    <span class="c1"># In .env, use JSON format: [&quot;app.example.com&quot;, &quot;*.example.com&quot;].</span>
+    <span class="c1"># Default is [&quot;*&quot;] for local/demo convenience; set an explicit list in production.</span>
+    <span class="n">allowed_hosts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Content-Security-Policy header value. The default is permissive enough to</span>
+    <span class="c1"># keep Swagger UI (/docs) and the static UI (/ui) working in the browser while</span>
+    <span class="c1"># still being present for security scanners. Tighten in production if no</span>
+    <span class="c1"># browser-served HTML is needed.</span>
+    <span class="n">content_security_policy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;default-src &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;img-src &#39;self&#39; data: https:; &quot;</span>
+        <span class="s2">&quot;style-src &#39;self&#39; &#39;unsafe-inline&#39; https:; &quot;</span>
+        <span class="s2">&quot;script-src &#39;self&#39; &#39;unsafe-inline&#39; https:; &quot;</span>
+        <span class="s2">&quot;connect-src &#39;self&#39; https:; &quot;</span>
+        <span class="s2">&quot;frame-ancestors &#39;none&#39;&quot;</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="Settings.inject_keycloak_into_csp">
+<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.inject_keycloak_into_csp">[docs]</a>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inject_keycloak_into_csp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add KEYCLOAK_URL origin to connect-src so the browser can reach Keycloak.&quot;&quot;&quot;</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="p">)</span>
+        <span class="n">keycloak_origin</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">keycloak_origin</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="s2">&quot;connect-src &quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;connect-src </span><span class="si">{</span><span class="n">keycloak_origin</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
     <span class="c1"># If True, browsers are allowed to include credentials on cross-origin requests</span>
     <span class="c1"># (cookies, Authorization header, TLS client certs).</span>
     <span class="c1"># Security: credentials + wildcard origin (&quot;*&quot;) is unsafe; app/main.py enforces</span>
@@ -1428,6 +1467,20 @@ window.runMermaid = runMermaid;</script>
         <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span>  <span class="c1"># Ignore extra env variables to avoid validation errors</span>
         <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the app should behave as a production deployment.</span>
+
+<span class="sd">        Default-deny: returns ``True`` unless ``environment`` is one of the</span>
+<span class="sd">        explicitly allowed non-production values (case-insensitive). Unknown</span>
+<span class="sd">        names and typos are treated as production so security-sensitive</span>
+<span class="sd">        features (API docs, verbose request logging) fail safe.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: ``True`` for production and any unrecognised environment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">NON_PRODUCTION_ENVIRONMENTS</span>
 
     <span class="c1"># Computed properties for Keycloak</span>
     <span class="nd">@property</span>

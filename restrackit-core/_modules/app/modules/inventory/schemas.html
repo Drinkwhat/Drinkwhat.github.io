@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.52.3 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.52.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=f8d8e486"></script>
+      <script src="../../../../_static/documentation_options.js?v=3351744b"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1561,7 +1561,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="BatchListFilter">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchListFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchListFilter</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filtri per la lista dei lotti.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filtri e paginazione per la lista dei lotti (keyset-based).&quot;&quot;&quot;</span>
 
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per nome prodotto&quot;</span><span class="p">)</span>
     <span class="n">is_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
@@ -1570,10 +1570,12 @@ window.runMermaid = runMermaid;</script>
     <span class="n">expired</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mostra solo scaduti (True) o non scaduti (False)&quot;</span>
     <span class="p">)</span>
+    <span class="n">cursor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cursor per paginazione (ID ultimo elemento)&quot;</span><span class="p">)</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero di elementi per pagina&quot;</span><span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte&quot;</span><span class="p">,</span> <span class="s2">&quot;is_empty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;expired&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte&quot;</span><span class="p">,</span> <span class="s2">&quot;is_empty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;expired&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
 
@@ -1746,11 +1748,12 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="BatchListResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchListResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchListResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta per la lista dei lotti.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta per la lista dei lotti con keyset pagination.&quot;&quot;&quot;</span>
 
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">_STATUS_FIELD_DESCRIPTION</span><span class="p">)</span>
     <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero totale di lotti&quot;</span><span class="p">)</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchResponse</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lista dei lotti&quot;</span><span class="p">)</span>
+    <span class="n">next_cursor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cursor prossima pagina (None se fine)&quot;</span><span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
