@@ -177,10 +177,34 @@ Release workflow tags and publishes a GitHub release (main only)
 ### Version Tag
 
 ```text
-Create tag vX.Y.Z
+Release / tag-and-release exports openapi.json
+  ↓
+Create tag vX.Y.Z (only after the export succeeds)
   ↓
 Docker Build builds and pushes vX.Y.Z image tag
+  ↓
+Release / tag-and-release publishes the GitHub Release for vX.Y.Z,
+attaching the pre-exported openapi.json
 ```
+
+### OpenAPI schema export (`release.yml` – `tag-and-release`)
+
+Before tagging, the pipeline runs `scripts/export_openapi.py` and holds onto
+the resulting `openapi.json`, later attaching it as a release asset. The
+export step runs *before* the tag is created and pushed on purpose: if it
+fails, the job stops before anything irreversible happens, instead of
+leaving a dangling git tag with no matching GitHub Release. The script
+imports `app.main` and calls `app.openapi()` directly — it does not scrape a
+running server — so it works in CI without a live database, Redis, or
+Keycloak instance; missing required settings are filled with inert
+placeholders (see the script's module docstring).
+
+This gives downstream consumers (e.g. a generated client SDK) a pinned,
+versioned schema snapshot per release, instead of relying on the live
+`/openapi.json` endpoint — only exposed in non-production environments
+(see `docs/04-api-reference.md`, OWASP API9 default-deny). Run
+`make export-openapi` locally to produce the same file for ad-hoc
+inspection.
 
 ---
 

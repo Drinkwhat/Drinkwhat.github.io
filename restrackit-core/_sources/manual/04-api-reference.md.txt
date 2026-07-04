@@ -5,7 +5,16 @@ Questa pagina riassume gli endpoint principali. Per la lista completa e sempre a
 - Swagger UI: `GET /docs`
 - OpenAPI JSON: `GET /openapi.json`
 
+> **Ambienti**: `/docs`, `/redoc` e `/openapi.json` sono esposti solo in ambienti non-production (`NON_PRODUCTION_ENVIRONMENTS`, default-deny per OWASP API9, vedi `app/main.py::resolve_docs_urls`). In produzione questi path restituiscono 404.
+
+> **Schema versionato**: ogni [GitHub Release](../.github/workflows/release.yml) allega uno snapshot di `openapi.json` generato da `scripts/export_openapi.py` (`make export-openapi`). Usalo per generare client SDK (es. Dart/Flutter) puntati a una versione stabile del backend, invece di dipendere dal live endpoint di un ambiente dev/staging in continuo movimento. Dettagli: [07-cicd-pipeline.md](07-cicd-pipeline.md).
+
 > **API IDs**: Tutti i path parameter usano UUID opachi (`public_id`) invece di interi sequenziali. Questo previene attacchi IDOR per enumerazione. Il campo `id: int` rimane nelle response per compatibilità e sarà rimosso in una versione futura.
+
+> **Prefisso di versione**: tutti gli endpoint applicativi documentati di seguito sono
+> esposti sotto il prefisso `/v1` (es. `POST /v1/inventory/analyze`). Gli endpoint
+> infrastrutturali (`/health`, `/health/ready`, `/docs`, `/openapi.json`, `/ui/*`)
+> restano invariati e non sono versionati.
 
 ## Authentication
 
@@ -19,7 +28,7 @@ curl -H "Authorization: Bearer ${TOKEN}" http://localhost:8000/health
 Se un utente ha accesso a più store, può selezionare lo store target tramite:
 
 ```bash
-curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" http://localhost:8000/inventory/list
+curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" http://localhost:8000/v1/inventory/list
 ```
 
 Dettagli: [09-auth.md](09-auth.md)
@@ -46,9 +55,9 @@ Health check endpoint (senza dipendenze di dominio).
 
 ---
 
-## Inventory Module (`/inventory`)
+## Inventory Module (`/v1/inventory`)
 
-### `POST /inventory/analyze`
+### `POST /v1/inventory/analyze`
 
 Analizza una foto di etichetta con OCR + Agent.
 
@@ -57,7 +66,7 @@ Analizza una foto di etichetta con OCR + Agent.
 ```bash
 curl -H "Authorization: Bearer ${TOKEN}" \
   -F "file=@label.jpg" \
-  "http://localhost:8000/inventory/analyze?background=false"
+  "http://localhost:8000/v1/inventory/analyze?background=false"
 ```
 
 **Response** (200 OK - Synchronous):
@@ -94,14 +103,55 @@ curl -H "Authorization: Bearer ${TOKEN}" \
 
 ---
 
-### `GET /inventory/analyze/{job_id}`
+### `POST /v1/inventory/parse-text`
+
+Analizza testo OCR già estratto lato client (es. ML Kit on-device), senza
+inviare l'immagine. Restituisce lo stesso formato di `/v1/inventory/analyze`
+in modalità sincrona.
+
+**Request**:
+
+```bash
+curl -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{"raw_text": "LATTE INTERO L12345 SCAD 31/12/24"}' \
+  "http://localhost:8000/v1/inventory/parse-text"
+```
+
+**Response** (200 OK):
+
+```json
+{
+  "status": "revision",
+  "data": {
+    "prodotto": "latte intero",
+    "lotto": "L12345",
+    "scadenza": "2024-12-31",
+    "confidence": 0.95,
+    "is_corrected": false
+  },
+  "warning": null,
+  "raw_ocr_debug": null
+}
+```
+
+**Errors**:
+
+- `400 Bad Request`: `raw_text` mancante, vuoto, o oltre 5000 caratteri.
+- `422 Unprocessable Entity`: Parsing AI fallito.
+- `429 Too Many Requests`: Rate limit superato (10 richieste/60s).
+- `502 Bad Gateway`: Errore del servizio Gemini.
+
+---
+
+### `GET /v1/inventory/analyze/{job_id}`
 
 Get the status and result of a background analysis job.
 
 **Request**:
 
 ```http
-GET /inventory/analyze/84d72023-...
+GET /v1/inventory/analyze/84d72023-...
 Authorization: Bearer <token>
 ```
 
@@ -137,16 +187,32 @@ Authorization: Bearer <token>
 
 ---
 
-### `POST /inventory/confirm`
+### `POST /v1/inventory/confirm`
 
 Confirm and save a validated batch into the database.
+
+**Idempotency**: accepts an optional `Idempotency-Key` header. If a request
+with the same key was already completed for the store within the last
+`idempotency_key_ttl_hours` (default 24h), the endpoint returns the original
+`201` response instead of creating a duplicate batch. If a request with the
+same key is still being processed (a genuine concurrent duplicate), the
+endpoint returns `409` with error code `ERR_BUS_009`. If the same key is
+reused with a request body that differs from the one it was first associated
+with, the endpoint returns `409` with error code `ERR_BUS_010` instead of
+silently replaying the original response. Intended for clients on unreliable
+networks (e.g. the mobile app) that may retry a request whose response was
+lost in transit. The idempotency reservation and the batch write are
+committed atomically, so a request either fully succeeds (batch created and
+reservation completed) or fully fails (no orphaned "in progress" reservation
+blocking a later retry).
 
 **Request**:
 
 ```json
-POST /inventory/confirm
+POST /v1/inventory/confirm
 Content-Type: application/json
 Authorization: Bearer <token>
+Idempotency-Key: <client-generated-uuid>
 
 {
   "product_name": "latte intero",
@@ -180,14 +246,14 @@ Authorization: Bearer <token>
 
 ---
 
-### `GET /inventory/list`
+### `GET /v1/inventory/list`
 
 List batches for the current store with optional filters.
 
 **Request**:
 
 ```http
-GET /inventory/list?page=1&page_size=20&expired=false
+GET /v1/inventory/list?page=1&page_size=20&expired=false
 Authorization: Bearer <token>
 ```
 
@@ -223,14 +289,14 @@ Authorization: Bearer <token>
 
 ---
 
-### `PUT /inventory/batch/{batch_id}`
+### `PUT /v1/inventory/batch/{batch_id}`
 
 Update manual details of an existing batch.
 
 **Request**:
 
 ```json
-PUT /inventory/batch/42
+PUT /v1/inventory/batch/42
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -253,25 +319,25 @@ Authorization: Bearer <token>
 
 ---
 
-### `GET /inventory/batch/{batch_id}`
+### `GET /v1/inventory/batch/{batch_id}`
 
 Restituisce il dettaglio di un lotto per ID (scoped allo store corrente).
 
 ```http
-GET /inventory/batch/42
+GET /v1/inventory/batch/42
 Authorization: Bearer <token>
 ```
 
 ---
 
-### `DELETE /inventory/batch/{batch_id}`
+### `DELETE /v1/inventory/batch/{batch_id}`
 
 Delete a batch record.
 
 **Request**:
 
 ```http
-DELETE /inventory/batch/42?version=1
+DELETE /v1/inventory/batch/42?version=1
 Authorization: Bearer <token>
 ```
 
@@ -286,14 +352,14 @@ Authorization: Bearer <token>
 
 ---
 
-### `POST /inventory/batch/{batch_id}/move-storage`
+### `POST /v1/inventory/batch/{batch_id}/move-storage`
 
 Sposta un lotto su un nuovo `storage_method_id` e ricalcola `storage_expiry_at` usando la regola **(ProductMaster, StorageMethod)**.
 
 **Request**:
 
 ```json
-POST /inventory/batch/42/move-storage
+POST /v1/inventory/batch/42/move-storage
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -305,7 +371,7 @@ Authorization: Bearer <token>
 
 ---
 
-### `POST /inventory/batch/{batch_id}/complete`
+### `POST /v1/inventory/batch/{batch_id}/complete`
 
 Segna un lotto come **concluso/esaurito**. Valorizza `batches.finished_at` e crea un record append-only in `batch_events`.
 
@@ -315,22 +381,22 @@ Nota: richiede un body con `reason` (motivo standardizzato) e `notes` opzionali.
 
 ---
 
-### `GET /inventory/batch/{batch_id}/events`
+### `GET /v1/inventory/batch/{batch_id}/events`
 
 Elenca lo storico eventi append-only del lotto (completamento preparazione, completamento lotto, ecc.).
 
 ---
 
-## Products Module (`/products`)
+## Products Module (`/v1/products`)
 
-### `GET /products/allergens`
+### `GET /v1/products/allergens`
 
 Restituisce il mapping degli allergeni EU disponibili con etichette localizzate.
 
 **Request**:
 
 ```http
-GET /products/allergens?lang=it
+GET /v1/products/allergens?lang=it
 Authorization: Bearer <token>
 ```
 
@@ -353,14 +419,14 @@ Authorization: Bearer <token>
 
 ---
 
-### `POST /products/bulk-load`
+### `POST /v1/products/bulk-load`
 
 Bulk upsert products (Idempotent).
 
 **Request**:
 
 ```json
-POST /products/bulk-load
+POST /v1/products/bulk-load
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -382,14 +448,14 @@ Risposta: vedi schema `ProductBulkLoadResponse` nello Swagger (`/docs`).
 
 ---
 
-### `GET /products/list`
+### `GET /v1/products/list`
 
 List all products for the store.
 
 **Request**:
 
 ```http
-GET /products/list?gluten_free=true&allergen_free=nuts,peanuts
+GET /v1/products/list?gluten_free=true&allergen_free=nuts,peanuts
 Authorization: Bearer <token>
 ```
 
@@ -419,23 +485,23 @@ Authorization: Bearer <token>
 
 ---
 
-### `GET /products/{product_id}`
+### `GET /v1/products/{product_id}`
 
 Dettaglio prodotto. `product_id` è il campo `public_id` (UUID) della response, **non** `id` (intero).
 
 ```http
-GET /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890
+GET /v1/products/a1b2c3d4-e5f6-7890-abcd-ef1234567890
 Authorization: Bearer <token>
 ```
 
 ---
 
-### `PUT /products/{product_id}`
+### `PUT /v1/products/{product_id}`
 
 Aggiornamento prodotto (optimistic locking: `version` nel body).
 
 ```json
-PUT /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890
+PUT /v1/products/a1b2c3d4-e5f6-7890-abcd-ef1234567890
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -448,25 +514,25 @@ Authorization: Bearer <token>
 
 ---
 
-### `DELETE /products/{product_id}`
+### `DELETE /v1/products/{product_id}`
 
 Soft delete prodotto (optimistic locking: `version` query param).
 
 ```http
-DELETE /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890?version=1
+DELETE /v1/products/a1b2c3d4-e5f6-7890-abcd-ef1234567890?version=1
 Authorization: Bearer <token>
 ```
 
 ---
 
-## Categories (`/categories`)
+## Categories (`/v1/categories`)
 
 Catalogo categorie prodotto, scoped per store. Richiede `PRODUCTS_READ` / `PRODUCTS_WRITE`.
 
-### `POST /categories`
+### `POST /v1/categories`
 
 ```json
-POST /categories
+POST /v1/categories
 Authorization: Bearer <token>
 Content-Type: application/json
 
@@ -483,19 +549,19 @@ Content-Type: application/json
 
 ---
 
-### `GET /categories`
+### `GET /v1/categories`
 
 Lista categorie attive (non soft-deleted) dello store. Supporta `?include_deleted=true`.
 
 ---
 
-### `GET /categories/{category_id}`
+### `GET /v1/categories/{category_id}`
 
 Dettaglio categoria.
 
 ---
 
-### `PUT /categories/{category_id}`
+### `PUT /v1/categories/{category_id}`
 
 Aggiornamento (optimistic locking: `version` nel body).
 
@@ -505,24 +571,24 @@ Aggiornamento (optimistic locking: `version` nel body).
 
 ---
 
-### `DELETE /categories/{category_id}`
+### `DELETE /v1/categories/{category_id}`
 
 Soft delete (optimistic locking: `version` query param).
 
 ```http
-DELETE /categories/1?version=1
+DELETE /v1/categories/1?version=1
 ```
 
 ---
 
-## Units of Measure (`/units-of-measure`)
+## Units of Measure (`/v1/units-of-measure`)
 
 Catalogo unità di misura, scoped per store. Richiede `PRODUCTS_READ` / `PRODUCTS_WRITE`.
 
-### `POST /units-of-measure`
+### `POST /v1/units-of-measure`
 
 ```json
-POST /units-of-measure
+POST /v1/units-of-measure
 Authorization: Bearer <token>
 Content-Type: application/json
 
@@ -539,25 +605,25 @@ Content-Type: application/json
 
 ---
 
-### `GET /units-of-measure`
+### `GET /v1/units-of-measure`
 
 Lista unità attive dello store. Supporta `?include_deleted=true`.
 
 ---
 
-### `GET /units-of-measure/{uom_id}`
+### `GET /v1/units-of-measure/{uom_id}`
 
 Dettaglio unità.
 
 ---
 
-### `PUT /units-of-measure/{uom_id}`
+### `PUT /v1/units-of-measure/{uom_id}`
 
 Aggiornamento (optimistic locking: `version` nel body).
 
 ---
 
-### `DELETE /units-of-measure/{uom_id}`
+### `DELETE /v1/units-of-measure/{uom_id}`
 
 Soft delete (optimistic locking: `version` query param).
 
@@ -569,14 +635,14 @@ Questa sezione è stata rimossa: l’API non espone più `/conservation-methods`
 
 ---
 
-## Storage Methods (`/storage-methods`)
+## Storage Methods (`/v1/storage-methods`)
 
 Catalogo dei metodi di storage definito a livello store (es. “Frigo”, “Freezer”, “Banco”).
 
-### `POST /storage-methods`
+### `POST /v1/storage-methods`
 
 ```json
-POST /storage-methods
+POST /v1/storage-methods
 Authorization: Bearer <token>
 Content-Type: application/json
 
@@ -587,38 +653,38 @@ Content-Type: application/json
 
 ---
 
-### `GET /storage-methods`
+### `GET /v1/storage-methods`
 
 Lista metodi di storage attivi dello store.
 
 ---
 
-### `PUT /storage-methods/{method_id}`
+### `PUT /v1/storage-methods/{method_id}`
 
 Aggiornamento (optimistic locking: `version` nel body).
 
 ---
 
-### `DELETE /storage-methods/{method_id}`
+### `DELETE /v1/storage-methods/{method_id}`
 
 Soft delete (optimistic locking: `version` query param).
 
 ---
 
-## Product Storage Rules (`/products/{product_id}/storage-rules`)
+## Product Storage Rules (`/v1/products/{product_id}/storage-rules`)
 
 Regole per definire la durata (delta time) per la coppia **(ProductMaster, StorageMethod)**.
 
-### `GET /products/{product_id}/storage-rules`
+### `GET /v1/products/{product_id}/storage-rules`
 
 Lista regole attive per il prodotto.
 
 ---
 
-### `POST /products/{product_id}/storage-rules`
+### `POST /v1/products/{product_id}/storage-rules`
 
 ```json
-POST /products/a1b2c3d4-e5f6-7890-abcd-ef1234567890/storage-rules
+POST /v1/products/a1b2c3d4-e5f6-7890-abcd-ef1234567890/storage-rules
 Authorization: Bearer <token>
 Content-Type: application/json
 
@@ -631,57 +697,57 @@ Content-Type: application/json
 
 ---
 
-### `PUT /products/{product_id}/storage-rules/{rule_id}`
+### `PUT /v1/products/{product_id}/storage-rules/{rule_id}`
 
 Aggiornamento (optimistic locking: `version` nel body).
 
 ---
 
-### `DELETE /products/{product_id}/storage-rules/{rule_id}`
+### `DELETE /v1/products/{product_id}/storage-rules/{rule_id}`
 
 Soft delete (optimistic locking: `version` query param).
 
-## Kitchen Module (`/kitchen`)
+## Kitchen Module (`/v1/kitchen`)
 
 ### Ricette
 
-- `POST /kitchen/recipes` (richiede `ingredients`)
-- `GET /kitchen/recipes` (paginazione + filtro `name`)
-- `GET /kitchen/recipes/{recipe_id}`
-- `PATCH /kitchen/recipes/{recipe_id}` (optimistic locking: `version` nel body)
-- `DELETE /kitchen/recipes/{recipe_id}` (optimistic locking: `version` query param)
-- `GET /kitchen/recipes/{recipe_id}/availability` (lotti attivi per ingrediente)
+- `POST /v1/kitchen/recipes` (richiede `ingredients`)
+- `GET /v1/kitchen/recipes` (paginazione + filtro `name`)
+- `GET /v1/kitchen/recipes/{recipe_id}`
+- `PATCH /v1/kitchen/recipes/{recipe_id}` (optimistic locking: `version` nel body)
+- `DELETE /v1/kitchen/recipes/{recipe_id}` (optimistic locking: `version` query param)
+- `GET /v1/kitchen/recipes/{recipe_id}/availability` (lotti attivi per ingrediente)
 
 ### Preparazioni
 
-- `POST /kitchen/preparations` (registra una preparazione e crea un lotto `PREP-*`)
-- `POST /kitchen/preparations/{preparation_id}/complete` (conferma fine preparazione)
-- `GET /kitchen/preparations` (storico con filtri)
-- `GET /kitchen/preparations/{preparation_id}` (dettaglio)
+- `POST /v1/kitchen/preparations` (registra una preparazione e crea un lotto `PREP-*`)
+- `POST /v1/kitchen/preparations/{preparation_id}/complete` (conferma fine preparazione)
+- `GET /v1/kitchen/preparations` (storico con filtri)
+- `GET /v1/kitchen/preparations/{preparation_id}` (dettaglio)
 
 ---
 
-## Stats Module (`/stats`)
+## Stats Module (`/v1/stats`)
 
 Statistiche per manager (trend cucina + overview batch). Documentazione completa: [16-stats-module.md](16-stats-module.md)
 
-- `GET /stats/overview`
-- `GET /stats/kitchen/preparations/series` (bucket `day|week|month`)
-- `GET /stats/kitchen/recipes/top`
-- `GET /stats/kitchen/recipes/top-series` (bucket `day|week|month`)
-- `GET /stats/kitchen/ingredients/top`
-- `GET /stats/inventory/batches/overview`
-- `GET /stats/inventory/batches/series` (metric `created|finished`, bucket `day|week|month`)
-- `GET /stats/inventory/waste` (sprechi per prodotto+motivazione, limit 1..200)
+- `GET /v1/stats/overview`
+- `GET /v1/stats/kitchen/preparations/series` (bucket `day|week|month`)
+- `GET /v1/stats/kitchen/recipes/top`
+- `GET /v1/stats/kitchen/recipes/top-series` (bucket `day|week|month`)
+- `GET /v1/stats/kitchen/ingredients/top`
+- `GET /v1/stats/inventory/batches/overview`
+- `GET /v1/stats/inventory/batches/series` (metric `created|finished`, bucket `day|week|month`)
+- `GET /v1/stats/inventory/waste` (sprechi per prodotto+motivazione, limit 1..200)
 
 ---
 
-## Setup Module (`/setup`)
+## Setup Module (`/v1/setup`)
 
-> **Solo admin.** Tutti gli endpoint `/setup` richiedono il permesso `ADMIN_ALL`
+> **Solo admin.** Tutti gli endpoint `/v1/setup` richiedono il permesso `ADMIN_ALL`
 > (ruolo `admin`) e sono disabilitati in ambiente `production` (rispondono `404`).
 
-### `POST /setup/seed-demo`
+### `POST /v1/setup/seed-demo`
 
 Popola lo store demo (`id=1`) con un dataset completo e testabile in un'unica
 chiamata: cataloghi (categorie, unità di misura, metodi di conservazione),
@@ -697,7 +763,7 @@ e vuoti, ricette con ingredienti, preparazioni eseguibili e notifiche.
 **Request**:
 
 ```http
-POST /setup/seed-demo?reset=true
+POST /v1/setup/seed-demo?reset=true
 Authorization: Bearer <admin_token>
 ```
 
