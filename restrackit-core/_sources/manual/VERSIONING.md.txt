@@ -100,6 +100,7 @@ Workflow: `.github/workflows/release.yml`
 1. Dopo un push su `main`, la CI (`ci.yml`) esegue lint + test.
 2. Se la CI termina con successo, viene letto `pyproject.toml` e creato automaticamente il tag `vX.Y.Z` (se non esiste già).
 3. Viene creata la **GitHub Release** usando le note estratte dalla sezione `## vX.Y.Z ...` in `CHANGELOG.md`.
+4. Se la sezione del changelog non è ancora presente, il job genera un body di fallback dai commit tra l'ultimo tag e `HEAD` per non bloccare il rilascio.
 
 ### Rilascio Manuale / Forzatura
 

@@ -1000,6 +1000,7 @@ Puoi usare il comando <code class="docutils literal notranslate"><span class="pr
 <li><p>Dopo un push su <code class="docutils literal notranslate"><span class="pre">main</span></code>, la CI (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>) esegue lint + test.</p></li>
 <li><p>Se la CI termina con successo, viene letto <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> e creato automaticamente il tag <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> (se non esiste già).</p></li>
 <li><p>Viene creata la <strong>GitHub Release</strong> usando le note estratte dalla sezione <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">vX.Y.Z</span> <span class="pre">...</span></code> in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>.</p></li>
+<li><p>Se la sezione del changelog non è ancora presente, il job genera un body di fallback dai commit tra l’ultimo tag e <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> per non bloccare il rilascio.</p></li>
 </ol>
 </section>
 <section id="rilascio-manuale-forzatura">
