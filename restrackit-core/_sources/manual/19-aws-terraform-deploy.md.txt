@@ -1,0 +1,90 @@
+# Deploy su AWS con Terraform
+
+Sostituisce il flusso DigitalOcean descritto in `docs/17-publish-app-fast.md` per l'ambiente di produzione.
+
+## Panoramica
+
+Un'unica istanza EC2 (`t3.small` di default) in `eu-south-1`, provisionata via Terraform
+(`terraform/`), esegue lo stesso stack `deploy/prod/docker-compose.yml` di sempre
+(Traefik, Postgres, Redis, Keycloak, app, worker). L'accesso pubblico avviene via
+Elastic IP, con certificati TLS reali via Let's Encrypt (HTTP-01). L'hostname pubblico
+e' configurabile tramite il parametro SSM `/restrackit/prod/public_hostname` (vedi
+"Hostname pubblico" sotto): di default (`CHANGE_ME`) si usa `<elastic-ip>.sslip.io`,
+ma puo' essere un dominio proprio o un hostname DuckDNS.
+
+## Setup una tantum
+
+1. **Bootstrap dello state remoto**: `cd terraform/bootstrap && terraform init && terraform apply`
+   (richiede credenziali AWS con permessi ampi, usale solo per questo passo).
+   Annota gli output `state_bucket_name` e `lock_table_name`.
+2. **Due IAM user dedicati a Terraform** (mai lo stesso per plan e apply):
+   - uno con permessi di **scrittura**, limitati a EC2, VPC, IAM (solo i ruoli/profili di
+     questo progetto), S3 (solo il bucket di state), DynamoDB (solo la tabella di lock),
+     SSM Parameter Store (path `/restrackit/prod/*`) e AWS Backup — usato solo da `apply`;
+   - uno a **sola lettura** sugli stessi servizi (es. `ReadOnlyAccess` gestita da AWS, o
+     una policy scoped equivalente) — usato da `plan` sulle PR. Il codice Terraform di una
+     PR e' codice arbitrario (provider `local-exec`, `data "external"`, ecc.): non deve mai
+     girare con credenziali capaci di modificare l'infrastruttura.
+   Genera una access key per ciascuno.
+3. **Secrets GitHub** (Settings → Secrets and variables → Actions):
+   - `TF_AWS_ACCESS_KEY_ID`, `TF_AWS_SECRET_ACCESS_KEY` (IAM user di scrittura, solo `apply`)
+   - `TF_PLAN_AWS_ACCESS_KEY_ID`, `TF_PLAN_AWS_SECRET_ACCESS_KEY` (IAM user di sola lettura, solo `plan`)
+   - `TF_BACKEND_BUCKET`, `TF_BACKEND_DYNAMODB_TABLE` (dal bootstrap)
+   - `TF_VAR_SSH_ALLOWED_CIDRS` (es. `["203.0.113.4/32"]`)
+   - `TF_VAR_SSH_PUBLIC_KEY` (chiave pubblica SSH)
+   - Variabile `AWS_REGION=eu-south-1`
+4. **Primo apply**: apri una PR che tocca `terraform/` per vedere il `plan`,
+   poi mergia su `main` per far scattare l'`apply` automatico (workflow
+   `terraform.yml`). In alternativa, esegui `terraform apply` a mano da
+   `terraform/` (vedi `terraform/README.md`).
+5. **Valorizza i secrets applicativi**: per ciascuno dei 16 parametri sotto
+   `/restrackit/prod/`, esegui
+   `aws ssm put-parameter --name /restrackit/prod/<nome> --type SecureString --value '...' --overwrite`
+   (usa `--type String` per quelli non sensibili, vedi `terraform/ssm.tf`).
+6. **Copia `service_account.json`** nella home dell'istanza
+   (`~/restrackit-prod/service_account.json`), come si faceva sul droplet DO.
+7. **Secrets per il deploy applicativo**:
+   - `PROD_VM_HOST`: output `elastic_ip` di Terraform
+   - `PROD_VM_USER`: `ec2-user`
+   - `PROD_VM_SSH_KEY`: chiave privata corrispondente a `TF_VAR_SSH_PUBLIC_KEY`
+   - `PROD_VM_HOST_KEY`: host key SSH dell'istanza, ottenuta una tantum con
+     `ssh-keyscan -t ed25519 <elastic-ip>` (serve a pinnare la verifica dell'host invece di
+     disabilitarla, altrimenti la sessione SSH — e i secret che ci transitano — sarebbero
+     esposti a un attacco man-in-the-middle)
+   - opzionali `PROD_GHCR_USERNAME` / `PROD_GHCR_TOKEN` se l'immagine GHCR è privata
+
+## Deploy applicativo
+
+Il workflow `deploy-prod-vm.yml` si attiva ad ogni build Docker riuscita su `main`
+(o manualmente via `workflow_dispatch`). Copia `deploy/prod/docker-compose.yml` e
+gli script di deploy sull'istanza via SSH, genera `deploy/prod/.env` leggendo i
+parametri da SSM (`scripts/render_env_from_ssm.sh`), ed esegue lo switch
+blue-green (`scripts/deploy.sh`) con health check e rollback automatico in caso
+di errore.
+
+## Hostname pubblico
+
+Per default il deploy calcola l'hostname da `<elastic-ip>.sslip.io`. Per usare un dominio
+proprio o un servizio gratuito come [DuckDNS](https://www.duckdns.org):
+
+1. Punta il record (DNS `A`, o l'aggiornamento IP di DuckDNS) all'Elastic IP di Terraform
+   (`terraform output elastic_ip`).
+2. Imposta il valore: `aws ssm put-parameter --name /restrackit/prod/public_hostname --type String --value "app.tuodominio.it" --overwrite` (o `tuonome.duckdns.org`).
+3. Al deploy successivo `render_env_from_ssm.sh` legge il parametro e lo usa al posto di
+   `sslip.io` — Traefik richiede automaticamente il certificato Let's Encrypt per il nuovo
+   hostname (HTTP-01), quindi il DNS deve gia' risolvere sull'IP prima del deploy.
+
+Per tornare a `sslip.io` basta rimettere il parametro a `CHANGE_ME` (o eliminarlo).
+
+## Verifica
+
+- `https://<public-hostname>/health`
+- `https://<public-hostname>/docs`
+- `https://<public-hostname>/auth`
+
+## Backup
+
+AWS Backup esegue uno snapshot giornaliero (03:00 UTC) del volume EBS
+dell'istanza, con retention configurabile (`backup_retention_days`, default 14
+giorni). Ripristino: crea un nuovo volume dallo snapshot in AWS Backup console
+o CLI, poi allega alla nuova istanza.

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Authentication &amp; Authorization &mdash; Restrackit 2.61.0 documentation</title>
+  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.61.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Error Handling" href="10-error-handling.html" />
-    <link rel="prev" title="Environment Configuration" href="08-environment-config.html" /> 
+    <link rel="next" title="Catalogo Codici Errore Restrackit" href="ERROR_CODES.html" />
+    <link rel="prev" title="Completamento Produzione (Preparazione + Lotto)" href="18-production-completion.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -458,13 +458,13 @@
 <li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Authentication &amp; Authorization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configurazione-keycloak">Configurazione Keycloak</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ruoli-e-permessi">Ruoli e permessi</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#esempi-curl">Esempi (curl)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#endpoint-utili">Endpoint utili</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#endpoint-utili">Endpoint utili</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="10-error-handling.html">Error Handling</a><ul>
@@ -767,13 +767,13 @@
 <li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#notifiche-automatiche-team">Notifiche automatiche (team)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="19-aws-terraform-deploy.html">Deploy su AWS con Terraform</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#panoramica">Panoramica</a></li>
-<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#setup-una-tantum">Setup una tantum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#deploy-applicativo">Deploy applicativo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#hostname-pubblico">Hostname pubblico</a></li>
-<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
-<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Deploy su AWS con Terraform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#panoramica">Panoramica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-una-tantum">Setup una tantum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-applicativo">Deploy applicativo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hostname-pubblico">Hostname pubblico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verifica">Verifica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#backup">Backup</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -890,9 +890,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../markdown_docs.html">Documentazione Manuale (Markdown)</a></li>
-      <li class="breadcrumb-item active">Authentication &amp; Authorization</li>
+      <li class="breadcrumb-item active">Deploy su AWS con Terraform</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/manual/09-auth.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/manual/19-aws-terraform-deploy.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -900,84 +900,108 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="authentication-authorization">
-<h1>Authentication &amp; Authorization<a class="headerlink" href="#authentication-authorization" title="Link to this heading"></a></h1>
-<p>Questa sezione descrive il modello di sicurezza <strong>attuale</strong> del progetto: <strong>Keycloak (OIDC)</strong> con token JWT e controllo permessi a livello di endpoint.</p>
-<section id="flusso-di-autenticazione-oidc">
-<h2>Flusso di autenticazione (OIDC)<a class="headerlink" href="#flusso-di-autenticazione-oidc" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>Il client ottiene un token JWT da Keycloak.</p></li>
-<li><p>Le chiamate API includono <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code>.</p></li>
-<li><p>L’app verifica firma e claim usando JWKS del realm configurato.</p></li>
-</ul>
-<p>Riferimenti nel codice:</p>
-<ul class="simple">
-<li><p>Schema OAuth2 per Swagger UI: <a class="reference internal" href="../app.core.html#module-app.core.security" title="app.core.security"><code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.security</span></code></a></p></li>
-<li><p>Validazione token, mapping ruoli/permessi e selezione store: <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.modules.auth.dependencies</span></code></p></li>
-</ul>
+  <section id="deploy-su-aws-con-terraform">
+<h1>Deploy su AWS con Terraform<a class="headerlink" href="#deploy-su-aws-con-terraform" title="Link to this heading"></a></h1>
+<p>Sostituisce il flusso DigitalOcean descritto in <code class="docutils literal notranslate"><span class="pre">docs/17-publish-app-fast.md</span></code> per l’ambiente di produzione.</p>
+<section id="panoramica">
+<h2>Panoramica<a class="headerlink" href="#panoramica" title="Link to this heading"></a></h2>
+<p>Un’unica istanza EC2 (<code class="docutils literal notranslate"><span class="pre">t3.small</span></code> di default) in <code class="docutils literal notranslate"><span class="pre">eu-south-1</span></code>, provisionata via Terraform
+(<code class="docutils literal notranslate"><span class="pre">terraform/</span></code>), esegue lo stesso stack <code class="docutils literal notranslate"><span class="pre">deploy/prod/docker-compose.yml</span></code> di sempre
+(Traefik, Postgres, Redis, Keycloak, app, worker). L’accesso pubblico avviene via
+Elastic IP, con certificati TLS reali via Let’s Encrypt (HTTP-01). L’hostname pubblico
+e’ configurabile tramite il parametro SSM <code class="docutils literal notranslate"><span class="pre">/restrackit/prod/public_hostname</span></code> (vedi
+“Hostname pubblico” sotto): di default (<code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code>) si usa <code class="docutils literal notranslate"><span class="pre">&lt;elastic-ip&gt;.sslip.io</span></code>,
+ma puo’ essere un dominio proprio o un hostname DuckDNS.</p>
 </section>
-<section id="configurazione-keycloak">
-<h2>Configurazione Keycloak<a class="headerlink" href="#configurazione-keycloak" title="Link to this heading"></a></h2>
-<p>Le variabili minime per l’integrazione sono definite in <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.config</span></code>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code> (pubblico, include il path relativo se usato)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_INTERNAL_URL</span></code> (opzionale, per chiamate server-to-server)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_REALM</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_CLIENT_ID</span></code></p></li>
-</ul>
-<p>Nota architetturale: Keycloak è esposto sotto path <code class="docutils literal notranslate"><span class="pre">/auth</span></code> (non subdomain). Di conseguenza <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code> include <code class="docutils literal notranslate"><span class="pre">/auth</span></code>.</p>
-</section>
-<section id="ruoli-e-permessi">
-<h2>Ruoli e permessi<a class="headerlink" href="#ruoli-e-permessi" title="Link to this heading"></a></h2>
-<p>Il modello è basato su:</p>
-<ul class="simple">
-<li><p><strong>Role</strong> (derivato dai realm roles del token)</p></li>
-<li><p><strong>Permission</strong> (gate per endpoint tramite <code class="docutils literal notranslate"><span class="pre">RequirePermission(...)</span></code>)</p></li>
-</ul>
-<p>Esempi di permessi per endpoint:</p>
-<ul class="simple">
-<li><p>Inventory: <code class="docutils literal notranslate"><span class="pre">INVENTORY_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">INVENTORY_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">INVENTORY_DELETE</span></code></p></li>
-<li><p>Products: <code class="docutils literal notranslate"><span class="pre">PRODUCTS_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">PRODUCTS_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">PRODUCTS_DELETE</span></code></p></li>
-<li><p>Kitchen: <code class="docutils literal notranslate"><span class="pre">KITCHEN_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">KITCHEN_MANAGE_RECIPES</span></code>, <code class="docutils literal notranslate"><span class="pre">KITCHEN_WRITE_PREPARATION</span></code></p></li>
-<li><p>Stats: <code class="docutils literal notranslate"><span class="pre">STATS_READ</span></code></p></li>
-</ul>
-<p>Implementazione: <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.modules.auth.dependencies</span></code></p>
-</section>
-<section id="multi-tenancy-e-selezione-store">
-<h2>Multi-tenancy e selezione store<a class="headerlink" href="#multi-tenancy-e-selezione-store" title="Link to this heading"></a></h2>
-<p>Ogni request opera in un contesto <code class="docutils literal notranslate"><span class="pre">store_id</span></code> (isolamento dati). Lo <code class="docutils literal notranslate"><span class="pre">store_id</span></code> effettivo deriva:</p>
-<ul class="simple">
-<li><p>dalle claim del token (lista store consentiti o accesso globale),</p></li>
-<li><p>opzionalmente dall’header <code class="docutils literal notranslate"><span class="pre">x-target-store</span></code> quando l’utente ha accesso a più store.</p></li>
-</ul>
-<p>L’isolamento è garantito a due livelli:</p>
+<section id="setup-una-tantum">
+<h2>Setup una tantum<a class="headerlink" href="#setup-una-tantum" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p><strong>Applicativo</strong>: Filtri espliciti nel Service Layer (es. <code class="docutils literal notranslate"><span class="pre">Batch.store_id</span> <span class="pre">==</span> <span class="pre">store_id</span></code>).</p></li>
-<li><p><strong>Database (RLS)</strong>: PostgreSQL Row Level Security impedisce l’accesso a righe di altri store anche in caso di bug applicativo. Il contesto RLS viene impostato tramite il comando <code class="docutils literal notranslate"><span class="pre">SET</span> <span class="pre">LOCAL</span> <span class="pre">app.current_store_id</span> <span class="pre">=</span> <span class="pre">:store_id</span></code> all’inizio di ogni transazione, gestito automaticamente da un listener SQLAlchemy (<code class="docutils literal notranslate"><span class="pre">after_begin</span></code>).</p></li>
+<li><p><strong>Bootstrap dello state remoto</strong>: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">terraform/bootstrap</span> <span class="pre">&amp;&amp;</span> <span class="pre">terraform</span> <span class="pre">init</span> <span class="pre">&amp;&amp;</span> <span class="pre">terraform</span> <span class="pre">apply</span></code>
+(richiede credenziali AWS con permessi ampi, usale solo per questo passo).
+Annota gli output <code class="docutils literal notranslate"><span class="pre">state_bucket_name</span></code> e <code class="docutils literal notranslate"><span class="pre">lock_table_name</span></code>.</p></li>
+<li><p><strong>Due IAM user dedicati a Terraform</strong> (mai lo stesso per plan e apply):</p>
+<ul class="simple">
+<li><p>uno con permessi di <strong>scrittura</strong>, limitati a EC2, VPC, IAM (solo i ruoli/profili di
+questo progetto), S3 (solo il bucket di state), DynamoDB (solo la tabella di lock),
+SSM Parameter Store (path <code class="docutils literal notranslate"><span class="pre">/restrackit/prod/*</span></code>) e AWS Backup — usato solo da <code class="docutils literal notranslate"><span class="pre">apply</span></code>;</p></li>
+<li><p>uno a <strong>sola lettura</strong> sugli stessi servizi (es. <code class="docutils literal notranslate"><span class="pre">ReadOnlyAccess</span></code> gestita da AWS, o
+una policy scoped equivalente) — usato da <code class="docutils literal notranslate"><span class="pre">plan</span></code> sulle PR. Il codice Terraform di una
+PR e’ codice arbitrario (provider <code class="docutils literal notranslate"><span class="pre">local-exec</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">&quot;external&quot;</span></code>, ecc.): non deve mai
+girare con credenziali capaci di modificare l’infrastruttura.
+Genera una access key per ciascuno.</p></li>
+</ul>
+</li>
+<li><p><strong>Secrets GitHub</strong> (Settings → Secrets and variables → Actions):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TF_AWS_ACCESS_KEY_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">TF_AWS_SECRET_ACCESS_KEY</span></code> (IAM user di scrittura, solo <code class="docutils literal notranslate"><span class="pre">apply</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TF_PLAN_AWS_ACCESS_KEY_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">TF_PLAN_AWS_SECRET_ACCESS_KEY</span></code> (IAM user di sola lettura, solo <code class="docutils literal notranslate"><span class="pre">plan</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TF_BACKEND_BUCKET</span></code>, <code class="docutils literal notranslate"><span class="pre">TF_BACKEND_DYNAMODB_TABLE</span></code> (dal bootstrap)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TF_VAR_SSH_ALLOWED_CIDRS</span></code> (es. <code class="docutils literal notranslate"><span class="pre">[&quot;203.0.113.4/32&quot;]</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TF_VAR_SSH_PUBLIC_KEY</span></code> (chiave pubblica SSH)</p></li>
+<li><p>Variabile <code class="docutils literal notranslate"><span class="pre">AWS_REGION=eu-south-1</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Primo apply</strong>: apri una PR che tocca <code class="docutils literal notranslate"><span class="pre">terraform/</span></code> per vedere il <code class="docutils literal notranslate"><span class="pre">plan</span></code>,
+poi mergia su <code class="docutils literal notranslate"><span class="pre">main</span></code> per far scattare l’<code class="docutils literal notranslate"><span class="pre">apply</span></code> automatico (workflow
+<code class="docutils literal notranslate"><span class="pre">terraform.yml</span></code>). In alternativa, esegui <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">apply</span></code> a mano da
+<code class="docutils literal notranslate"><span class="pre">terraform/</span></code> (vedi <code class="docutils literal notranslate"><span class="pre">terraform/README.md</span></code>).</p></li>
+<li><p><strong>Valorizza i secrets applicativi</strong>: per ciascuno dei 16 parametri sotto
+<code class="docutils literal notranslate"><span class="pre">/restrackit/prod/</span></code>, esegui
+<code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">ssm</span> <span class="pre">put-parameter</span> <span class="pre">--name</span> <span class="pre">/restrackit/prod/&lt;nome&gt;</span> <span class="pre">--type</span> <span class="pre">SecureString</span> <span class="pre">--value</span> <span class="pre">'...'</span> <span class="pre">--overwrite</span></code>
+(usa <code class="docutils literal notranslate"><span class="pre">--type</span> <span class="pre">String</span></code> per quelli non sensibili, vedi <code class="docutils literal notranslate"><span class="pre">terraform/ssm.tf</span></code>).</p></li>
+<li><p><strong>Copia <code class="docutils literal notranslate"><span class="pre">service_account.json</span></code></strong> nella home dell’istanza
+(<code class="docutils literal notranslate"><span class="pre">~/restrackit-prod/service_account.json</span></code>), come si faceva sul droplet DO.</p></li>
+<li><p><strong>Secrets per il deploy applicativo</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PROD_VM_HOST</span></code>: output <code class="docutils literal notranslate"><span class="pre">elastic_ip</span></code> di Terraform</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROD_VM_USER</span></code>: <code class="docutils literal notranslate"><span class="pre">ec2-user</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROD_VM_SSH_KEY</span></code>: chiave privata corrispondente a <code class="docutils literal notranslate"><span class="pre">TF_VAR_SSH_PUBLIC_KEY</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROD_VM_HOST_KEY</span></code>: host key SSH dell’istanza, ottenuta una tantum con
+<code class="docutils literal notranslate"><span class="pre">ssh-keyscan</span> <span class="pre">-t</span> <span class="pre">ed25519</span> <span class="pre">&lt;elastic-ip&gt;</span></code> (serve a pinnare la verifica dell’host invece di
+disabilitarla, altrimenti la sessione SSH — e i secret che ci transitano — sarebbero
+esposti a un attacco man-in-the-middle)</p></li>
+<li><p>opzionali <code class="docutils literal notranslate"><span class="pre">PROD_GHCR_USERNAME</span></code> / <code class="docutils literal notranslate"><span class="pre">PROD_GHCR_TOKEN</span></code> se l’immagine GHCR è privata</p></li>
+</ul>
+</li>
 </ol>
 </section>
-<section id="esempi-curl">
-<h2>Esempi (curl)<a class="headerlink" href="#esempi-curl" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;&lt;bearer-token&gt;&quot;</span>
-
-<span class="c1"># Lista lotti (serve INVENTORY_READ)</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>http://localhost:8000/inventory/list
-
-<span class="c1"># Se il token consente più store, seleziona lo store target</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;x-target-store: 1&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>http://localhost:8000/inventory/list
-</pre></div>
-</div>
+<section id="deploy-applicativo">
+<h2>Deploy applicativo<a class="headerlink" href="#deploy-applicativo" title="Link to this heading"></a></h2>
+<p>Il workflow <code class="docutils literal notranslate"><span class="pre">deploy-prod-vm.yml</span></code> si attiva ad ogni build Docker riuscita su <code class="docutils literal notranslate"><span class="pre">main</span></code>
+(o manualmente via <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code>). Copia <code class="docutils literal notranslate"><span class="pre">deploy/prod/docker-compose.yml</span></code> e
+gli script di deploy sull’istanza via SSH, genera <code class="docutils literal notranslate"><span class="pre">deploy/prod/.env</span></code> leggendo i
+parametri da SSM (<code class="docutils literal notranslate"><span class="pre">scripts/render_env_from_ssm.sh</span></code>), ed esegue lo switch
+blue-green (<code class="docutils literal notranslate"><span class="pre">scripts/deploy.sh</span></code>) con health check e rollback automatico in caso
+di errore.</p>
 </section>
-<section id="endpoint-utili">
-<h2>Endpoint utili<a class="headerlink" href="#endpoint-utili" title="Link to this heading"></a></h2>
+<section id="hostname-pubblico">
+<h2>Hostname pubblico<a class="headerlink" href="#hostname-pubblico" title="Link to this heading"></a></h2>
+<p>Per default il deploy calcola l’hostname da <code class="docutils literal notranslate"><span class="pre">&lt;elastic-ip&gt;.sslip.io</span></code>. Per usare un dominio
+proprio o un servizio gratuito come <a class="reference external" href="https://www.duckdns.org">DuckDNS</a>:</p>
+<ol class="arabic simple">
+<li><p>Punta il record (DNS <code class="docutils literal notranslate"><span class="pre">A</span></code>, o l’aggiornamento IP di DuckDNS) all’Elastic IP di Terraform
+(<code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">output</span> <span class="pre">elastic_ip</span></code>).</p></li>
+<li><p>Imposta il valore: <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">ssm</span> <span class="pre">put-parameter</span> <span class="pre">--name</span> <span class="pre">/restrackit/prod/public_hostname</span> <span class="pre">--type</span> <span class="pre">String</span> <span class="pre">--value</span> <span class="pre">&quot;app.tuodominio.it&quot;</span> <span class="pre">--overwrite</span></code> (o <code class="docutils literal notranslate"><span class="pre">tuonome.duckdns.org</span></code>).</p></li>
+<li><p>Al deploy successivo <code class="docutils literal notranslate"><span class="pre">render_env_from_ssm.sh</span></code> legge il parametro e lo usa al posto di
+<code class="docutils literal notranslate"><span class="pre">sslip.io</span></code> — Traefik richiede automaticamente il certificato Let’s Encrypt per il nuovo
+hostname (HTTP-01), quindi il DNS deve gia’ risolvere sull’IP prima del deploy.</p></li>
+</ol>
+<p>Per tornare a <code class="docutils literal notranslate"><span class="pre">sslip.io</span></code> basta rimettere il parametro a <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> (o eliminarlo).</p>
+</section>
+<section id="verifica">
+<h2>Verifica<a class="headerlink" href="#verifica" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>OpenAPI/Swagger UI: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/docs</span></code></p></li>
-<li><p>ReDoc: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/redoc</span></code></p></li>
-<li><p>Logout (Keycloak): <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/auth/logout</span></code> (redirect)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">https://&lt;public-hostname&gt;/health</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">https://&lt;public-hostname&gt;/docs</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">https://&lt;public-hostname&gt;/auth</span></code></p></li>
 </ul>
+</section>
+<section id="backup">
+<h2>Backup<a class="headerlink" href="#backup" title="Link to this heading"></a></h2>
+<p>AWS Backup esegue uno snapshot giornaliero (03:00 UTC) del volume EBS
+dell’istanza, con retention configurabile (<code class="docutils literal notranslate"><span class="pre">backup_retention_days</span></code>, default 14
+giorni). Ripristino: crea un nuovo volume dallo snapshot in AWS Backup console
+o CLI, poi allega alla nuova istanza.</p>
 </section>
 </section>
 
@@ -985,8 +1009,8 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="08-environment-config.html" class="btn btn-neutral float-left" title="Environment Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="10-error-handling.html" class="btn btn-neutral float-right" title="Error Handling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="18-production-completion.html" class="btn btn-neutral float-left" title="Completamento Produzione (Preparazione + Lotto)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ERROR_CODES.html" class="btn btn-neutral float-right" title="Catalogo Codici Errore Restrackit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
