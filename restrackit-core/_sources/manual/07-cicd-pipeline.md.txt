@@ -139,13 +139,13 @@ Builds Docker images, scans them, and publishes them to GHCR.
 
 Workflows select runners via repository variables:
 
-- `ACTIONS_RUNNER_LABELS_GH`: GitHub-hosted (recommended `["ubuntu-latest"]`)
-- `ACTIONS_RUNNER_LABELS_DOCKER`: self-hosted runners with Docker available
-- `ACTIONS_RUNNER_LABELS_PY`: optional self-hosted runners for Python-only jobs
-- `ACTIONS_RUNNER_LABELS_DEPLOY`: optional self-hosted runner labels dedicated to deployments
 
 If variables are not set, workflows fall back to `["ubuntu-latest"]`.
 
+For the production VM deploy, set both `PROD_GHCR_USERNAME` and `PROD_GHCR_TOKEN`.
+The token must be a PAT with `read:packages` access and must be allowed to read the
+`ghcr.io/<owner>/<repo>` package published by the repository. If the package is private
+and the token cannot read it, Docker will fail on pull with `unauthorized`.
 ---
 
 ## Execution Flow
