@@ -142,10 +142,11 @@ Workflows select runners via repository variables:
 
 If variables are not set, workflows fall back to `["ubuntu-latest"]`.
 
-For the production VM deploy, set both `PROD_GHCR_USERNAME` and `PROD_GHCR_TOKEN`.
-The token must be a PAT with `read:packages` access and must be allowed to read the
-`ghcr.io/<owner>/<repo>` package published by the repository. If the package is private
-and the token cannot read it, Docker will fail on pull with `unauthorized`.
+For the production VM deploy, the workflow uses `GITHUB_TOKEN` automatically, which
+has `read:packages` access to private packages in the organization repository. No
+additional secrets (like `PROD_GHCR_USERNAME`/`PROD_GHCR_TOKEN`) are required. The
+workflow will automatically authenticate to GHCR using the runner's built-in GitHub
+token.
 ---
 
 ## Execution Flow

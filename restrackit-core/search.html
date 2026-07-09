@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search &mdash; Restrackit 2.62.0 documentation</title>
+  <title>Search &mdash; Restrackit 2.62.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
     
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f86a2ac2"></script>
+      <script src="_static/documentation_options.js?v=5c12aedb"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -836,10 +836,11 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#runner-selection-self-hosted-github-hosted">Runner selection (self-hosted + GitHub-hosted)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#for-the-production-vm-deploy-set-both-prod-ghcr-username-and-prod-ghcr-token-the-token-must-be-a-pat-with-read-packages-access-and-must-be-allowed-to-read-the-ghcr-io-owner-repo-package-published-by-the-repository-if-the-package-is-private-and-the-token-cannot-read-it-docker-will-fail-on-pull-with-unauthorized">For the production VM deploy, set both <code class="docutils literal notranslate"><span class="pre">PROD_GHCR_USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">PROD_GHCR_TOKEN</span></code>.
-The token must be a PAT with <code class="docutils literal notranslate"><span class="pre">read:packages</span></code> access and must be allowed to read the
-<code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;owner&gt;/&lt;repo&gt;</span></code> package published by the repository. If the package is private
-and the token cannot read it, Docker will fail on pull with <code class="docutils literal notranslate"><span class="pre">unauthorized</span></code>.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#for-the-production-vm-deploy-the-workflow-uses-github-token-automatically-which-has-read-packages-access-to-private-packages-in-the-organization-repository-no-additional-secrets-like-prod-ghcr-username-prod-ghcr-token-are-required-the-workflow-will-automatically-authenticate-to-ghcr-using-the-runner-s-built-in-github-token">For the production VM deploy, the workflow uses <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> automatically, which
+has <code class="docutils literal notranslate"><span class="pre">read:packages</span></code> access to private packages in the organization repository. No
+additional secrets (like <code class="docutils literal notranslate"><span class="pre">PROD_GHCR_USERNAME</span></code>/<code class="docutils literal notranslate"><span class="pre">PROD_GHCR_TOKEN</span></code>) are required. The
+workflow will automatically authenticate to GHCR using the runner’s built-in GitHub
+token.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#execution-flow">Execution Flow</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#pull-request">Pull Request</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#main-branch-push">Main Branch Push</a></li>
