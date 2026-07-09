@@ -142,11 +142,14 @@ Workflows select runners via repository variables:
 
 If variables are not set, workflows fall back to `["ubuntu-latest"]`.
 
-For the production VM deploy, the workflow uses `GITHUB_TOKEN` automatically, which
-has `read:packages` access to private packages in the organization repository. No
-additional secrets (like `PROD_GHCR_USERNAME`/`PROD_GHCR_TOKEN`) are required. The
-workflow will automatically authenticate to GHCR using the runner's built-in GitHub
-token.
+For the production VM deploy with a private GHCR package, create a **Personal Access Token (classic)** on
+https://github.com/settings/tokens with scopes `read:packages` and `repo`. Then set these
+repository secrets:
+- `PROD_GHCR_USERNAME` — your GitHub username
+- `PROD_GHCR_TOKEN` — the PAT token
+
+(Self-hosted runners do not have automatic org access to `GITHUB_TOKEN`, so a manual PAT is required
+for private packages in organization repositories.)
 ---
 
 ## Execution Flow
