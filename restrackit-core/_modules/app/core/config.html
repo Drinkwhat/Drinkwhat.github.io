@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.65.6 documentation</title>
+  <title>app.core.config &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="../../../_static/documentation_options.js?v=959b4fbe"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -822,6 +822,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -1410,16 +1411,34 @@ for private packages in organization repositories.)</a></li>
     <span class="c1"># Default is [&quot;*&quot;] for local/demo convenience; set an explicit list in production.</span>
     <span class="n">allowed_hosts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
 
-    <span class="c1"># Content-Security-Policy header value. The default is permissive enough to</span>
-    <span class="c1"># keep Swagger UI (/docs) and the static UI (/ui) working in the browser while</span>
-    <span class="c1"># still being present for security scanners. Tighten in production if no</span>
-    <span class="c1"># browser-served HTML is needed.</span>
+    <span class="c1"># Content-Security-Policy header used ONLY for /docs and /redoc: Swagger UI and</span>
+    <span class="c1"># ReDoc render inline &lt;script&gt;/&lt;style&gt; and pull assets from a CDN, so they need</span>
+    <span class="c1"># &#39;unsafe-inline&#39; and a broad https: source. These routes are disabled outright in</span>
+    <span class="c1"># production (see `_docs_enabled` in main.py), so the relaxation never reaches prod.</span>
     <span class="n">content_security_policy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;default-src &#39;self&#39;; &quot;</span>
         <span class="s2">&quot;img-src &#39;self&#39; data: https:; &quot;</span>
         <span class="s2">&quot;style-src &#39;self&#39; &#39;unsafe-inline&#39; https:; &quot;</span>
         <span class="s2">&quot;script-src &#39;self&#39; &#39;unsafe-inline&#39; https:; &quot;</span>
         <span class="s2">&quot;connect-src &#39;self&#39; https:; &quot;</span>
+        <span class="s2">&quot;object-src &#39;none&#39;; &quot;</span>
+        <span class="s2">&quot;base-uri &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;form-action &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;frame-ancestors &#39;none&#39;&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Content-Security-Policy applied to every other route (API responses + the static</span>
+    <span class="c1"># /ui app, which loads no inline script/style). No &#39;unsafe-inline&#39;, no wildcard</span>
+    <span class="c1"># https: source.</span>
+    <span class="n">content_security_policy_strict</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;default-src &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;img-src &#39;self&#39; data:; &quot;</span>
+        <span class="s2">&quot;style-src &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;script-src &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;connect-src &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;object-src &#39;none&#39;; &quot;</span>
+        <span class="s2">&quot;base-uri &#39;self&#39;; &quot;</span>
+        <span class="s2">&quot;form-action &#39;self&#39;; &quot;</span>
         <span class="s2">&quot;frame-ancestors &#39;none&#39;&quot;</span>
     <span class="p">)</span>
 
@@ -1427,32 +1446,43 @@ for private packages in organization repositories.)</a></li>
 <a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.inject_keycloak_into_csp">[docs]</a>
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inject_keycloak_into_csp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add KEYCLOAK_URL origin to connect-src so the browser can reach Keycloak.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add KEYCLOAK_URL origin to connect-src of both CSP policies.&quot;&quot;&quot;</span>
         <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">keycloak_origin</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="si">}</span><span class="s2">&quot;</span>
 
-        <span class="c1"># Inspect the connect-src directive specifically: an origin allowed in</span>
-        <span class="c1"># another directive (e.g. script-src) does NOT permit the browser to open</span>
-        <span class="c1"># XHR/fetch/WebSocket connections, which are governed solely by connect-src.</span>
-        <span class="c1"># A whole-string substring check would wrongly treat such an origin as</span>
-        <span class="c1"># already covered and skip the injection.</span>
-        <span class="n">directives</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_connect_src</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span><span class="p">,</span> <span class="n">keycloak_origin</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy_strict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_connect_src</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy_strict</span><span class="p">,</span> <span class="n">keycloak_origin</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inject_connect_src</span><span class="p">(</span><span class="n">policy</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add ``origin`` to the connect-src directive of ``policy`` if not already present.</span>
+
+<span class="sd">        Inspects the connect-src directive specifically: an origin allowed in another</span>
+<span class="sd">        directive (e.g. script-src) does NOT permit the browser to open XHR/fetch/</span>
+<span class="sd">        WebSocket connections, which are governed solely by connect-src. A whole-string</span>
+<span class="sd">        substring check would wrongly treat such an origin as already covered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">directives</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
         <span class="n">connect_src_index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
             <span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;connect-src&quot;</span><span class="p">),</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">connect_src_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">directives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;connect-src </span><span class="si">{</span><span class="n">keycloak_origin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">directives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;connect-src </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sources</span> <span class="o">=</span> <span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">keycloak_origin</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                <span class="k">return</span> <span class="bp">self</span>
-            <span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">keycloak_origin</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">return</span> <span class="n">policy</span>
+            <span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span> <span class="o">=</span> <span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
+        <span class="k">return</span> <span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span>
 
     <span class="c1"># If True, browsers are allowed to include credentials on cross-origin requests</span>
     <span class="c1"># (cookies, Authorization header, TLS client certs).</span>
@@ -1472,8 +1502,26 @@ for private packages in organization repositories.)</a></li>
     <span class="n">idempotency_key_ttl_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span>
 
     <span class="c1"># Redis Configuration</span>
+    <span class="c1"># In production, require credentials, e.g. redis://user:pass@host:6379/0</span>
+    <span class="c1"># (or &quot;rediss://&quot; if TLS is available). Prefer a dedicated ACL user over &quot;default&quot;.</span>
     <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">redis_cache_ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># Default 1 hour</span>
+
+<div class="viewcode-block" id="Settings.redis_url_must_be_authenticated_in_production">
+<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.redis_url_must_be_authenticated_in_production">[docs]</a>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">redis_url_must_be_authenticated_in_production</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject an unauthenticated redis_url when running in production.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_production</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">redis_url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span> <span class="s2">&quot;rediss&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;In produzione REDIS_URL deve avere credenziali &quot;</span>
+                <span class="s2">&quot;(redis://user:pass@host:port/db, o rediss:// se disponibile TLS)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
 
     <span class="c1"># Prometheus metrics (PROMETHEUS_ENABLED=true exposes /metrics)</span>
     <span class="n">prometheus_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>

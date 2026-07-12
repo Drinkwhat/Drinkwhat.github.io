@@ -14,6 +14,7 @@ Code Push/PR
 │   ├─ Quality (ruff + bandit)          │
 │   ├─ SAST (semgrep)                   │
 │   ├─ Unit Tests (pytest)              │
+│   ├─ Contract Tests (Schemathesis)    │
 │   ├─ Coverage Reports (codecov)       │
 │   └─ Quality Scan (sonarqube)         │
 └───────────────────────────────────────┘
@@ -89,9 +90,23 @@ Runs on every push and pull request to `main` and `dev` (with `paths` filters).
 - **quality**: fast gate (`ruff check`, `ruff format --check`, `bandit`)
 - **semgrep**: SAST scan (runs in parallel to `quality`/`test`)
 - **secrets**: secrets scan in git history (Gitleaks) to prevent leaking API keys/tokens/certs
-- **test**: unit tests + coverage + Codecov upload (needs `quality`)
+- **test**: unit/integration tests + coverage + Codecov upload, then Schemathesis contract tests against the OpenAPI schema (needs `quality`)
 - **sonarqube**: static analysis and quality gate scan (needs `test`)
 - **autofix**: automatic on `dev` pushes (with loop prevention), runs on same-repo PRs, and available manually via `workflow_dispatch` (fork PRs are skipped)
+
+### Contract testing (Schemathesis)
+
+The `test` job runs [Schemathesis](https://schemathesis.io/) after the pytest suite,
+in a dedicated step (`tests/contract/`, marker `contract`, excluded from the main
+pytest run via `--ignore=tests/contract`). It generates property-based test cases
+directly from the app's OpenAPI schema and runs them against a real `uvicorn` server
+started in-process in a background thread — the in-memory ASGI transport breaks the
+asyncpg connection pool, which is bound to a single event loop, so a real server is
+required. Authentication is bypassed via the same `dependency_overrides` pattern used
+by the integration test suite (see `tests/integration/test_prodotti_routes.py`).
+
+Run locally with `make test-contract` (requires Docker, for the testcontainers
+Postgres instance shared with the rest of the suite).
 
 ### Why semgrep is not inside quality
 

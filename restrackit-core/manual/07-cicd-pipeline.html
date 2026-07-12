@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CI/CD Pipeline &mdash; Restrackit 2.65.6 documentation</title>
+  <title>CI/CD Pipeline &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="../_static/documentation_options.js?v=959b4fbe"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -825,6 +825,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -1351,6 +1352,7 @@ for private packages in organization repositories.)</a></li>
 │   ├─ Quality (ruff + bandit)          │
 │   ├─ SAST (semgrep)                   │
 │   ├─ Unit Tests (pytest)              │
+│   ├─ Contract Tests (Schemathesis)    │
 │   ├─ Coverage Reports (codecov)       │
 │   └─ Quality Scan (sonarqube)         │
 └───────────────────────────────────────┘
@@ -1426,10 +1428,23 @@ for private packages in organization repositories.)</a></li>
 <li><p><strong>quality</strong>: fast gate (<code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">check</span></code>, <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">format</span> <span class="pre">--check</span></code>, <code class="docutils literal notranslate"><span class="pre">bandit</span></code>)</p></li>
 <li><p><strong>semgrep</strong>: SAST scan (runs in parallel to <code class="docutils literal notranslate"><span class="pre">quality</span></code>/<code class="docutils literal notranslate"><span class="pre">test</span></code>)</p></li>
 <li><p><strong>secrets</strong>: secrets scan in git history (Gitleaks) to prevent leaking API keys/tokens/certs</p></li>
-<li><p><strong>test</strong>: unit tests + coverage + Codecov upload (needs <code class="docutils literal notranslate"><span class="pre">quality</span></code>)</p></li>
+<li><p><strong>test</strong>: unit/integration tests + coverage + Codecov upload, then Schemathesis contract tests against the OpenAPI schema (needs <code class="docutils literal notranslate"><span class="pre">quality</span></code>)</p></li>
 <li><p><strong>sonarqube</strong>: static analysis and quality gate scan (needs <code class="docutils literal notranslate"><span class="pre">test</span></code>)</p></li>
 <li><p><strong>autofix</strong>: automatic on <code class="docutils literal notranslate"><span class="pre">dev</span></code> pushes (with loop prevention), runs on same-repo PRs, and available manually via <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code> (fork PRs are skipped)</p></li>
 </ul>
+</section>
+<section id="contract-testing-schemathesis">
+<h3>Contract testing (Schemathesis)<a class="headerlink" href="#contract-testing-schemathesis" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">test</span></code> job runs <a class="reference external" href="https://schemathesis.io/">Schemathesis</a> after the pytest suite,
+in a dedicated step (<code class="docutils literal notranslate"><span class="pre">tests/contract/</span></code>, marker <code class="docutils literal notranslate"><span class="pre">contract</span></code>, excluded from the main
+pytest run via <code class="docutils literal notranslate"><span class="pre">--ignore=tests/contract</span></code>). It generates property-based test cases
+directly from the app’s OpenAPI schema and runs them against a real <code class="docutils literal notranslate"><span class="pre">uvicorn</span></code> server
+started in-process in a background thread — the in-memory ASGI transport breaks the
+asyncpg connection pool, which is bound to a single event loop, so a real server is
+required. Authentication is bypassed via the same <code class="docutils literal notranslate"><span class="pre">dependency_overrides</span></code> pattern used
+by the integration test suite (see <code class="docutils literal notranslate"><span class="pre">tests/integration/test_prodotti_routes.py</span></code>).</p>
+<p>Run locally with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test-contract</span></code> (requires Docker, for the testcontainers
+Postgres instance shared with the rest of the suite).</p>
 </section>
 <section id="why-semgrep-is-not-inside-quality">
 <h3>Why semgrep is not inside quality<a class="headerlink" href="#why-semgrep-is-not-inside-quality" title="Link to this heading"></a></h3>

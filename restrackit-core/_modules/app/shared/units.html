@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared.schemas &mdash; Restrackit 2.67.0 documentation</title>
+  <title>app.shared.units &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -1326,7 +1326,7 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.shared.schemas</li>
+      <li class="breadcrumb-item active">app.shared.units</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1335,99 +1335,127 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.shared.schemas</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Any</span>
+  <h1>Source code for app.shared.units</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Unità di misura come enum fisso e conversione verso l&#39;unità di famiglia.</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
+<span class="sd">Le unità di misura sono un insieme chiuso e universale (a differenza di cataloghi</span>
+<span class="sd">come Category o StorageMethod), quindi non sono più un catalogo per-store ma un</span>
+<span class="sd">enum definito nel codice. Ogni unità appartiene a una famiglia (massa, volume,</span>
+<span class="sd">conteggio) e viene convertita verso l&#39;unità di visualizzazione della famiglia</span>
+<span class="sd">(kg, litri, pezzi) per poter aggregare quantità eterogenee nelle statistiche.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
 
-<div class="viewcode-block" id="AppLanguage">
-<a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.AppLanguage">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AppLanguage</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lingue supportate dall&#39;applicazione.&quot;&quot;&quot;</span>
-
-    <span class="n">IT</span> <span class="o">=</span> <span class="s2">&quot;it&quot;</span>
-    <span class="n">EN</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span></div>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span> <span class="k">as</span> <span class="n">SAEnum</span>
 
 
+<div class="viewcode-block" id="UnitOfMeasure">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.units.UnitOfMeasure">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnitOfMeasure</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unità di misura supportate.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="StatusResponse">
-<a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.StatusResponse">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">StatusResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta generica per operazioni di successo.&quot;&quot;&quot;</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="s2">&quot;g&quot;</span>
+    <span class="n">KG</span> <span class="o">=</span> <span class="s2">&quot;kg&quot;</span>
+    <span class="n">ML</span> <span class="o">=</span> <span class="s2">&quot;ml&quot;</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="s2">&quot;l&quot;</span>
+    <span class="n">PZ</span> <span class="o">=</span> <span class="s2">&quot;pz&quot;</span></div>
 
-    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato dell&#39;operazione (success/error)&quot;</span><span class="p">)</span>
-    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Messaggio descrittivo&quot;</span><span class="p">)</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Operazione completata con successo&quot;</span><span class="p">}</span>
-        <span class="p">}</span>
+
+<div class="viewcode-block" id="uom_enum_type">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.units.uom_enum_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uom_enum_type</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SAEnum</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Costruisce il tipo colonna SQLAlchemy per l&#39;enum Postgres nativo condiviso.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">SAEnum</span><span class="p">(</span>
+        <span class="n">UnitOfMeasure</span><span class="p">,</span>
+        <span class="n">values_callable</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;unitofmeasure&quot;</span><span class="p">,</span>
+        <span class="n">create_constraint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="ErrorDetailSchema">
-<a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.ErrorDetailSchema">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ErrorDetailSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dettaglio errore standardizzato.</span>
+<div class="viewcode-block" id="UnitFamily">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.units.UnitFamily">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnitFamily</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Famiglia dimensionale di un&#39;unità di misura.&quot;&quot;&quot;</span>
 
-<span class="sd">    Questo schema è pensato per essere compatibile con il formato restituito</span>
-<span class="sd">    dall&#39;handler globale delle eccezioni.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">details</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">MASS</span> <span class="o">=</span> <span class="s2">&quot;mass&quot;</span>
+    <span class="n">VOLUME</span> <span class="o">=</span> <span class="s2">&quot;volume&quot;</span>
+    <span class="n">COUNT</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span></div>
 
 
 
-<div class="viewcode-block" id="ErrorResponse">
-<a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.ErrorResponse">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ErrorResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema standard per gli errori (con error.code = ERR_*).&quot;&quot;&quot;</span>
+<span class="n">_FAMILY_OF</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="n">UnitFamily</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">G</span><span class="p">:</span> <span class="n">UnitFamily</span><span class="o">.</span><span class="n">MASS</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">:</span> <span class="n">UnitFamily</span><span class="o">.</span><span class="n">MASS</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">ML</span><span class="p">:</span> <span class="n">UnitFamily</span><span class="o">.</span><span class="n">VOLUME</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">L</span><span class="p">:</span> <span class="n">UnitFamily</span><span class="o">.</span><span class="n">VOLUME</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">:</span> <span class="n">UnitFamily</span><span class="o">.</span><span class="n">COUNT</span><span class="p">,</span>
+<span class="p">}</span>
 
-    <span class="n">error</span><span class="p">:</span> <span class="n">ErrorDetailSchema</span>
-    <span class="n">request_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
+<span class="c1">#: Unità di visualizzazione per famiglia, usata per aggregare le statistiche.</span>
+<span class="n">DISPLAY_UNIT</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitFamily</span><span class="p">,</span> <span class="n">UnitOfMeasure</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">UnitFamily</span><span class="o">.</span><span class="n">MASS</span><span class="p">:</span> <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">,</span>
+    <span class="n">UnitFamily</span><span class="o">.</span><span class="n">VOLUME</span><span class="p">:</span> <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">L</span><span class="p">,</span>
+    <span class="n">UnitFamily</span><span class="o">.</span><span class="n">COUNT</span><span class="p">:</span> <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">,</span>
+<span class="p">}</span>
 
-
-
-<span class="c1"># Risposte di errore comuni a (quasi) ogni endpoint dei moduli store-scoped: 400 per</span>
-<span class="c1"># input non valido (``ValidationError``, incluso il 400 in cui FastAPI converte</span>
-<span class="c1"># internamente ogni ``RequestValidationError`` — vedi ``validation_exception_handler``</span>
-<span class="c1"># in app/main.py) e 404 per riferimenti a risorse inesistenti (``BusinessLogicError``).</span>
-<span class="c1"># Passarle come ``responses=`` all&#39;``APIRouter`` le documenta su tutte le route di quel</span>
-<span class="c1"># router; una singola route può comunque sovrascriverle con un ``responses=`` proprio.</span>
-<span class="n">COMMON_ERROR_RESPONSES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Richiesta non valida&quot;</span><span class="p">},</span>
-    <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Risorsa non trovata&quot;</span><span class="p">},</span>
+<span class="c1">#: Fattore moltiplicativo per convertire una quantità nell&#39;unità di visualizzazione.</span>
+<span class="n">_CONVERSION_FACTOR</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">G</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">ML</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">L</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="PaginationParams">
-<a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.PaginationParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">PaginationParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parametri per la paginazione.&quot;&quot;&quot;</span>
-
-    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero di pagina&quot;</span><span class="p">)</span>
-    <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Elementi per pagina&quot;</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcola l&#39;offset per il database.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: Valore di offset per la query SQL (LIMIT/OFFSET).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span></div>
+<div class="viewcode-block" id="to_display_unit">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.units.to_display_unit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_display_unit</span><span class="p">(</span><span class="n">quantity</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">UnitOfMeasure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">UnitOfMeasure</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converte una quantità nell&#39;unità di visualizzazione della sua famiglia.&quot;&quot;&quot;</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="n">_FAMILY_OF</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
+    <span class="n">display_unit</span> <span class="o">=</span> <span class="n">DISPLAY_UNIT</span><span class="p">[</span><span class="n">family</span><span class="p">]</span>
+    <span class="n">converted_quantity</span> <span class="o">=</span> <span class="n">quantity</span> <span class="o">*</span> <span class="n">_CONVERSION_FACTOR</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">converted_quantity</span><span class="p">,</span> <span class="n">display_unit</span></div>
 
 
 
-<span class="n">PaginationDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">PaginationParams</span><span class="p">,</span> <span class="n">Depends</span><span class="p">()]</span>
+<div class="viewcode-block" id="aggregate_by_family">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.units.aggregate_by_family">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">aggregate_by_family</span><span class="p">(</span>
+    <span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">UnitOfMeasure</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Somma quantità eterogenee raggruppandole per unità di visualizzazione.&quot;&quot;&quot;</span>
+    <span class="n">totals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
+        <span class="n">converted_quantity</span><span class="p">,</span> <span class="n">display_unit</span> <span class="o">=</span> <span class="n">to_display_unit</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="n">totals</span><span class="p">[</span><span class="n">display_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">display_unit</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">converted_quantity</span>
+    <span class="k">return</span> <span class="n">totals</span></div>
+
+
+
+<span class="c1">#: Etichetta leggibile per popolare le dropdown frontend.</span>
+<span class="n">_LABEL</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">G</span><span class="p">:</span> <span class="s2">&quot;Grammo&quot;</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">:</span> <span class="s2">&quot;Chilogrammo&quot;</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">ML</span><span class="p">:</span> <span class="s2">&quot;Millilitro&quot;</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">L</span><span class="p">:</span> <span class="s2">&quot;Litro&quot;</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">:</span> <span class="s2">&quot;Pezzo&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="list_options">
+<a class="viewcode-back" href="../../../app.shared.html#app.shared.units.list_options">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_options</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elenca tutte le unità di misura con famiglia ed etichetta, per l&#39;API di sola lettura.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">_FAMILY_OF</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">_LABEL</span><span class="p">[</span><span class="n">unit</span><span class="p">]}</span>
+        <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">UnitOfMeasure</span>
+    <span class="p">]</span></div>
+
 </pre></div>
 
            </div>

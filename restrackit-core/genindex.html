@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Restrackit 2.65.6 documentation</title>
+  <title>Index &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="_static/documentation_options.js?v=959b4fbe"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -822,6 +822,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -1348,6 +1349,7 @@ for private packages in organization repositories.)</a></li>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -1392,6 +1394,8 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.action">action (app.core.error_catalog.ErrorInfo attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.logging.CustomJsonFormatter.add_fields">add_fields() (app.core.logging.CustomJsonFormatter method)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.aggregate_by_family">aggregate_by_family() (in module app.shared.units)</a>
 </li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.ALL">ALL (app.shared.allergen_enum.Allergen attribute)</a>
 
@@ -1577,6 +1581,13 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.shared.html#module-app.shared.rate_limit">module</a>
 </li>
       </ul></li>
+      <li>
+    app.shared.units
+
+      <ul>
+        <li><a href="app.shared.html#module-app.shared.units">module</a>
+</li>
+      </ul></li>
       <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.are_ambiguous">are_ambiguous() (app.services.ocr_post_processing.LotCodePostProcessor class method)</a>
 </li>
       <li><a href="app.core.html#app.core.arq.arq_deserializer">arq_deserializer() (in module app.core.arq)</a>
@@ -1707,11 +1718,13 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.connect">connect() (app.core.redis.RedisService method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.services.html#app.services.image_processing.convert_to_jpeg_bytes">convert_to_jpeg_bytes() (in module app.services.image_processing)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.corrected_lot">corrected_lot (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id0">[1]</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.UnitFamily.COUNT">COUNT (app.shared.units.UnitFamily attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.logging.create_uvicorn_access_log_filter_from_env">create_uvicorn_access_log_filter_from_env() (in module app.core.logging)</a>
 </li>
@@ -1772,6 +1785,8 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.deleted_at">deleted_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.disconnect">disconnect() (app.core.redis.RedisService method)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.DISPLAY_UNIT">DISPLAY_UNIT (in module app.shared.units)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1863,6 +1878,8 @@ for private packages in organization repositories.)</a></li>
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.G">G (app.shared.units.UnitOfMeasure attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.circuit_breaker.gemini_api_call">gemini_api_call() (in module app.core.circuit_breaker)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.get_cache">get_cache() (app.core.redis.RedisService method)</a>
@@ -1875,10 +1892,10 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.get_model">get_model() (app.core.redis.RedisService method)</a>
 </li>
-      <li><a href="app.core.html#app.core.arq.ArqService.get_pool">get_pool() (app.core.arq.ArqService method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.core.html#app.core.arq.ArqService.get_pool">get_pool() (app.core.arq.ArqService method)</a>
+</li>
       <li><a href="app.core.html#app.core.arq.get_redis_pool">get_redis_pool() (in module app.core.arq)</a>
 </li>
       <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.get_structural_pattern">get_structural_pattern() (app.services.ocr_post_processing.LotCodePostProcessor class method)</a>
@@ -1922,15 +1939,27 @@ for private packages in organization repositories.)</a></li>
   </ul></td>
 </tr></table>
 
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.KG">KG (app.shared.units.UnitOfMeasure attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="app.modules.auth.html#app.modules.auth.router.logout">logout() (in module app.modules.auth.router)</a>
+      <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.L">L (app.shared.units.UnitOfMeasure attribute)</a>
 </li>
-      <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor">LotCodePostProcessor (class in app.services.ocr_post_processing)</a>
+      <li><a href="app.shared.html#app.shared.units.list_options">list_options() (in module app.shared.units)</a>
+</li>
+      <li><a href="app.modules.auth.html#app.modules.auth.router.logout">logout() (in module app.modules.auth.router)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor">LotCodePostProcessor (class in app.services.ocr_post_processing)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.LUPIN">LUPIN (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -1945,6 +1974,8 @@ for private packages in organization repositories.)</a></li>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.i18n.mask_to_localized_list">mask_to_localized_list() (in module app.core.i18n)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.units.UnitFamily.MASS">MASS (app.shared.units.UnitFamily attribute)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.match_type">match_type (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id1">[1]</a>
 </li>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult">MatchResult (class in app.services.ocr_post_processing)</a>
@@ -1957,6 +1988,8 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.MILK">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.ML">ML (app.shared.units.UnitOfMeasure attribute)</a>
+</li>
       <li>
     module
 
@@ -2009,6 +2042,8 @@ for private packages in organization repositories.)</a></li>
 </li>
         <li><a href="app.shared.html#module-app.shared.rate_limit">app.shared.rate_limit</a>
 </li>
+        <li><a href="app.shared.html#module-app.shared.units">app.shared.units</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -2049,6 +2084,8 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.shared.html#app.shared.mixins.PublicIdMixin.public_id">public_id (app.shared.mixins.PublicIdMixin attribute)</a>
 </li>
       <li><a href="app.shared.html#app.shared.mixins.PublicIdMixin">PublicIdMixin (class in app.shared.mixins)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.PZ">PZ (app.shared.units.UnitOfMeasure attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2130,6 +2167,8 @@ for private packages in organization repositories.)</a></li>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin">TimestampVersionMixin (class in app.shared.mixins)</a>
 </li>
+      <li><a href="app.shared.html#app.shared.units.to_display_unit">to_display_unit() (in module app.shared.units)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.TREE_NUTS">TREE_NUTS (app.shared.allergen_enum.Allergen attribute)</a>
@@ -2148,9 +2187,15 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.modules.ui.html#app.modules.ui.router.ui_index">ui_index() (in module app.modules.ui.router)</a>
 </li>
+      <li><a href="app.modules.ui.html#app.modules.ui.router.ui_root">ui_root() (in module app.modules.ui.router)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.UnitFamily">UnitFamily (class in app.shared.units)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="app.modules.ui.html#app.modules.ui.router.ui_root">ui_root() (in module app.modules.ui.router)</a>
+      <li><a href="app.shared.html#app.shared.units.UnitOfMeasure">UnitOfMeasure (class in app.shared.units)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.uom_enum_type">uom_enum_type() (in module app.shared.units)</a>
 </li>
       <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.updated_at">updated_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
 </li>
@@ -2186,14 +2231,14 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.core.html#app.core.errors.ErrorCode.VAL_INVALID_FORMAT">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.VAL_INVALID_INPUT">VAL_INVALID_INPUT (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
         <li><a href="app.core.html#app.core.errors.ErrorCode.VAL_INVALID_INPUT">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.VAL_MISSING_FIELD">VAL_MISSING_FIELD (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
@@ -2211,6 +2256,8 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.core.html#app.core.circuit_breaker.vision_api_call">vision_api_call() (in module app.core.circuit_breaker)</a>
 </li>
       <li><a href="app.modules.ui.html#app.modules.ui.router.vite_client_noop">vite_client_noop() (in module app.modules.ui.router)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.UnitFamily.VOLUME">VOLUME (app.shared.units.UnitFamily attribute)</a>
 </li>
   </ul></td>
 </tr></table>

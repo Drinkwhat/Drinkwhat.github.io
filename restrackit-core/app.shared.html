@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared package &mdash; Restrackit 2.65.6 documentation</title>
+  <title>app.shared package &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="_static/documentation_options.js?v=959b4fbe"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -389,6 +389,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -1318,7 +1319,7 @@ dall’handler globale delle eccezioni.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>page</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>page</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=1000000</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>page_size</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=100</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
@@ -1347,6 +1348,128 @@ dall’handler globale delle eccezioni.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-app.shared.units">
+<span id="app-shared-units-module"></span><h2>app.shared.units module<a class="headerlink" href="#module-app.shared.units" title="Link to this heading"></a></h2>
+<p>Unità di misura come enum fisso e conversione verso l’unità di famiglia.</p>
+<p>Le unità di misura sono un insieme chiuso e universale (a differenza di cataloghi
+come Category o StorageMethod), quindi non sono più un catalogo per-store ma un
+enum definito nel codice. Ogni unità appartiene a una famiglia (massa, volume,
+conteggio) e viene convertita verso l’unità di visualizzazione della famiglia
+(kg, litri, pezzi) per poter aggregare quantità eterogenee nelle statistiche.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.shared.units.UnitOfMeasure">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">UnitOfMeasure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/shared/units.html#UnitOfMeasure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.shared.units.UnitOfMeasure" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Unità di misura supportate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitOfMeasure.G">
+<span class="sig-name descname"><span class="pre">G</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'g'</span></span><a class="headerlink" href="#app.shared.units.UnitOfMeasure.G" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitOfMeasure.KG">
+<span class="sig-name descname"><span class="pre">KG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kg'</span></span><a class="headerlink" href="#app.shared.units.UnitOfMeasure.KG" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitOfMeasure.ML">
+<span class="sig-name descname"><span class="pre">ML</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ml'</span></span><a class="headerlink" href="#app.shared.units.UnitOfMeasure.ML" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitOfMeasure.L">
+<span class="sig-name descname"><span class="pre">L</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'l'</span></span><a class="headerlink" href="#app.shared.units.UnitOfMeasure.L" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitOfMeasure.PZ">
+<span class="sig-name descname"><span class="pre">PZ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pz'</span></span><a class="headerlink" href="#app.shared.units.UnitOfMeasure.PZ" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.shared.units.uom_enum_type">
+<span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">uom_enum_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/shared/units.html#uom_enum_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.shared.units.uom_enum_type" title="Link to this definition"></a></dt>
+<dd><p>Costruisce il tipo colonna SQLAlchemy per l’enum Postgres nativo condiviso.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Enum</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.shared.units.UnitFamily">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">UnitFamily</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/shared/units.html#UnitFamily"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.shared.units.UnitFamily" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Famiglia dimensionale di un’unità di misura.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitFamily.MASS">
+<span class="sig-name descname"><span class="pre">MASS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mass'</span></span><a class="headerlink" href="#app.shared.units.UnitFamily.MASS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitFamily.VOLUME">
+<span class="sig-name descname"><span class="pre">VOLUME</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'volume'</span></span><a class="headerlink" href="#app.shared.units.UnitFamily.VOLUME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.shared.units.UnitFamily.COUNT">
+<span class="sig-name descname"><span class="pre">COUNT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'count'</span></span><a class="headerlink" href="#app.shared.units.UnitFamily.COUNT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="app.shared.units.DISPLAY_UNIT">
+<span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">DISPLAY_UNIT</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#app.shared.units.UnitFamily" title="app.shared.units.UnitFamily"><span class="pre">UnitFamily</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><span class="pre">UnitOfMeasure</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{UnitFamily.COUNT:</span> <span class="pre">UnitOfMeasure.PZ,</span> <span class="pre">UnitFamily.MASS:</span> <span class="pre">UnitOfMeasure.KG,</span> <span class="pre">UnitFamily.VOLUME:</span> <span class="pre">UnitOfMeasure.L}</span></span><a class="headerlink" href="#app.shared.units.DISPLAY_UNIT" title="Link to this definition"></a></dt>
+<dd><p>Unità di visualizzazione per famiglia, usata per aggregare le statistiche.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.shared.units.to_display_unit">
+<span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">to_display_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/shared/units.html#to_display_unit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.shared.units.to_display_unit" title="Link to this definition"></a></dt>
+<dd><p>Converte una quantità nell’unità di visualizzazione della sua famiglia.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quantity</strong> (<em>float</em>)</p></li>
+<li><p><strong>unit</strong> (<a class="reference internal" href="#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[float, <a class="reference internal" href="#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.shared.units.aggregate_by_family">
+<span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">aggregate_by_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/shared/units.html#aggregate_by_family"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.shared.units.aggregate_by_family" title="Link to this definition"></a></dt>
+<dd><p>Somma quantità eterogenee raggruppandole per unità di visualizzazione.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>entries</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>, </em><a class="reference internal" href="#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a><em>]</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[<a class="reference internal" href="#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a>, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.shared.units.list_options">
+<span class="sig-prename descclassname"><span class="pre">app.shared.units.</span></span><span class="sig-name descname"><span class="pre">list_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/shared/units.html#list_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.shared.units.list_options" title="Link to this definition"></a></dt>
+<dd><p>Elenca tutte le unità di misura con famiglia ed etichetta, per l’API di sola lettura.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict[str, str]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

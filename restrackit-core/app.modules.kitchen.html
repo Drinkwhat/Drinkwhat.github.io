@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen package &mdash; Restrackit 2.65.6 documentation</title>
+  <title>app.modules.kitchen package &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="_static/documentation_options.js?v=959b4fbe"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -389,6 +389,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -919,7 +920,7 @@ for private packages in organization repositories.)</a></li>
 <h2>app.modules.kitchen.schemas module<a class="headerlink" href="#app-modules-kitchen-schemas-module" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeIngredientCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_quantity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_of_measure_public_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeIngredientCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeIngredientCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_quantity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_of_measure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#RecipeIngredientCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema for creating a recipe ingredient.</p>
 <dl class="field-list simple">
@@ -927,7 +928,7 @@ for private packages in organization repositories.)</a></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>product_public_id</strong> (<em>UUID</em>)</p></li>
 <li><p><strong>standard_quantity</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Gt</em><em>(</em><em>gt=0</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>unit_of_measure_public_id</strong> (<em>UUID</em>)</p></li>
+<li><p><strong>unit_of_measure</strong> (<a class="reference internal" href="app.shared.html#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -943,7 +944,7 @@ for private packages in organization repositories.)</a></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">unit_of_measure_public_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></span></dt>
+<span class="sig-name descname"><span class="pre">unit_of_measure</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="app.shared.html#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><span class="pre">UnitOfMeasure</span></a></span></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1369,7 +1370,7 @@ allergen_masks.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">PreparationItemCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity_used</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#PreparationItemCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.kitchen.schemas.</span></span><span class="sig-name descname"><span class="pre">PreparationItemCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity_used</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_of_measure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/kitchen/schemas.html#PreparationItemCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema for creating a preparation item.</p>
 <dl class="field-list simple">
@@ -1377,7 +1378,7 @@ allergen_masks.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>batch_public_id</strong> (<em>UUID</em>)</p></li>
 <li><p><strong>quantity_used</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Gt</em><em>(</em><em>gt=0</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>unit</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=50</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>unit_of_measure</strong> (<a class="reference internal" href="app.shared.html#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1393,7 +1394,7 @@ allergen_masks.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<span class="sig-name descname"><span class="pre">unit_of_measure</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="app.shared.html#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><span class="pre">UnitOfMeasure</span></a></span></dt>
 <dd></dd></dl>
 
 </dd></dl>

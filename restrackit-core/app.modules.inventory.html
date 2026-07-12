@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory package &mdash; Restrackit 2.65.6 documentation</title>
+  <title>app.modules.inventory package &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="_static/documentation_options.js?v=959b4fbe"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -389,6 +389,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -1248,7 +1249,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <li><p><strong>product_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>is_empty</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>expired</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>cursor</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>cursor</strong> (<em>Annotated</em><em>[</em><em>int</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=2147483647</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>size</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=100</em><em>)</em><em>]</em>)</p></li>
 </ul>
 </dd>
@@ -1428,7 +1429,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 <li><p><strong>notes</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>version</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>wasted_quantity</strong> (<em>Annotated</em><em>[</em><em>Decimal</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
-<li><p><strong>wasted_unit</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=20</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>wasted_unit</strong> (<a class="reference internal" href="app.shared.html#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><em>UnitOfMeasure</em></a><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1454,7 +1455,7 @@ L’identità (store/operatore) è gestita dal middleware.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">wasted_unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<span class="sig-name descname"><span class="pre">wasted_unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="app.shared.html#app.shared.units.UnitOfMeasure" title="app.shared.units.UnitOfMeasure"><span class="pre">UnitOfMeasure</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
 <dd></dd></dl>
 
 </dd></dl>

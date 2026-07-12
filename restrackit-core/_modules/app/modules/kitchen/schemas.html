@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.65.6 documentation</title>
+  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.67.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=19c0cfd8"></script>
+      <script src="../../../../_static/documentation_options.js?v=959b4fbe"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -822,6 +822,7 @@ window.runMermaid = runMermaid;</script>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
@@ -1352,6 +1353,7 @@ for private packages in organization repositories.)</a></li>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.allergens</span><span class="w"> </span><span class="kn">import</span> <span class="n">combine_masks</span><span class="p">,</span> <span class="n">is_gluten_free</span><span class="p">,</span> <span class="n">mask_to_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnitOfMeasure</span>
 
 <span class="c1"># --- Recipe Schemas ---</span>
 
@@ -1363,9 +1365,7 @@ for private packages in organization repositories.)</a></li>
 
     <span class="n">product_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del prodotto ingrediente&quot;</span><span class="p">)</span>
     <span class="n">standard_quantity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità standard per la ricetta&quot;</span><span class="p">)</span>
-    <span class="n">unit_of_measure_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID dell&#39;unità di misura (es. kg, l, pz)&quot;</span>
-    <span class="p">)</span></div>
+    <span class="n">unit_of_measure</span><span class="p">:</span> <span class="n">UnitOfMeasure</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura (es. kg, l, pz)&quot;</span><span class="p">)</span></div>
 
 
 
@@ -1432,7 +1432,7 @@ for private packages in organization repositories.)</a></li>
                     <span class="p">{</span>
                         <span class="s2">&quot;product_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
-                        <span class="s2">&quot;unit_of_measure_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;unit_of_measure&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
                     <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
@@ -1558,12 +1558,11 @@ for private packages in organization repositories.)</a></li>
         <span class="c1"># ORM instance: always convert to TypedDict so the return type is uniform.</span>
         <span class="c1"># allergen_mask falls back to 0 when product_master is not eagerly loaded.</span>
         <span class="n">pm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_master&quot;</span><span class="p">)</span>
-        <span class="n">uom</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unit_of_measure&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">public_id</span><span class="p">,</span>
             <span class="s2">&quot;product_master_public_id&quot;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s2">&quot;standard_quantity&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">standard_quantity</span><span class="p">,</span>
-            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">uom</span><span class="o">.</span><span class="n">symbol</span> <span class="k">if</span> <span class="n">uom</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">unit_of_measure</span><span class="p">,</span>
             <span class="s2">&quot;allergen_mask&quot;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">allergen_mask</span> <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
         <span class="p">}</span></div>
 </div>
@@ -1669,7 +1668,7 @@ for private packages in organization repositories.)</a></li>
 
     <span class="n">batch_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public UUID del lotto utilizzato&quot;</span><span class="p">)</span>
     <span class="n">quantity_used</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità utilizzata&quot;</span><span class="p">)</span>
-    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura&quot;</span><span class="p">)</span></div>
+    <span class="n">unit_of_measure</span><span class="p">:</span> <span class="n">UnitOfMeasure</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura&quot;</span><span class="p">)</span></div>
 
 
 
@@ -1693,12 +1692,12 @@ for private packages in organization repositories.)</a></li>
                     <span class="p">{</span>
                         <span class="s2">&quot;batch_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
-                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;unit_of_measure&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="p">{</span>
                         <span class="s2">&quot;batch_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440002&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
-                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;unit_of_measure&quot;</span><span class="p">:</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span>
                     <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
@@ -1779,12 +1778,11 @@ for private packages in organization repositories.)</a></li>
 
         <span class="c1"># ORM instance</span>
         <span class="n">batch</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;batch&quot;</span><span class="p">)</span>
-        <span class="n">uom</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unit_of_measure&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">public_id</span><span class="p">,</span>
             <span class="s2">&quot;batch_public_id&quot;</span><span class="p">:</span> <span class="n">batch</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s2">&quot;quantity_used&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">quantity_used</span><span class="p">,</span>
-            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">uom</span><span class="o">.</span><span class="n">symbol</span> <span class="k">if</span> <span class="n">uom</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">unit_of_measure</span><span class="p">,</span>
         <span class="p">}</span></div>
 
 
