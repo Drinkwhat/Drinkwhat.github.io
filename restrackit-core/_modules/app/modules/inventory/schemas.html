@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.67.0 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.67.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=959b4fbe"></script>
+      <script src="../../../../_static/documentation_options.js?v=31e3cba7"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1353,6 +1353,23 @@ for private packages in organization repositories.)</a></li>
 <span class="n">_EXAMPLE_PRODUCT_NAME</span> <span class="o">=</span> <span class="s2">&quot;Latte Intero&quot;</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rifiuta stringhe con byte NUL, che Postgres non accetta in campi testuali.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        v: Stringa in input.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: La stringa invariata se valida.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Se la stringa contiene un byte NUL.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il campo non può contenere il carattere NUL&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span>
+
+
 <span class="k">class</span><span class="w"> </span><span class="nc">_BatchValidatorsMixin</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validator comuni a BatchConfirm e BatchUpdate.&quot;&quot;&quot;</span>
 
@@ -1395,7 +1412,7 @@ for private packages in organization repositories.)</a></li>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il codice lotto non può essere vuoto&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
 
 <div class="viewcode-block" id="BatchConfirm">
@@ -1434,7 +1451,7 @@ for private packages in organization repositories.)</a></li>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">&quot;NON_IDENTIFICATO&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Devi selezionare un prodotto valido&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
@@ -1611,6 +1628,27 @@ for private packages in organization repositories.)</a></li>
     <span class="p">)</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero di elementi per pagina&quot;</span><span class="p">)</span>
 
+<div class="viewcode-block" id="BatchListFilter.validate_product_name">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchListFilter.validate_product_name">[docs]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;product_name&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_product_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rifiuta byte NUL nel filtro, che Postgres non accetta in campi testuali.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: Nome prodotto da filtrare, opzionale.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str | None: Il valore invariato se valido.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Se la stringa contiene un byte NUL.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+
+
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte&quot;</span><span class="p">,</span> <span class="s2">&quot;is_empty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;expired&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
@@ -1649,7 +1687,7 @@ for private packages in organization repositories.)</a></li>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Devi selezionare un prodotto valido&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 </div>
 
 
