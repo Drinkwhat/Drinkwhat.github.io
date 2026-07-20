@@ -1397,6 +1397,8 @@ for private packages in organization repositories.)</a></li>
     <span class="n">BUS_RATE_LIMIT_EXCEEDED</span> <span class="o">=</span> <span class="s2">&quot;ERR_BUS_008&quot;</span>
     <span class="n">BUS_IDEMPOTENCY_CONFLICT</span> <span class="o">=</span> <span class="s2">&quot;ERR_BUS_009&quot;</span>
     <span class="n">BUS_IDEMPOTENCY_PAYLOAD_MISMATCH</span> <span class="o">=</span> <span class="s2">&quot;ERR_BUS_010&quot;</span>
+    <span class="n">BUS_INGREDIENT_NOT_COVERED</span> <span class="o">=</span> <span class="s2">&quot;ERR_BUS_011&quot;</span>
+    <span class="n">BUS_BATCH_NOT_IN_RECIPE</span> <span class="o">=</span> <span class="s2">&quot;ERR_BUS_012&quot;</span>
 
     <span class="c1"># --- DATABASE (DB) ---</span>
     <span class="n">DB_CONNECTION_ERROR</span> <span class="o">=</span> <span class="s2">&quot;ERR_DB_001&quot;</span>
@@ -1543,6 +1545,20 @@ for private packages in organization repositories.)</a></li>
         <span class="s2">&quot;severity&quot;</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
         <span class="s2">&quot;http_status&quot;</span><span class="p">:</span> <span class="mi">404</span><span class="p">,</span>
         <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;Verifica il codice del lotto o l&#39;ID interno.&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_INGREDIENT_NOT_COVERED</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Ricetta &#39;</span><span class="si">{recipe}</span><span class="s2">&#39;: mancano lotti per gli ingredienti: </span><span class="si">{products}</span><span class="s2">.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;severity&quot;</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+        <span class="s2">&quot;http_status&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;Aggiungi almeno un lotto per ciascun ingrediente della ricetta.&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_BATCH_NOT_IN_RECIPE</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Il lotto &#39;</span><span class="si">{batch}</span><span class="s2">&#39; non corrisponde a nessun ingrediente della ricetta &#39;</span><span class="si">{recipe}</span><span class="s2">&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;severity&quot;</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+        <span class="s2">&quot;http_status&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;Usa solo lotti dei prodotti previsti dagli ingredienti della ricetta.&quot;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Esiste già una risorsa &#39;</span><span class="si">{resource}</span><span class="s2">&#39; con questi dati.&quot;</span><span class="p">,</span>
