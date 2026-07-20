@@ -55,12 +55,13 @@ ma puo' essere un dominio proprio o un hostname DuckDNS.
 
 ## Deploy applicativo
 
-Il workflow `deploy-prod-vm.yml` si attiva ad ogni build Docker riuscita su `main`
-(o manualmente via `workflow_dispatch`). Copia `deploy/prod/docker-compose.yml` e
-gli script di deploy sull'istanza via SSH, genera `deploy/prod/.env` leggendo i
-parametri da SSM (`scripts/render_env_from_ssm.sh`), ed esegue lo switch
-blue-green (`scripts/deploy.sh`) con health check e rollback automatico in caso
-di errore.
+Il job `deploy-prod` in `docker-build.yml` si attiva ad ogni push su `main`
+(o su tag `v*`) dopo che la CI e il job `promote` sono passati. Copia
+`deploy/prod/docker-compose.yml` e gli script di deploy sull'istanza via SSH,
+genera `deploy/prod/.env` leggendo i parametri da SSM
+(`scripts/render_env_from_ssm.sh`), ed esegue lo switch blue-green
+(`scripts/deploy.sh`) con health check e rollback automatico in caso di
+errore.
 
 ## Hostname pubblico
 

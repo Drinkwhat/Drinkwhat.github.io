@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.67.5 documentation</title>
+  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.68.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=cd92d100"></script>
+      <script src="../_static/documentation_options.js?v=b008ee49"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -970,12 +970,13 @@ esposti a un attacco man-in-the-middle)</p></li>
 </section>
 <section id="deploy-applicativo">
 <h2>Deploy applicativo<a class="headerlink" href="#deploy-applicativo" title="Link to this heading"></a></h2>
-<p>Il workflow <code class="docutils literal notranslate"><span class="pre">deploy-prod-vm.yml</span></code> si attiva ad ogni build Docker riuscita su <code class="docutils literal notranslate"><span class="pre">main</span></code>
-(o manualmente via <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code>). Copia <code class="docutils literal notranslate"><span class="pre">deploy/prod/docker-compose.yml</span></code> e
-gli script di deploy sull’istanza via SSH, genera <code class="docutils literal notranslate"><span class="pre">deploy/prod/.env</span></code> leggendo i
-parametri da SSM (<code class="docutils literal notranslate"><span class="pre">scripts/render_env_from_ssm.sh</span></code>), ed esegue lo switch
-blue-green (<code class="docutils literal notranslate"><span class="pre">scripts/deploy.sh</span></code>) con health check e rollback automatico in caso
-di errore.</p>
+<p>Il job <code class="docutils literal notranslate"><span class="pre">deploy-prod</span></code> in <code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code> si attiva ad ogni push su <code class="docutils literal notranslate"><span class="pre">main</span></code>
+(o su tag <code class="docutils literal notranslate"><span class="pre">v*</span></code>) dopo che la CI e il job <code class="docutils literal notranslate"><span class="pre">promote</span></code> sono passati. Copia
+<code class="docutils literal notranslate"><span class="pre">deploy/prod/docker-compose.yml</span></code> e gli script di deploy sull’istanza via SSH,
+genera <code class="docutils literal notranslate"><span class="pre">deploy/prod/.env</span></code> leggendo i parametri da SSM
+(<code class="docutils literal notranslate"><span class="pre">scripts/render_env_from_ssm.sh</span></code>), ed esegue lo switch blue-green
+(<code class="docutils literal notranslate"><span class="pre">scripts/deploy.sh</span></code>) con health check e rollback automatico in caso di
+errore.</p>
 </section>
 <section id="hostname-pubblico">
 <h2>Hostname pubblico<a class="headerlink" href="#hostname-pubblico" title="Link to this heading"></a></h2>
