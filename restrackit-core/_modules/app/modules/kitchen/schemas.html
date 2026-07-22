@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.70.0 documentation</title>
+  <title>app.modules.kitchen.schemas &mdash; Restrackit 2.71.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=0906826a"></script>
+      <script src="../../../../_static/documentation_options.js?v=78d3c833"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1668,12 +1668,14 @@ for private packages in organization repositories.)</a></li>
 <span class="sd">        operator_id: Filter by operator identifier.</span>
 <span class="sd">        date_from: Include preparations created at or after this timestamp.</span>
 <span class="sd">        date_to: Include preparations created at or before this timestamp.</span>
+<span class="sd">        is_completed: Filter by completion status (True: completed, False: open).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">recipe_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per UUID pubblico ricetta&quot;</span><span class="p">)</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per ID operatore&quot;</span><span class="p">)</span>
     <span class="n">date_from</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data inizio (&gt;=)&quot;</span><span class="p">)</span>
-    <span class="n">date_to</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data fine (&lt;=)&quot;</span><span class="p">)</span></div>
+    <span class="n">date_to</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data fine (&lt;=)&quot;</span><span class="p">)</span>
+    <span class="n">is_completed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per stato di completamento&quot;</span><span class="p">)</span></div>
 
 
 
@@ -1714,6 +1716,7 @@ for private packages in organization repositories.)</a></li>
 
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">recipe_public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">recipe_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">output_batch_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
