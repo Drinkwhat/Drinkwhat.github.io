@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.71.0 documentation</title>
+  <title>app.core.config &mdash; Restrackit 2.72.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=78d3c833"></script>
+      <script src="../../../_static/documentation_options.js?v=eaac16d8"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1300,6 +1300,11 @@ for private packages in organization repositories.)</a></li>
     <span class="n">KEYCLOAK_INTERNAL_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">KEYCLOAK_REALM</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">KEYCLOAK_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Service account client used by the onboarding module to call the Keycloak</span>
+    <span class="c1"># Admin REST API (manage-users client role only, scoped to this realm — not</span>
+    <span class="c1"># the master-realm superadmin). Optional: only needed to use /onboarding.</span>
+    <span class="n">keycloak_onboarding_client_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">keycloak_onboarding_client_secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># CORS Configuration</span>
     <span class="c1"># List of origins allowed to make cross-origin requests.</span>
     <span class="c1"># In .env, use JSON format: [&quot;http://localhost:3000&quot;, &quot;https://app.example.com&quot;]</span>

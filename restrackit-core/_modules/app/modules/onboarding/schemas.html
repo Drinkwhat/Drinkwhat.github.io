@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.auth.schemas &mdash; Restrackit 2.72.0 documentation</title>
+  <title>app.modules.onboarding.schemas &mdash; Restrackit 2.72.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -1246,7 +1246,7 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.modules.auth.schemas</li>
+      <li class="breadcrumb-item active">app.modules.onboarding.schemas</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1255,77 +1255,40 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.modules.auth.schemas</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+  <h1>Source code for app.modules.onboarding.schemas</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Pydantic schemas per il modulo onboarding.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">Field</span>
 
 
-<div class="viewcode-block" id="AuthUser">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.AuthUser">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">AuthUser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticated user data structure.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ManagerAccountCreate">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.schemas.ManagerAccountCreate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ManagerAccountCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dati per l&#39;account manager creato durante l&#39;onboarding.&quot;&quot;&quot;</span>
 
-    <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">role</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span></div>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="Permission">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.Permission">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Permission</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration of granular permissions for RBAC.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OnboardingCreate">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.schemas.OnboardingCreate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OnboardingCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Richiesta di onboarding rapido di un nuovo store.&quot;&quot;&quot;</span>
 
-    <span class="c1"># Products</span>
-    <span class="n">PRODUCTS_READ</span> <span class="o">=</span> <span class="s2">&quot;products:read&quot;</span>
-    <span class="n">PRODUCTS_WRITE</span> <span class="o">=</span> <span class="s2">&quot;products:write&quot;</span>
-    <span class="n">PRODUCTS_DELETE</span> <span class="o">=</span> <span class="s2">&quot;products:delete&quot;</span>
-
-    <span class="c1"># Inventory</span>
-    <span class="n">INVENTORY_READ</span> <span class="o">=</span> <span class="s2">&quot;inventory:read&quot;</span>
-    <span class="n">INVENTORY_WRITE</span> <span class="o">=</span> <span class="s2">&quot;inventory:write&quot;</span>  <span class="c1"># Analyze, Confirm, Update</span>
-    <span class="n">INVENTORY_DELETE</span> <span class="o">=</span> <span class="s2">&quot;inventory:delete&quot;</span>
-
-    <span class="c1"># Kitchen</span>
-    <span class="n">KITCHEN_READ</span> <span class="o">=</span> <span class="s2">&quot;kitchen:read&quot;</span>
-    <span class="n">KITCHEN_MANAGE_RECIPES</span> <span class="o">=</span> <span class="s2">&quot;kitchen:manage_recipes&quot;</span>  <span class="c1"># Create/Edit Recipes (Manager only)</span>
-    <span class="n">KITCHEN_WRITE_PREPARATION</span> <span class="o">=</span> <span class="s2">&quot;kitchen:write_preparation&quot;</span>  <span class="c1"># Record Preparations (Chef + Manager)</span>
-
-    <span class="c1"># Notifications</span>
-    <span class="n">NOTIFICATIONS_READ</span> <span class="o">=</span> <span class="s2">&quot;notifications:read&quot;</span>
-    <span class="n">NOTIFICATIONS_WRITE</span> <span class="o">=</span> <span class="s2">&quot;notifications:write&quot;</span>
-
-    <span class="c1"># Stats</span>
-    <span class="n">STATS_READ</span> <span class="o">=</span> <span class="s2">&quot;stats:read&quot;</span>
-
-    <span class="c1"># System</span>
-    <span class="n">ADMIN_ALL</span> <span class="o">=</span> <span class="s2">&quot;admin:all&quot;</span></div>
+    <span class="n">store_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">manager</span><span class="p">:</span> <span class="n">ManagerAccountCreate</span></div>
 
 
 
-<div class="viewcode-block" id="JWK">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.JWK">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWK</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JSON Web Key structure.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OnboardingResponse">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.schemas.OnboardingResponse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OnboardingResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Esito dell&#39;onboarding: store creato e credenziali del manager.&quot;&quot;&quot;</span>
 
-    <span class="n">kid</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">kty</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">alg</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">use</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">n</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">e</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="JWKS">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.JWKS">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWKS</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JSON Web Key Set structure.&quot;&quot;&quot;</span>
-
-    <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">JWK</span><span class="p">]</span></div>
+    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">manager_username</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">temporary_password</span><span class="p">:</span> <span class="nb">str</span></div>
 
 </pre></div>
 

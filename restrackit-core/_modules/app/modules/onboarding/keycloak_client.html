@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.auth.schemas &mdash; Restrackit 2.72.0 documentation</title>
+  <title>app.modules.onboarding.keycloak_client &mdash; Restrackit 2.72.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -1246,7 +1246,7 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.modules.auth.schemas</li>
+      <li class="breadcrumb-item active">app.modules.onboarding.keycloak_client</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1255,78 +1255,94 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.modules.auth.schemas</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+  <h1>Source code for app.modules.onboarding.keycloak_client</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Wrapper sul Keycloak Admin API usato dal modulo onboarding.</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="sd">Isola ``python-keycloak`` dal resto dell&#39;applicazione. Si autentica con un</span>
+<span class="sd">service account client scoped al solo ruolo client ``manage-users`` sul realm</span>
+<span class="sd">applicativo (mai le credenziali master admin usate da ``scripts/init_keycloak.py``),</span>
+<span class="sd">cosi&#39; un&#39;eventuale compromissione resta confinata alla gestione utenti di quel realm.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">keycloak</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeycloakAdmin</span><span class="p">,</span> <span class="n">KeycloakOpenIDConnection</span>
 
-<div class="viewcode-block" id="AuthUser">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.AuthUser">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">AuthUser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticated user data structure.&quot;&quot;&quot;</span>
-
-    <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">role</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span></div>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExternalServiceError</span>
 
 
+<div class="viewcode-block" id="OnboardingKeycloakClient">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OnboardingKeycloakClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Operazioni Keycloak Admin necessarie all&#39;onboarding di un nuovo store.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Permission">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.Permission">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Permission</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration of granular permissions for RBAC.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KeycloakAdmin</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Crea una connessione admin autenticata via client_credentials.</span>
 
-    <span class="c1"># Products</span>
-    <span class="n">PRODUCTS_READ</span> <span class="o">=</span> <span class="s2">&quot;products:read&quot;</span>
-    <span class="n">PRODUCTS_WRITE</span> <span class="o">=</span> <span class="s2">&quot;products:write&quot;</span>
-    <span class="n">PRODUCTS_DELETE</span> <span class="o">=</span> <span class="s2">&quot;products:delete&quot;</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ExternalServiceError: se il service account onboarding non è configurato.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
+        <span class="n">client_id</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">keycloak_onboarding_client_id</span>
+        <span class="n">client_secret</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">keycloak_onboarding_client_secret</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">client_id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">client_secret</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExternalServiceError</span><span class="p">(</span>
+                <span class="n">ErrorCode</span><span class="o">.</span><span class="n">EXT_SERVICE_UNAVAILABLE</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="s2">&quot;Onboarding Keycloak service account non configurato&quot;</span><span class="p">},</span>
+            <span class="p">)</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="n">KeycloakOpenIDConnection</span><span class="p">(</span>
+            <span class="n">server_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_INTERNAL_URL</span> <span class="ow">or</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="p">,</span>
+            <span class="n">realm_name</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">client_secret_key</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">KeycloakAdmin</span><span class="p">(</span><span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">)</span>
 
-    <span class="c1"># Inventory</span>
-    <span class="n">INVENTORY_READ</span> <span class="o">=</span> <span class="s2">&quot;inventory:read&quot;</span>
-    <span class="n">INVENTORY_WRITE</span> <span class="o">=</span> <span class="s2">&quot;inventory:write&quot;</span>  <span class="c1"># Analyze, Confirm, Update</span>
-    <span class="n">INVENTORY_DELETE</span> <span class="o">=</span> <span class="s2">&quot;inventory:delete&quot;</span>
-
-    <span class="c1"># Kitchen</span>
-    <span class="n">KITCHEN_READ</span> <span class="o">=</span> <span class="s2">&quot;kitchen:read&quot;</span>
-    <span class="n">KITCHEN_MANAGE_RECIPES</span> <span class="o">=</span> <span class="s2">&quot;kitchen:manage_recipes&quot;</span>  <span class="c1"># Create/Edit Recipes (Manager only)</span>
-    <span class="n">KITCHEN_WRITE_PREPARATION</span> <span class="o">=</span> <span class="s2">&quot;kitchen:write_preparation&quot;</span>  <span class="c1"># Record Preparations (Chef + Manager)</span>
-
-    <span class="c1"># Notifications</span>
-    <span class="n">NOTIFICATIONS_READ</span> <span class="o">=</span> <span class="s2">&quot;notifications:read&quot;</span>
-    <span class="n">NOTIFICATIONS_WRITE</span> <span class="o">=</span> <span class="s2">&quot;notifications:write&quot;</span>
-
-    <span class="c1"># Stats</span>
-    <span class="n">STATS_READ</span> <span class="o">=</span> <span class="s2">&quot;stats:read&quot;</span>
-
-    <span class="c1"># System</span>
-    <span class="n">ADMIN_ALL</span> <span class="o">=</span> <span class="s2">&quot;admin:all&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="JWK">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.JWK">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWK</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JSON Web Key structure.&quot;&quot;&quot;</span>
-
-    <span class="n">kid</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">kty</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">alg</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">use</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">n</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">e</span><span class="p">:</span> <span class="nb">str</span></div>
+<div class="viewcode-block" id="OnboardingKeycloakClient.username_or_email_exists">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.username_or_email_exists">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">username_or_email_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verifica se username o email risultano gia&#39; registrati su Keycloak.&quot;&quot;&quot;</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_users</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">&quot;exact&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">get_users</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span> <span class="s2">&quot;exact&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}))</span></div>
 
 
+<div class="viewcode-block" id="OnboardingKeycloakClient.create_manager_user">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_manager_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_manager_user</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Crea l&#39;utente Keycloak manager per lo store con password temporanea.</span>
 
-<div class="viewcode-block" id="JWKS">
-<a class="viewcode-back" href="../../../../app.modules.auth.html#app.modules.auth.schemas.JWKS">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWKS</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JSON Web Key Set structure.&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: id Keycloak dell&#39;utente creato.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
+                <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;attributes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">store_id</span><span class="p">)]},</span>
+                <span class="s2">&quot;credentials&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span> <span class="s2">&quot;temporary&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}],</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">manager_role</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_realm_role</span><span class="p">(</span><span class="s2">&quot;manager&quot;</span><span class="p">)</span>
+        <span class="n">admin</span><span class="o">.</span><span class="n">assign_realm_roles</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">manager_role</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">user_id</span></div>
 
-    <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">JWK</span><span class="p">]</span></div>
 
+<div class="viewcode-block" id="OnboardingKeycloakClient.delete_user">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.delete_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Elimina l&#39;utente Keycloak (usato per il rollback di compensazione).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">keycloak_admin_client</span> <span class="o">=</span> <span class="n">OnboardingKeycloakClient</span><span class="p">()</span>
 </pre></div>
 
            </div>

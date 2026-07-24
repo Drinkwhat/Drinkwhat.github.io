@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.setup package &mdash; Restrackit 2.72.0 documentation</title>
+  <title>app.modules.onboarding package &mdash; Restrackit 2.72.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="app.modules.stats package" href="app.modules.stats.html" />
-    <link rel="prev" title="app.modules.products package" href="app.modules.products.html" /> 
+    <link rel="next" title="app.modules.products package" href="app.modules.products.html" />
+    <link rel="prev" title="app.modules.notifications package" href="app.modules.notifications.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -895,9 +895,9 @@ for private packages in organization repositories.)</a></li>
           <li class="breadcrumb-item"><a href="modules.html">app</a></li>
           <li class="breadcrumb-item"><a href="app.html">app package</a></li>
           <li class="breadcrumb-item"><a href="app.modules.html">app.modules package</a></li>
-      <li class="breadcrumb-item active">app.modules.setup package</li>
+      <li class="breadcrumb-item active">app.modules.onboarding package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/app.modules.setup.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/app.modules.onboarding.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -905,16 +905,169 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="app-modules-setup-package">
-<h1>app.modules.setup package<a class="headerlink" href="#app-modules-setup-package" title="Link to this heading"></a></h1>
+  <section id="app-modules-onboarding-package">
+<h1>app.modules.onboarding package<a class="headerlink" href="#app-modules-onboarding-package" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="app-modules-setup-router-module">
-<h2>app.modules.setup.router module<a class="headerlink" href="#app-modules-setup-router-module" title="Link to this heading"></a></h2>
+<section id="module-app.modules.onboarding.keycloak_client">
+<span id="app-modules-onboarding-keycloak-client-module"></span><h2>app.modules.onboarding.keycloak_client module<a class="headerlink" href="#module-app.modules.onboarding.keycloak_client" title="Link to this heading"></a></h2>
+<p>Wrapper sul Keycloak Admin API usato dal modulo onboarding.</p>
+<p>Isola <code class="docutils literal notranslate"><span class="pre">python-keycloak</span></code> dal resto dell’applicazione. Si autentica con un
+service account client scoped al solo ruolo client <code class="docutils literal notranslate"><span class="pre">manage-users</span></code> sul realm
+applicativo (mai le credenziali master admin usate da <code class="docutils literal notranslate"><span class="pre">scripts/init_keycloak.py</span></code>),
+cosi’ un’eventuale compromissione resta confinata alla gestione utenti di quel realm.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.modules.onboarding.keycloak_client.OnboardingKeycloakClient">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.onboarding.keycloak_client.</span></span><span class="sig-name descname"><span class="pre">OnboardingKeycloakClient</span></span><a class="reference internal" href="_modules/app/modules/onboarding/keycloak_client.html#OnboardingKeycloakClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Operazioni Keycloak Admin necessarie all’onboarding di un nuovo store.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.username_or_email_exists">
+<span class="sig-name descname"><span class="pre">username_or_email_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/onboarding/keycloak_client.html#OnboardingKeycloakClient.username_or_email_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.username_or_email_exists" title="Link to this definition"></a></dt>
+<dd><p>Verifica se username o email risultano gia’ registrati su Keycloak.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>)</p></li>
+<li><p><strong>email</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_manager_user">
+<span class="sig-name descname"><span class="pre">create_manager_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/onboarding/keycloak_client.html#OnboardingKeycloakClient.create_manager_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_manager_user" title="Link to this definition"></a></dt>
+<dd><p>Crea l’utente Keycloak manager per lo store con password temporanea.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>id Keycloak dell’utente creato.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>)</p></li>
+<li><p><strong>email</strong> (<em>str</em>)</p></li>
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>password</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.delete_user">
+<span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/onboarding/keycloak_client.html#OnboardingKeycloakClient.delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.delete_user" title="Link to this definition"></a></dt>
+<dd><p>Elimina l’utente Keycloak (usato per il rollback di compensazione).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_id</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="app-modules-setup-service-module">
-<h2>app.modules.setup.service module<a class="headerlink" href="#app-modules-setup-service-module" title="Link to this heading"></a></h2>
+<section id="app-modules-onboarding-router-module">
+<h2>app.modules.onboarding.router module<a class="headerlink" href="#app-modules-onboarding-router-module" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-onboarding-schemas-module">
+<h2>app.modules.onboarding.schemas module<a class="headerlink" href="#app-modules-onboarding-schemas-module" title="Link to this heading"></a></h2>
+<p>Pydantic schemas per il modulo onboarding.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.onboarding.schemas.</span></span><span class="sig-name descname"><span class="pre">ManagerAccountCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/onboarding/schemas.html#ManagerAccountCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Dati per l’account manager creato durante l’onboarding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=3</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=50</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>email</strong> (<em>Annotated</em><em>[</em><em>EmailStr</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=255</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">username</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">email</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EmailStr</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.onboarding.schemas.</span></span><span class="sig-name descname"><span class="pre">OnboardingCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/onboarding/schemas.html#OnboardingCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Richiesta di onboarding rapido di un nuovo store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store_name</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=255</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>manager</strong> (<em>ManagerAccountCreate</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">store_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">manager</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ManagerAccountCreate</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.onboarding.schemas.</span></span><span class="sig-name descname"><span class="pre">OnboardingResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manager_username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary_password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/onboarding/schemas.html#OnboardingResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Esito dell’onboarding: store creato e credenziali del manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>manager_username</strong> (<em>str</em>)</p></li>
+<li><p><strong>temporary_password</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">store_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">manager_username</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">temporary_password</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="app-modules-onboarding-service-module">
+<h2>app.modules.onboarding.service module<a class="headerlink" href="#app-modules-onboarding-service-module" title="Link to this heading"></a></h2>
 </section>
 </section>
 
@@ -922,8 +1075,8 @@ for private packages in organization repositories.)</a></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="app.modules.products.html" class="btn btn-neutral float-left" title="app.modules.products package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="app.modules.stats.html" class="btn btn-neutral float-right" title="app.modules.stats package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="app.modules.notifications.html" class="btn btn-neutral float-left" title="app.modules.notifications package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="app.modules.products.html" class="btn btn-neutral float-right" title="app.modules.products package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
