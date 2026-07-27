@@ -1290,8 +1290,13 @@ for private packages in organization repositories.)</a></li>
                 <span class="n">ErrorCode</span><span class="o">.</span><span class="n">EXT_SERVICE_UNAVAILABLE</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="s2">&quot;Onboarding Keycloak service account non configurato&quot;</span><span class="p">},</span>
             <span class="p">)</span>
+        <span class="n">server_url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_INTERNAL_URL</span> <span class="ow">or</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span>
         <span class="n">connection</span> <span class="o">=</span> <span class="n">KeycloakOpenIDConnection</span><span class="p">(</span>
-            <span class="n">server_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_INTERNAL_URL</span> <span class="ow">or</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="p">,</span>
+            <span class="c1"># python-keycloak unisce server_url e i path relativi con urllib.parse.urljoin:</span>
+            <span class="c1"># senza lo slash finale, l&#39;ultimo segmento del path (es. &quot;/auth&quot;) viene scambiato</span>
+            <span class="c1"># per un &quot;file&quot; e sostituito anziche&#39; esteso, perdendo il prefisso</span>
+            <span class="c1"># KC_HTTP_RELATIVE_PATH.</span>
+            <span class="n">server_url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">server_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
             <span class="n">realm_name</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="p">,</span>
             <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
             <span class="n">client_secret_key</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
