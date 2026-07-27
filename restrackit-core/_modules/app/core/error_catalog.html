@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.error_catalog &mdash; Restrackit 2.75.4 documentation</title>
+  <title>app.core.error_catalog &mdash; Restrackit 2.76.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=9886fdb1"></script>
+      <script src="../../../_static/documentation_options.js?v=f68839fd"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1305,6 +1305,7 @@ for private packages in organization repositories.)</a></li>
     <span class="n">VAL_FILE_TOO_LARGE</span> <span class="o">=</span> <span class="s2">&quot;ERR_VAL_005&quot;</span>
     <span class="n">VAL_NO_TEXT_FOUND</span> <span class="o">=</span> <span class="s2">&quot;ERR_VAL_006&quot;</span>
     <span class="n">VAL_IMAGE_ERROR</span> <span class="o">=</span> <span class="s2">&quot;ERR_VAL_007&quot;</span>
+    <span class="n">VAL_INVALID_CURSOR</span> <span class="o">=</span> <span class="s2">&quot;ERR_VAL_008&quot;</span>
 
     <span class="c1"># --- BUSINESS LOGIC (BUS) ---</span>
     <span class="n">BUS_RESOURCE_NOT_FOUND</span> <span class="o">=</span> <span class="s2">&quot;ERR_BUS_001&quot;</span>
@@ -1444,6 +1445,12 @@ for private packages in organization repositories.)</a></li>
         <span class="s2">&quot;severity&quot;</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
         <span class="s2">&quot;http_status&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
         <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;Verifica il formato dell&#39;immagine (supportati: JPG, PNG, HEIC).&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">ErrorCode</span><span class="o">.</span><span class="n">VAL_INVALID_CURSOR</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Cursor di paginazione non valido o corrotto.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;severity&quot;</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+        <span class="s2">&quot;http_status&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;Riparti dalla prima pagina omettendo il parametro cursor.&quot;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="c1"># BUS</span>
     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_RESOURCE_NOT_FOUND</span><span class="p">:</span> <span class="p">{</span>

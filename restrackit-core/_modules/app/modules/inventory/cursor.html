@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.stats.schemas &mdash; Restrackit 2.76.0 documentation</title>
+  <title>app.modules.inventory.cursor &mdash; Restrackit 2.76.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -1246,7 +1246,7 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.modules.stats.schemas</li>
+      <li class="breadcrumb-item active">app.modules.inventory.cursor</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1255,221 +1255,88 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.modules.stats.schemas</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
-
-
-<div class="viewcode-block" id="StatsBucket">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.StatsBucket">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">StatsBucket</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Time-bucketing granularity for time-series queries.&quot;&quot;&quot;</span>
-
-    <span class="n">day</span> <span class="o">=</span> <span class="s2">&quot;day&quot;</span>
-    <span class="n">week</span> <span class="o">=</span> <span class="s2">&quot;week&quot;</span>
-    <span class="n">month</span> <span class="o">=</span> <span class="s2">&quot;month&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="BatchSeriesMetric">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchSeriesMetric">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesMetric</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which batch lifecycle event to count in a series.&quot;&quot;&quot;</span>
-
-    <span class="n">created</span> <span class="o">=</span> <span class="s2">&quot;created&quot;</span>
-    <span class="n">finished</span> <span class="o">=</span> <span class="s2">&quot;finished&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="TimeSeriesPoint">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TimeSeriesPoint">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TimeSeriesPoint</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single data point in a time series.&quot;&quot;&quot;</span>
-
-    <span class="n">period</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span></div>
-
-
-
-<div class="viewcode-block" id="TopRecipeItem">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipeItem">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopRecipeItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated preparation count for a single recipe.&quot;&quot;&quot;</span>
-
-    <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">recipe_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span></div>
-
-
-
-<div class="viewcode-block" id="TopRecipesByPeriod">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesByPeriod">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesByPeriod</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top recipes grouped by time period.&quot;&quot;&quot;</span>
-
-    <span class="n">period</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TopRecipeItem</span><span class="p">]</span></div>
-
-
-
-<div class="viewcode-block" id="TopIngredientItem">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopIngredientItem">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopIngredientItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated usage for a single ingredient.&quot;&quot;&quot;</span>
-
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">quantity</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="BatchOverview">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchOverview">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchOverview</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Snapshot of batch counts at a given date.&quot;&quot;&quot;</span>
-
-    <span class="n">as_of</span><span class="p">:</span> <span class="n">date</span>
-    <span class="n">expiring_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span>
-    <span class="n">total</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">active</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">empty</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">expired</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">expiring_soon</span><span class="p">:</span> <span class="nb">int</span></div>
-
-
-
-<div class="viewcode-block" id="StatsOverview">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.StatsOverview">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">StatsOverview</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dashboard-level statistics overview.&quot;&quot;&quot;</span>
-
-    <span class="n">preparations_7d</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">preparations_30d</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">top_recipes_7d</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TopRecipeItem</span><span class="p">]</span>
-    <span class="n">top_ingredients_7d</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TopIngredientItem</span><span class="p">]</span>
-    <span class="n">batches</span><span class="p">:</span> <span class="n">BatchOverview</span>
-
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;preparations_7d&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-                <span class="s2">&quot;preparations_30d&quot;</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span>
-                <span class="s2">&quot;top_recipes_7d&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;recipe_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;recipe_name&quot;</span><span class="p">:</span> <span class="s2">&quot;fajitas&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}],</span>
-                <span class="s2">&quot;top_ingredients_7d&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span>
-                        <span class="s2">&quot;product_master_id&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                        <span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;chicken&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
-                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
-                    <span class="p">}</span>
-                <span class="p">],</span>
-                <span class="s2">&quot;batches&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;as_of&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-05-15&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;expiring_days&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-                    <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
-                    <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="mi">87</span><span class="p">,</span>
-                    <span class="s2">&quot;empty&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
-                    <span class="s2">&quot;expired&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                    <span class="s2">&quot;expiring_soon&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="DateRangeParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.DateRangeParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DateRangeParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional date range filter shared by multiple stat queries.&quot;&quot;&quot;</span>
-
-    <span class="n">date_from</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">date_to</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
-
-
-
-<div class="viewcode-block" id="SeriesParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.SeriesParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for time-bucketed series queries.&quot;&quot;&quot;</span>
-
-    <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span></div>
-
-
-
-<div class="viewcode-block" id="TopRecipesParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-recipes ranking queries.&quot;&quot;&quot;</span>
-
-    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="TopRecipesSeriesParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesSeriesParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-recipes trend series.&quot;&quot;&quot;</span>
-
-    <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
-    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="TopIngredientsParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopIngredientsParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopIngredientsParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-ingredients usage queries.&quot;&quot;&quot;</span>
-
-    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="BatchOverviewParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchOverviewParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchOverviewParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for the batch snapshot endpoint.&quot;&quot;&quot;</span>
-
-    <span class="n">as_of</span><span class="p">:</span> <span class="n">date</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">expiring_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="BatchSeriesParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchSeriesParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for batch lifecycle time-series queries.&quot;&quot;&quot;</span>
-
-    <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
-    <span class="n">metric</span><span class="p">:</span> <span class="n">BatchSeriesMetric</span> <span class="o">=</span> <span class="n">BatchSeriesMetric</span><span class="o">.</span><span class="n">created</span></div>
-
-
-
-<div class="viewcode-block" id="WasteItem">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteItem">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">WasteItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated waste record for a single product.&quot;&quot;&quot;</span>
-
-    <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">category_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">wasted_quantity_total</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">wasted_unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
-
-
-
-<div class="viewcode-block" id="WasteParams">
-<a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteParams">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">WasteParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for waste statistics queries.&quot;&quot;&quot;</span>
-
-    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></div>
+  <h1>Source code for app.modules.inventory.cursor</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Codifica/decodifica del cursor opaco per la paginazione keyset di /inventory/list.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.inventory.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchSortField</span>
+
+<span class="n">SortValue</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">date</span> <span class="o">|</span> <span class="n">datetime</span>
+
+
+<div class="viewcode-block" id="encode_cursor">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.cursor.encode_cursor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">encode_cursor</span><span class="p">(</span>
+    <span class="n">sort_field</span><span class="p">:</span> <span class="n">BatchSortField</span><span class="p">,</span> <span class="n">sort_value</span><span class="p">:</span> <span class="n">date</span> <span class="o">|</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">row_id</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Codifica (sort_value, id) in un cursor opaco base64.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sort_field: Campo di ordinamento usato per la pagina corrente.</span>
+<span class="sd">        sort_value: Valore del campo di ordinamento sull&#39;ultimo elemento della pagina.</span>
+<span class="sd">        row_id: Id dell&#39;ultimo elemento della pagina (tie-breaker).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Cursor opaco url-safe base64.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">sort_value</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sort_value</span><span class="p">,</span> <span class="n">date</span> <span class="o">|</span> <span class="n">datetime</span><span class="p">)</span> <span class="k">else</span> <span class="n">sort_value</span>
+    <span class="p">)</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sort&quot;</span><span class="p">:</span> <span class="n">sort_field</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">row_id</span><span class="p">}</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="decode_cursor">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.cursor.decode_cursor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decode_cursor</span><span class="p">(</span><span class="n">cursor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_sort</span><span class="p">:</span> <span class="n">BatchSortField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SortValue</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decodifica un cursor opaco, validandone la coerenza col sort corrente.</span>
+
+<span class="sd">    Il valore del campo di ordinamento viene riconvertito al tipo Python nativo</span>
+<span class="sd">    (date/datetime) corrispondente alla colonna: lasciarlo come stringa ISO</span>
+<span class="sd">    farebbe bindare il parametro come VARCHAR, che Postgres non confronta con</span>
+<span class="sd">    colonne DATE/TIMESTAMPTZ senza cast espliciti.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cursor: Cursor opaco ricevuto dal client.</span>
+<span class="sd">        expected_sort: Campo di ordinamento della richiesta corrente.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[SortValue, int]: (sort_value, id) da usare nel filtro keyset.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValidationError: Se il cursor è malformato, corrotto o non coerente</span>
+<span class="sd">            col campo di ordinamento richiesto (impedisce di riusare un cursor</span>
+<span class="sd">            ottenuto con un sort diverso, che romperebbe l&#39;invariante keyset).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64decode</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;sort&quot;</span><span class="p">]</span>
+        <span class="n">raw_value</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="n">row_id</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">sort</span> <span class="o">!=</span> <span class="n">expected_sort</span><span class="o">.</span><span class="n">value</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cursor/sort mismatch&quot;</span><span class="p">)</span>
+
+        <span class="n">value</span><span class="p">:</span> <span class="n">SortValue</span>
+        <span class="k">if</span> <span class="n">expected_sort</span> <span class="o">==</span> <span class="n">BatchSortField</span><span class="o">.</span><span class="n">EXPIRY_DATE</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">raw_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">expected_sort</span> <span class="o">==</span> <span class="n">BatchSortField</span><span class="o">.</span><span class="n">STORAGE_EXPIRY_AT</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">raw_value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cursor value type mismatch&quot;</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">raw_value</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">UnicodeDecodeError</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">VAL_INVALID_CURSOR</span><span class="p">,</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">return</span> <span class="n">value</span><span class="p">,</span> <span class="n">row_id</span></div>
 
 </pre></div>
 
