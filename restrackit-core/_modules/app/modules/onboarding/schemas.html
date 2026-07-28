@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.onboarding.schemas &mdash; Restrackit 2.76.0 documentation</title>
+  <title>app.modules.onboarding.schemas &mdash; Restrackit 2.85.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=f68839fd"></script>
+      <script src="../../../../_static/documentation_options.js?v=8e94b380"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1266,7 +1266,15 @@ for private packages in organization repositories.)</a></li>
 <span class="k">class</span><span class="w"> </span><span class="nc">ManagerAccountCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dati per l&#39;account manager creato durante l&#39;onboarding.&quot;&quot;&quot;</span>
 
-    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;^[a-z0-9_-]+$&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Parte locale dello username (es. &#39;mario&#39;), senza il prefisso store: &quot;</span>
+            <span class="s2">&quot;lo username Keycloak finale e&#39; &#39;{slug-store}.</span><span class="si">{username}</span><span class="s2">&#39; (issue #81).&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
     <span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></div>
 
 
@@ -1287,6 +1295,7 @@ for private packages in organization repositories.)</a></li>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Esito dell&#39;onboarding: store creato e credenziali del manager.&quot;&quot;&quot;</span>
 
     <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">store_slug</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">manager_username</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">temporary_password</span><span class="p">:</span> <span class="nb">str</span></div>
 

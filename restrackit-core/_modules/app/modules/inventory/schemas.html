@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.76.0 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.85.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=f68839fd"></script>
+      <script src="../../../../_static/documentation_options.js?v=8e94b380"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1490,6 +1490,9 @@ for private packages in organization repositories.)</a></li>
         <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico del prodotto master collegato al lotto&quot;</span>
     <span class="p">)</span>
     <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID dell&#39;operatore&quot;</span><span class="p">)</span>
+    <span class="n">operator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome e cognome dell&#39;operatore (fallback: operator_id se assente)&quot;</span>
+    <span class="p">)</span>
     <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Confidence del riconoscimento&quot;</span><span class="p">)</span>
     <span class="n">is_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True se il lotto è stato segnato come concluso/esaurito&quot;</span>
@@ -1774,6 +1777,56 @@ for private packages in organization repositories.)</a></li>
         <span class="k">return</span> <span class="n">data</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="BatchHistoryEntryType">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchHistoryEntryType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchHistoryEntryType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tipo di voce nella storia aggregata di un lotto (issue #424).&quot;&quot;&quot;</span>
+
+    <span class="n">BATCH_CREATED</span> <span class="o">=</span> <span class="s2">&quot;batch_created&quot;</span>
+    <span class="n">STORAGE_MOVED</span> <span class="o">=</span> <span class="s2">&quot;storage_moved&quot;</span>
+    <span class="n">PREPARATION_COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;preparation_completed&quot;</span>
+    <span class="n">BATCH_COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;batch_completed&quot;</span>
+    <span class="n">CONSUMED_IN_PREPARATION</span> <span class="o">=</span> <span class="s2">&quot;consumed_in_preparation&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="BatchHistoryEntry">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchHistoryEntry">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchHistoryEntry</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Singola voce cronologica nella storia completa di un lotto.</span>
+
+<span class="sd">    Aggrega, in un formato uniforme, la creazione del lotto, gli spostamenti di</span>
+<span class="sd">    storage (``BatchStorageMove``), gli eventi di ciclo vita (``BatchEvent``) e</span>
+<span class="sd">    i consumi come ingrediente in una preparazione (``PreparationItem``) —</span>
+<span class="sd">    pensata per essere leggibile durante un&#39;ispezione ASL/NAS senza dover</span>
+<span class="sd">    incrociare più endpoint.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">entry_type</span><span class="p">:</span> <span class="n">BatchHistoryEntryType</span>
+    <span class="n">occurred_at</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">operator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">reason</span><span class="p">:</span> <span class="n">BatchCompletionReason</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">preparation_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">recipe_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">from_storage_method_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">to_storage_method_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">unit_of_measure</span><span class="p">:</span> <span class="n">UnitOfMeasure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="BatchHistoryResponse">
+<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchHistoryResponse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchHistoryResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storia completa e ordinata cronologicamente di un lotto.&quot;&quot;&quot;</span>
+
+    <span class="n">batch_public_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchHistoryEntry</span><span class="p">]</span></div>
 
 
 

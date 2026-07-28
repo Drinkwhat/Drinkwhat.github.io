@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.auth package &mdash; Restrackit 2.76.0 documentation</title>
+  <title>app.modules.auth package &mdash; Restrackit 2.85.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f68839fd"></script>
+      <script src="_static/documentation_options.js?v=8e94b380"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1003,7 +1003,7 @@ onorare <code class="docutils literal notranslate"><span class="pre">post_logout
 <h2>app.modules.auth.schemas module<a class="headerlink" href="#app-modules-auth-schemas-module" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.schemas.</span></span><span class="sig-name descname"><span class="pre">AuthUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/schemas.html#AuthUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.schemas.</span></span><span class="sig-name descname"><span class="pre">AuthUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/schemas.html#AuthUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Authenticated user data structure.</p>
 <dl class="field-list simple">
@@ -1012,6 +1012,7 @@ onorare <code class="docutils literal notranslate"><span class="pre">post_logout
 <li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
 <li><p><strong>role</strong> (<em>str</em>)</p></li>
 <li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>operator_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1030,15 +1031,21 @@ onorare <code class="docutils literal notranslate"><span class="pre">post_logout
 <span class="sig-name descname"><span class="pre">store_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">operator_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>operator_id</strong> (<em>str</em>)</p></li>
 <li><p><strong>role</strong> (<em>str</em>)</p></li>
 <li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>operator_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

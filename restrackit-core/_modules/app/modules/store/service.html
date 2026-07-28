@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.ui.router &mdash; Restrackit 2.85.0 documentation</title>
+  <title>app.modules.store.service &mdash; Restrackit 2.85.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -1246,7 +1246,7 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.modules.ui.router</li>
+      <li class="breadcrumb-item active">app.modules.store.service</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1255,89 +1255,20 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.modules.ui.router</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Static UI endpoints.</span>
+  <h1>Source code for app.modules.store.service</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Generazione dello slug store.&quot;&quot;&quot;</span>
 
-<span class="sd">Serve la UI desktop (HTML/CSS/JS) sotto `/ui` e pubblica una configurazione runtime</span>
-<span class="sd">tramite `/ui/config.json`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">anyio</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Response</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">FULL_VERSION</span>
-
-<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ui&quot;</span><span class="p">])</span>
-
-<span class="n">UI_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="s2">&quot;ui&quot;</span>
+<span class="n">_SLUG_MAX_LENGTH</span> <span class="o">=</span> <span class="mi">50</span>
 
 
-<div class="viewcode-block" id="ui_root">
-<a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_root">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">RedirectResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Redirect canonico `/ui` → `/ui/`.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">RedirectResponse</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;/ui/&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">302</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="ui_index">
-<a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_index">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_index</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ritorna index.html con cache-busting sulla versione.&quot;&quot;&quot;</span>
-    <span class="n">index_path</span> <span class="o">=</span> <span class="n">UI_DIR</span> <span class="o">/</span> <span class="s2">&quot;index.html&quot;</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="k">await</span> <span class="n">anyio</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">index_path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/ui/styles.css&quot;&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;/ui/styles.css?v=</span><span class="si">{</span><span class="n">FULL_VERSION</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/ui/app.js&quot;&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;/ui/app.js?v=</span><span class="si">{</span><span class="n">FULL_VERSION</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
-        <span class="n">content</span><span class="o">=</span><span class="n">html</span><span class="p">,</span>
-        <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;text/html; charset=utf-8&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store, max-age=0&quot;</span><span class="p">},</span>
-    <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="vite_client_noop">
-<a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.vite_client_noop">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/@vite/client&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">vite_client_noop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;No-op compatibilità Vite (evita errori in alcuni ambienti).&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
-        <span class="n">content</span><span class="o">=</span><span class="s2">&quot;export </span><span class="si">{}</span><span class="s2">;&quot;</span><span class="p">,</span>
-        <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;application/javascript; charset=utf-8&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store, max-age=0&quot;</span><span class="p">},</span>
-    <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="ui_config">
-<a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_config">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/config.json&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ritorna configurazione runtime per la UI (OIDC, versione, redirect URI).&quot;&quot;&quot;</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
-    <span class="n">base_url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">public_base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;api_base&quot;</span><span class="p">:</span> <span class="s2">&quot;/v1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">FULL_VERSION</span><span class="p">,</span>
-        <span class="s2">&quot;environment&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">environment</span><span class="p">,</span>
-        <span class="s2">&quot;oidc&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;issuer&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">oidc_url</span><span class="p">,</span>
-            <span class="s2">&quot;authorization_endpoint&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">authorization_url</span><span class="p">,</span>
-            <span class="s2">&quot;token_endpoint&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">token_url</span><span class="p">,</span>
-            <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_CLIENT_ID</span><span class="p">,</span>
-            <span class="s2">&quot;realm&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="p">,</span>
-            <span class="s2">&quot;redirect_uri&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/ui/callback.html&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;allow_insecure_pkce_plain&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">environment</span> <span class="o">!=</span> <span class="s2">&quot;production&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store, max-age=0&quot;</span><span class="p">})</span></div>
+<div class="viewcode-block" id="slugify">
+<a class="viewcode-back" href="../../../../app.modules.store.html#app.modules.store.service.slugify">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">slugify</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converte un nome store in uno slug ``[a-z0-9-]+`` (fallback: ``store``).&quot;&quot;&quot;</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-z0-9]+&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">slug</span><span class="p">[:</span><span class="n">_SLUG_MAX_LENGTH</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;store&quot;</span></div>
 
 </pre></div>
 
