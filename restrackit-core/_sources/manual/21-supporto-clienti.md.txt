@@ -1,0 +1,82 @@
+# Supporto clienti: runbook operativo
+
+Guida per chi prende in carico le richieste di routine dei clienti (nuovo store, nuovo account,
+problemi di login, "perché non vedo X"). Non tratta l'infrastruttura Terraform/AWS: per quello
+vedi `docs/19-aws-terraform-deploy.md`.
+
+## 1. Onboarding nuovo cliente
+
+Procedura completa (endpoint, payload, note su rollback e password temporanea):
+[docs/20-onboarding-utenti.md](20-onboarding-utenti.md).
+
+In sintesi: `POST /onboarding/stores` (richiede ruolo `admin`) crea lo `Store` + il primo
+account `manager` in un'unica chiamata e restituisce una password temporanea **una sola volta** —
+va consegnata al cliente su un canale sicuro (mai via log/email in chiaro).
+
+## 2. Aggiungere un account a uno store già esistente
+
+Non esiste ancora un endpoint self-service per il manager (issue #81, roadmap). Procedura
+manuale su Keycloak Admin Console: vedi [docs/20-onboarding-utenti.md § 2](20-onboarding-utenti.md#2-aggiungere-un-nuovo-account-a-uno-store-esistente-chef-o-altro-manager).
+
+Punti da non sbagliare:
+- Username **sempre** `{slug-store}.{nome}` (es. `trattoria-da-mario.luigi`) — altrimenti rischio
+  di collisione con un utente di un altro store, dato che il realm Keycloak è condiviso.
+- Attribute `store_id` (lista, es. `["12"]`) è ciò che isola i dati del cliente: se lo sbagli o
+  lo dimentichi, l'utente non vede nulla o vede lo store sbagliato.
+- Assegna **esattamente uno** tra i realm role `chef` / `manager` / `admin`. Nessun ruolo
+  riconosciuto → l'utente viene trattato come `"user"` senza permessi.
+
+## 3. Reset password / utente bloccato
+
+Il login è **solo username**, non email (niente SMTP configurato) — quindi non esiste un "invia
+link di reset" self-service. Per sbloccare un utente:
+
+1. Keycloak Admin Console → **Users** → cerca `{slug-store}.{nome}`.
+2. Tab **Credentials** → **Reset password** → imposta una nuova password, marcala
+   **Temporary** così l'utente la cambia al primo accesso successivo.
+3. Comunica la nuova password al cliente su un canale sicuro (mai in chiaro su ticket/email).
+
+`scripts/reset_chef.py` **non è uno strumento di supporto clienti**: è un demo script per
+l'ambiente locale, cancella e ricrea sempre lo stesso utente hardcoded (`chef_marco`,
+`store_id=1`, password fissa `password`). Non va mai puntato contro Keycloak di staging/prod.
+
+## 4. Troubleshooting: dove guardare i log
+
+| Ambiente | Come vedere i log |
+|---|---|
+| **Locale** | `docker compose logs -f <servizio>` dalla root del repo (es. `app`, `worker`) |
+| **Staging** | Dozzle via Traefik: `https://<host-staging>/logs` (basic auth, credenziali in `DOZZLE_AUTH_USERS`) |
+| **Produzione** | Niente Dozzle: stack Grafana/Loki (`deploy/prod/docker-compose.yml`). Vai su `https://<host-prod>/grafana` (dietro `ADMIN_ALLOWLIST_IP`) → tab **Explore** → datasource **Loki** → filtra per container (`app-blue`, `app-green`, `worker`, `keycloak`, ...). `alloy` raccoglie i log di tutti i container via socket Docker e li spedisce a Loki; non serve SSH per il caso normale |
+
+### Alert automatici (Alertmanager → Slack)
+
+Le SLO Prometheus (`deploy/monitoring/prometheus/rules/alerts.yml`) generano alert `critical`/`warning`
+che Alertmanager instrada tutti sullo stesso canale Slack `#alerts` (vedi `docs/slo.md`).
+Il webhook è opzionale via SSM (`/restrackit/prod/slack_webhook_url`): se non impostato, Alertmanager
+resta comunque su ma non posta da nessuna parte — in quel caso gli alert vanno controllati a mano
+da Grafana/Alertmanager (dietro `ADMIN_ALLOWLIST_IP`), non aspettati passivamente in chat.
+
+Per correlare una segnalazione cliente a un log/evento specifico, chiedi l'header
+**`X-Request-ID`** della richiesta (se il cliente/frontend lo espone negli errori) — è presente
+in ogni log e in ogni evento Sentry di quella richiesta. Dettagli sul formato dei log e sui
+provider di observability: [docs/14-logging.md](14-logging.md).
+
+- **Sentry**: eccezioni non gestite e ogni `logger.error(...)`, con stack trace e release (SHA
+  del commit deployato).
+- **Apitally**: throughput per endpoint, distribuzione status code, tempi di risposta — utile per
+  capire se un problema è isolato al cliente o sistemico.
+- **Pulsetic**: uptime pubblico, avvisa se `/health` (che verifica anche la connettività al DB)
+  torna `503`.
+
+## 5. Errori applicativi: come leggerli
+
+Ogni errore dell'app segue lo stesso formato JSON (`error.code`, `error.message`,
+`error.severity`, `error.action`, `request_id`). L'elenco dei codici e cosa significano è in
+[docs/ERROR_CODES.md](ERROR_CODES.md); il modello generale in [docs/10-error-handling.md](10-error-handling.md).
+Se un cliente riporta un errore, chiedi `error.code` e/o `request_id` prima di andare a caccia nei log.
+
+## 6. Riferimento rapido variabili d'ambiente
+
+Vedi [docs/20-onboarding-utenti.md § 3](20-onboarding-utenti.md#3-riferimento-rapido-variabili-dambiente-coinvolte)
+per le variabili Keycloak coinvolte in onboarding/account management; [docs/08-environment-config.md](08-environment-config.md)
+per l'elenco completo.

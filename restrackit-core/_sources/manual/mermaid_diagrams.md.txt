@@ -110,8 +110,8 @@ flowchart TD
     STORAGE_METHOD["<b>STORAGE_METHOD</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
     STORE["<b>STORE</b><br/>──────────<br/>id (PK)<br/>name"]:::entity
     BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>public_id<br/>lot_code<br/>expiry_date<br/>storage_expiry_at<br/>operator_id<br/>confidence<br/>is_empty<br/>finished_at<br/>wasted_quantity<br/>wasted_unit<br/>quantity<br/>unit_of_measure<br/>parent_batch_id<br/>deleted_at<br/>version"]:::entity
-    BATCH_STORAGE_MOVE["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>computed_storage_expiry_at<br/>quantity_moved<br/>operator_id<br/>moved_at"]:::weakent
-    BATCH_EVENT["<b>BATCH_EVENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>event_type<br/>reason<br/>operator_id<br/>notes<br/>occurred_at"]:::weakent
+    BATCH_STORAGE_MOVE["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>computed_storage_expiry_at<br/>quantity_moved<br/>operator_id<br/>operator_name<br/>moved_at"]:::weakent
+    BATCH_EVENT["<b>BATCH_EVENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>event_type<br/>reason<br/>operator_id<br/>operator_name<br/>notes<br/>occurred_at"]:::weakent
     IDEMPOTENCY_KEY["<b>IDEMPOTENCY_KEY</b><br/>──────────<br/>id (PK)<br/>endpoint<br/>key<br/>payload_hash<br/>status<br/>response_status_code<br/>response_body<br/>created_at"]:::weakent
 
     R1{"istanziato in"}:::rel
@@ -230,8 +230,8 @@ flowchart TD
     PRODUCT_MASTER["<b>PRODUCT_MASTER</b><br/>──────────<br/>id (PK)<br/>public_id<br/>name<br/>allergen_mask<br/>version<br/>deleted_at"]:::entity
     PRODUCT_STORAGE_RULE["<b>PRODUCT_STORAGE_RULE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>duration_days<br/>duration_hours<br/>version<br/>deleted_at"]:::assoc
     BATCH["<b>BATCH</b><br/>──────────<br/>id (PK)<br/>public_id<br/>lot_code<br/>expiry_date<br/>storage_expiry_at<br/>operator_id<br/>confidence<br/>is_empty<br/>finished_at<br/>wasted_quantity<br/>wasted_unit<br/>quantity<br/>unit_of_measure<br/>parent_batch_id<br/>version<br/>deleted_at"]:::entity
-    BATCH_STORAGE_MOVE["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>computed_storage_expiry_at<br/>quantity_moved<br/>operator_id<br/>moved_at"]:::weakent
-    BATCH_EVENT["<b>BATCH_EVENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>event_type<br/>reason<br/>operator_id<br/>notes<br/>occurred_at"]:::weakent
+    BATCH_STORAGE_MOVE["<b>BATCH_STORAGE_MOVE</b><br/>──────────<br/>id (PK)<br/>computed_storage_expiry_at<br/>quantity_moved<br/>operator_id<br/>operator_name<br/>moved_at"]:::weakent
+    BATCH_EVENT["<b>BATCH_EVENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>event_type<br/>reason<br/>operator_id<br/>operator_name<br/>notes<br/>occurred_at"]:::weakent
     IDEMPOTENCY_KEY["<b>IDEMPOTENCY_KEY</b><br/>──────────<br/>id (PK)<br/>endpoint<br/>key<br/>payload_hash<br/>status<br/>response_status_code<br/>response_body<br/>created_at"]:::weakent
     RECIPE["<b>RECIPE</b><br/>──────────<br/>id (PK)<br/>public_id<br/>name<br/>description<br/>version<br/>deleted_at"]:::entity
     RECIPE_INGREDIENT["<b>RECIPE_INGREDIENT</b><br/>──────────<br/>id (PK)<br/>public_id<br/>standard_quantity<br/>unit_of_measure"]:::assoc

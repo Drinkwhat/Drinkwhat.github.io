@@ -31,8 +31,13 @@ SLO formali per gli endpoint critici. Le alert rules Prometheus corrispondenti s
 
 | Severity | Destinazione |
 |----------|-------------|
-| `critical` | PagerDuty + Slack `#alerts-critical` |
-| `warning` | Slack `#alerts-warning` |
+| `critical` | Slack `#alerts` |
+| `warning` | Slack `#alerts` |
+
+Un solo canale Slack per entrambe le severity (nessun PagerDuty). Configurazione:
+`deploy/monitoring/alertmanager/alertmanager.yml`; URL del webhook via `SLACK_WEBHOOK_URL`
+(SSM `/restrackit/prod/slack_webhook_url`, opzionale — se assente Alertmanager resta up ma
+non posta da nessuna parte).
 
 ## Grafana
 

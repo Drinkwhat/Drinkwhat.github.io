@@ -1,0 +1,72 @@
+# Onboarding: nuovo store e nuovi account
+
+Guida operativa per chi deve **creare un nuovo store cliente** o **aggiungere un nuovo account** (manager/chef) a uno store esistente. Copre lo stato attuale del progetto: la creazione di un nuovo store è un endpoint API, l'aggiunta di account aggiuntivi a uno store già esistente è oggi un'operazione manuale su Keycloak (non esiste ancora un endpoint self-service per il manager — vedi nota a fondo pagina).
+
+## 1. Creare un nuovo store (+ primo account manager)
+
+Endpoint: `POST /onboarding/stores`
+Permesso richiesto: `ADMIN_ALL` (ruolo `admin`), riservato al team interno.
+Implementazione: {mod}`app.modules.onboarding.service`, {mod}`app.modules.onboarding.router`.
+
+Crea in un'unica chiamata:
+- la riga `Store` in Postgres (con uno `slug` univoco derivato dal nome, con retry automatico in caso di collisione);
+- il primo account Keycloak con ruolo `manager`, con username finale `{slug-store}.{username}` (issue #81 — lo username Keycloak è univoco per realm, quindi va sempre prefissato con lo slug dello store).
+
+```bash
+TOKEN="<bearer-token-admin>"
+
+curl -X POST http://localhost:8000/onboarding/stores \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "store_name": "Trattoria da Mario",
+    "manager": {
+      "username": "mario",
+      "email": "mario@example.com"
+    }
+  }'
+```
+
+Risposta (`OnboardingResponse`):
+
+```json
+{
+  "store_id": 12,
+  "store_slug": "trattoria-da-mario",
+  "manager_username": "trattoria-da-mario.mario",
+  "temporary_password": "xxxxxxxxxxxxxxxx"
+}
+```
+
+Note importanti:
+- `temporary_password` viene restituita **una sola volta** in questa risposta e non va mai loggata: consegnala al cliente su un canale sicuro. L'account ha `temporary=true`, quindi Keycloak forza il cambio password al primo login.
+- Se la creazione dell'utente Keycloak fallisce dopo che lo `Store` è già stato committato, il servizio esegue un rollback compensativo cancellando lo `Store` appena creato (i due sistemi non condividono una transazione).
+- Se `username` o `email` sono già in uso, l'endpoint risponde `409`.
+
+## 2. Aggiungere un nuovo account a uno store esistente (chef o altro manager)
+
+**Non esiste ancora un endpoint per questo** (self-service manager-facing, pianificato ma non implementato — vedi `CLAUDE.md`, sezione "Operator Identity"). Oggi va fatto manualmente sulla Keycloak Admin Console:
+
+1. Vai su `${KEYCLOAK_URL}/admin/{realm}/console` (login con `KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD`).
+2. **Users → Add user**:
+   - `Username`: `{slug-store}.{nome}` (es. `trattoria-da-mario.luigi`) — rispetta sempre questa convenzione, altrimenti l'utente rischia collisioni con account di altri store.
+   - `First name` / `Last name`: obbligatori — sono le claim `given_name`/`family_name` da cui il backend deriva `operator_name`, mostrato nei log HACCP (batch, preparazioni).
+   - `Email`: opzionale (non usata come credenziale, solo profilo).
+   - Attribute `store_id`: **lista** con l'id numerico dello store (es. `["12"]`). È il claim che il backend legge per il multi-tenancy.
+3. **Credentials tab**: imposta una password, marcala `Temporary` così l'utente la cambia al primo accesso.
+4. **Role mapping tab**: assegna esattamente uno tra i realm role `chef` / `manager` / `admin`. Se manca un ruolo riconosciuto, il backend tratta l'utente come `"user"` senza permessi (vedi `_determine_role` in {mod}`app.modules.auth.dependencies`).
+
+Verifica rapida via API (equivalente a quanto sopra, utile per script di provisioning): vedi `scripts/init_keycloak.py` per un esempio completo di creazione utente + assegnazione ruolo via Keycloak Admin REST API.
+
+## 3. Riferimento rapido: variabili d'ambiente coinvolte
+
+| Variabile | Uso |
+|---|---|
+| `KEYCLOAK_URL` / `KEYCLOAK_INTERNAL_URL` | Base URL Admin Console e API |
+| `KEYCLOAK_REALM` | Realm applicativo (condiviso da tutti gli store) |
+| `KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD` | Credenziali admin master, solo per operazioni manuali/script (mai usate dall'app in runtime) |
+| `KEYCLOAK_ONBOARDING_CLIENT_ID` / `KEYCLOAK_ONBOARDING_CLIENT_SECRET` | Service account scoped (`manage-users` + `view-realm`) usato da `POST /onboarding/stores` |
+
+## 4. Cosa manca oggi (roadmap)
+
+Il manager di uno store **non può ancora** creare o gestire account autonomamente da UI/API — serve un intervento admin come sopra. Se serve costruire questa funzionalità self-service, vedi `CLAUDE.md` § "Operator Identity (issue #81)" per il contesto sulla convenzione username/`operator_id`/`operator_name` da rispettare nel design.

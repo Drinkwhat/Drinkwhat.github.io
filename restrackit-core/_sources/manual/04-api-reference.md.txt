@@ -387,6 +387,12 @@ Elenca lo storico eventi append-only del lotto (completamento preparazione, comp
 
 ---
 
+### `GET /v1/inventory/batch/{batch_id}/history`
+
+Ricostruisce la timeline completa del lotto (creazione, spostamenti di storage, eventi di ciclo vita, consumo come ingrediente) in un'unica risposta, pensata per ispezioni ASL/NAS. Ogni voce include `operator_id` e, quando disponibile, `operator_name` (denormalizzato al momento dell'azione — vedi `CLAUDE.md` § "Operator Identity").
+
+---
+
 ## Products Module (`/v1/products`)
 
 ### `GET /v1/products/allergens`
