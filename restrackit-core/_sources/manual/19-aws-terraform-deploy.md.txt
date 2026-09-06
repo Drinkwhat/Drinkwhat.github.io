@@ -37,13 +37,15 @@ ma puo' essere un dominio proprio o un hostname DuckDNS.
    poi mergia su `main` per far scattare l'`apply` automatico (workflow
    `terraform.yml`). In alternativa, esegui `terraform apply` a mano da
    `terraform/` (vedi `terraform/README.md`).
-5. **Valorizza i secrets applicativi**: per ciascuno dei 16 parametri sotto
+5. **Valorizza i secrets applicativi**: per ciascuno dei parametri sotto
    `/restrackit/prod/`, esegui
    `aws ssm put-parameter --name /restrackit/prod/<nome> --type SecureString --value '...' --overwrite`
-   (usa `--type String` per quelli non sensibili, vedi `terraform/ssm.tf`).
-6. **Copia `service_account.json`** nella home dell'istanza
-   (`~/restrackit-prod/service_account.json`), come si faceva sul droplet DO.
-7. **Secrets per il deploy applicativo**:
+   (usa `--type String` per quelli non sensibili, vedi `terraform/ssm.tf`). Include
+   `google_service_account_json`: il contenuto di `service_account.json` minificato su una
+   riga singola (`jq -c . service_account.json`), cosi' viene riscritto su disco ad ogni
+   deploy da `render_env_from_ssm.sh` invece di richiedere una copia manuale che non
+   sopravvive a una ricreazione dell'istanza (issue #432).
+6. **Secrets per il deploy applicativo**:
    - `PROD_VM_HOST`: output `elastic_ip` di Terraform
    - `PROD_VM_USER`: `ec2-user`
    - `PROD_VM_SSH_KEY`: chiave privata corrispondente a `TF_VAR_SSH_PUBLIC_KEY`
@@ -76,6 +78,19 @@ proprio o un servizio gratuito come [DuckDNS](https://www.duckdns.org):
    hostname (HTTP-01), quindi il DNS deve gia' risolvere sull'IP prima del deploy.
 
 Per tornare a `sslip.io` basta rimettere il parametro a `CHANGE_ME` (o eliminarlo).
+
+## Keycloak realm ID
+
+Il container Keycloak gira con `start --import-realm`, montando
+`keycloak-realm-config/` su `/opt/keycloak/data/import`: ad ogni avvio, se non
+trova gia' un realm con quell'`id`, ne importa uno nuovo generando un ID
+casuale. `keycloak-realm-config/realm-export-prod.json` pinna esplicitamente
+il campo `id` per evitare che una ricreazione dell'istanza (o del container)
+generi un `realm_id` diverso da quello dei dati Postgres di Keycloak
+ripristinati da backup, che sarebbero altrimenti orfani (issue #432). Se copi
+`realm-export.json.example` per un nuovo ambiente, genera un nuovo `id`
+(`python3 -c "import uuid; print(uuid.uuid4())"`) invece di riusare quello
+d'esempio.
 
 ## Verifica
 

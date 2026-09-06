@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Authentication &amp; Authorization &mdash; Restrackit 2.89.0 documentation</title>
+  <title>Disaster recovery: istanza EC2 di produzione ricreata &mdash; Restrackit 2.89.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Error Handling" href="10-error-handling.html" />
-    <link rel="prev" title="Environment Configuration" href="08-environment-config.html" /> 
+    <link rel="next" title="Catalogo Codici Errore Restrackit" href="ERROR_CODES.html" />
+    <link rel="prev" title="Supporto clienti: runbook operativo" href="21-supporto-clienti.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -462,13 +462,13 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Authentication &amp; Authorization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configurazione-keycloak">Configurazione Keycloak</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ruoli-e-permessi">Ruoli e permessi</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#esempi-curl">Esempi (curl)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#endpoint-utili">Endpoint utili</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#endpoint-utili">Endpoint utili</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="10-error-handling.html">Error Handling</a><ul>
@@ -800,14 +800,14 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#riferimento-rapido-variabili-d-ambiente">6. Riferimento rapido variabili d’ambiente</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="22-disaster-recovery.html">Disaster recovery: istanza EC2 di produzione ricreata</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#individua-l-ultimo-recovery-point">1. Individua l’ultimo recovery point</a></li>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-in-un-istanza-ec2-temporanea">2. Ripristina in un’istanza EC2 temporanea</a></li>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#estrai-i-dump-postgres">3. Estrai i dump Postgres</a></li>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-sull-istanza-di-produzione-nuova">4. Ripristina sull’istanza di produzione (nuova)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
-<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Disaster recovery: istanza EC2 di produzione ricreata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#individua-l-ultimo-recovery-point">1. Individua l’ultimo recovery point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ripristina-in-un-istanza-ec2-temporanea">2. Ripristina in un’istanza EC2 temporanea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#estrai-i-dump-postgres">3. Estrai i dump Postgres</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ripristina-sull-istanza-di-produzione-nuova">4. Ripristina sull’istanza di produzione (nuova)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pulizia">6. Pulizia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -924,9 +924,9 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../markdown_docs.html">Documentazione Manuale (Markdown)</a></li>
-      <li class="breadcrumb-item active">Authentication &amp; Authorization</li>
+      <li class="breadcrumb-item active">Disaster recovery: istanza EC2 di produzione ricreata</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/manual/09-auth.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/manual/22-disaster-recovery.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -934,83 +934,94 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="authentication-authorization">
-<h1>Authentication &amp; Authorization<a class="headerlink" href="#authentication-authorization" title="Link to this heading"></a></h1>
-<p>Questa sezione descrive il modello di sicurezza <strong>attuale</strong> del progetto: <strong>Keycloak (OIDC)</strong> con token JWT e controllo permessi a livello di endpoint.</p>
-<section id="flusso-di-autenticazione-oidc">
-<h2>Flusso di autenticazione (OIDC)<a class="headerlink" href="#flusso-di-autenticazione-oidc" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>Il client ottiene un token JWT da Keycloak.</p></li>
-<li><p>Le chiamate API includono <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code>.</p></li>
-<li><p>L’app verifica firma e claim usando JWKS del realm configurato.</p></li>
-</ul>
-<p>Riferimenti nel codice:</p>
-<ul class="simple">
-<li><p>Schema OAuth2 per Swagger UI: <a class="reference internal" href="../app.core.html#module-app.core.security" title="app.core.security"><code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.security</span></code></a></p></li>
-<li><p>Validazione token, mapping ruoli/permessi e selezione store: <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.modules.auth.dependencies</span></code></p></li>
-</ul>
-</section>
-<section id="configurazione-keycloak">
-<h2>Configurazione Keycloak<a class="headerlink" href="#configurazione-keycloak" title="Link to this heading"></a></h2>
-<p>Le variabili minime per l’integrazione sono definite in <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.config</span></code>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code> (pubblico, include il path relativo se usato)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_INTERNAL_URL</span></code> (opzionale, per chiamate server-to-server)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_REALM</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_CLIENT_ID</span></code></p></li>
-</ul>
-<p>Nota architetturale: Keycloak è esposto sotto path <code class="docutils literal notranslate"><span class="pre">/auth</span></code> (non subdomain). Di conseguenza <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code> include <code class="docutils literal notranslate"><span class="pre">/auth</span></code>.</p>
-</section>
-<section id="ruoli-e-permessi">
-<h2>Ruoli e permessi<a class="headerlink" href="#ruoli-e-permessi" title="Link to this heading"></a></h2>
-<p>Il modello è basato su:</p>
-<ul class="simple">
-<li><p><strong>Role</strong> (derivato dai realm roles del token)</p></li>
-<li><p><strong>Permission</strong> (gate per endpoint tramite <code class="docutils literal notranslate"><span class="pre">RequirePermission(...)</span></code>)</p></li>
-</ul>
-<p>Esempi di permessi per endpoint:</p>
-<ul class="simple">
-<li><p>Inventory: <code class="docutils literal notranslate"><span class="pre">INVENTORY_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">INVENTORY_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">INVENTORY_DELETE</span></code></p></li>
-<li><p>Products: <code class="docutils literal notranslate"><span class="pre">PRODUCTS_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">PRODUCTS_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">PRODUCTS_DELETE</span></code></p></li>
-<li><p>Kitchen: <code class="docutils literal notranslate"><span class="pre">KITCHEN_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">KITCHEN_MANAGE_RECIPES</span></code>, <code class="docutils literal notranslate"><span class="pre">KITCHEN_WRITE_PREPARATION</span></code></p></li>
-<li><p>Stats: <code class="docutils literal notranslate"><span class="pre">STATS_READ</span></code></p></li>
-</ul>
-<p>Implementazione: <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.modules.auth.dependencies</span></code></p>
-</section>
-<section id="multi-tenancy-e-selezione-store">
-<h2>Multi-tenancy e selezione store<a class="headerlink" href="#multi-tenancy-e-selezione-store" title="Link to this heading"></a></h2>
-<p>Ogni request opera in un contesto <code class="docutils literal notranslate"><span class="pre">store_id</span></code> (isolamento dati). Lo <code class="docutils literal notranslate"><span class="pre">store_id</span></code> effettivo deriva:</p>
-<ul class="simple">
-<li><p>dalle claim del token (lista store consentiti o accesso globale),</p></li>
-<li><p>opzionalmente dall’header <code class="docutils literal notranslate"><span class="pre">x-target-store</span></code> quando l’utente ha accesso a più store.</p></li>
-</ul>
-<p>L’isolamento è garantito a due livelli:</p>
-<ol class="arabic simple">
-<li><p><strong>Applicativo</strong>: Filtri espliciti nel Service Layer (es. <code class="docutils literal notranslate"><span class="pre">Batch.store_id</span> <span class="pre">==</span> <span class="pre">store_id</span></code>).</p></li>
-<li><p><strong>Database (RLS)</strong>: PostgreSQL Row Level Security impedisce l’accesso a righe di altri store anche in caso di bug applicativo. Il contesto RLS viene impostato tramite il comando <code class="docutils literal notranslate"><span class="pre">SET</span> <span class="pre">LOCAL</span> <span class="pre">app.current_store_id</span> <span class="pre">=</span> <span class="pre">:store_id</span></code> all’inizio di ogni transazione, gestito automaticamente da un listener SQLAlchemy (<code class="docutils literal notranslate"><span class="pre">after_begin</span></code>).</p></li>
-</ol>
-</section>
-<section id="esempi-curl">
-<h2>Esempi (curl)<a class="headerlink" href="#esempi-curl" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;&lt;bearer-token&gt;&quot;</span>
-
-<span class="c1"># Lista lotti (serve INVENTORY_READ)</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>http://localhost:8000/inventory/list
-
-<span class="c1"># Se il token consente più store, seleziona lo store target</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;x-target-store: 1&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>http://localhost:8000/inventory/list
+  <section id="disaster-recovery-istanza-ec2-di-produzione-ricreata">
+<h1>Disaster recovery: istanza EC2 di produzione ricreata<a class="headerlink" href="#disaster-recovery-istanza-ec2-di-produzione-ricreata" title="Link to this heading"></a></h1>
+<p>Runbook per l’incidente del 28/07/2026 (issue #432): l’istanza EC2 di produzione e’
+stata ricreata a sorpresa (drift AMI, ora corretto in #430/PR #431 — ma qualunque altro
+attributo <code class="docutils literal notranslate"><span class="pre">ForceNew</span></code> o <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">destroy</span></code> per errore puo’ riprodurre lo stesso scenario)
+e i dati reali (tabella <code class="docutils literal notranslate"><span class="pre">stores</span></code>, <code class="docutils literal notranslate"><span class="pre">batches</span></code>, utenti/realm Keycloak) erano recuperabili
+solo dallo snapshot giornaliero di AWS Backup, non dalla nuova istanza vuota.</p>
+<p>Usa questo runbook quando l’istanza <code class="docutils literal notranslate"><span class="pre">${project_name}-app</span></code> e’ stata rimpiazzata (nuovo
+<code class="docutils literal notranslate"><span class="pre">instance_id</span></code> in <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">output</span></code>) e i container ripartiti da zero non hanno i dati
+attesi.</p>
+<section id="individua-l-ultimo-recovery-point">
+<h2>1. Individua l’ultimo recovery point<a class="headerlink" href="#individua-l-ultimo-recovery-point" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>backup<span class="w"> </span>list-recovery-points-by-backup-vault<span class="w"> </span>--backup-vault-name<span class="w"> </span>restrackit-backup-vault<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s1">&#39;RecoveryPoints[].[RecoveryPointArn,CreationDate]&#39;</span><span class="w"> </span>--output<span class="w"> </span>table
 </pre></div>
 </div>
+<p>Prendi l’ARN piu’ recente precedente all’incidente.</p>
 </section>
-<section id="endpoint-utili">
-<h2>Endpoint utili<a class="headerlink" href="#endpoint-utili" title="Link to this heading"></a></h2>
+<section id="ripristina-in-un-istanza-ec2-temporanea">
+<h2>2. Ripristina in un’istanza EC2 temporanea<a class="headerlink" href="#ripristina-in-un-istanza-ec2-temporanea" title="Link to this heading"></a></h2>
+<p>L’istanza e’ taggata <code class="docutils literal notranslate"><span class="pre">Backup=true</span></code> (<code class="docutils literal notranslate"><span class="pre">terraform/instance.tf</span></code>), quindi AWS Backup ne
+esegue un backup a livello di istanza (AMI + volumi EBS). Da console AWS Backup
+(“Recovery points” → il recovery point scelto → “Restore”), oppure via CLI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>backup<span class="w"> </span>start-restore-job<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--recovery-point-arn<span class="w"> </span><span class="s2">&quot;&lt;ARN&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--iam-role-arn<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span>terraform<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>terraform<span class="w"> </span>output<span class="w"> </span>-raw<span class="w"> </span>backup_role_arn<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--metadata<span class="w"> </span><span class="s1">&#39;{&quot;InstanceType&quot;:&quot;t3.small&quot;}&#39;</span>
+</pre></div>
+</div>
+<p>Attendi il completamento (<code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">backup</span> <span class="pre">describe-restore-job</span> <span class="pre">--restore-job-id</span> <span class="pre">...</span></code>),
+poi recupera l’IP pubblico della nuova istanza temporanea dalla console EC2.
+<strong>Questa istanza e’ solo per estrarre i dati: non sostituisce quella gestita da Terraform.</strong></p>
+</section>
+<section id="estrai-i-dump-postgres">
+<h2>3. Estrai i dump Postgres<a class="headerlink" href="#estrai-i-dump-postgres" title="Link to this heading"></a></h2>
+<p>Con SSH configurato verso l’istanza temporanea (stessa key pair <code class="docutils literal notranslate"><span class="pre">TF_VAR_SSH_PUBLIC_KEY</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/dr_extract_dumps.sh<span class="w"> </span>&lt;ip-istanza-temporanea&gt;<span class="w"> </span>ec2-user<span class="w"> </span>/tmp/restrackit-dr
+</pre></div>
+</div>
+<p>Produce <code class="docutils literal notranslate"><span class="pre">/tmp/restrackit-dr/app_db.sql</span></code> e <code class="docutils literal notranslate"><span class="pre">/tmp/restrackit-dr/keycloak_db.sql</span></code>.</p>
+</section>
+<section id="ripristina-sull-istanza-di-produzione-nuova">
+<h2>4. Ripristina sull’istanza di produzione (nuova)<a class="headerlink" href="#ripristina-sull-istanza-di-produzione-nuova" title="Link to this heading"></a></h2>
+<p>Assicurati che la nuova istanza prod sia gia’ stata deployata (stack Docker attivo,
+<code class="docutils literal notranslate"><span class="pre">alembic</span> <span class="pre">upgrade</span> <span class="pre">head</span></code> gia’ eseguito) prima di importare i dati, cosi’ lo schema esiste
+gia’ e il restore non deve ricrearlo.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>/tmp/restrackit-dr/app_db.sql<span class="w"> </span>ec2-user@&lt;ip-prod&gt;:/tmp/
+ssh<span class="w"> </span>ec2-user@&lt;ip-prod&gt;<span class="w"> </span><span class="s2">&quot;docker exec -i restrackit-db psql -U &lt;DB_USER&gt; -d &lt;DB_NAME&gt; &lt; /tmp/app_db.sql&quot;</span>
+</pre></div>
+</div>
+<p>Ripeti per <code class="docutils literal notranslate"><span class="pre">keycloak_db.sql</span></code> su <code class="docutils literal notranslate"><span class="pre">restrackit-keycloak-db</span></code>. Se il restore fallisce per
+conflitti su righe gia’ esistenti (schema inizializzato da zero dalla nuova istanza),
+usa un restore selettivo per tabella invece del dump completo (es. <code class="docutils literal notranslate"><span class="pre">pg_restore</span> <span class="pre">--data-only</span> <span class="pre">--table=stores</span></code>).</p>
+</section>
+<section id="verifica-il-realm-id-di-keycloak">
+<h2>5. Verifica il realm_id di Keycloak<a class="headerlink" href="#verifica-il-realm-id-di-keycloak" title="Link to this heading"></a></h2>
+<p>Da #432, <code class="docutils literal notranslate"><span class="pre">keycloak-realm-config/realm-export-prod.json</span></code> pinna un <code class="docutils literal notranslate"><span class="pre">id</span></code> esplicito per il
+realm (vedi <code class="docutils literal notranslate"><span class="pre">docs/19-aws-terraform-deploy.md#keycloak-realm-id</span></code>), quindi un import
+successivo alla ricreazione dell’istanza non genera piu’ un ID casuale. Verifica comunque
+che coincida con i dati appena ripristinati:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>ec2-user@&lt;ip-prod&gt;<span class="w"> </span><span class="s2">&quot;docker exec restrackit-keycloak-db psql -U &lt;KEYCLOAK_DB_USER&gt; -d &lt;KEYCLOAK_DB_NAME&gt; -c \&quot;SELECT id, name FROM realm WHERE name = &#39;restrackit&#39;;\&quot;&quot;</span>
+</pre></div>
+</div>
 <ul class="simple">
-<li><p>OpenAPI/Swagger UI: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/docs</span></code></p></li>
-<li><p>ReDoc: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/redoc</span></code></p></li>
-<li><p>Logout (Keycloak): <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/auth/logout</span></code> (redirect)</p></li>
+<li><p>Se l’<code class="docutils literal notranslate"><span class="pre">id</span></code> restituito coincide con quello in <code class="docutils literal notranslate"><span class="pre">realm-export-prod.json</span></code>: nessuna azione.</p></li>
+<li><p>Se non coincide (es. stai ripristinando un backup precedente all’introduzione del
+pinning): aggiorna il campo <code class="docutils literal notranslate"><span class="pre">id</span></code> in <code class="docutils literal notranslate"><span class="pre">realm-export-prod.json</span></code> con il valore trovato nel
+dump ripristinato (non il contrario — i dati ripristinati hanno molte foreign key verso
+quell’ID) e ridistribuisci. <code class="docutils literal notranslate"><span class="pre">--import-realm</span></code> importa un file solo se il realm con quel
+nome non esiste ancora nel DB Keycloak: aggiornare il file da solo non basta, serve
+anche rimuovere la riga del realm (<code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">FROM</span> <span class="pre">realm</span> <span class="pre">WHERE</span> <span class="pre">name</span> <span class="pre">=</span> <span class="pre">'restrackit'</span></code>, con
+cascade sulle tabelle collegate) o ripartire dal DB Keycloak vuoto prima di far ripartire
+il container, altrimenti l’<code class="docutils literal notranslate"><span class="pre">id</span></code> esistente nel DB resta quello vecchio e il file
+aggiornato viene ignorato.</p></li>
+</ul>
+</section>
+<section id="pulizia">
+<h2>6. Pulizia<a class="headerlink" href="#pulizia" title="Link to this heading"></a></h2>
+<p>Termina l’istanza EC2 temporanea (<code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">ec2</span> <span class="pre">terminate-instances</span> <span class="pre">--instance-ids</span> <span class="pre">&lt;id&gt;</span></code>) per
+non continuare a pagarla.</p>
+</section>
+<section id="prerequisiti-non-coperti-da-questo-runbook">
+<h2>Prerequisiti non coperti da questo runbook<a class="headerlink" href="#prerequisiti-non-coperti-da-questo-runbook" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">service_account.json</span></code>: da #432 e’ scritto da SSM (<code class="docutils literal notranslate"><span class="pre">google_service_account_json</span></code>) ad
+ogni deploy, quindi sopravvive gia’ alla ricreazione — nessun passo manuale necessario.</p></li>
+<li><p>Parametri SSM ancora a <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code>: <code class="docutils literal notranslate"><span class="pre">render_env_from_ssm.sh</span></code> fallisce esplicitamente
+prima del deploy, non serve diagnosticarlo in produzione.</p></li>
 </ul>
 </section>
 </section>
@@ -1019,8 +1030,8 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="08-environment-config.html" class="btn btn-neutral float-left" title="Environment Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="10-error-handling.html" class="btn btn-neutral float-right" title="Error Handling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="21-supporto-clienti.html" class="btn btn-neutral float-left" title="Supporto clienti: runbook operativo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ERROR_CODES.html" class="btn btn-neutral float-right" title="Catalogo Codici Errore Restrackit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,97 @@
+# Disaster recovery: istanza EC2 di produzione ricreata
+
+Runbook per l'incidente del 28/07/2026 (issue #432): l'istanza EC2 di produzione e'
+stata ricreata a sorpresa (drift AMI, ora corretto in #430/PR #431 — ma qualunque altro
+attributo `ForceNew` o `terraform destroy` per errore puo' riprodurre lo stesso scenario)
+e i dati reali (tabella `stores`, `batches`, utenti/realm Keycloak) erano recuperabili
+solo dallo snapshot giornaliero di AWS Backup, non dalla nuova istanza vuota.
+
+Usa questo runbook quando l'istanza `${project_name}-app` e' stata rimpiazzata (nuovo
+`instance_id` in `terraform output`) e i container ripartiti da zero non hanno i dati
+attesi.
+
+## 1. Individua l'ultimo recovery point
+
+```bash
+aws backup list-recovery-points-by-backup-vault --backup-vault-name restrackit-backup-vault \
+  --query 'RecoveryPoints[].[RecoveryPointArn,CreationDate]' --output table
+```
+
+Prendi l'ARN piu' recente precedente all'incidente.
+
+## 2. Ripristina in un'istanza EC2 temporanea
+
+L'istanza e' taggata `Backup=true` (`terraform/instance.tf`), quindi AWS Backup ne
+esegue un backup a livello di istanza (AMI + volumi EBS). Da console AWS Backup
+("Recovery points" → il recovery point scelto → "Restore"), oppure via CLI:
+
+```bash
+aws backup start-restore-job \
+  --recovery-point-arn "<ARN>" \
+  --iam-role-arn "$(cd terraform && terraform output -raw backup_role_arn)" \
+  --metadata '{"InstanceType":"t3.small"}'
+```
+
+Attendi il completamento (`aws backup describe-restore-job --restore-job-id ...`),
+poi recupera l'IP pubblico della nuova istanza temporanea dalla console EC2.
+**Questa istanza e' solo per estrarre i dati: non sostituisce quella gestita da Terraform.**
+
+## 3. Estrai i dump Postgres
+
+Con SSH configurato verso l'istanza temporanea (stessa key pair `TF_VAR_SSH_PUBLIC_KEY`):
+
+```bash
+./scripts/dr_extract_dumps.sh <ip-istanza-temporanea> ec2-user /tmp/restrackit-dr
+```
+
+Produce `/tmp/restrackit-dr/app_db.sql` e `/tmp/restrackit-dr/keycloak_db.sql`.
+
+## 4. Ripristina sull'istanza di produzione (nuova)
+
+Assicurati che la nuova istanza prod sia gia' stata deployata (stack Docker attivo,
+`alembic upgrade head` gia' eseguito) prima di importare i dati, cosi' lo schema esiste
+gia' e il restore non deve ricrearlo.
+
+```bash
+scp /tmp/restrackit-dr/app_db.sql ec2-user@<ip-prod>:/tmp/
+ssh ec2-user@<ip-prod> "docker exec -i restrackit-db psql -U <DB_USER> -d <DB_NAME> < /tmp/app_db.sql"
+```
+
+Ripeti per `keycloak_db.sql` su `restrackit-keycloak-db`. Se il restore fallisce per
+conflitti su righe gia' esistenti (schema inizializzato da zero dalla nuova istanza),
+usa un restore selettivo per tabella invece del dump completo (es. `pg_restore
+--data-only --table=stores`).
+
+## 5. Verifica il realm_id di Keycloak
+
+Da #432, `keycloak-realm-config/realm-export-prod.json` pinna un `id` esplicito per il
+realm (vedi `docs/19-aws-terraform-deploy.md#keycloak-realm-id`), quindi un import
+successivo alla ricreazione dell'istanza non genera piu' un ID casuale. Verifica comunque
+che coincida con i dati appena ripristinati:
+
+```bash
+ssh ec2-user@<ip-prod> "docker exec restrackit-keycloak-db psql -U <KEYCLOAK_DB_USER> -d <KEYCLOAK_DB_NAME> -c \"SELECT id, name FROM realm WHERE name = 'restrackit';\""
+```
+
+- Se l'`id` restituito coincide con quello in `realm-export-prod.json`: nessuna azione.
+- Se non coincide (es. stai ripristinando un backup precedente all'introduzione del
+  pinning): aggiorna il campo `id` in `realm-export-prod.json` con il valore trovato nel
+  dump ripristinato (non il contrario — i dati ripristinati hanno molte foreign key verso
+  quell'ID) e ridistribuisci. `--import-realm` importa un file solo se il realm con quel
+  nome non esiste ancora nel DB Keycloak: aggiornare il file da solo non basta, serve
+  anche rimuovere la riga del realm (`DELETE FROM realm WHERE name = 'restrackit'`, con
+  cascade sulle tabelle collegate) o ripartire dal DB Keycloak vuoto prima di far ripartire
+  il container, altrimenti l'`id` esistente nel DB resta quello vecchio e il file
+  aggiornato viene ignorato.
+
+## 6. Pulizia
+
+Termina l'istanza EC2 temporanea (`aws ec2 terminate-instances --instance-ids <id>`) per
+non continuare a pagarla.
+
+## Prerequisiti non coperti da questo runbook
+
+- `service_account.json`: da #432 e' scritto da SSM (`google_service_account_json`) ad
+  ogni deploy, quindi sopravvive gia' alla ricreazione — nessun passo manuale necessario.
+- Parametri SSM ancora a `CHANGE_ME`: `render_env_from_ssm.sh` fallisce esplicitamente
+  prima del deploy, non serve diagnosticarlo in produzione.

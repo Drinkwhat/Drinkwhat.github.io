@@ -776,6 +776,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup-una-tantum">Setup una tantum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#deploy-applicativo">Deploy applicativo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hostname-pubblico">Hostname pubblico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#backup">Backup</a></li>
 </ul>
@@ -797,6 +798,16 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#errori-applicativi-come-leggerli">5. Errori applicativi: come leggerli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#riferimento-rapido-variabili-d-ambiente">6. Riferimento rapido variabili d’ambiente</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="22-disaster-recovery.html">Disaster recovery: istanza EC2 di produzione ricreata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#individua-l-ultimo-recovery-point">1. Individua l’ultimo recovery point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-in-un-istanza-ec2-temporanea">2. Ripristina in un’istanza EC2 temporanea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#estrai-i-dump-postgres">3. Estrai i dump Postgres</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-sull-istanza-di-produzione-nuova">4. Ripristina sull’istanza di produzione (nuova)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -968,12 +979,14 @@ Genera una access key per ciascuno.</p></li>
 poi mergia su <code class="docutils literal notranslate"><span class="pre">main</span></code> per far scattare l’<code class="docutils literal notranslate"><span class="pre">apply</span></code> automatico (workflow
 <code class="docutils literal notranslate"><span class="pre">terraform.yml</span></code>). In alternativa, esegui <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">apply</span></code> a mano da
 <code class="docutils literal notranslate"><span class="pre">terraform/</span></code> (vedi <code class="docutils literal notranslate"><span class="pre">terraform/README.md</span></code>).</p></li>
-<li><p><strong>Valorizza i secrets applicativi</strong>: per ciascuno dei 16 parametri sotto
+<li><p><strong>Valorizza i secrets applicativi</strong>: per ciascuno dei parametri sotto
 <code class="docutils literal notranslate"><span class="pre">/restrackit/prod/</span></code>, esegui
 <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">ssm</span> <span class="pre">put-parameter</span> <span class="pre">--name</span> <span class="pre">/restrackit/prod/&lt;nome&gt;</span> <span class="pre">--type</span> <span class="pre">SecureString</span> <span class="pre">--value</span> <span class="pre">'...'</span> <span class="pre">--overwrite</span></code>
-(usa <code class="docutils literal notranslate"><span class="pre">--type</span> <span class="pre">String</span></code> per quelli non sensibili, vedi <code class="docutils literal notranslate"><span class="pre">terraform/ssm.tf</span></code>).</p></li>
-<li><p><strong>Copia <code class="docutils literal notranslate"><span class="pre">service_account.json</span></code></strong> nella home dell’istanza
-(<code class="docutils literal notranslate"><span class="pre">~/restrackit-prod/service_account.json</span></code>), come si faceva sul droplet DO.</p></li>
+(usa <code class="docutils literal notranslate"><span class="pre">--type</span> <span class="pre">String</span></code> per quelli non sensibili, vedi <code class="docutils literal notranslate"><span class="pre">terraform/ssm.tf</span></code>). Include
+<code class="docutils literal notranslate"><span class="pre">google_service_account_json</span></code>: il contenuto di <code class="docutils literal notranslate"><span class="pre">service_account.json</span></code> minificato su una
+riga singola (<code class="docutils literal notranslate"><span class="pre">jq</span> <span class="pre">-c</span> <span class="pre">.</span> <span class="pre">service_account.json</span></code>), cosi’ viene riscritto su disco ad ogni
+deploy da <code class="docutils literal notranslate"><span class="pre">render_env_from_ssm.sh</span></code> invece di richiedere una copia manuale che non
+sopravvive a una ricreazione dell’istanza (issue #432).</p></li>
 <li><p><strong>Secrets per il deploy applicativo</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">PROD_VM_HOST</span></code>: output <code class="docutils literal notranslate"><span class="pre">elastic_ip</span></code> di Terraform</p></li>
@@ -1011,6 +1024,19 @@ proprio o un servizio gratuito come <a class="reference external" href="https://
 hostname (HTTP-01), quindi il DNS deve gia’ risolvere sull’IP prima del deploy.</p></li>
 </ol>
 <p>Per tornare a <code class="docutils literal notranslate"><span class="pre">sslip.io</span></code> basta rimettere il parametro a <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> (o eliminarlo).</p>
+</section>
+<section id="keycloak-realm-id">
+<h2>Keycloak realm ID<a class="headerlink" href="#keycloak-realm-id" title="Link to this heading"></a></h2>
+<p>Il container Keycloak gira con <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">--import-realm</span></code>, montando
+<code class="docutils literal notranslate"><span class="pre">keycloak-realm-config/</span></code> su <code class="docutils literal notranslate"><span class="pre">/opt/keycloak/data/import</span></code>: ad ogni avvio, se non
+trova gia’ un realm con quell’<code class="docutils literal notranslate"><span class="pre">id</span></code>, ne importa uno nuovo generando un ID
+casuale. <code class="docutils literal notranslate"><span class="pre">keycloak-realm-config/realm-export-prod.json</span></code> pinna esplicitamente
+il campo <code class="docutils literal notranslate"><span class="pre">id</span></code> per evitare che una ricreazione dell’istanza (o del container)
+generi un <code class="docutils literal notranslate"><span class="pre">realm_id</span></code> diverso da quello dei dati Postgres di Keycloak
+ripristinati da backup, che sarebbero altrimenti orfani (issue #432). Se copi
+<code class="docutils literal notranslate"><span class="pre">realm-export.json.example</span></code> per un nuovo ambiente, genera un nuovo <code class="docutils literal notranslate"><span class="pre">id</span></code>
+(<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">uuid;</span> <span class="pre">print(uuid.uuid4())&quot;</span></code>) invece di riusare quello
+d’esempio.</p>
 </section>
 <section id="verifica">
 <h2>Verifica<a class="headerlink" href="#verifica" title="Link to this heading"></a></h2>
