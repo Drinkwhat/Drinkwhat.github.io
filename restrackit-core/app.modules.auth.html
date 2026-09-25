@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.auth package &mdash; Restrackit 2.94.0 documentation</title>
+  <title>app.modules.auth package &mdash; Restrackit 2.101.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=ed87c5c3"></script>
+      <script src="_static/documentation_options.js?v=99652ea0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -741,17 +741,6 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#note-su-bucket-e-week">Note su bucket e “week”</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="manual/17-publish-app-fast.html">Pubblicare la demo online (DigitalOcean / qualsiasi VM) + deploy automatico su <code class="docutils literal notranslate"><span class="pre">main</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#prerequisiti-sulla-vm-droplet">Prerequisiti sulla VM/Droplet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#setup-una-tantum-sulla-vm-droplet">Setup una tantum sulla VM/Droplet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#deploy-automatico-ad-ogni-merge-su-main">Deploy automatico ad ogni merge su <code class="docutils literal notranslate"><span class="pre">main</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/17-publish-app-fast.html#secrets-github-richiesti">Secrets GitHub richiesti</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/17-publish-app-fast.html#come-viene-fatto-il-deploy">Come viene fatto il deploy</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="manual/17-publish-app-fast.html#verifica">Verifica</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="manual/18-production-completion.html">Completamento Produzione (Preparazione + Lotto)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#permessi-rbac">Permessi (RBAC)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#ui-operatore-ui">UI Operatore (<code class="docutils literal notranslate"><span class="pre">/ui</span></code>)</a><ul>
@@ -1002,33 +991,8 @@ Encapsulates key patterns and model validation for Auth-related data.</p>
 <section id="app-modules-auth-dependencies-module">
 <h2>app.modules.auth.dependencies module<a class="headerlink" href="#app-modules-auth-dependencies-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-app.modules.auth.router">
-<span id="app-modules-auth-router-module"></span><h2>app.modules.auth.router module<a class="headerlink" href="#module-app.modules.auth.router" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="app.modules.auth.router.logout">
-<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.auth.router.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redirect_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_token_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/auth/router.html#logout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.auth.router.logout" title="Link to this definition"></a></dt>
-<dd><p>Esegue il logout su Keycloak e reindirizza alla pagina configurata.</p>
-<p>Costruisce l’URL di logout di Keycloak impostando <code class="docutils literal notranslate"><span class="pre">post_logout_redirect_uri</span></code>
-verso <code class="docutils literal notranslate"><span class="pre">/docs</span></code> basandosi sulla <code class="docutils literal notranslate"><span class="pre">public_base_url</span></code> configurata per prevenire
-host-header injection.</p>
-<p>Keycloak 18+ (spec RP-Initiated Logout 1.0) richiede <code class="docutils literal notranslate"><span class="pre">id_token_hint</span></code> per
-onorare <code class="docutils literal notranslate"><span class="pre">post_logout_redirect_uri</span></code>; il frontend deve passarlo come query param.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>redirect_to</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – Percorso relativo verso cui redirigere dopo il logout.</p></li>
-<li><p><strong>id_token_hint</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>Query</em><em>(</em><em>PydanticUndefined</em><em>)</em><em>]</em>) – ID token dell’utente (<code class="docutils literal notranslate"><span class="pre">keycloak.idToken</span></code>), necessario in KC18+.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Redirect (302) verso l’endpoint di logout Keycloak.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>RedirectResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="app-modules-auth-router-module">
+<h2>app.modules.auth.router module<a class="headerlink" href="#app-modules-auth-router-module" title="Link to this heading"></a></h2>
 </section>
 <section id="app-modules-auth-schemas-module">
 <h2>app.modules.auth.schemas module<a class="headerlink" href="#app-modules-auth-schemas-module" title="Link to this heading"></a></h2>
