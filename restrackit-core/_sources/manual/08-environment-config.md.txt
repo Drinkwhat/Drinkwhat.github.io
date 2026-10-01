@@ -27,7 +27,6 @@ Il file `.env.example` contiene anche variabili usate dagli stack Docker in `dep
 ### Google / AI
 
 - `GOOGLE_API_KEY` (obbligatoria): API key per Gemini.
-- `GOOGLE_APPLICATION_CREDENTIALS` (obbligatoria): path al service account JSON per Google Vision.
 
 Riferimenti: {mod}`app.core.clients`, {mod}`app.core.config`
 
@@ -39,7 +38,6 @@ Riferimenti: {mod}`app.core.clients`, {mod}`app.core.config`
 
 - `REDIS_URL` (obbligatoria): URL Redis per caching e code task asincroni. Default: `redis://localhost:6379/0`.
 - `REDIS_CACHE_TTL` (opzionale): TTL di default per la cache in secondi. Default: `3600`.
-- `MAX_UPLOAD_SIZE` (opzionale): Dimensione massima (byte) per l'upload immagini. Default: `10485760` (10MB).
 
 Esempi:
 
@@ -138,11 +136,9 @@ env:
 | Variable                        | Required  | Example                  | Notes                      |
 | ------------------------------- | --------- | -------------------------| ---------------------------|
 | `GOOGLE_API_KEY`                | Yes       | `<YOUR_GOOGLE_API_KEY>`  | Google Cloud API key       |
-| `GOOGLE_APPLICATION_CREDENTIALS`| Yes       | `./service_account.json` | Path to JSON file          |
 | `DATABASE_URL`                  | Yes       | `postgresql://...`       | Database connection string |
 | `REDIS_URL`                     | Yes       | `redis://...`            | Redis connection string    |
 | `REDIS_CACHE_TTL`               | No        | `3600`                   | Default cache TTL          |
-| `MAX_UPLOAD_SIZE`               | No        | `10485760`               | Max upload size in bytes   |
 | `DB_USER`                       | Dev/Docker| `app_user`               | Database username          |
 | `DB_PASSWORD`                   | Dev/Docker| `password123`            | Database password          |
 | `DB_NAME`                       | Dev/Docker| `app_db`                 | Database name              |

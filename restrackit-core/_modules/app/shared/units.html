@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared.units &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.shared.units &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1276,14 +1298,14 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.shared.units</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Unità di misura come enum fisso e conversione verso l&#39;unità di famiglia.</span>
+<span></span><span class="sd">"""Unità di misura come enum fisso e conversione verso l'unità di famiglia.</span>
 
 <span class="sd">Le unità di misura sono un insieme chiuso e universale (a differenza di cataloghi</span>
 <span class="sd">come Category o StorageMethod), quindi non sono più un catalogo per-store ma un</span>
 <span class="sd">enum definito nel codice. Ogni unità appartiene a una famiglia (massa, volume,</span>
-<span class="sd">conteggio) e viene convertita verso l&#39;unità di visualizzazione della famiglia</span>
+<span class="sd">conteggio) e viene convertita verso l'unità di visualizzazione della famiglia</span>
 <span class="sd">(kg, litri, pezzi) per poter aggregare quantità eterogenee nelle statistiche.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
 
@@ -1293,24 +1315,24 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="UnitOfMeasure">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.units.UnitOfMeasure">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnitOfMeasure</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unità di misura supportate.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Unità di misura supportate."""</span>
 
-    <span class="n">G</span> <span class="o">=</span> <span class="s2">&quot;g&quot;</span>
-    <span class="n">KG</span> <span class="o">=</span> <span class="s2">&quot;kg&quot;</span>
-    <span class="n">ML</span> <span class="o">=</span> <span class="s2">&quot;ml&quot;</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="s2">&quot;l&quot;</span>
-    <span class="n">PZ</span> <span class="o">=</span> <span class="s2">&quot;pz&quot;</span></div>
+    <span class="n">G</span> <span class="o">=</span> <span class="s2">"g"</span>
+    <span class="n">KG</span> <span class="o">=</span> <span class="s2">"kg"</span>
+    <span class="n">ML</span> <span class="o">=</span> <span class="s2">"ml"</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="s2">"l"</span>
+    <span class="n">PZ</span> <span class="o">=</span> <span class="s2">"pz"</span></div>
 
 
 
 <div class="viewcode-block" id="uom_enum_type">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.units.uom_enum_type">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">uom_enum_type</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SAEnum</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Costruisce il tipo colonna SQLAlchemy per l&#39;enum Postgres nativo condiviso.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Costruisce il tipo colonna SQLAlchemy per l'enum Postgres nativo condiviso."""</span>
     <span class="k">return</span> <span class="n">SAEnum</span><span class="p">(</span>
         <span class="n">UnitOfMeasure</span><span class="p">,</span>
         <span class="n">values_callable</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">],</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;unitofmeasure&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"unitofmeasure"</span><span class="p">,</span>
         <span class="n">create_constraint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span></div>
 
@@ -1319,11 +1341,11 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="UnitFamily">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.units.UnitFamily">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnitFamily</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Famiglia dimensionale di un&#39;unità di misura.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Famiglia dimensionale di un'unità di misura."""</span>
 
-    <span class="n">MASS</span> <span class="o">=</span> <span class="s2">&quot;mass&quot;</span>
-    <span class="n">VOLUME</span> <span class="o">=</span> <span class="s2">&quot;volume&quot;</span>
-    <span class="n">COUNT</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span></div>
+    <span class="n">MASS</span> <span class="o">=</span> <span class="s2">"mass"</span>
+    <span class="n">VOLUME</span> <span class="o">=</span> <span class="s2">"volume"</span>
+    <span class="n">COUNT</span> <span class="o">=</span> <span class="s2">"count"</span></div>
 
 
 
@@ -1342,7 +1364,7 @@ for private packages in organization repositories.)</a></li>
     <span class="n">UnitFamily</span><span class="o">.</span><span class="n">COUNT</span><span class="p">:</span> <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="c1">#: Fattore moltiplicativo per convertire una quantità nell&#39;unità di visualizzazione.</span>
+<span class="c1">#: Fattore moltiplicativo per convertire una quantità nell'unità di visualizzazione.</span>
 <span class="n">_CONVERSION_FACTOR</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">G</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
     <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
@@ -1355,7 +1377,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="to_display_unit">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.units.to_display_unit">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_display_unit</span><span class="p">(</span><span class="n">quantity</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">UnitOfMeasure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">UnitOfMeasure</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converte una quantità nell&#39;unità di visualizzazione della sua famiglia.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Converte una quantità nell'unità di visualizzazione della sua famiglia."""</span>
     <span class="n">family</span> <span class="o">=</span> <span class="n">_FAMILY_OF</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
     <span class="n">display_unit</span> <span class="o">=</span> <span class="n">DISPLAY_UNIT</span><span class="p">[</span><span class="n">family</span><span class="p">]</span>
     <span class="n">converted_quantity</span> <span class="o">=</span> <span class="n">quantity</span> <span class="o">*</span> <span class="n">_CONVERSION_FACTOR</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
@@ -1368,7 +1390,7 @@ for private packages in organization repositories.)</a></li>
 <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_by_family</span><span class="p">(</span>
     <span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">UnitOfMeasure</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Somma quantità eterogenee raggruppandole per unità di visualizzazione.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Somma quantità eterogenee raggruppandole per unità di visualizzazione."""</span>
     <span class="n">totals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
         <span class="n">converted_quantity</span><span class="p">,</span> <span class="n">display_unit</span> <span class="o">=</span> <span class="n">to_display_unit</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
@@ -1379,20 +1401,20 @@ for private packages in organization repositories.)</a></li>
 
 <span class="c1">#: Etichetta leggibile per popolare le dropdown frontend.</span>
 <span class="n">_LABEL</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UnitOfMeasure</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">G</span><span class="p">:</span> <span class="s2">&quot;Grammo&quot;</span><span class="p">,</span>
-    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">:</span> <span class="s2">&quot;Chilogrammo&quot;</span><span class="p">,</span>
-    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">ML</span><span class="p">:</span> <span class="s2">&quot;Millilitro&quot;</span><span class="p">,</span>
-    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">L</span><span class="p">:</span> <span class="s2">&quot;Litro&quot;</span><span class="p">,</span>
-    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">:</span> <span class="s2">&quot;Pezzo&quot;</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">G</span><span class="p">:</span> <span class="s2">"Grammo"</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">KG</span><span class="p">:</span> <span class="s2">"Chilogrammo"</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">ML</span><span class="p">:</span> <span class="s2">"Millilitro"</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">L</span><span class="p">:</span> <span class="s2">"Litro"</span><span class="p">,</span>
+    <span class="n">UnitOfMeasure</span><span class="o">.</span><span class="n">PZ</span><span class="p">:</span> <span class="s2">"Pezzo"</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="list_options">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.units.list_options">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_options</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elenca tutte le unità di misura con famiglia ed etichetta, per l&#39;API di sola lettura.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Elenca tutte le unità di misura con famiglia ed etichetta, per l'API di sola lettura."""</span>
     <span class="k">return</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">_FAMILY_OF</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">_LABEL</span><span class="p">[</span><span class="n">unit</span><span class="p">]}</span>
+        <span class="p">{</span><span class="s2">"value"</span><span class="p">:</span> <span class="n">unit</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">"family"</span><span class="p">:</span> <span class="n">_FAMILY_OF</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="n">_LABEL</span><span class="p">[</span><span class="n">unit</span><span class="p">]}</span>
         <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">UnitOfMeasure</span>
     <span class="p">]</span></div>
 

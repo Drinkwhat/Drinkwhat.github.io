@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Docker Deployment Guide &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Docker Deployment Guide &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1075,7 +1095,6 @@ docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </sp
 
 <span class="c1"># Google Cloud</span>
 <span class="nv">GOOGLE_API_KEY</span><span class="o">=</span>your_api_key
-<span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span>./service_account.json
 
 <span class="c1"># Keycloak (OIDC)</span>
 <span class="nv">KEYCLOAK_URL</span><span class="o">=</span>https://example.com/auth
@@ -1106,10 +1125,10 @@ docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </sp
 <h2>Log Rotation &amp; Management<a class="headerlink" href="#log-rotation-management" title="Link to this heading"></a></h2>
 <p>All containers in Staging/Production are configured with a strict log rotation policy to prevent disk space issues:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">logging</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;json-file&quot;</span>
+<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="s">"json-file"</span>
 <span class="w">  </span><span class="nt">options</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">max-size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10m&quot;</span><span class="w">   </span><span class="c1"># Each log file is max 10MB</span>
-<span class="w">    </span><span class="nt">max-file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="w">     </span><span class="c1"># Keep only the last 3 files</span>
+<span class="w">    </span><span class="nt">max-size</span><span class="p">:</span><span class="w"> </span><span class="s">"10m"</span><span class="w">   </span><span class="c1"># Each log file is max 10MB</span>
+<span class="w">    </span><span class="nt">max-file</span><span class="p">:</span><span class="w"> </span><span class="s">"3"</span><span class="w">     </span><span class="c1"># Keep only the last 3 files</span>
 </pre></div>
 </div>
 <p><em>Total disk usage per container is capped at 30MB.</em></p>
@@ -1122,8 +1141,6 @@ docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </sp
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./logs:/app/logs</span><span class="w">           </span><span class="c1"># Application logs</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./app:/app/app</span><span class="w">             </span><span class="c1"># Hot reload (dev)</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./alembic:/app/alembic</span><span class="w">     </span><span class="c1"># Migrations</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./service_account.json:/app/service_account.json:ro</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uploads_data:/app/uploads</span><span class="w">   </span><span class="c1"># Shared uploads between app &amp; worker</span>
 </pre></div>
 </div>
 </section>
@@ -1162,8 +1179,8 @@ docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> <
 <h3>Docker Compose Network<a class="headerlink" href="#docker-compose-network" title="Link to this heading"></a></h3>
 <p>Services communicate via service name:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In app, connect to database</span>
-<span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s2">&quot;postgresql://user:pass@db:5432/dbname&quot;</span>
-<span class="c1"># &#39;db&#39; resolves to the PostgreSQL container</span>
+<span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s2">"postgresql://user:pass@db:5432/dbname"</span>
+<span class="c1"># 'db' resolves to the PostgreSQL container</span>
 </pre></div>
 </div>
 </section>
@@ -1172,10 +1189,10 @@ docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> <
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">app</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span><span class="w">    </span><span class="c1"># host:container</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"8000:8000"</span><span class="w">    </span><span class="c1"># host:container</span>
 <span class="w">  </span><span class="nt">db</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5432:5432&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"5432:5432"</span>
 </pre></div>
 </div>
 </section>
@@ -1195,7 +1212,7 @@ psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> 
 <section id="application">
 <h3>Application<a class="headerlink" href="#application" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">healthcheck</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;python&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;import</span><span class="nv"> </span><span class="s">urllib.request;</span><span class="nv"> </span><span class="s">urllib.request.urlopen(&#39;http://localhost:8000/health&#39;)&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"CMD"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"python"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"-c"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"import</span><span class="nv"> </span><span class="s">urllib.request;</span><span class="nv"> </span><span class="s">urllib.request.urlopen('http://localhost:8000/health')"</span><span class="p p-Indicator">]</span>
 <span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
 <span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
 <span class="w">  </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
@@ -1205,8 +1222,8 @@ psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> 
 <section id="database">
 <h3>Database<a class="headerlink" href="#database" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">healthcheck</span><span class="p">:</span>
-<span class="w">  </span><span class="c1"># Usa la variabile d&#39;ambiente interna al container (massima compatibilità)</span>
-<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD-SHELL&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;pg_isready</span><span class="nv"> </span><span class="s">-U</span><span class="nv"> </span><span class="s">$$POSTGRES_USER&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="c1"># Usa la variabile d'ambiente interna al container (massima compatibilità)</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"CMD-SHELL"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"pg_isready</span><span class="nv"> </span><span class="s">-U</span><span class="nv"> </span><span class="s">$$POSTGRES_USER"</span><span class="p p-Indicator">]</span>
 <span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
 <span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
 <span class="w">  </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
@@ -1219,7 +1236,7 @@ psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> 
 docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>deploy/local/docker-compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>ps
 
 <span class="c1"># View health status</span>
-docker<span class="w"> </span>inspect<span class="w"> </span>restrackit-app<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s1">&#39;&quot;Health&quot;&#39;</span>
+docker<span class="w"> </span>inspect<span class="w"> </span>restrackit-app<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s1">'"Health"'</span>
 </pre></div>
 </div>
 </section>
@@ -1273,7 +1290,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> 
 <section id="execute-commands">
 <h3>Execute Commands<a class="headerlink" href="#execute-commands" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run command in container</span>
-docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>deploy/local/docker-compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>app<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import app&quot;</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>deploy/local/docker-compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>app<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import app"</span>
 
 <span class="c1"># Interactive shell</span>
 docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>deploy/local/docker-compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>app<span class="w"> </span>/bin/bash
@@ -1312,7 +1329,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="c1">### Blue-Green Deployment</span>
 
 <span class="nt">The deployment pipeline uses a **Blue-Green strategy** to ensure zero-downtime updates</span><span class="p">:</span>
-<span class="l l-Scalar l-Scalar-Plain">1. A &quot;Green&quot; version is deployed alongside the existing &quot;Blue&quot; version.</span>
+<span class="l l-Scalar l-Scalar-Plain">1. A "Green" version is deployed alongside the existing "Blue" version.</span>
 <span class="l l-Scalar l-Scalar-Plain">2. Health checks verify the Green version.</span>
 <span class="l l-Scalar l-Scalar-Plain">3. Traffic is switched (handled by Traefik).</span>
 <span class="l l-Scalar l-Scalar-Plain">4. The old version is removed.</span>
@@ -1320,7 +1337,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="c1">### Automated Maintenance</span>
 
 <span class="nt">The `scripts/deploy.sh` script automatically performs the following cleanup during each deployment</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">**Image Pruning**</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Removes unused images older than 7 days (`docker image prune -a -f --filter &quot;until=168h&quot;`).</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">**Image Pruning**</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Removes unused images older than 7 days (`docker image prune -a -f --filter "until=168h"`).</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Log Rotation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">(Handled by Docker daemon via `docker-compose.yml` settings).</span>
 
 <span class="c1">### Environment</span>
@@ -1345,10 +1362,10 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="w">    </span><span class="nt">deploy</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">limits</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2&#39;</span>
+<span class="w">          </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s">'2'</span>
 <span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1G</span>
 <span class="w">        </span><span class="nt">reservations</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1&#39;</span>
+<span class="w">          </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
 <span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512M</span>
 </pre></div>
 </div>
@@ -1370,7 +1387,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 </section>
 <section id="ssl-tls">
 <h3>SSL/TLS<a class="headerlink" href="#ssl-tls" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use Let&#39;s Encrypt</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use Let's Encrypt</span>
 certbot<span class="w"> </span>certonly<span class="w"> </span>--standalone<span class="w"> </span>-d<span class="w"> </span>restrackit.example.com
 
 <span class="c1"># Configure in deploy/prod/docker-compose.yml</span>
@@ -1420,9 +1437,9 @@ docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> 
 
 <span class="c1"># Test connection</span>
 docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>deploy/local/docker-compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>app<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;from sqlalchemy import create_engine; \</span>
-<span class="s2">   engine = create_engine(os.getenv(&#39;DATABASE_URL&#39;)); \</span>
-<span class="s2">   engine.connect()&quot;</span>
+<span class="w">  </span><span class="s2">"from sqlalchemy import create_engine; \</span>
+<span class="s2">   engine = create_engine(os.getenv('DATABASE_URL')); \</span>
+<span class="s2">   engine.connect()"</span>
 
 <span class="c1"># Check DATABASE_URL</span>
 docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>deploy/local/docker-compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>app<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$DATABASE_URL</span>

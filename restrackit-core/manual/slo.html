@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Service Level Objectives — Restrackit Core &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Service Level Objectives — Restrackit Core &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -134,7 +134,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -172,7 +172,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -197,7 +196,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -215,9 +214,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -767,6 +764,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -796,6 +794,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -941,7 +961,7 @@ for private packages in organization repositories.)</a></li>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/batches</span></code> (scan OCR)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/parse-text</span></code></p></td>
 <td><p>Latenza p99</p></td>
 <td><p>≤ 3 s</p></td>
 <td><p>5 min rolling</p></td>
@@ -985,22 +1005,17 @@ for private packages in organization repositories.)</a></li>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">analyze_inventory_image_task</span></code></p></td>
-<td><p>Durata p95</p></td>
-<td><p>≤ 60 s</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">check_expired_batches_task</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">check_expired_batches_task</span></code></p></td>
 <td><p>Durata p95</p></td>
 <td><p>≤ 30 s</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>Tutti i task</p></td>
+<tr class="row-odd"><td><p>Tutti i task</p></td>
 <td><p>Queue lag</p></td>
 <td><p>≤ 120 s</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>Tutti i task</p></td>
+<tr class="row-even"><td><p>Tutti i task</p></td>
 <td><p>Failure rate</p></td>
 <td><p>≤ 2%</p></td>
 <td><p>1 h rolling</p></td>
@@ -1038,7 +1053,7 @@ Include pannello “SLO Burn Rate” (error rate vs budget del 1% su finestra 30
 <section id="note">
 <h2>Note<a class="headerlink" href="#note" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>L’endpoint OCR ha un budget di latenza più alto (3 s) perché include chiamate a Google Vision API.</p></li>
+<li><p>L’endpoint <code class="docutils literal notranslate"><span class="pre">parse-text</span></code> ha un budget di latenza più alto (3 s) perché include la chiamata a Gemini.</p></li>
 <li><p>I SLO worker vengono monitorati separatamente via <code class="docutils literal notranslate"><span class="pre">arq_job_duration_seconds</span></code> e
 <code class="docutils literal notranslate"><span class="pre">arq_job_failures_total</span></code> (non via <code class="docutils literal notranslate"><span class="pre">http_request_duration_seconds</span></code>).</p></li>
 <li><p>Revisione SLO: semestrale o dopo ogni incidente P1.</p></li>

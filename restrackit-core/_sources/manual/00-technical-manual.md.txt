@@ -85,7 +85,6 @@ graph TD
     Middleware -->|Request ID, Logging| Router
     Router -->|"Validation (Pydantic)"| Service
     Service -->|ORM| Database[(PostgreSQL)]
-    Service -->|API Call| GoogleVision[Google Cloud Vision OCR]
     Service -->|API Call| Gemini[Google Gemini AI]
 
     subgraph "Core Services"
@@ -97,11 +96,10 @@ graph TD
 
 ### 🔄 Flusso dei Dati Principale (Analisi Etichetta)
 
-1. **Upload Immagine**: Il client invia una foto dell'etichetta del prodotto (`POST /inventory/analyze`).
-2. **Preprocessing**: L'immagine viene convertita e ottimizzata.
-3. **OCR (Google Vision)**: Estrazione del testo grezzo dall'immagine.
-4. **AI Parsing (Gemini Agent)**: L'agente AI analizza il testo OCR, cerca il prodotto nel DB (usando un tool personalizzato) ed estrae strutturati:
-   - Prodotto (convalidato sul DB tramite `search_product_tool`)
+1. **OCR on-device**: L'app mobile estrae il testo dell'etichetta localmente (ML Kit).
+2. **Invio testo**: Il client invia il testo grezzo (`POST /inventory/parse-text`).
+3. **AI Parsing (Gemini Agent)**: L'agente AI analizza il testo OCR ed estrae dati strutturati:
+   - Prodotto (riconciliato con il catalogo dello store: match esatto, poi per sottostringa)
    - Lotto
    - Data di scadenza
    - Confidence score
@@ -111,8 +109,8 @@ graph TD
 - **Prompt Injection Protection**: L'input OCR viene delimitato e separato dalle istruzioni tramite `system_instruction`.
 - **Output Strutturato**: Utilizzo del **JSON Mode** e schemi Pydantic per garantire dati affidabili e pronti all'uso.
 
-5. **Post-Processing OCR**: Il sistema confronta il lotto estratto con lo storico dei lotti salvati per lo stesso prodotto. Se rileva ambiguità comuni (es. `O` vs `0`), applica una correzione automatica basata su firme strutturali, aumentando il confidence score.
-6. **Risposta**: I dati strutturati (ed eventualmente corretti) vengono restituiti al client.
+4. **Post-Processing OCR**: Il sistema confronta il lotto estratto con lo storico dei lotti salvati per lo stesso prodotto. Se rileva ambiguità comuni (es. `O` vs `0`), applica una correzione automatica basata su firme strutturali, aumentando il confidence score.
+5. **Risposta**: I dati strutturati (ed eventualmente corretti) vengono restituiti al client.
 
 ---
 
@@ -132,7 +130,7 @@ La codebase è organizzata per separare chiaramente configurazione, logica di bu
 │   │   │   ├── schemas.py   # Schemi Pydantic (DTO)
 │   │   │   ├── service.py   # Logica di business
 │   │   │   └── router.py    # Endpoint API
-│   ├── services/        # Integrazioni esterne (OCR, AI Agent)
+│   ├── services/        # Integrazioni esterne (AI Agent)
 │   ├── shared/          # Schemi e utility condivise
 │   ├── database.py      # Configurazione SQLAlchemy e Sessioni
 │   └── main.py          # Entry point dell'applicazione
@@ -153,7 +151,6 @@ La codebase è organizzata per separare chiaramente configurazione, logica di bu
 | **Database** | PostgreSQL | 16 (Alpine) | Affidabilità, supporto JSONB, standard industriale. |
 | **ORM** | SQLAlchemy | 2.0 | Mapping relazionale potente e flessibile. |
 | **Migrazioni** | Alembic | Latest | Gestione versionata dello schema DB. |
-| **OCR** | Google Cloud Vision | API v1 | Riconoscimento testo leader di mercato. |
 | **AI / LLM** | Google Gemini | Flash 2.0 | Parsing intelligente veloce ed economico. |
 | **Testing** | Pytest | Latest | Standard de-facto per testing Python. |
 | **Linting** | Ruff | Latest | Linter/Formatter estremamente veloce (sostituisce Black/Flake8). |
@@ -167,7 +164,7 @@ La codebase è organizzata per separare chiaramente configurazione, logica di bu
 
 - Docker & Docker Compose
 - Python 3.14.4 (opzionale se si usa solo Docker)
-- Account Google Cloud (per Vision e Gemini)
+- API key Google (per Gemini)
 
 ### Setup Locale
 
@@ -188,12 +185,8 @@ La codebase è organizzata per separare chiaramente configurazione, logica di bu
    **Variabili Critiche**:
    - `DATABASE_URL`: URL di connessione al DB (default per docker: `postgresql://user:password@db:5432/database`).
    - `GOOGLE_API_KEY`: Chiave API per Gemini.
-   - `GOOGLE_APPLICATION_CREDENTIALS`: Path al file JSON della Service Account (per Vision API).
 
-3. **Service Account Google**:
-   Posiziona il file `service_account.json` nella root del progetto.
-
-4. **Avvia l'ambiente**:
+3. **Avvia l'ambiente**:
 
    ```bash
    docker-compose up --build
@@ -235,7 +228,7 @@ Tutte le risposte di errore seguono lo schema standard con `error.code` (es. `ER
 
 ### 📦 Inventory Module (`/inventory`)
 
-- **POST** `/analyze`: Carica foto -> OCR -> AI -> Dati proposti.
+- **POST** `/parse-text`: Testo OCR (estratto on-device) -> AI -> Dati proposti.
 - **POST** `/confirm`: Conferma e salva un lotto nel DB.
 - **GET** `/list`: Elenco lotti con filtri (paginazione, data, prodotto).
 - **PUT** `/batch/{id}`: Aggiornamento manuale dati lotto.
@@ -318,7 +311,7 @@ I test si trovano nella cartella `tests/` e sono divisi in:
 2. **Integration Tests** (`tests/integration/`)
    - Testano l'intera catena API -> DB.
    - Utilizzano un DB Postgres reale (via Docker Service in CI o locale).
-   - Mockano solo le chiamate AI/Vision per determinismo e costi.
+   - Mockano solo le chiamate AI per determinismo e costi.
 
 **Esecuzione Test:**
 
@@ -348,7 +341,6 @@ Il deploy è basato su **Docker**.
    docker run -d \
      -p 8000:8000 \
      --env-file .env \
-     -v $(pwd)/service_account.json:/app/service_account.json \
      restrackit-api:latest
    ```
 
@@ -367,7 +359,6 @@ Il deploy è basato su **Docker**.
 | --- | --- | --- |
 | `500 Internal Server Error` | Errore non gestito o crash DB | Controlla i log per lo stack trace. |
 | `ExternalServiceError (Gemini)` | API Key invalida o quota superata | Verifica `GOOGLE_API_KEY` e quote Google Cloud. |
-| `ExternalServiceError (Vision)` | Credenziali JSON errate | Verifica path `GOOGLE_APPLICATION_CREDENTIALS` e permessi IAM. |
 | `DB Connection Refused` | Container DB non pronto | Attendi che il healthcheck del DB sia verde. |
 
 ---

@@ -6,7 +6,7 @@ Standard interno: **Docker Compose + Makefile** (stack completo) oppure **uv + M
 
 - **Docker Desktop** (Mac/Windows) o Docker Engine (Linux)
 - **Make** (standard su Linux/Mac, installabile su Windows)
-- **Google Cloud Credentials**: Vision API + Gemini API (file `service_account.json`)
+- **Google API key**: Gemini API
 
 ## Setup Rapido (Consigliato)
 
@@ -25,11 +25,8 @@ cp .env.example .env
 
 # Modifica .env con le tue chiavi:
 # - GOOGLE_API_KEY (per Gemini)
-# - GOOGLE_APPLICATION_CREDENTIALS (path relativo al container, es. /app/service_account.json)
 # - KEYCLOAK_URL, KEYCLOAK_REALM, KEYCLOAK_CLIENT_ID (OIDC)
 ```
-
-**Nota**: Assicurati di mettere il file `service_account.json` nella root del progetto.
 
 ### 3. Avvia con Docker
 
@@ -107,10 +104,3 @@ docker compose ps
 # Esegue le migrazioni
 make migrate
 ```
-
-### Credenziali Google
-
-Se Vision API fallisce:
-
-1. Verifica che `service_account.json` sia nella root.
-2. Verifica che `.env` abbia `GOOGLE_APPLICATION_CREDENTIALS=/app/service_account.json` (path interno al container).

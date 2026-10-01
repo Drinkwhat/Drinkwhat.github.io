@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RESTRACKIT &mdash; Restrackit 2.102.0 documentation</title>
+  <title>RESTRACKIT &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,12 +14,14 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -491,7 +493,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -529,7 +531,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -554,7 +555,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -572,9 +573,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1124,6 +1123,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1153,6 +1153,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -2258,8 +2280,8 @@ Inserimento di una nuova istanza in ProductMaster (con incremento di <code class
 <span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">is_empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span>
 <span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">deleted_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span>
 <span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="p">(</span>
-<span class="w">      </span><span class="n">b</span><span class="p">.</span><span class="n">expiry_date</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;:days days&#39;</span>
-<span class="w">      </span><span class="k">OR</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">storage_expiry_at</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;:days days&#39;</span>
+<span class="w">      </span><span class="n">b</span><span class="p">.</span><span class="n">expiry_date</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">':days days'</span>
+<span class="w">      </span><span class="k">OR</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">storage_expiry_at</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">':days days'</span>
 <span class="w">  </span><span class="p">)</span>
 <span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">storage_expiry_at</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">expiry_date</span><span class="p">::</span><span class="k">timestamp</span><span class="p">)</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
 </pre></div>
@@ -2298,7 +2320,7 @@ Inserimento di una nuova istanza in ProductMaster (con incremento di <code class
 <span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">batch_events</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">store_id</span><span class="p">,</span><span class="w"> </span><span class="n">batch_id</span><span class="p">,</span><span class="w"> </span><span class="n">preparation_id</span><span class="p">,</span><span class="w"> </span><span class="n">event_type</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">operator_id</span><span class="p">,</span><span class="w"> </span><span class="n">occurred_at</span>
 <span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="p">:</span><span class="n">store_id</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">batch_id</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">preparation_id</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;USED&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;PREPARATION&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">operator_id</span><span class="p">,</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span>
+<span class="w">    </span><span class="p">:</span><span class="n">store_id</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">batch_id</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">preparation_id</span><span class="p">,</span><span class="w"> </span><span class="s1">'USED'</span><span class="p">,</span><span class="w"> </span><span class="s1">'PREPARATION'</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">operator_id</span><span class="p">,</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -2491,7 +2513,7 @@ Inserimento di una nuova istanza in ProductMaster (con incremento di <code class
 <td><p>Architettura dove più clienti (store) condividono la stessa istanza del database mantenendo i dati completamente separati. Nel sistema è implementata tramite Row-Level Security di PostgreSQL: ogni riga ha <code class="docutils literal notranslate"><span class="pre">store_id</span></code> e le policy RLS garantiscono l’isolamento.</p></td>
 </tr>
 <tr class="row-even"><td><p>OCR</p></td>
-<td><p>Optical Character Recognition. Tecnologia per l’estrazione di testo da immagini. Nel sistema viene usato Google Cloud Vision per estrarre i dati dalle etichette dei lotti.</p></td>
+<td><p>Optical Character Recognition. Tecnologia per l’estrazione di testo da immagini. Nel sistema l’OCR è eseguito on-device dall’app mobile; il backend riceve solo il testo estratto.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Optimistic locking</p></td>
 <td><p>Meccanismo di controllo della concorrenza che non blocca le righe in lettura. Ogni entità ha un campo <code class="docutils literal notranslate"><span class="pre">version</span></code>: un UPDATE fallisce se la versione è cambiata dall’ultima lettura, segnalando un conflitto.</p></td>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Onboarding: nuovo store e nuovi account &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Onboarding: nuovo store e nuovi account &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -936,26 +956,26 @@ Implementazione: <code class="xref py py-mod docutils literal notranslate"><span
 <li><p>la riga <code class="docutils literal notranslate"><span class="pre">Store</span></code> in Postgres (con uno <code class="docutils literal notranslate"><span class="pre">slug</span></code> univoco derivato dal nome, con retry automatico in caso di collisione);</p></li>
 <li><p>il primo account Keycloak con ruolo <code class="docutils literal notranslate"><span class="pre">manager</span></code>, con username finale <code class="docutils literal notranslate"><span class="pre">{slug-store}.{username}</span></code> (issue #81 — lo username Keycloak è univoco per realm, quindi va sempre prefissato con lo slug dello store).</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;&lt;bearer-token-admin&gt;&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">"&lt;bearer-token-admin&gt;"</span>
 
 curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/onboarding/stores<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;store_name&quot;: &quot;Trattoria da Mario&quot;,</span>
-<span class="s1">    &quot;manager&quot;: {</span>
-<span class="s1">      &quot;username&quot;: &quot;mario&quot;,</span>
-<span class="s1">      &quot;email&quot;: &quot;mario@example.com&quot;</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "store_name": "Trattoria da Mario",</span>
+<span class="s1">    "manager": {</span>
+<span class="s1">      "username": "mario",</span>
+<span class="s1">      "email": "mario@example.com"</span>
 <span class="s1">    }</span>
-<span class="s1">  }&#39;</span>
+<span class="s1">  }'</span>
 </pre></div>
 </div>
 <p>Risposta (<code class="docutils literal notranslate"><span class="pre">OnboardingResponse</span></code>):</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;store_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;store_slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;trattoria-da-mario&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;manager_username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;trattoria-da-mario.mario&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;temporary_password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xxxxxxxxxxxxxxxx&quot;</span>
+<span class="w">  </span><span class="nt">"store_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"store_slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trattoria-da-mario"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"manager_username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trattoria-da-mario.mario"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"temporary_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxxxxxxxxxxxxxx"</span>
 <span class="p">}</span>
 </pre></div>
 </div>

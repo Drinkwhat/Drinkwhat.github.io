@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture Overview &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Architecture Overview &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -942,9 +962,9 @@ for private packages in organization repositories.)</a></li>
     │                │           │                        │
     ▼                ▼           ▼                        ▼
 ┌──────────┐   ┌──────────┐ ┌─────────────┐        ┌─────────────┐
-│ Vision   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
-│ API      │   │ Agent    │ │ Database    │        │ (Async Task)│
-│(OCR)     │   │ (AI)     │ │ (Data)      │        │             │
+│ Mobile   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
+│ on-device│   │ Agent    │ │ Database    │        │ (Cron jobs) │
+│ OCR      │   │ (AI)     │ │ (Data)      │        │             │
 └──────────┘   └──────────┘ └─────────────┘        └─────────────┘
 </pre></div>
 </div>
@@ -984,7 +1004,6 @@ for private packages in organization repositories.)</a></li>
 │   │   └── setup/             # Dev tools
 │   │
 │   ├── services/              # External Integrations
-│   │   ├── ocr.py             # Google Vision Client
 │   │   └── ai_agent.py        # Gemini Agent Logic
 │   │
 │   ├── shared/                # Shared utilities
@@ -1021,7 +1040,7 @@ for private packages in organization repositories.)</a></li>
 <section id="ai-data">
 <h3>AI &amp; Data<a class="headerlink" href="#ai-data" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>OCR</strong>: Google Cloud Vision API</p></li>
+<li><p><strong>OCR</strong>: on-device on the mobile app (ML Kit); the backend receives only text</p></li>
 <li><p><strong>LLM</strong>: Google Gemini 2.0 Flash (via <code class="docutils literal notranslate"><span class="pre">google-genai</span></code> SDK)</p></li>
 <li><p><strong>Database</strong>: PostgreSQL 18 (Alpine)</p></li>
 <li><p><strong>Cache &amp; Queue</strong>: Redis 7.2 (with msgpack serialization)</p></li>
@@ -1063,7 +1082,7 @@ for private packages in organization repositories.)</a></li>
 <p>A specialized service that:</p>
 <ol class="arabic simple">
 <li><p>Receives raw OCR text.</p></li>
-<li><p>Uses a custom tool (<code class="docutils literal notranslate"><span class="pre">search_product_tool</span></code>) to query the DB for product matches.</p></li>
+<li><p>Reconciles the extracted product name with the store catalog (exact match, then substring match).</p></li>
 <li><p>Returns structured data (Product, Lot, Expiry, Confidence).</p></li>
 </ol>
 </section>
@@ -1094,10 +1113,8 @@ for private packages in organization repositories.)</a></li>
 <ul class="simple">
 <li><p><strong>Singleton Pool</strong>: Uses a persistent Redis connection pool to minimize overhead.</p></li>
 <li><p><strong>Msgpack Serialization</strong>: Custom serializers for <code class="docutils literal notranslate"><span class="pre">arq</span></code> that handle <code class="docutils literal notranslate"><span class="pre">date</span></code>/<code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects via ISO conversion.</p></li>
-<li><p><strong>Status Mapping</strong>: Detailed job tracking that distinguishes between <code class="docutils literal notranslate"><span class="pre">arq</span></code> execution state and internal task result status (e.g., catching AI failures).</p></li>
-<li><p><strong>Offloading</strong>: Moves heavy OCR and AI analysis to a separate worker process.</p></li>
-<li><p><strong>Shared Storage</strong>: Uses Docker volumes (<code class="docutils literal notranslate"><span class="pre">uploads_data</span></code>) for temporary file processing between the API and workers.</p></li>
-<li><p><strong>Monitoring</strong>: Real-time status retrieval via <code class="docutils literal notranslate"><span class="pre">/inventory/analyze/{job_id}</span></code>.</p></li>
+<li><p><strong>Cron jobs</strong>: Daily expiry check (<code class="docutils literal notranslate"><span class="pre">check_expired_batches_task</span></code>) that creates DB notifications per store.</p></li>
+<li><p><strong>Cron jobs</strong>: Daily purge (<code class="docutils literal notranslate"><span class="pre">purge_ocr_analyses_task</span></code>) of OCR analyses older than 90 days.</p></li>
 </ul>
 </section>
 <section id="allergen-management-app-shared-allergens-py">
@@ -1121,16 +1138,17 @@ for private packages in organization repositories.)</a></li>
 </ul>
 </section>
 </section>
-<section id="data-flow-image-analysis">
-<h2>Data Flow: Image Analysis<a class="headerlink" href="#data-flow-image-analysis" title="Link to this heading"></a></h2>
+<section id="data-flow-label-text-analysis">
+<h2>Data Flow: Label Text Analysis<a class="headerlink" href="#data-flow-label-text-analysis" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p><strong>Upload</strong>: Client sends image to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code>.</p></li>
-<li><p><strong>OCR</strong>: <code class="docutils literal notranslate"><span class="pre">OCRService</span></code> calls Google Vision to get text.</p></li>
+<li><p><strong>OCR on-device</strong>: The mobile app extracts the label text locally (ML Kit).</p></li>
+<li><p><strong>Upload text</strong>: Client sends the raw text to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/parse-text</span></code>.</p></li>
 <li><p><strong>Agent</strong>: <code class="docutils literal notranslate"><span class="pre">InventoryAgentService</span></code> sends text + store context to Gemini.</p></li>
 <li><p><strong>Prompt Injection Protection</strong>: Untrusted OCR text is wrapped in delimiters (<code class="docutils literal notranslate"><span class="pre">[START_OCR]...[END_OCR]</span></code>) and isolated using <strong>System Instructions</strong>.</p></li>
 <li><p><strong>Structured Output</strong>: Enforces valid JSON results via <strong>JSON Schema Mode</strong> and Pydantic models.</p></li>
-<li><p><strong>Tool Use</strong>: Gemini calls <code class="docutils literal notranslate"><span class="pre">search_product_tool</span></code> to validate product name against <code class="docutils literal notranslate"><span class="pre">products_master</span></code> table.</p></li>
+<li><p><strong>Catalog reconciliation</strong>: the extracted product name is matched against <code class="docutils literal notranslate"><span class="pre">products_master</span></code> (exact, then substring); names with no match become <code class="docutils literal notranslate"><span class="pre">NON_IDENTIFICATO</span></code>.</p></li>
 <li><p><strong>Post-Processing</strong>: <code class="docutils literal notranslate"><span class="pre">LotCodePostProcessor</span></code> compares the extracted lot with historical lots for the same product to correct common OCR ambiguities.</p></li>
+<li><p><strong>Analysis log</strong>: text, AI proposal (before post-processing) and model are saved in <code class="docutils literal notranslate"><span class="pre">ocr_analyses</span></code> and an <code class="docutils literal notranslate"><span class="pre">analysis_id</span></code> is returned; the client sends it back to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code> (optional), which stores the confirmed values next to the proposal to measure parsing accuracy. Rows older than 90 days are deleted by the daily <code class="docutils literal notranslate"><span class="pre">purge_ocr_analyses_task</span></code> (03:30).</p></li>
 <li><p><strong>Response</strong>: Structured JSON is returned to the client (including a <code class="docutils literal notranslate"><span class="pre">warning</span></code> if the product wasn’t identified).</p></li>
 <li><p><strong>Confirm</strong>: Client sends validated data to <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/confirm</span></code> to save in <code class="docutils literal notranslate"><span class="pre">batches</span></code> table. Note: the deprecated <code class="docutils literal notranslate"><span class="pre">lot_code_ai</span></code> field has been removed to simplify the schema.</p></li>
 </ol>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared.schemas &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.shared.schemas &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1286,24 +1308,24 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="AppLanguage">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.AppLanguage">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AppLanguage</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lingue supportate dall&#39;applicazione.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lingue supportate dall'applicazione."""</span>
 
-    <span class="n">IT</span> <span class="o">=</span> <span class="s2">&quot;it&quot;</span>
-    <span class="n">EN</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span></div>
+    <span class="n">IT</span> <span class="o">=</span> <span class="s2">"it"</span>
+    <span class="n">EN</span> <span class="o">=</span> <span class="s2">"en"</span></div>
 
 
 
 <div class="viewcode-block" id="StatusResponse">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.StatusResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatusResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta generica per operazioni di successo.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Risposta generica per operazioni di successo."""</span>
 
-    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato dell&#39;operazione (success/error)&quot;</span><span class="p">)</span>
-    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Messaggio descrittivo&quot;</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Stato dell'operazione (success/error)"</span><span class="p">)</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Messaggio descrittivo"</span><span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Operazione completata con successo&quot;</span><span class="p">}</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"success"</span><span class="p">,</span> <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Operazione completata con successo"</span><span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
 
@@ -1312,11 +1334,11 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="ErrorDetailSchema">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.ErrorDetailSchema">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ErrorDetailSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dettaglio errore standardizzato.</span>
+<span class="w">    </span><span class="sd">"""Dettaglio errore standardizzato.</span>
 
 <span class="sd">    Questo schema è pensato per essere compatibile con il formato restituito</span>
-<span class="sd">    dall&#39;handler globale delle eccezioni.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    dall'handler globale delle eccezioni.</span>
+<span class="sd">    """</span>
 
     <span class="n">code</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
@@ -1329,7 +1351,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="ErrorResponse">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.ErrorResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ErrorResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema standard per gli errori (con error.code = ERR_*).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Schema standard per gli errori (con error.code = ERR_*)."""</span>
 
     <span class="n">error</span><span class="p">:</span> <span class="n">ErrorDetailSchema</span>
     <span class="n">request_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -1340,29 +1362,29 @@ for private packages in organization repositories.)</a></li>
 <span class="c1"># input non valido (``ValidationError``, incluso il 400 in cui FastAPI converte</span>
 <span class="c1"># internamente ogni ``RequestValidationError`` — vedi ``validation_exception_handler``</span>
 <span class="c1"># in app/main.py) e 404 per riferimenti a risorse inesistenti (``BusinessLogicError``).</span>
-<span class="c1"># Passarle come ``responses=`` all&#39;``APIRouter`` le documenta su tutte le route di quel</span>
+<span class="c1"># Passarle come ``responses=`` all'``APIRouter`` le documenta su tutte le route di quel</span>
 <span class="c1"># router; una singola route può comunque sovrascriverle con un ``responses=`` proprio.</span>
 <span class="n">COMMON_ERROR_RESPONSES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Richiesta non valida&quot;</span><span class="p">},</span>
-    <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Risorsa non trovata&quot;</span><span class="p">},</span>
+    <span class="mi">400</span><span class="p">:</span> <span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Richiesta non valida"</span><span class="p">},</span>
+    <span class="mi">404</span><span class="p">:</span> <span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Risorsa non trovata"</span><span class="p">},</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="PaginationParams">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.schemas.PaginationParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PaginationParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parametri per la paginazione.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parametri per la paginazione."""</span>
 
-    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero di pagina&quot;</span><span class="p">)</span>
-    <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Elementi per pagina&quot;</span><span class="p">)</span>
+    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Numero di pagina"</span><span class="p">)</span>
+    <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Elementi per pagina"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcola l&#39;offset per il database.</span>
+<span class="w">        </span><span class="sd">"""Calcola l'offset per il database.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            int: Valore di offset per la query SQL (LIMIT/OFFSET).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span></div>
 
 

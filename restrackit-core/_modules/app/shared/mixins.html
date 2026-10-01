@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared.mixins &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.shared.mixins &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1288,7 +1310,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="PublicIdMixin">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.mixins.PublicIdMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PublicIdMixin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggiunge la colonna public_id UUID opaco usata nelle API pubbliche.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Aggiunge la colonna public_id UUID opaco usata nelle API pubbliche."""</span>
 
     <span class="n">public_id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
         <span class="n">PGUUID</span><span class="p">(</span><span class="n">as_uuid</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
@@ -1303,7 +1325,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TimestampVersionMixin">
 <a class="viewcode-back" href="../../../app.shared.html#app.shared.mixins.TimestampVersionMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TimestampVersionMixin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggiunge created_at, updated_at, deleted_at e version con optimistic locking.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Aggiunge created_at, updated_at, deleted_at e version con optimistic locking."""</span>
 
     <span class="n">created_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
         <span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span>
@@ -1318,7 +1340,7 @@ for private packages in organization repositories.)</a></li>
 
     <span class="nd">@declared_attr</span><span class="o">.</span><span class="n">directive</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__mapper_args__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>  <span class="c1"># noqa: N805</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version_id_col&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__table__</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]}</span>  <span class="c1"># type: ignore[attr-defined]</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"version_id_col"</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__table__</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]}</span>  <span class="c1"># type: ignore[attr-defined]</span></div>
 
 </pre></div>
 

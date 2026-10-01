@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Logging &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Logging &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -981,12 +1001,12 @@ for private packages in organization repositories.)</a></li>
 <h3>JSON (Default – Production)<a class="headerlink" href="#json-default-production" title="Link to this heading"></a></h3>
 <p>Each log line is a single-line JSON object with standard fields:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-05T07:43:05.500000+00:00&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;logger&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;restrackit&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;router&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;lineno&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Request processed successfully&quot;</span>
+<span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-03-05T07:43:05.500000+00:00"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INFO"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"logger"</span><span class="p">:</span><span class="w"> </span><span class="s2">"restrackit"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"router"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"lineno"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request processed successfully"</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1042,9 +1062,9 @@ for private packages in organization repositories.)</a></li>
 <p>The logging module exposes a single <code class="docutils literal notranslate"><span class="pre">logger</span></code> instance, pre-configured at import time:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Something happened&quot;</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Watch out&quot;</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">})</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Something happened"</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Watch out"</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">"user_id"</span><span class="p">:</span> <span class="n">user_id</span><span class="p">})</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Failed"</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1052,10 +1072,10 @@ for private packages in organization repositories.)</a></li>
 <h3><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code><a class="headerlink" href="#setup-logging" title="Link to this heading"></a></h3>
 <p>Called automatically at module import. Safe to call multiple times (e.g., in tests) — existing handlers are properly closed and removed before new ones are attached.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">setup_logging</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read LOG_LEVEL and LOG_FORMAT from environment.</span>
-<span class="sd">    Configure the &#39;restrackit&#39; logger with a single StreamHandler on stdout.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Configure the 'restrackit' logger with a single StreamHandler on stdout.</span>
+<span class="sd">    """</span>
 </pre></div>
 </div>
 </section>
@@ -1076,11 +1096,11 @@ for private packages in organization repositories.)</a></li>
 <h3>Basic Logging<a class="headerlink" href="#basic-logging" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 
-<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Detailed debug info&quot;</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Processing started&quot;</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unexpected condition: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">detail</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Operation failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;System cannot continue&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Detailed debug info"</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Processing started"</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Unexpected condition: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">detail</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Operation failed: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">"System cannot continue"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1088,10 +1108,10 @@ for private packages in organization repositories.)</a></li>
 <h3>Structured Extra Fields<a class="headerlink" href="#structured-extra-fields" title="Link to this heading"></a></h3>
 <p>Pass additional context using <code class="docutils literal notranslate"><span class="pre">extra</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-    <span class="s2">&quot;User authenticated&quot;</span><span class="p">,</span>
+    <span class="s2">"User authenticated"</span><span class="p">,</span>
     <span class="n">extra</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
-        <span class="s2">&quot;store_id&quot;</span><span class="p">:</span> <span class="n">store_id</span><span class="p">,</span>
+        <span class="s2">"user_id"</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+        <span class="s2">"store_id"</span><span class="p">:</span> <span class="n">store_id</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
@@ -1103,7 +1123,7 @@ for private packages in organization repositories.)</a></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">external_service</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;External service failed&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"External service failed"</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">raise</span> <span class="n">ExternalServiceError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">EXT_API_ERROR</span><span class="p">,</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">exc</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1198,13 +1218,13 @@ This allows monitoring of temporary storage usage and potential leaks.</p>
 <span class="k">except</span> <span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
     <span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-        <span class="s2">&quot;DB integrity error&quot;</span><span class="p">,</span>
-        <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_INTEGRITY_ERROR</span><span class="o">.</span><span class="n">value</span><span class="p">},</span>
+        <span class="s2">"DB integrity error"</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">"code"</span><span class="p">:</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_INTEGRITY_ERROR</span><span class="o">.</span><span class="n">value</span><span class="p">},</span>
         <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
         <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_INTEGRITY_ERROR</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)},</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"details"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)},</span>
         <span class="n">original_exc</span><span class="o">=</span><span class="n">exc</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>

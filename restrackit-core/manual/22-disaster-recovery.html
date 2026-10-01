@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Disaster recovery: istanza EC2 di produzione ricreata &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Disaster recovery: istanza EC2 di produzione ricreata &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -22,7 +22,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Catalogo Codici Errore Restrackit" href="ERROR_CODES.html" />
+    <link rel="next" title="Cleaning Routines (pulizie HACCP)" href="23-cleaning-routines.html" />
     <link rel="prev" title="Supporto clienti: runbook operativo" href="21-supporto-clienti.html" /> 
 </head>
 
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -936,7 +956,7 @@ attesi.</p>
 <section id="individua-l-ultimo-recovery-point">
 <h2>1. Individua l’ultimo recovery point<a class="headerlink" href="#individua-l-ultimo-recovery-point" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>backup<span class="w"> </span>list-recovery-points-by-backup-vault<span class="w"> </span>--backup-vault-name<span class="w"> </span>restrackit-backup-vault<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s1">&#39;RecoveryPoints[].[RecoveryPointArn,CreationDate]&#39;</span><span class="w"> </span>--output<span class="w"> </span>table
+<span class="w">  </span>--query<span class="w"> </span><span class="s1">'RecoveryPoints[].[RecoveryPointArn,CreationDate]'</span><span class="w"> </span>--output<span class="w"> </span>table
 </pre></div>
 </div>
 <p>Prendi l’ARN piu’ recente precedente all’incidente.</p>
@@ -947,9 +967,9 @@ attesi.</p>
 esegue un backup a livello di istanza (AMI + volumi EBS). Da console AWS Backup
 (“Recovery points” → il recovery point scelto → “Restore”), oppure via CLI:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>backup<span class="w"> </span>start-restore-job<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--recovery-point-arn<span class="w"> </span><span class="s2">&quot;&lt;ARN&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--iam-role-arn<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span>terraform<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>terraform<span class="w"> </span>output<span class="w"> </span>-raw<span class="w"> </span>backup_role_arn<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--metadata<span class="w"> </span><span class="s1">&#39;{&quot;InstanceType&quot;:&quot;t3.small&quot;}&#39;</span>
+<span class="w">  </span>--recovery-point-arn<span class="w"> </span><span class="s2">"&lt;ARN&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--iam-role-arn<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span>terraform<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>terraform<span class="w"> </span>output<span class="w"> </span>-raw<span class="w"> </span>backup_role_arn<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--metadata<span class="w"> </span><span class="s1">'{"InstanceType":"t3.small"}'</span>
 </pre></div>
 </div>
 <p>Attendi il completamento (<code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">backup</span> <span class="pre">describe-restore-job</span> <span class="pre">--restore-job-id</span> <span class="pre">...</span></code>),
@@ -970,7 +990,7 @@ poi recupera l’IP pubblico della nuova istanza temporanea dalla console EC2.
 <code class="docutils literal notranslate"><span class="pre">alembic</span> <span class="pre">upgrade</span> <span class="pre">head</span></code> gia’ eseguito) prima di importare i dati, cosi’ lo schema esiste
 gia’ e il restore non deve ricrearlo.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>/tmp/restrackit-dr/app_db.sql<span class="w"> </span>ec2-user@&lt;ip-prod&gt;:/tmp/
-ssh<span class="w"> </span>ec2-user@&lt;ip-prod&gt;<span class="w"> </span><span class="s2">&quot;docker exec -i restrackit-db psql -U &lt;DB_USER&gt; -d &lt;DB_NAME&gt; &lt; /tmp/app_db.sql&quot;</span>
+ssh<span class="w"> </span>ec2-user@&lt;ip-prod&gt;<span class="w"> </span><span class="s2">"docker exec -i restrackit-db psql -U &lt;DB_USER&gt; -d &lt;DB_NAME&gt; &lt; /tmp/app_db.sql"</span>
 </pre></div>
 </div>
 <p>Ripeti per <code class="docutils literal notranslate"><span class="pre">keycloak_db.sql</span></code> su <code class="docutils literal notranslate"><span class="pre">restrackit-keycloak-db</span></code>. Se il restore fallisce per
@@ -983,7 +1003,7 @@ usa un restore selettivo per tabella invece del dump completo (es. <code class="
 realm (vedi <code class="docutils literal notranslate"><span class="pre">docs/19-aws-terraform-deploy.md#keycloak-realm-id</span></code>), quindi un import
 successivo alla ricreazione dell’istanza non genera piu’ un ID casuale. Verifica comunque
 che coincida con i dati appena ripristinati:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>ec2-user@&lt;ip-prod&gt;<span class="w"> </span><span class="s2">&quot;docker exec restrackit-keycloak-db psql -U &lt;KEYCLOAK_DB_USER&gt; -d &lt;KEYCLOAK_DB_NAME&gt; -c \&quot;SELECT id, name FROM realm WHERE name = &#39;restrackit&#39;;\&quot;&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>ec2-user@&lt;ip-prod&gt;<span class="w"> </span><span class="s2">"docker exec restrackit-keycloak-db psql -U &lt;KEYCLOAK_DB_USER&gt; -d &lt;KEYCLOAK_DB_NAME&gt; -c \"SELECT id, name FROM realm WHERE name = 'restrackit';\""</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -1020,7 +1040,7 @@ prima del deploy, non serve diagnosticarlo in produzione.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="21-supporto-clienti.html" class="btn btn-neutral float-left" title="Supporto clienti: runbook operativo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ERROR_CODES.html" class="btn btn-neutral float-right" title="Catalogo Codici Errore Restrackit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="23-cleaning-routines.html" class="btn btn-neutral float-right" title="Cleaning Routines (pulizie HACCP)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

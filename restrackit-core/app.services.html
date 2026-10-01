@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services package &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.services package &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="_static/documentation_options.js?v=fa7658e3"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -932,114 +952,6 @@ for private packages in organization repositories.)</a></li>
 <section id="app-services-ai-agent-module">
 <h2>app.services.ai_agent module<a class="headerlink" href="#app-services-ai-agent-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-app.services.image_processing">
-<span id="app-services-image-processing-module"></span><h2>app.services.image_processing module<a class="headerlink" href="#module-app.services.image_processing" title="Link to this heading"></a></h2>
-<p>Image format conversion and preprocessing utilities.</p>
-<p>This module handles conversion of various image formats (HEIC, JPEG, PNG)
-to a standard JPEG format suitable for OCR processing.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="app.services.image_processing.convert_to_jpeg_bytes">
-<span class="sig-prename descclassname"><span class="pre">app.services.image_processing.</span></span><span class="sig-name descname"><span class="pre">convert_to_jpeg_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/image_processing.html#convert_to_jpeg_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.image_processing.convert_to_jpeg_bytes" title="Link to this definition"></a></dt>
-<dd><p>Convert incoming image bytes to standard JPEG format.</p>
-<p>Handles multiple input formats:
-- HEIC/HEIF: Apple’s image format from iPhones
-- JPEG: Standard compressed format
-- PNG: Lossless format</p>
-<p>All formats are converted to RGB JPEG with 95% quality for consistency
-and optimal OCR performance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_bytes</strong> (<em>bytes</em>) – Raw image file bytes in any supported format</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>JPEG-encoded image bytes ready for OCR</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bytes</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ImageProcessingError</strong> – If format is unsupported or file is corrupted</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="module-app.services.ocr">
-<span id="app-services-ocr-module"></span><h2>app.services.ocr module<a class="headerlink" href="#module-app.services.ocr" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="app.services.ocr.OCRServiceInterface">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.services.ocr.</span></span><span class="sig-name descname"><span class="pre">OCRServiceInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/ocr.html#OCRServiceInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.ocr.OCRServiceInterface" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>Protocol for OCR providers used by the inventory module.</p>
-<p>Implementations must accept raw image bytes and return extracted text.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="app.services.ocr.OCRServiceInterface.extract_text">
-<span class="sig-name descname"><span class="pre">extract_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/ocr.html#OCRServiceInterface.extract_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.ocr.OCRServiceInterface.extract_text" title="Link to this definition"></a></dt>
-<dd><p>Extract text from an image.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_bytes</strong> (<em>bytes</em>) – Raw image bytes.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Extracted text.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.services.ocr.OCRServiceInterface.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#app.services.ocr.OCRServiceInterface.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="app.services.ocr.GoogleVisionOCRService">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.services.ocr.</span></span><span class="sig-name descname"><span class="pre">GoogleVisionOCRService</span></span><a class="reference internal" href="_modules/app/services/ocr.html#GoogleVisionOCRService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.ocr.GoogleVisionOCRService" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Service to handle OCR operations using Google Cloud Vision.</p>
-<dl class="field-list simple">
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="app.services.ocr.GoogleVisionOCRService.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/ocr.html#GoogleVisionOCRService.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.ocr.GoogleVisionOCRService.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initialize the Google Cloud Vision client used for OCR.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="app.services.ocr.GoogleVisionOCRService.extract_text">
-<span class="sig-name descname"><span class="pre">extract_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/ocr.html#GoogleVisionOCRService.extract_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.ocr.GoogleVisionOCRService.extract_text" title="Link to this definition"></a></dt>
-<dd><p>Run OCR via Google Vision and return extracted text.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_bytes</strong> (<em>bytes</em>) – The raw image bytes.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The extracted text string.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ExternalServiceError</strong> – If the Google Vision API call fails.</p></li>
-<li><p><strong>ValidationError</strong> – If no text is found in the image.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-app.services.ocr_post_processing">
 <span id="app-services-ocr-post-processing-module"></span><h2>app.services.ocr_post_processing module<a class="headerlink" href="#module-app.services.ocr_post_processing" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -1151,7 +1063,7 @@ controllo posizionale delle ambiguità OCR note per distinguere tra
 errori di lettura e varianti valide di nuovi lotti.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.services.ocr_post_processing.LotCodePostProcessor.AMBIGUOUS_PAIRS">
-<span class="sig-name descname"><span class="pre">AMBIGUOUS_PAIRS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{frozenset({'1',</span> <span class="pre">'L'}),</span> <span class="pre">frozenset({'5',</span> <span class="pre">'S'}),</span> <span class="pre">frozenset({'4',</span> <span class="pre">'A'}),</span> <span class="pre">frozenset({'8',</span> <span class="pre">'B'}),</span> <span class="pre">frozenset({'6',</span> <span class="pre">'G'}),</span> <span class="pre">frozenset({'0',</span> <span class="pre">'O'}),</span> <span class="pre">frozenset({'1',</span> <span class="pre">'I'}),</span> <span class="pre">frozenset({'2',</span> <span class="pre">'Z'})}</span></span><a class="headerlink" href="#app.services.ocr_post_processing.LotCodePostProcessor.AMBIGUOUS_PAIRS" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">AMBIGUOUS_PAIRS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{frozenset({'8',</span> <span class="pre">'B'}),</span> <span class="pre">frozenset({'4',</span> <span class="pre">'A'}),</span> <span class="pre">frozenset({'1',</span> <span class="pre">'L'}),</span> <span class="pre">frozenset({'1',</span> <span class="pre">'I'}),</span> <span class="pre">frozenset({'6',</span> <span class="pre">'G'}),</span> <span class="pre">frozenset({'2',</span> <span class="pre">'Z'}),</span> <span class="pre">frozenset({'0',</span> <span class="pre">'O'}),</span> <span class="pre">frozenset({'5',</span> <span class="pre">'S'})}</span></span><a class="headerlink" href="#app.services.ocr_post_processing.LotCodePostProcessor.AMBIGUOUS_PAIRS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1231,6 +1143,140 @@ errori di lettura e varianti valide di nuovi lotti.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-app.services.photo_storage">
+<span id="app-services-photo-storage-module"></span><h2>app.services.photo_storage module<a class="headerlink" href="#module-app.services.photo_storage" title="Link to this heading"></a></h2>
+<p>Firma di URL S3 per le foto delle pulizie: nessun byte transita dal backend.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.services.photo_storage.photo_prefix">
+<span class="sig-prename descclassname"><span class="pre">app.services.photo_storage.</span></span><span class="sig-name descname"><span class="pre">photo_prefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_public_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#photo_prefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.photo_prefix" title="Link to this definition"></a></dt>
+<dd><p>Prefisso S3 riservato alle foto di un’occorrenza (isola store e occorrenza).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>task_public_id</strong> (<em>UUID</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.services.photo_storage.PhotoStorage">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.services.photo_storage.</span></span><span class="sig-name descname"><span class="pre">PhotoStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_endpoint_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#PhotoStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.PhotoStorage" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Genera URL firmati (upload e download) per il bucket delle foto delle pulizie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<em>str</em>)</p></li>
+<li><p><strong>region</strong> (<em>str</em>)</p></li>
+<li><p><strong>endpoint_url</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>internal_endpoint_url</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.photo_storage.PhotoStorage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_endpoint_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#PhotoStorage.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.PhotoStorage.__init__" title="Link to this definition"></a></dt>
+<dd><p>Crea il client S3 con firma SigV4 (necessaria per il presigned POST).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<em>str</em>) – Nome del bucket S3 privato.</p></li>
+<li><p><strong>region</strong> (<em>str</em>) – Regione AWS del bucket, es. <code class="docutils literal notranslate"><span class="pre">eu-south-1</span></code>.</p></li>
+<li><p><strong>endpoint_url</strong> (<em>str</em><em> | </em><em>None</em>) – Endpoint S3-compatibile path-style (solo dev, es. RustFS) usato negli
+URL firmati per il browser; <code class="docutils literal notranslate"><span class="pre">None</span></code> = AWS.</p></li>
+<li><p><strong>internal_endpoint_url</strong> (<em>str</em><em> | </em><em>None</em>) – Endpoint con cui il server raggiunge lo stesso S3 (solo dev,
+es. <code class="docutils literal notranslate"><span class="pre">http://s3:9000</span></code> nella rete Docker); <code class="docutils literal notranslate"><span class="pre">None</span></code> = usa <code class="docutils literal notranslate"><span class="pre">endpoint_url</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.photo_storage.PhotoStorage.upload_slots">
+<span class="sig-name descname"><span class="pre">upload_slots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#PhotoStorage.upload_slots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.PhotoStorage.upload_slots" title="Link to this definition"></a></dt>
+<dd><p>Restituisce <code class="docutils literal notranslate"><span class="pre">count</span></code> presigned POST, uno per foto.</p>
+<p>La policy del POST impone il <code class="docutils literal notranslate"><span class="pre">content_type</span></code> e <code class="docutils literal notranslate"><span class="pre">content-length-range</span></code> da 1 byte a
+<code class="docutils literal notranslate"><span class="pre">MAX_PHOTO_BYTES</span></code>: un PUT presigned non potrebbe imporre il limite di dimensione.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>elementi con <code class="docutils literal notranslate"><span class="pre">key</span></code> (chiave S3), <code class="docutils literal notranslate"><span class="pre">url</span></code> e <code class="docutils literal notranslate"><span class="pre">fields</span></code> (campi form).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[dict]</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>task_public_id</strong> (<em>UUID</em>)</p></li>
+<li><p><strong>count</strong> (<em>int</em>)</p></li>
+<li><p><strong>content_type</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.photo_storage.PhotoStorage.download_url">
+<span class="sig-name descname"><span class="pre">download_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#PhotoStorage.download_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.PhotoStorage.download_url" title="Link to this definition"></a></dt>
+<dd><p>URL presigned di download (GET) valido <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_URL_TTL_SECONDS</span></code> secondi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.photo_storage.PhotoStorage.verify_object">
+<span class="sig-name descname"><span class="pre">verify_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#PhotoStorage.verify_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.PhotoStorage.verify_object" title="Link to this definition"></a></dt>
+<dd><p>Controlla che <code class="docutils literal notranslate"><span class="pre">key</span></code> sia stata davvero caricata e rispetti i limiti.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>True se l’oggetto esiste, pesa da 1 byte a <code class="docutils literal notranslate"><span class="pre">MAX_PHOTO_BYTES</span></code> e ha il</dt><dd><p>Content-Type atteso per la sua estensione; False se manca, è fuori limite
+o l’estensione non è tra quelle ammesse (in quel caso S3 non viene chiamato).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ExternalServiceError</strong> – per qualunque errore S3 diverso da “non trovato”
+    (permessi, rete, indisponibilità): non si può stabilire se la foto esista.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>key</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.services.photo_storage.get_photo_storage">
+<span class="sig-prename descclassname"><span class="pre">app.services.photo_storage.</span></span><span class="sig-name descname"><span class="pre">get_photo_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/services/photo_storage.html#get_photo_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.services.photo_storage.get_photo_storage" title="Link to this definition"></a></dt>
+<dd><p>Istanza condivisa costruita dalle impostazioni, <code class="docutils literal notranslate"><span class="pre">None</span></code> se il bucket non è configurato.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#app.services.photo_storage.PhotoStorage" title="app.services.photo_storage.PhotoStorage"><em>PhotoStorage</em></a> | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

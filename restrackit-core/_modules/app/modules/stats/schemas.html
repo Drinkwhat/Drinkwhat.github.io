@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.stats.schemas &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.modules.stats.schemas &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1286,28 +1308,28 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="StatsBucket">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.StatsBucket">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatsBucket</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Time-bucketing granularity for time-series queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Time-bucketing granularity for time-series queries."""</span>
 
-    <span class="n">day</span> <span class="o">=</span> <span class="s2">&quot;day&quot;</span>
-    <span class="n">week</span> <span class="o">=</span> <span class="s2">&quot;week&quot;</span>
-    <span class="n">month</span> <span class="o">=</span> <span class="s2">&quot;month&quot;</span></div>
+    <span class="n">day</span> <span class="o">=</span> <span class="s2">"day"</span>
+    <span class="n">week</span> <span class="o">=</span> <span class="s2">"week"</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="s2">"month"</span></div>
 
 
 
 <div class="viewcode-block" id="BatchSeriesMetric">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchSeriesMetric">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesMetric</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which batch lifecycle event to count in a series.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Which batch lifecycle event to count in a series."""</span>
 
-    <span class="n">created</span> <span class="o">=</span> <span class="s2">&quot;created&quot;</span>
-    <span class="n">finished</span> <span class="o">=</span> <span class="s2">&quot;finished&quot;</span></div>
+    <span class="n">created</span> <span class="o">=</span> <span class="s2">"created"</span>
+    <span class="n">finished</span> <span class="o">=</span> <span class="s2">"finished"</span></div>
 
 
 
 <div class="viewcode-block" id="TimeSeriesPoint">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TimeSeriesPoint">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TimeSeriesPoint</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single data point in a time series.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Single data point in a time series."""</span>
 
     <span class="n">period</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span></div>
@@ -1317,7 +1339,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TopRecipeItem">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipeItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipeItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated preparation count for a single recipe.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Aggregated preparation count for a single recipe."""</span>
 
     <span class="n">recipe_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">recipe_name</span><span class="p">:</span> <span class="nb">str</span>
@@ -1328,7 +1350,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TopRecipesByPeriod">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesByPeriod">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesByPeriod</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top recipes grouped by time period.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Top recipes grouped by time period."""</span>
 
     <span class="n">period</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TopRecipeItem</span><span class="p">]</span></div>
@@ -1338,7 +1360,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TopIngredientItem">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopIngredientItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopIngredientItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated usage for a single ingredient.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Aggregated usage for a single ingredient."""</span>
 
     <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
@@ -1350,7 +1372,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchOverview">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchOverview">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchOverview</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Snapshot of batch counts at a given date.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Snapshot of batch counts at a given date."""</span>
 
     <span class="n">as_of</span><span class="p">:</span> <span class="n">date</span>
     <span class="n">expiring_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span>
@@ -1365,7 +1387,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="StatsOverview">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.StatsOverview">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatsOverview</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dashboard-level statistics overview.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dashboard-level statistics overview."""</span>
 
     <span class="n">preparations_7d</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">preparations_30d</span><span class="p">:</span> <span class="nb">int</span>
@@ -1375,26 +1397,26 @@ for private packages in organization repositories.)</a></li>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;preparations_7d&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-                <span class="s2">&quot;preparations_30d&quot;</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span>
-                <span class="s2">&quot;top_recipes_7d&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;recipe_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;recipe_name&quot;</span><span class="p">:</span> <span class="s2">&quot;fajitas&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}],</span>
-                <span class="s2">&quot;top_ingredients_7d&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"preparations_7d"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="s2">"preparations_30d"</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span>
+                <span class="s2">"top_recipes_7d"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"recipe_id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"recipe_name"</span><span class="p">:</span> <span class="s2">"fajitas"</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">:</span> <span class="mi">6</span><span class="p">}],</span>
+                <span class="s2">"top_ingredients_7d"</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;product_master_id&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                        <span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;chicken&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
-                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
+                        <span class="s2">"product_master_id"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                        <span class="s2">"product_name"</span><span class="p">:</span> <span class="s2">"chicken"</span><span class="p">,</span>
+                        <span class="s2">"quantity"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+                        <span class="s2">"unit"</span><span class="p">:</span> <span class="s2">"kg"</span><span class="p">,</span>
                     <span class="p">}</span>
                 <span class="p">],</span>
-                <span class="s2">&quot;batches&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;as_of&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-05-15&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;expiring_days&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-                    <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
-                    <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="mi">87</span><span class="p">,</span>
-                    <span class="s2">&quot;empty&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
-                    <span class="s2">&quot;expired&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                    <span class="s2">&quot;expiring_soon&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s2">"batches"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"as_of"</span><span class="p">:</span> <span class="s2">"2026-05-15"</span><span class="p">,</span>
+                    <span class="s2">"expiring_days"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+                    <span class="s2">"total"</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+                    <span class="s2">"active"</span><span class="p">:</span> <span class="mi">87</span><span class="p">,</span>
+                    <span class="s2">"empty"</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+                    <span class="s2">"expired"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                    <span class="s2">"expiring_soon"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -1405,7 +1427,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="DateRangeParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.DateRangeParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DateRangeParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional date range filter shared by multiple stat queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Optional date range filter shared by multiple stat queries."""</span>
 
     <span class="n">date_from</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">date_to</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -1415,7 +1437,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="SeriesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.SeriesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for time-bucketed series queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for time-bucketed series queries."""</span>
 
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span></div>
 
@@ -1424,7 +1446,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TopRecipesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-recipes ranking queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for top-recipes ranking queries."""</span>
 
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
@@ -1433,7 +1455,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TopRecipesSeriesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopRecipesSeriesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopRecipesSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-recipes trend series.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for top-recipes trend series."""</span>
 
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
@@ -1443,7 +1465,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="TopIngredientsParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.TopIngredientsParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopIngredientsParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for top-ingredients usage queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for top-ingredients usage queries."""</span>
 
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></div>
 
@@ -1452,7 +1474,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchOverviewParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchOverviewParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchOverviewParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for the batch snapshot endpoint.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for the batch snapshot endpoint."""</span>
 
     <span class="n">as_of</span><span class="p">:</span> <span class="n">date</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">expiring_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span></div>
@@ -1462,7 +1484,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchSeriesParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.BatchSeriesParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSeriesParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for batch lifecycle time-series queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for batch lifecycle time-series queries."""</span>
 
     <span class="n">bucket</span><span class="p">:</span> <span class="n">StatsBucket</span> <span class="o">=</span> <span class="n">StatsBucket</span><span class="o">.</span><span class="n">week</span>
     <span class="n">metric</span><span class="p">:</span> <span class="n">BatchSeriesMetric</span> <span class="o">=</span> <span class="n">BatchSeriesMetric</span><span class="o">.</span><span class="n">created</span></div>
@@ -1472,7 +1494,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="WasteItem">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WasteItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated waste record for a single product.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Aggregated waste record for a single product."""</span>
 
     <span class="n">product_master_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span>
@@ -1487,7 +1509,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="WasteParams">
 <a class="viewcode-back" href="../../../../app.modules.stats.html#app.modules.stats.schemas.WasteParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WasteParams</span><span class="p">(</span><span class="n">DateRangeParams</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for waste statistics queries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parameters for waste statistics queries."""</span>
 
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></div>
 

@@ -104,3 +104,45 @@ AWS Backup esegue uno snapshot giornaliero (03:00 UTC) del volume EBS
 dell'istanza, con retention configurabile (`backup_retention_days`, default 14
 giorni). Ripristino: crea un nuovo volume dallo snapshot in AWS Backup console
 o CLI, poi allega alla nuova istanza.
+
+## Bucket foto delle pulizie
+
+Le foto opzionali delle routine di pulizia HACCP (vedi
+[23-cleaning-routines.md](23-cleaning-routines.md)) stanno in un bucket S3
+privato; il backend firma soltanto gli URL, nessun byte passa dall'app.
+`terraform/photos.tf` crea:
+
+- `aws_s3_bucket.cleaning_photos`: `<project_name>-cleaning-photos-<account_id>`;
+- `aws_s3_bucket_public_access_block`: blocca ACL e policy pubbliche;
+- `aws_s3_bucket_server_side_encryption_configuration`: cifratura SSE-S3 (AES256);
+- `aws_s3_bucket_lifecycle_configuration`: elimina gli oggetti del prefisso
+  `cleaning/` dopo `cleaning_photos_retention_days` giorni (default 90) e
+  abbandona gli upload multipart incompleti dopo 1 giorno. Il valore deve
+  coincidere con `PHOTO_RETENTION_DAYS` in `app/services/photo_storage.py`;
+- `aws_iam_role_policy.cleaning_photos_rw` sul ruolo dell'istanza:
+  `s3:PutObject`/`s3:GetObject` sul solo prefisso `cleaning/*` e
+  `s3:ListBucket` sul bucket. Senza `ListBucket`, `head_object` su una chiave
+  assente risponderebbe 403 invece di 404 e l'app non distinguerebbe una foto
+  non caricata da un errore di permessi.
+
+L'app usa le credenziali del ruolo dell'istanza tramite il metadata service
+(IMDSv2). Con `http_tokens = "required"` l'hop limit di default (1) impedisce ai
+container Docker di raggiungerlo, quindi `terraform/instance.tf` imposta
+`http_put_response_hop_limit = 2`.
+
+Dopo `terraform apply`, copia il nome del bucket (output
+`cleaning_photos_bucket`) e la regione nei parametri SSM, poi rilancia il deploy
+applicativo:
+
+```bash
+cd terraform && terraform plan && terraform apply
+aws ssm put-parameter --name /restrackit/prod/cleaning_photos_bucket --type String \
+  --value "$(terraform output -raw cleaning_photos_bucket)" --overwrite
+aws ssm put-parameter --name /restrackit/prod/aws_region --type String \
+  --value eu-south-1 --overwrite
+```
+
+Finché `cleaning_photos_bucket` resta `CHANGE_ME` (valore iniziale dei
+parametri) `CLEANING_PHOTOS_BUCKET` non è impostato e gli endpoint foto
+rispondono 503 `ERR_EXT_001`: routine, occorrenze e completamento senza foto
+funzionano comunque.

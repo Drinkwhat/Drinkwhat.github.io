@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quick Reference Guide &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Quick Reference Guide &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -976,7 +996,7 @@ uvicorn<span class="w"> </span>app.main:app<span class="w"> </span>--host<span c
 <section id="database-migrations">
 <h2>🗄️ Database Migrations<a class="headerlink" href="#database-migrations" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create new migration</span>
-alembic<span class="w"> </span>revision<span class="w"> </span>--autogenerate<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;description of changes&quot;</span>
+alembic<span class="w"> </span>revision<span class="w"> </span>--autogenerate<span class="w"> </span>-m<span class="w"> </span><span class="s2">"description of changes"</span>
 
 <span class="c1"># Apply migrations</span>
 alembic<span class="w"> </span>upgrade<span class="w"> </span>head
@@ -1005,7 +1025,7 @@ pytest<span class="w"> </span>tests/test_carico.py<span class="w"> </span>-v
 pytest<span class="w"> </span>tests/test_carico.py::test_conferma_carico_success<span class="w"> </span>-v
 
 <span class="c1"># Run tests matching pattern</span>
-pytest<span class="w"> </span>tests/<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;carico&quot;</span><span class="w"> </span>-v
+pytest<span class="w"> </span>tests/<span class="w"> </span>-k<span class="w"> </span><span class="s2">"carico"</span><span class="w"> </span>-v
 
 <span class="c1"># Run tests with timing</span>
 pytest<span class="w"> </span>tests/<span class="w"> </span>-v<span class="w"> </span>--durations<span class="o">=</span><span class="m">10</span>
@@ -1053,8 +1073,8 @@ git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </
 
 <span class="c1"># 3) Lavora e fai commit piccoli</span>
 git<span class="w"> </span>add<span class="w"> </span>app/
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix(auth): handle missing header&quot;</span>
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test(auth): add header test&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix(auth): handle missing header"</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"test(auth): add header test"</span>
 
 <span class="c1"># 4) Push e PR</span>
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">123</span>-fix_login
@@ -1065,7 +1085,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <section id="common-api-calls">
 <h2>📡 Common API Calls<a class="headerlink" href="#common-api-calls" title="Link to this heading"></a></h2>
 <p>Prima ottieni un token da Keycloak e impostalo qui:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;&lt;bearer-token&gt;&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">"&lt;bearer-token&gt;"</span>
 </pre></div>
 </div>
 <section id="health-check">
@@ -1074,46 +1094,47 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </pre></div>
 </div>
 </section>
-<section id="analyze-image">
-<h3>Analyze Image<a class="headerlink" href="#analyze-image" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/inventory/analyze<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-F<span class="w"> </span><span class="s2">&quot;file=@image.jpg&quot;</span>
+<section id="parse-label-text">
+<h3>Parse Label Text<a class="headerlink" href="#parse-label-text" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/v1/inventory/parse-text<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"raw_text": "LATTE INTERO L12345 SCAD 31/12/24"}'</span>
 </pre></div>
 </div>
 </section>
 <section id="confirm-batch">
 <h3>Confirm Batch<a class="headerlink" href="#confirm-batch" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/inventory/confirm<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;product_name&quot;: &quot;Latte Intero&quot;,</span>
-<span class="s1">    &quot;lot_code&quot;: &quot;LOT123&quot;,</span>
-<span class="s1">    &quot;lotto_proposto_ai&quot;: &quot;LOT123&quot;,</span>
-<span class="s1">    &quot;expiry_date&quot;: &quot;2024-12-31&quot;,</span>
-<span class="s1">    &quot;confidence&quot;: 0.95</span>
-<span class="s1">  }&#39;</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "product_name": "Latte Intero",</span>
+<span class="s1">    "lot_code": "LOT123",</span>
+<span class="s1">    "lotto_proposto_ai": "LOT123",</span>
+<span class="s1">    "expiry_date": "2024-12-31",</span>
+<span class="s1">    "confidence": 0.95</span>
+<span class="s1">  }'</span>
 </pre></div>
 </div>
 </section>
 <section id="get-products">
 <h3>Get Products<a class="headerlink" href="#get-products" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://localhost:8000/products/list<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
 </div>
 </section>
 <section id="bulk-import-products">
 <h3>Bulk Import Products<a class="headerlink" href="#bulk-import-products" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/products/bulk-load<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;[</span>
-<span class="s1">    {&quot;name&quot;: &quot;Latte Intero&quot;, &quot;category&quot;: &quot;Dairy&quot;},</span>
-<span class="s1">    {&quot;name&quot;: &quot;Mozzarella&quot;, &quot;category&quot;: &quot;Dairy&quot;},</span>
-<span class="s1">    {&quot;name&quot;: &quot;Pomodori&quot;, &quot;category&quot;: &quot;Vegetables&quot;}</span>
-<span class="s1">  ]&#39;</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'[</span>
+<span class="s1">    {"name": "Latte Intero", "category": "Dairy"},</span>
+<span class="s1">    {"name": "Mozzarella", "category": "Dairy"},</span>
+<span class="s1">    {"name": "Pomodori", "category": "Vegetables"}</span>
+<span class="s1">  ]'</span>
 </pre></div>
 </div>
 </section>
@@ -1124,7 +1145,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <h3>Chef<a class="headerlink" href="#chef" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>View products: ✅ GET <code class="docutils literal notranslate"><span class="pre">/products/list</span></code></p></li>
-<li><p>Analyze images: ✅ POST <code class="docutils literal notranslate"><span class="pre">/inventory/analyze</span></code></p></li>
+<li><p>Parse label text: ✅ POST <code class="docutils literal notranslate"><span class="pre">/inventory/parse-text</span></code></p></li>
 <li><p>Confirm batches: ✅ POST <code class="docutils literal notranslate"><span class="pre">/inventory/confirm</span></code></p></li>
 <li><p>Manage products: ❌</p></li>
 <li><p>Edit batches: ❌</p></li>
@@ -1192,12 +1213,12 @@ SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </sp
 <section id="notifications">
 <h3>Notifications<a class="headerlink" href="#notifications" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get unread notifications</span>
-curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/notifications?unread_only=true&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+curl<span class="w"> </span><span class="s2">"http://localhost:8000/notifications?unread_only=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span>
 
 <span class="c1"># Mark as read</span>
 curl<span class="w"> </span>-X<span class="w"> </span>PATCH<span class="w"> </span>http://localhost:8000/notifications/1/read<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
 </div>
 </section>

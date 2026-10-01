@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.version &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.core.version &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1276,11 +1298,11 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.version</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Centralized version management.</span>
 <span class="sd">Reads version information from app/version.json (generated during build/CI)</span>
 <span class="sd">or falls back to pyproject.toml for local development.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
@@ -1290,29 +1312,29 @@ for private packages in organization repositories.)</a></li>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_git_commit</span><span class="p">(</span><span class="n">project_root</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to execute git rev-parse HEAD.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Helper function to execute git rev-parse HEAD."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">,</span> <span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">project_root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">[</span><span class="s2">"git"</span><span class="p">,</span> <span class="s2">"rev-parse"</span><span class="p">,</span> <span class="s2">"HEAD"</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">project_root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">OSError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;dev&quot;</span>
+        <span class="k">return</span> <span class="s2">"dev"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_version_from_json</span><span class="p">(</span><span class="n">version_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">project_root</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper to try reading and parsing app/version.json.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Helper to try reading and parsing app/version.json."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">version_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;dict[str, str]&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"dict[str, str]"</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
 
-        <span class="n">file_commit</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;commit&quot;</span><span class="p">)</span>
+        <span class="n">file_commit</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"commit"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">file_commit</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">data</span>
 
         <span class="n">head_commit</span> <span class="o">=</span> <span class="n">_get_git_commit</span><span class="p">(</span><span class="n">project_root</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">head_commit</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;dev&quot;</span><span class="p">,</span> <span class="n">file_commit</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">head_commit</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"dev"</span><span class="p">,</span> <span class="n">file_commit</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">data</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">PermissionError</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
@@ -1321,7 +1343,7 @@ for private packages in organization repositories.)</a></li>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_nested_val</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">],</span> <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper to get nested values from a dictionary.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Helper to get nested values from a dictionary."""</span>
     <span class="n">curr</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">data</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curr</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -1331,31 +1353,31 @@ for private packages in organization repositories.)</a></li>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_extract_toml_version</span><span class="p">(</span><span class="n">toml_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract version string from parsed pyproject.toml data.&quot;&quot;&quot;</span>
-    <span class="n">version</span> <span class="o">=</span> <span class="n">_get_nested_val</span><span class="p">(</span><span class="n">toml_data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">])</span>
+<span class="w">    </span><span class="sd">"""Extract version string from parsed pyproject.toml data."""</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">_get_nested_val</span><span class="p">(</span><span class="n">toml_data</span><span class="p">,</span> <span class="p">[</span><span class="s2">"project"</span><span class="p">,</span> <span class="s2">"version"</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">version</span>
-    <span class="k">return</span> <span class="n">_get_nested_val</span><span class="p">(</span><span class="n">toml_data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;tool&quot;</span><span class="p">,</span> <span class="s2">&quot;commitizen&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">_get_nested_val</span><span class="p">(</span><span class="n">toml_data</span><span class="p">,</span> <span class="p">[</span><span class="s2">"tool"</span><span class="p">,</span> <span class="s2">"commitizen"</span><span class="p">,</span> <span class="s2">"version"</span><span class="p">])</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_version_from_toml</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">project_root</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper to fall back to pyproject.toml.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Helper to fall back to pyproject.toml."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">toml_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
         <span class="n">version</span> <span class="o">=</span> <span class="n">_extract_toml_version</span><span class="p">(</span><span class="n">toml_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">version</span><span class="p">:</span>
             <span class="n">commit_hash</span> <span class="o">=</span> <span class="n">_get_git_commit</span><span class="p">(</span><span class="n">project_root</span><span class="p">)</span>
-            <span class="n">commit_short</span> <span class="o">=</span> <span class="n">commit_hash</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="k">if</span> <span class="n">commit_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;dev&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">}</span> <span class="k">else</span> <span class="n">commit_hash</span>
+            <span class="n">commit_short</span> <span class="o">=</span> <span class="n">commit_hash</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="k">if</span> <span class="n">commit_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"dev"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">}</span> <span class="k">else</span> <span class="n">commit_hash</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">version</span><span class="p">,</span>
-                <span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="n">commit_hash</span><span class="p">,</span>
-                <span class="s2">&quot;commit_short&quot;</span><span class="p">:</span> <span class="n">commit_short</span><span class="p">,</span>
-                <span class="s2">&quot;full_version&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">commit_short</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;semver&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">commit_short</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"version"</span><span class="p">:</span> <span class="n">version</span><span class="p">,</span>
+                <span class="s2">"commit"</span><span class="p">:</span> <span class="n">commit_hash</span><span class="p">,</span>
+                <span class="s2">"commit_short"</span><span class="p">:</span> <span class="n">commit_short</span><span class="p">,</span>
+                <span class="s2">"full_version"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">commit_short</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"semver"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">commit_short</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">}</span>
     <span class="k">except</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">TOMLDecodeError</span><span class="p">,</span> <span class="ne">PermissionError</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -1365,39 +1387,39 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="get_version_info">
 <a class="viewcode-back" href="../../../app.core.html#app.core.version.get_version_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_version_info</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get the application version and commit hash.</span>
 
 <span class="sd">    Priority:</span>
 <span class="sd">    1. app/version.json (Generated by CI/scripts)</span>
 <span class="sd">    2. pyproject.toml (Local development fallback)</span>
-<span class="sd">    3. Default &quot;0.0.0&quot;</span>
+<span class="sd">    3. Default "0.0.0"</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict[str, str]: Informazioni sulla versione (version, commit, full_version).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">app_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
     <span class="n">project_root</span> <span class="o">=</span> <span class="n">app_dir</span><span class="o">.</span><span class="n">parent</span>
 
     <span class="c1"># 1. Try reading from app/version.json</span>
-    <span class="n">version_file</span> <span class="o">=</span> <span class="n">app_dir</span> <span class="o">/</span> <span class="s2">&quot;version.json&quot;</span>
+    <span class="n">version_file</span> <span class="o">=</span> <span class="n">app_dir</span> <span class="o">/</span> <span class="s2">"version.json"</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">_get_version_from_json</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="n">project_root</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">info</span>
 
     <span class="c1"># 2. Fallback to pyproject.toml</span>
-    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">project_root</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">project_root</span> <span class="o">/</span> <span class="s2">"pyproject.toml"</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">_get_version_from_toml</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="n">project_root</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">info</span>
 
     <span class="c1"># 3. Default fallback</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;commit_short&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;full_version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0-unknown&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;semver&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"0.0.0"</span><span class="p">,</span>
+        <span class="s2">"commit"</span><span class="p">:</span> <span class="s2">"unknown"</span><span class="p">,</span>
+        <span class="s2">"commit_short"</span><span class="p">:</span> <span class="s2">"unknown"</span><span class="p">,</span>
+        <span class="s2">"full_version"</span><span class="p">:</span> <span class="s2">"0.0.0-unknown"</span><span class="p">,</span>
+        <span class="s2">"semver"</span><span class="p">:</span> <span class="s2">"0.0.0"</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -1405,9 +1427,9 @@ for private packages in organization repositories.)</a></li>
 <span class="c1"># Load version info once at module level</span>
 <span class="n">VERSION_INFO</span> <span class="o">=</span> <span class="n">get_version_info</span><span class="p">()</span>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="n">VERSION_INFO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">)</span>
-<span class="n">COMMIT_HASH</span> <span class="o">=</span> <span class="n">VERSION_INFO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;commit&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
-<span class="n">FULL_VERSION</span> <span class="o">=</span> <span class="n">VERSION_INFO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;full_version&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">COMMIT_HASH</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="n">VERSION_INFO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"version"</span><span class="p">,</span> <span class="s2">"0.0.0"</span><span class="p">)</span>
+<span class="n">COMMIT_HASH</span> <span class="o">=</span> <span class="n">VERSION_INFO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"commit"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">)</span>
+<span class="n">FULL_VERSION</span> <span class="o">=</span> <span class="n">VERSION_INFO</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"full_version"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">COMMIT_HASH</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 
            </div>

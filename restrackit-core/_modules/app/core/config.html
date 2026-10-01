@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.core.config &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1276,18 +1298,16 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.config</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Application configuration and settings management.</span>
 
 <span class="sd">This module manages:</span>
 <span class="sd">- Environment variables and .env file configuration</span>
 <span class="sd">- Google API credentials setup</span>
 <span class="sd">- Cached settings instance for singleton pattern</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
@@ -1295,25 +1315,22 @@ for private packages in organization repositories.)</a></li>
 
 <span class="c1"># Environments treated as non-production for security-sensitive toggles</span>
 <span class="c1"># (interactive API docs, verbose request logging). Default-deny: any other</span>
-<span class="c1"># value — including &quot;production&quot;, typos, or unknown names — is treated as</span>
+<span class="c1"># value — including "production", typos, or unknown names — is treated as</span>
 <span class="c1"># production so those features fail safe (OWASP API9).</span>
-<span class="n">NON_PRODUCTION_ENVIRONMENTS</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="s2">&quot;staging&quot;</span><span class="p">})</span>
+<span class="n">NON_PRODUCTION_ENVIRONMENTS</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">"local"</span><span class="p">,</span> <span class="s2">"staging"</span><span class="p">})</span>
 
 
 <div class="viewcode-block" id="Settings">
 <a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Application settings loaded from environment or .env file.</span>
+<span class="w">    </span><span class="sd">"""Application settings loaded from environment or .env file.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        google_api_key (str): API key for Google Gemini LLM</span>
-<span class="sd">        google_application_credentials (str): Path to service account JSON for</span>
-<span class="sd">            Google Cloud Vision API</span>
 <span class="sd">        database_url (str): Database connection URL (PostgreSQL or SQLite)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">google_api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">google_application_credentials</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Keycloak Configuration</span>
@@ -1328,23 +1345,23 @@ for private packages in organization repositories.)</a></li>
     <span class="n">keycloak_onboarding_client_secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># CORS Configuration</span>
     <span class="c1"># List of origins allowed to make cross-origin requests.</span>
-    <span class="c1"># In .env, use JSON format: [&quot;http://localhost:3000&quot;, &quot;https://app.example.com&quot;]</span>
-    <span class="c1"># Local default is [&quot;*&quot;] for development convenience.</span>
-    <span class="c1"># In production, set CORS_ORIGINS to an explicit allowlist (no &quot;*&quot;).</span>
-    <span class="c1"># If you enable credentials, never use &quot;*&quot; as an allowed origin.</span>
+    <span class="c1"># In .env, use JSON format: ["http://localhost:3000", "https://app.example.com"]</span>
+    <span class="c1"># Local default is ["*"] for development convenience.</span>
+    <span class="c1"># In production, set CORS_ORIGINS to an explicit allowlist (no "*").</span>
+    <span class="c1"># If you enable credentials, never use "*" as an allowed origin.</span>
     <span class="n">cors_origins</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Settings.cors_origins_must_be_non_empty_strings">
 <a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.cors_origins_must_be_non_empty_strings">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;cors_origins&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"cors_origins"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cors_origins_must_be_non_empty_strings</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure every entry in cors_origins is a non-empty string.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Ensure every entry in cors_origins is a non-empty string."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGINS must not be empty&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"CORS_ORIGINS must not be empty"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">origin</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Each entry in CORS_ORIGINS must be a non-empty string&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Each entry in CORS_ORIGINS must be a non-empty string"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span></div>
 
 
@@ -1353,60 +1370,80 @@ for private packages in organization repositories.)</a></li>
     <span class="n">public_base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Trusted hosts allowlist for the Host header (anti host-header injection).</span>
-    <span class="c1"># In .env, use JSON format: [&quot;app.example.com&quot;, &quot;*.example.com&quot;].</span>
-    <span class="c1"># Default is [&quot;*&quot;] for local/demo convenience; set an explicit list in production.</span>
-    <span class="n">allowed_hosts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
+    <span class="c1"># In .env, use JSON format: ["app.example.com", "*.example.com"].</span>
+    <span class="c1"># Default is ["*"] for local/demo convenience; set an explicit list in production.</span>
+    <span class="n">allowed_hosts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">"*"</span><span class="p">])</span>
 
     <span class="c1"># Peer IPs allowed to set X-Forwarded-For/X-Forwarded-Proto (issue #374).</span>
     <span class="c1"># Default-deny: empty means no peer is trusted, so a raw X-Forwarded-For</span>
     <span class="c1"># is always ignored and request.client.host (the real TCP peer) is used —</span>
     <span class="c1"># fail-safe for local dev, tests, or any misconfigured deployment.</span>
-    <span class="c1"># deploy/prod and deploy/staging explicitly set this to &quot;*&quot; because the app</span>
+    <span class="c1"># deploy/prod and deploy/staging explicitly set this to "*" because the app</span>
     <span class="c1"># container there never publishes its port — Traefik (whose docker-assigned</span>
-    <span class="c1"># IP isn&#39;t static) is the only reachable peer, so trusting any direct</span>
+    <span class="c1"># IP isn't static) is the only reachable peer, so trusting any direct</span>
     <span class="c1"># connection is safe and an unauthenticated client can never spoof it.</span>
     <span class="n">trusted_proxy_ips</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
     <span class="c1"># Content-Security-Policy header used ONLY for /docs and /redoc: Swagger UI and</span>
     <span class="c1"># ReDoc render inline &lt;script&gt;/&lt;style&gt; and pull assets from a CDN, so they need</span>
-    <span class="c1"># &#39;unsafe-inline&#39; and a broad https: source. These routes are disabled outright in</span>
+    <span class="c1"># 'unsafe-inline' and a broad https: source. These routes are disabled outright in</span>
     <span class="c1"># production (see `_docs_enabled` in main.py), so the relaxation never reaches prod.</span>
     <span class="n">content_security_policy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;default-src &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;img-src &#39;self&#39; data: https:; &quot;</span>
-        <span class="s2">&quot;style-src &#39;self&#39; &#39;unsafe-inline&#39; https:; &quot;</span>
-        <span class="s2">&quot;script-src &#39;self&#39; &#39;unsafe-inline&#39; https:; &quot;</span>
-        <span class="s2">&quot;connect-src &#39;self&#39; https:; &quot;</span>
-        <span class="s2">&quot;object-src &#39;none&#39;; &quot;</span>
-        <span class="s2">&quot;base-uri &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;form-action &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;frame-ancestors &#39;none&#39;&quot;</span>
+        <span class="s2">"default-src 'self'; "</span>
+        <span class="s2">"img-src 'self' data: https:; "</span>
+        <span class="s2">"style-src 'self' 'unsafe-inline' https:; "</span>
+        <span class="s2">"script-src 'self' 'unsafe-inline' https:; "</span>
+        <span class="s2">"connect-src 'self' https:; "</span>
+        <span class="s2">"object-src 'none'; "</span>
+        <span class="s2">"base-uri 'self'; "</span>
+        <span class="s2">"form-action 'self'; "</span>
+        <span class="s2">"frame-ancestors 'none'"</span>
     <span class="p">)</span>
 
     <span class="c1"># Content-Security-Policy applied to every other route (API responses + the static</span>
-    <span class="c1"># /ui app). No &#39;unsafe-inline&#39;, no wildcard https: source: every /ui script/style</span>
+    <span class="c1"># /ui app). No 'unsafe-inline', no wildcard https: source: every /ui script/style</span>
     <span class="c1"># must be an external same-origin file.</span>
     <span class="n">content_security_policy_strict</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;default-src &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;img-src &#39;self&#39; data:; &quot;</span>
-        <span class="s2">&quot;style-src &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;script-src &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;connect-src &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;object-src &#39;none&#39;; &quot;</span>
-        <span class="s2">&quot;base-uri &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;form-action &#39;self&#39;; &quot;</span>
-        <span class="s2">&quot;frame-ancestors &#39;none&#39;&quot;</span>
+        <span class="s2">"default-src 'self'; "</span>
+        <span class="s2">"img-src 'self' data:; "</span>
+        <span class="s2">"style-src 'self'; "</span>
+        <span class="s2">"script-src 'self'; "</span>
+        <span class="s2">"connect-src 'self'; "</span>
+        <span class="s2">"object-src 'none'; "</span>
+        <span class="s2">"base-uri 'self'; "</span>
+        <span class="s2">"form-action 'self'; "</span>
+        <span class="s2">"frame-ancestors 'none'"</span>
     <span class="p">)</span>
 
 <div class="viewcode-block" id="Settings.inject_keycloak_into_csp">
 <a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.inject_keycloak_into_csp">[docs]</a>
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inject_keycloak_into_csp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add KEYCLOAK_URL origin to connect-src of both CSP policies.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add KEYCLOAK_URL origin to connect-src of both CSP policies.</span>
+
+<span class="sd">        With a photo bucket configured, the strict policy also allows its S3 origin: in</span>
+<span class="sd">        img-src to show completed-cleaning photos, and (outside production only) in</span>
+<span class="sd">        connect-src so the web UI can upload them with the presigned POST.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaning_photos_bucket</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaning_photos_endpoint_url</span><span class="p">:</span>
+                <span class="n">endpoint</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaning_photos_endpoint_url</span><span class="p">)</span>
+                <span class="n">s3_origin</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">endpoint</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">endpoint</span><span class="o">.</span><span class="n">netloc</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s3_origin</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaning_photos_bucket</span><span class="si">}</span><span class="s2">.s3.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span><span class="si">}</span><span class="s2">.amazonaws.com"</span>
+                <span class="p">)</span>
+            <span class="n">strict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_connect_src</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy_strict</span><span class="p">,</span> <span class="n">s3_origin</span><span class="p">,</span> <span class="n">directive</span><span class="o">=</span><span class="s2">"img-src"</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_production</span><span class="p">:</span>
+                <span class="n">strict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_connect_src</span><span class="p">(</span><span class="n">strict</span><span class="p">,</span> <span class="n">s3_origin</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy_strict</span> <span class="o">=</span> <span class="n">strict</span>
+
         <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="n">keycloak_origin</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">keycloak_origin</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_connect_src</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">content_security_policy</span><span class="p">,</span> <span class="n">keycloak_origin</span>
@@ -1418,32 +1455,32 @@ for private packages in organization repositories.)</a></li>
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_inject_connect_src</span><span class="p">(</span><span class="n">policy</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add ``origin`` to the connect-src directive of ``policy`` if not already present.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inject_connect_src</span><span class="p">(</span><span class="n">policy</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directive</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"connect-src"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add ``origin`` to ``directive`` (default connect-src) of ``policy`` if not present.</span>
 
 <span class="sd">        Inspects the connect-src directive specifically: an origin allowed in another</span>
 <span class="sd">        directive (e.g. script-src) does NOT permit the browser to open XHR/fetch/</span>
 <span class="sd">        WebSocket connections, which are governed solely by connect-src. A whole-string</span>
 <span class="sd">        substring check would wrongly treat such an origin as already covered.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">directives</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+<span class="sd">        """</span>
+        <span class="n">directives</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">";"</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
         <span class="n">connect_src_index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;connect-src&quot;</span><span class="p">),</span> <span class="kc">None</span>
+            <span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">directive</span><span class="p">),</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">connect_src_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">directives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;connect-src </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">directives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">directive</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sources</span> <span class="o">=</span> <span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                 <span class="k">return</span> <span class="n">policy</span>
-            <span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">directives</span><span class="p">[</span><span class="n">connect_src_index</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">"</span>
 
-        <span class="k">return</span> <span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directives</span><span class="p">)</span>
 
     <span class="c1"># If True, browsers are allowed to include credentials on cross-origin requests</span>
     <span class="c1"># (cookies, Authorization header, TLS client certs).</span>
-    <span class="c1"># Security: credentials + wildcard origin (&quot;*&quot;) is unsafe; app/main.py enforces</span>
-    <span class="c1"># that credentials are disabled whenever &quot;*&quot; is present in cors_origins.</span>
+    <span class="c1"># Security: credentials + wildcard origin ("*") is unsafe; app/main.py enforces</span>
+    <span class="c1"># that credentials are disabled whenever "*" is present in cors_origins.</span>
     <span class="n">cors_allow_credentials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># Monitoring and Analytics (Optional, enabled if provided)</span>
@@ -1452,33 +1489,13 @@ for private packages in organization repositories.)</a></li>
     <span class="n">sentry_traces_sample_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
     <span class="n">sentry_profiles_sample_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
     <span class="n">apitally_client_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">environment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;local&quot;</span>  <span class="c1"># e.g., &quot;staging&quot;, &quot;production&quot;, &quot;local&quot;</span>
-    <span class="n">max_upload_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># Default 10MB</span>
-    <span class="c1"># Default assumes the Docker container layout. For local dev without Docker,</span>
-    <span class="c1"># set UPLOAD_DIR=./uploads (or any writable path) in .env (issue #181).</span>
-    <span class="n">upload_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/app/uploads&quot;</span>
+    <span class="n">environment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"local"</span>  <span class="c1"># e.g., "staging", "production", "local"</span>
     <span class="n">idempotency_key_ttl_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span>
-
-<div class="viewcode-block" id="Settings.upload_dir_must_exist">
-<a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.upload_dir_must_exist">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;upload_dir&quot;</span><span class="p">)</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">upload_dir_must_exist</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the upload directory if missing so it&#39;s ready at startup.</span>
-
-<span class="sd">        Idempotent (``exist_ok=True``): safe to run on every settings load,</span>
-<span class="sd">        including repeated instantiations in tests. Prevents the</span>
-<span class="sd">        ``FileNotFoundError``/silent &quot;directory not found&quot; behaviour</span>
-<span class="sd">        previously seen when running locally without Docker (issue #181).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">v</span></div>
-
 
     <span class="c1"># Redis Configuration</span>
     <span class="c1"># In production, require credentials, e.g. redis://user:pass@host:6379/0</span>
-    <span class="c1"># (or &quot;rediss://&quot; if TLS is available). Prefer a dedicated ACL user over &quot;default&quot;.</span>
-    <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># (or "rediss://" if TLS is available). Prefer a dedicated ACL user over "default".</span>
+    <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">"redis://localhost:6379/0"</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">redis_cache_ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># Default 1 hour</span>
 
     <span class="c1"># Explicit timeouts (issue #301): redis-py has no timeout by default, so a</span>
@@ -1489,16 +1506,16 @@ for private packages in organization repositories.)</a></li>
 
 <div class="viewcode-block" id="Settings.redis_url_must_be_authenticated_in_production">
 <a class="viewcode-back" href="../../../app.core.html#app.core.config.Settings.redis_url_must_be_authenticated_in_production">[docs]</a>
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">redis_url_must_be_authenticated_in_production</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject an unauthenticated redis_url when running in production.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reject an unauthenticated redis_url when running in production."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_production</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">redis_url</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span> <span class="s2">&quot;rediss&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"redis"</span><span class="p">,</span> <span class="s2">"rediss"</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;In produzione REDIS_URL deve avere credenziali &quot;</span>
-                <span class="s2">&quot;(redis://user:pass@host:port/db, o rediss:// se disponibile TLS)&quot;</span>
+                <span class="s2">"In produzione REDIS_URL deve avere credenziali "</span>
+                <span class="s2">"(redis://user:pass@host:port/db, o rediss:// se disponibile TLS)"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -1508,8 +1525,8 @@ for private packages in organization repositories.)</a></li>
 
     <span class="c1"># OpenTelemetry tracing (OTEL_ENABLED=true activates auto-instrumentation)</span>
     <span class="n">otel_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">otel_endpoint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># e.g. &quot;http://tempo:4317&quot;</span>
-    <span class="n">otel_service_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;restrackit-core&quot;</span>
+    <span class="n">otel_endpoint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># e.g. "http://tempo:4317"</span>
+    <span class="n">otel_service_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"restrackit-core"</span>
 
     <span class="c1"># Datadog APM (DATADOG_ENABLED=true patches ddtrace at startup)</span>
     <span class="n">datadog_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1519,17 +1536,29 @@ for private packages in organization repositories.)</a></li>
     <span class="c1"># can scrape it independently from the API process.</span>
     <span class="n">worker_metrics_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">65535</span><span class="p">)</span>
 
+    <span class="c1"># Foto delle pulizie HACCP su S3. Senza bucket gli endpoint foto rispondono 503.</span>
+    <span class="c1"># Le credenziali AWS non sono variabili dell'app: boto3 usa il ruolo dell'istanza</span>
+    <span class="c1"># EC2 (in locale ~/.aws o le variabili AWS_* standard).</span>
+    <span class="n">cleaning_photos_bucket</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Solo sviluppo/test: endpoint S3-compatibile raggiungibile dal browser (es. RustFS/MinIO</span>
+    <span class="c1"># ``http://localhost:9000``, indirizzamento path-style). Vuoto = AWS S3 reale.</span>
+    <span class="n">cleaning_photos_endpoint_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Solo sviluppo: stesso S3 visto dal server (es. ``http://s3:9000`` nella rete Docker),</span>
+    <span class="c1"># perché ``localhost`` dentro il container non è l'S3 raggiunto dal browser.</span>
+    <span class="n">cleaning_photos_internal_endpoint_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">aws_region</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"eu-south-1"</span>
+
     <span class="c1"># Pydantic V2: uses model_config instead of inner Config class</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>
-        <span class="n">env_file</span><span class="o">=</span><span class="s2">&quot;.env&quot;</span><span class="p">,</span>
-        <span class="n">env_file_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
-        <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span>  <span class="c1"># Ignore extra env variables to avoid validation errors</span>
+        <span class="n">env_file</span><span class="o">=</span><span class="s2">".env"</span><span class="p">,</span>
+        <span class="n">env_file_encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span>  <span class="c1"># Ignore extra env variables to avoid validation errors</span>
         <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the app should behave as a production deployment.</span>
+<span class="w">        </span><span class="sd">"""Whether the app should behave as a production deployment.</span>
 
 <span class="sd">        Default-deny: returns ``True`` unless ``environment`` is one of the</span>
 <span class="sd">        explicitly allowed non-production values (case-insensitive). Unknown</span>
@@ -1538,58 +1567,58 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: ``True`` for production and any unrecognised environment.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">NON_PRODUCTION_ENVIRONMENTS</span>
 
     <span class="c1"># Computed properties for Keycloak</span>
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">oidc_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the public OIDC base URL for the configured realm.</span>
+<span class="w">        </span><span class="sd">"""Build the public OIDC base URL for the configured realm.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The public realm URL in the form ``{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">oidc_internal_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the internal OIDC base URL for the configured realm.</span>
+<span class="w">        </span><span class="sd">"""Build the internal OIDC base URL for the configured realm.</span>
 
 <span class="sd">        This is used for server-to-server calls (e.g., JWKS fetch) and falls back to</span>
 <span class="sd">        the public Keycloak URL when an internal URL is not provided.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The internal realm URL in the form ``{base}/realms/{KEYCLOAK_REALM}``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_INTERNAL_URL</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_URL</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">jwks_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the JWKS (JSON Web Key Set) endpoint URL.</span>
+<span class="w">        </span><span class="sd">"""Return the JWKS (JSON Web Key Set) endpoint URL.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The JWKS URL for the configured realm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_internal_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/certs&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_internal_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/certs"</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">token_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the OAuth2 token endpoint URL.</span>
+<span class="w">        </span><span class="sd">"""Return the OAuth2 token endpoint URL.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The token endpoint URL for the configured realm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/token&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/token"</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">authorization_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the OAuth2 authorization endpoint URL.</span>
+<span class="w">        </span><span class="sd">"""Return the OAuth2 authorization endpoint URL.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The authorization endpoint URL for the configured realm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/auth&quot;</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oidc_url</span><span class="si">}</span><span class="s2">/protocol/openid-connect/auth"</span></div>
 
 
 
@@ -1597,22 +1626,15 @@ for private packages in organization repositories.)</a></li>
 <a class="viewcode-back" href="../../../app.core.html#app.core.config.get_settings">[docs]</a>
 <span class="nd">@lru_cache</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Settings</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get cached settings instance (singleton pattern).</span>
+<span class="w">    </span><span class="sd">"""Get cached settings instance (singleton pattern).</span>
 
 <span class="sd">    This function uses lru_cache to ensure only one Settings instance</span>
-<span class="sd">    is created throughout the application lifecycle. It also sets up</span>
-<span class="sd">    Google Cloud credentials path for the Vision API.</span>
+<span class="sd">    is created throughout the application lifecycle.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Settings: Cached application settings instance</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>
-
-    <span class="c1"># Critical: Set Google Application Credentials path for Vision SDK</span>
-    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">google_application_credentials</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GOOGLE_APPLICATION_CREDENTIALS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">google_application_credentials</span>
-
-    <span class="k">return</span> <span class="n">settings</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">Settings</span><span class="p">()</span></div>
 
 </pre></div>
 

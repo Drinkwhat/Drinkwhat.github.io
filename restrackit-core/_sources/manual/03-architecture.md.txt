@@ -19,9 +19,9 @@ Restrackit is a FastAPI-based REST API for restaurant inventory management with 
     │                │           │                        │
     ▼                ▼           ▼                        ▼
 ┌──────────┐   ┌──────────┐ ┌─────────────┐        ┌─────────────┐
-│ Vision   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
-│ API      │   │ Agent    │ │ Database    │        │ (Async Task)│
-│(OCR)     │   │ (AI)     │ │ (Data)      │        │             │
+│ Mobile   │   │ Gemini   │ │ PostgreSQL  │        │ arq Worker  │
+│ on-device│   │ Agent    │ │ Database    │        │ (Cron jobs) │
+│ OCR      │   │ (AI)     │ │ (Data)      │        │             │
 └──────────┘   └──────────┘ └─────────────┘        └─────────────┘
 ```
 
@@ -62,7 +62,6 @@ restrackit-core/
 │   │   └── setup/             # Dev tools
 │   │
 │   ├── services/              # External Integrations
-│   │   ├── ocr.py             # Google Vision Client
 │   │   └── ai_agent.py        # Gemini Agent Logic
 │   │
 │   ├── shared/                # Shared utilities
@@ -95,7 +94,7 @@ restrackit-core/
 
 ### AI & Data
 
-- **OCR**: Google Cloud Vision API
+- **OCR**: on-device on the mobile app (ML Kit); the backend receives only text
 - **LLM**: Google Gemini 2.0 Flash (via `google-genai` SDK)
 - **Database**: PostgreSQL 18 (Alpine)
 - **Cache & Queue**: Redis 7.2 (with msgpack serialization)
@@ -131,7 +130,7 @@ Standardized error handling using `AppError` and specific codes (`ERR_...`):
 A specialized service that:
 
 1. Receives raw OCR text.
-2. Uses a custom tool (`search_product_tool`) to query the DB for product matches.
+2. Reconciles the extracted product name with the store catalog (exact match, then substring match).
 3. Returns structured data (Product, Lot, Expiry, Confidence).
 
 ### 4. Caching System (`app/shared/cache.py`)
@@ -157,10 +156,8 @@ All SQLAlchemy relationships use `lazy="raise"` instead of `lazy="selectin"`:
 Asynchronous task processing using `arq`:
 - **Singleton Pool**: Uses a persistent Redis connection pool to minimize overhead.
 - **Msgpack Serialization**: Custom serializers for `arq` that handle `date`/`datetime` objects via ISO conversion.
-- **Status Mapping**: Detailed job tracking that distinguishes between `arq` execution state and internal task result status (e.g., catching AI failures).
-- **Offloading**: Moves heavy OCR and AI analysis to a separate worker process.
-- **Shared Storage**: Uses Docker volumes (`uploads_data`) for temporary file processing between the API and workers.
-- **Monitoring**: Real-time status retrieval via `/inventory/analyze/{job_id}`.
+- **Cron jobs**: Daily expiry check (`check_expired_batches_task`) that creates DB notifications per store.
+- **Cron jobs**: Daily purge (`purge_ocr_analyses_task`) of OCR analyses older than 90 days.
 
 ### 6. Allergen Management (`app/shared/allergens.py`)
 
@@ -177,17 +174,18 @@ A specialized engine for intelligent lot code correction:
 - **Context-Aware Boost**: Increases AI confidence score when a lot code matches a known pattern from the product's history, reducing manual revisions.
 - **DRY Architecture**: Uses a unified source of truth for ambiguous character pairs, automatically shared between structural matching and positional validation logic.
 
-## Data Flow: Image Analysis
+## Data Flow: Label Text Analysis
 
-1. **Upload**: Client sends image to `POST /inventory/analyze`.
-2. **OCR**: `OCRService` calls Google Vision to get text.
+1. **OCR on-device**: The mobile app extracts the label text locally (ML Kit).
+2. **Upload text**: Client sends the raw text to `POST /inventory/parse-text`.
 3. **Agent**: `InventoryAgentService` sends text + store context to Gemini.
 4. **Prompt Injection Protection**: Untrusted OCR text is wrapped in delimiters (`[START_OCR]...[END_OCR]`) and isolated using **System Instructions**.
 5. **Structured Output**: Enforces valid JSON results via **JSON Schema Mode** and Pydantic models.
-6. **Tool Use**: Gemini calls `search_product_tool` to validate product name against `products_master` table.
+6. **Catalog reconciliation**: the extracted product name is matched against `products_master` (exact, then substring); names with no match become `NON_IDENTIFICATO`.
 7. **Post-Processing**: `LotCodePostProcessor` compares the extracted lot with historical lots for the same product to correct common OCR ambiguities.
-8. **Response**: Structured JSON is returned to the client (including a `warning` if the product wasn't identified).
-9. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table. Note: the deprecated `lot_code_ai` field has been removed to simplify the schema.
+8. **Analysis log**: text, AI proposal (before post-processing) and model are saved in `ocr_analyses` and an `analysis_id` is returned; the client sends it back to `POST /inventory/confirm` (optional), which stores the confirmed values next to the proposal to measure parsing accuracy. Rows older than 90 days are deleted by the daily `purge_ocr_analyses_task` (03:30).
+9. **Response**: Structured JSON is returned to the client (including a `warning` if the product wasn't identified).
+10. **Confirm**: Client sends validated data to `POST /inventory/confirm` to save in `batches` table. Note: the deprecated `lot_code_ai` field has been removed to simplify the schema.
 
 ## Multi-Tenancy & Security
 

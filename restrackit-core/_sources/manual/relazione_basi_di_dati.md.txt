@@ -1038,7 +1038,7 @@ L'operatore ha accesso a una **applicazione mobile** con le seguenti funzionalit
 | HACCP | Hazard Analysis and Critical Control Points. Metodologia per l'analisi e il controllo dei rischi alimentari, obbligatoria per le cucine professionali. Il sistema supporta la conformità HACCP tramite tracciabilità completa dei lotti. |
 | Lotto | Vedi Batch. |
 | Multi-tenancy | Architettura dove più clienti (store) condividono la stessa istanza del database mantenendo i dati completamente separati. Nel sistema è implementata tramite Row-Level Security di PostgreSQL: ogni riga ha `store_id` e le policy RLS garantiscono l'isolamento. |
-| OCR | Optical Character Recognition. Tecnologia per l'estrazione di testo da immagini. Nel sistema viene usato Google Cloud Vision per estrarre i dati dalle etichette dei lotti. |
+| OCR | Optical Character Recognition. Tecnologia per l'estrazione di testo da immagini. Nel sistema l'OCR è eseguito on-device dall'app mobile; il backend riceve solo il testo estratto. |
 | Optimistic locking | Meccanismo di controllo della concorrenza che non blocca le righe in lettura. Ogni entità ha un campo `version`: un UPDATE fallisce se la versione è cambiata dall'ultima lettura, segnalando un conflitto. |
 | Preparation | Esecuzione concreta di una ricetta standardizzata. Traccia i batch di materie prime consumati e il batch di prodotto finito generato. |
 | ProductMaster | Anagrafica di un prodotto del catalogo dello store. Rappresenta la definizione astratta di un prodotto (nome, categoria, allergeni), di cui i Batch sono le istanze fisiche. |

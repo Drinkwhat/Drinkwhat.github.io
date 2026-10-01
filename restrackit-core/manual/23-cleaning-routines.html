@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Environment Configuration &mdash; Restrackit 2.110.0 documentation</title>
+  <title>Cleaning Routines (pulizie HACCP) &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Authentication &amp; Authorization" href="09-auth.html" />
-    <link rel="prev" title="CI/CD Pipeline" href="07-cicd-pipeline.html" /> 
+    <link rel="next" title="Registro temperature (HACCP)" href="24-temperature-log.html" />
+    <link rel="prev" title="Disaster recovery: istanza EC2 di produzione ricreata" href="22-disaster-recovery.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -440,23 +440,23 @@ for private packages in organization repositories.)</a></li>
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Environment Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#google-ai">Google / AI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#database">Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#keycloak-oidc">Keycloak (OIDC)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cors">CORS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-environment-config.html">Environment Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#google-ai">Google / AI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#keycloak-oidc">Keycloak (OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#cors">CORS</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#best-practice">Best practice</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#secrets-management">Secrets Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#best-practice">Best practice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#secrets-management">Secrets Management</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#environment-variables-summary">Environment Variables Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="09-auth.html">Authentication &amp; Authorization</a><ul>
@@ -797,17 +797,17 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#esempi">Esempi</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
-<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#note-per-il-client-mobile">Note per il client (mobile)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
@@ -933,9 +933,9 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../markdown_docs.html">Documentazione Manuale (Markdown)</a></li>
-      <li class="breadcrumb-item active">Environment Configuration</li>
+      <li class="breadcrumb-item active">Cleaning Routines (pulizie HACCP)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/manual/08-environment-config.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/manual/23-cleaning-routines.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -943,244 +943,239 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="environment-configuration">
-<h1>Environment Configuration<a class="headerlink" href="#environment-configuration" title="Link to this heading"></a></h1>
-<p>Guida aggiornata alle variabili d’ambiente per Restrackit.</p>
-<section id="come-vengono-caricate-le-variabili">
-<h2>Come vengono caricate le variabili<a class="headerlink" href="#come-vengono-caricate-le-variabili" title="Link to this heading"></a></h2>
-<p>L’app usa <code class="docutils literal notranslate"><span class="pre">pydantic-settings</span></code> e legge automaticamente da:</p>
-<ul class="simple">
-<li><p>variabili d’ambiente (priorità più alta)</p></li>
-<li><p>file <code class="docutils literal notranslate"><span class="pre">.env</span></code> nella root del progetto</p></li>
-<li><p>valori espliciti forniti dall’utente (nessun fallback implicito per le variabili obbligatorie)</p></li>
-</ul>
-<p>Implementazione: <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.config</span></code></p>
-</section>
-<section id="file-env">
-<h2>File <code class="docutils literal notranslate"><span class="pre">.env</span></code><a class="headerlink" href="#file-env" title="Link to this heading"></a></h2>
-<p>Per iniziare:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-</pre></div>
-</div>
-<p>Il file <code class="docutils literal notranslate"><span class="pre">.env.example</span></code> contiene anche variabili usate dagli stack Docker in <code class="docutils literal notranslate"><span class="pre">deploy/</span></code>.</p>
-</section>
-<section id="variabili-applicative-lette-dallapp">
-<h2>Variabili applicative (lette dall’app)<a class="headerlink" href="#variabili-applicative-lette-dallapp" title="Link to this heading"></a></h2>
-<section id="google-ai">
-<h3>Google / AI<a class="headerlink" href="#google-ai" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">GOOGLE_API_KEY</span></code> (obbligatoria): API key per Gemini.</p></li>
-</ul>
-<p>Riferimenti: <a class="reference internal" href="../app.core.html#module-app.core.clients" title="app.core.clients"><code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.clients</span></code></a>, <code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.config</span></code></p>
-</section>
-<section id="database">
-<h3>Database<a class="headerlink" href="#database" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> (obbligatoria): URL DB (PostgreSQL). L’applicazione supporta e normalizza automaticamente i seguenti formati iniettando il driver asincrono <code class="docutils literal notranslate"><span class="pre">+asyncpg</span></code>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">postgresql://user:password&#64;host:5432/dbname</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">postgresql+asyncpg://...</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">postgres://user:password&#64;host:5432/dbname</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">postgresql+asyncpg://...</span></code></p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">REDIS_URL</span></code> (obbligatoria): URL Redis per caching e code task asincroni. Default: <code class="docutils literal notranslate"><span class="pre">redis://localhost:6379/0</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">REDIS_CACHE_TTL</span></code> (opzionale): TTL di default per la cache in secondi. Default: <code class="docutils literal notranslate"><span class="pre">3600</span></code>.</p></li>
-</ul>
-<p>Esempi:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>DATABASE_URL=postgresql://user:password@localhost:5432/app_db
-REDIS_URL=redis://localhost:6379/0
-</pre></div>
-</div>
-</section>
-<section id="keycloak-oidc">
-<h3>Keycloak (OIDC)<a class="headerlink" href="#keycloak-oidc" title="Link to this heading"></a></h3>
-<p>Obbligatorie:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code> (include il path relativo se usato, es. <code class="docutils literal notranslate"><span class="pre">https://example.com/auth</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_REALM</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_CLIENT_ID</span></code></p></li>
-</ul>
-<p>Opzionale:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_INTERNAL_URL</span></code> (per chiamate server-to-server, es. <code class="docutils literal notranslate"><span class="pre">http://keycloak:8080</span></code>). Se non impostato, l’app usa <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code>. Negli stack Docker locali il default è <code class="docutils literal notranslate"><span class="pre">http://keycloak:8080</span></code>; in staging viene usato <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code> come fallback.</p></li>
-</ul>
-<p>Dettagli: <a class="reference internal" href="09-auth.html"><span class="std std-doc">09-auth.md</span></a></p>
-</section>
-<section id="cors">
-<h3>CORS<a class="headerlink" href="#cors" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">CORS_ORIGINS</span></code> (obbligatoria): lista JSON di origini per CORS.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CORS_ALLOW_CREDENTIALS</span></code> (obbligatoria): abilita credenziali cross-origin.</p></li>
-</ul>
-<p>Esempio:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CORS_ORIGINS</span><span class="o">=</span><span class="s1">'["http://localhost:3000","https://app.example.com"]'</span>
-<span class="nv">CORS_ALLOW_CREDENTIALS</span><span class="o">=</span><span class="nb">false</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="logging-lette-dal-modulo-logging">
-<h2>Logging (lette dal modulo logging)<a class="headerlink" href="#logging-lette-dal-modulo-logging" title="Link to this heading"></a></h2>
-<p>Il logging legge direttamente da env (per evitare dipendenze circolari con Settings):</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> (default <code class="docutils literal notranslate"><span class="pre">INFO</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LOG_FORMAT</span></code> (<code class="docutils literal notranslate"><span class="pre">json</span></code> o <code class="docutils literal notranslate"><span class="pre">text</span></code>, default <code class="docutils literal notranslate"><span class="pre">json</span></code>)</p></li>
-</ul>
-<p>Opzionali per filtrare <code class="docutils literal notranslate"><span class="pre">uvicorn.access</span></code>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">UVICORN_ACCESS_LOG_FILTER_ENABLED</span></code> (default <code class="docutils literal notranslate"><span class="pre">true</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UVICORN_ACCESS_LOG_EXCLUDE_PREFIXES</span></code> (default <code class="docutils literal notranslate"><span class="pre">/health</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UVICORN_ACCESS_LOG_INCLUDE_PREFIXES</span></code> (default vuoto)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UVICORN_ACCESS_LOG_EXCLUDE_STATUS_BELOW</span></code> (default <code class="docutils literal notranslate"><span class="pre">400</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UVICORN_ACCESS_LOG_KEEP_LEVEL_AT_LEAST</span></code> (default <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>)</p></li>
-</ul>
-<p>Riferimenti: <a class="reference internal" href="../app.core.html#module-app.core.logging" title="app.core.logging"><code class="xref py py-mod docutils literal notranslate"><span class="pre">app.core.logging</span></code></a></p>
-</section>
-<section id="variabili-infrastrutturali-docker-compose">
-<h2>Variabili “infrastrutturali” (Docker Compose)<a class="headerlink" href="#variabili-infrastrutturali-docker-compose" title="Link to this heading"></a></h2>
-<p>Gli stack Docker in <code class="docutils literal notranslate"><span class="pre">deploy/</span></code> usano anche variabili per Postgres e Keycloak (non lette direttamente dall’app, ma dal compose file), ad esempio:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DB_USER</span></code>, <code class="docutils literal notranslate"><span class="pre">DB_PASSWORD</span></code>, <code class="docutils literal notranslate"><span class="pre">DB_NAME</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_DB_NAME</span></code>, <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_DB_USER</span></code>, <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_DB_PASSWORD</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_ADMIN</span></code>, <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_ADMIN_PASSWORD</span></code></p></li>
-</ul>
-<p>Riferimento: <a class="reference external" href="https://github.com/Restrackit/restrackit-core/blob/main/deploy/local/docker-compose.yml">deploy/local/docker-compose.yml</a></p>
-</section>
-<section id="best-practice">
-<h2>Best practice<a class="headerlink" href="#best-practice" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>Non committare mai <code class="docutils literal notranslate"><span class="pre">.env</span></code> e <code class="docutils literal notranslate"><span class="pre">service_account.json</span></code>.</p></li>
-<li><p>Usa GitHub Secrets/secret manager in staging/prod.</p></li>
-</ul>
-<p><strong>Kubernetes</strong>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">env</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL</span>
-<span class="w">    </span><span class="nt">valueFrom</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">secretKeyRef</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restrackit-secrets</span>
-<span class="w">        </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">database-url</span>
-</pre></div>
-</div>
-<section id="secrets-management">
-<h3>Secrets Management<a class="headerlink" href="#secrets-management" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store secrets securely</span>
-<span class="c1"># Option 1: AWS Secrets Manager</span>
-<span class="c1"># Option 2: Azure Key Vault</span>
-<span class="c1"># Option 3: HashiCorp Vault</span>
-<span class="c1"># Option 4: GitHub Encrypted Secrets</span>
-
-<span class="c1"># Never log secrets</span>
-<span class="c1"># Never commit to repo</span>
-<span class="c1"># Use short-lived credentials</span>
-</pre></div>
-</div>
-</section>
-</section>
+  <section id="cleaning-routines-pulizie-haccp">
+<h1>Cleaning Routines (pulizie HACCP)<a class="headerlink" href="#cleaning-routines-pulizie-haccp" title="Link to this heading"></a></h1>
+<p>Il modulo <code class="docutils literal notranslate"><span class="pre">app/modules/cleaning/</span></code> gestisce le <strong>routine di pulizia ricorrenti</strong> di uno store
+(es. “sanificare l’affettatrice”). Il manager le definisce, il personale le segna come fatte
+dal mobile, e se una pulizia scade senza essere eseguita lo store riceve una notifica. Ogni
+esecuzione resta in un archivio consultabile per le ispezioni.</p>
+<p>Layout standard del modulo: <code class="docutils literal notranslate"><span class="pre">models.py</span></code>, <code class="docutils literal notranslate"><span class="pre">schemas.py</span></code>, <code class="docutils literal notranslate"><span class="pre">schedule.py</span></code> (calcoli puri di
+pianificazione), <code class="docutils literal notranslate"><span class="pre">service.py</span></code>, <code class="docutils literal notranslate"><span class="pre">router.py</span></code>. Le foto usano <code class="docutils literal notranslate"><span class="pre">app/services/photo_storage.py</span></code>.</p>
 <hr class="docutils" />
-<section id="environment-variables-summary">
-<h2>Environment Variables Summary<a class="headerlink" href="#environment-variables-summary" title="Link to this heading"></a></h2>
+<section id="modello">
+<h2>Modello<a class="headerlink" href="#modello" title="Link to this heading"></a></h2>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Variable</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Example</p></th>
-<th class="head"><p>Notes</p></th>
+<tr class="row-odd"><th class="head"><p>Tabella</p></th>
+<th class="head"><p>Ruolo</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GOOGLE_API_KEY</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&lt;YOUR_GOOGLE_API_KEY&gt;</span></code></p></td>
-<td><p>Google Cloud API key</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cleaning_routines</span></code></p></td>
+<td><p>Definizione: <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">frequency</span></code> (<code class="docutils literal notranslate"><span class="pre">daily</span></code>/<code class="docutils literal notranslate"><span class="pre">weekly</span></code>/<code class="docutils literal notranslate"><span class="pre">monthly</span></code>), <code class="docutils literal notranslate"><span class="pre">weekday</span></code> (0-6, 0 = lunedì, solo weekly), <code class="docutils literal notranslate"><span class="pre">day_of_month</span></code> (1-28, solo monthly), <code class="docutils literal notranslate"><span class="pre">due_time</span></code> (opzionale), <code class="docutils literal notranslate"><span class="pre">is_active</span></code>. Soft delete e <code class="docutils literal notranslate"><span class="pre">version</span></code> (optimistic locking).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">postgresql://...</span></code></p></td>
-<td><p>Database connection string</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">REDIS_URL</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">redis://...</span></code></p></td>
-<td><p>Redis connection string</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">REDIS_CACHE_TTL</span></code></p></td>
-<td><p>No</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">3600</span></code></p></td>
-<td><p>Default cache TTL</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DB_USER</span></code></p></td>
-<td><p>Dev/Docker</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">app_user</span></code></p></td>
-<td><p>Database username</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DB_PASSWORD</span></code></p></td>
-<td><p>Dev/Docker</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">password123</span></code></p></td>
-<td><p>Database password</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DB_NAME</span></code></p></td>
-<td><p>Dev/Docker</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">app_db</span></code></p></td>
-<td><p>Database name</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">IMAGE_NAME</span></code></p></td>
-<td><p>Docker</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">ghcr.io/restrackit/restrackit-core</span></code></p></td>
-<td><p>Required; no default</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IMAGE_TAG</span></code></p></td>
-<td><p>Docker</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
-<td><p>Required; no default</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">https://example.com/auth</span></code></p></td>
-<td><p>Public Keycloak URL</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_REALM</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">restrackit</span></code></p></td>
-<td><p>Keycloak realm name</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_CLIENT_ID</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">restrackit-backend</span></code></p></td>
-<td><p>Keycloak client ID</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">KEYCLOAK_INTERNAL_URL</span></code></p></td>
-<td><p>No</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">http://keycloak:8080</span></code></p></td>
-<td><p>Internal URL for Docker; defaults to <code class="docutils literal notranslate"><span class="pre">KEYCLOAK_URL</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CORS_ORIGINS</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">http://localhost:3000</span></code></p></td>
-<td><p>JSON list of allowed origins</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CORS_ALLOW_CREDENTIALS</span></code></p></td>
-<td><p>Yes</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td><p>Allow credentials on CORS requests</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TAILSCALE_HOSTNAME</span></code></p></td>
-<td><p>Prod Docker</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">my-host.example.ts.net</span></code></p></td>
-<td><p>Required for prod compose Traefik/Keycloak routing</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code></p></td>
-<td><p>No</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">INFO</span></code></p></td>
-<td><p>Logging level (default: <code class="docutils literal notranslate"><span class="pre">INFO</span></code>)</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LOG_FORMAT</span></code></p></td>
-<td><p>No</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">json</span></code></p></td>
-<td><p>Log format: <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">text</span></code> (default: <code class="docutils literal notranslate"><span class="pre">json</span></code>)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cleaning_tasks</span></code></p></td>
+<td><p>Occorrenza di una routine per un giorno locale: <code class="docutils literal notranslate"><span class="pre">due_date</span></code>, <code class="docutils literal notranslate"><span class="pre">due_at</span></code> (UTC), <code class="docutils literal notranslate"><span class="pre">status</span></code> (<code class="docutils literal notranslate"><span class="pre">pending</span></code>/<code class="docutils literal notranslate"><span class="pre">done</span></code>), <code class="docutils literal notranslate"><span class="pre">routine_name</span></code> (snapshot), <code class="docutils literal notranslate"><span class="pre">completed_at</span></code>, <code class="docutils literal notranslate"><span class="pre">operator_id</span></code>, <code class="docutils literal notranslate"><span class="pre">operator_name</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">photo_keys</span></code>, <code class="docutils literal notranslate"><span class="pre">overdue_notified_at</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
-<hr class="docutils" />
-<p>For setup instructions: See <a class="reference internal" href="02-setup.html"><span class="std std-doc">Installation Guide</span></a></p>
+<ul class="simple">
+<li><p>Entrambe le tabelle hanno <code class="docutils literal notranslate"><span class="pre">store_id</span></code> e la policy RLS <code class="docutils literal notranslate"><span class="pre">&lt;tabella&gt;_isolation_policy</span></code>.</p></li>
+<li><p>Il <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> <code class="docutils literal notranslate"><span class="pre">ck_cleaning_routine_schedule</span></code> impone la coerenza frequenza/pianificazione:
+<code class="docutils literal notranslate"><span class="pre">weekday</span> <span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span> <span class="pre">AND</span> <span class="pre">weekday</span> <span class="pre">BETWEEN</span> <span class="pre">0</span> <span class="pre">AND</span> <span class="pre">6</span></code> per le settimanali,
+<code class="docutils literal notranslate"><span class="pre">day_of_month</span> <span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span> <span class="pre">AND</span> <span class="pre">day_of_month</span> <span class="pre">BETWEEN</span> <span class="pre">1</span> <span class="pre">AND</span> <span class="pre">28</span></code> per le mensili
+(le clausole <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code> servono perché un <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> accetta <code class="docutils literal notranslate"><span class="pre">NULL</span></code>). Lo stesso controllo è
+fatto in <code class="docutils literal notranslate"><span class="pre">schemas.py::_check_schedule</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UNIQUE</span> <span class="pre">(routine_id,</span> <span class="pre">due_date)</span></code> rende idempotente la generazione delle occorrenze.</p></li>
+<li><p>Gli identificativi esposti dall’API sono i <code class="docutils literal notranslate"><span class="pre">public_id</span></code> (UUID), mai gli <code class="docutils literal notranslate"><span class="pre">id</span></code> interi.</p></li>
+<li><p>Vedi anche <code class="docutils literal notranslate"><span class="pre">docs/relazione_basi_di_dati.tex</span></code> per DDL e motivazioni.</p></li>
+</ul>
+</section>
+<section id="regole">
+<h2>Regole<a class="headerlink" href="#regole" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Fuso orario per store.</strong> <code class="docutils literal notranslate"><span class="pre">stores.timezone</span></code> (nome IANA, default <code class="docutils literal notranslate"><span class="pre">Europe/Rome</span></code>, impostabile
+in <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/onboarding/stores</span></code>) decide quando cambia il giorno: ogni store passa al giorno
+successivo alla propria mezzanotte.</p></li>
+<li><p><strong>Giorno locale e scadenza.</strong> L’occorrenza di oggi ha <code class="docutils literal notranslate"><span class="pre">due_date</span></code> = data locale dello store e
+<code class="docutils literal notranslate"><span class="pre">due_at</span></code> = <code class="docutils literal notranslate"><span class="pre">due_date</span></code> + <code class="docutils literal notranslate"><span class="pre">due_time</span></code> nel fuso dello store, convertito in UTC. Senza <code class="docutils literal notranslate"><span class="pre">due_time</span></code>
+la scadenza è alle 23:59:59 locali. Una routine non genera un’occorrenza con <code class="docutils literal notranslate"><span class="pre">due_at</span></code>
+precedente alla propria <code class="docutils literal notranslate"><span class="pre">created_at</span></code>: una routine appena creata non nasce già scaduta.</p></li>
+<li><p><strong>Scaduta e tardiva sono derivate, mai salvate.</strong> <code class="docutils literal notranslate"><span class="pre">overdue</span></code> = <code class="docutils literal notranslate"><span class="pre">pending</span></code> con <code class="docutils literal notranslate"><span class="pre">due_at</span></code> passato;
+<code class="docutils literal notranslate"><span class="pre">late</span></code> = <code class="docutils literal notranslate"><span class="pre">done</span></code> con <code class="docutils literal notranslate"><span class="pre">completed_at</span> <span class="pre">&gt;</span> <span class="pre">due_at</span></code>. Entrambi sono calcolati nella risposta
+(<code class="docutils literal notranslate"><span class="pre">TaskResponse.overdue</span></code> / <code class="docutils literal notranslate"><span class="pre">late</span></code>): i client li leggono, non li ricalcolano. Una pulizia
+scaduta si può comunque completare e risulta tardiva.</p></li>
+<li><p><strong>Completamento atomico.</strong> <code class="docutils literal notranslate"><span class="pre">UPDATE</span> <span class="pre">...</span> <span class="pre">WHERE</span> <span class="pre">status</span> <span class="pre">=</span> <span class="pre">'pending'</span></code>: con due tap simultanei ne
+passa uno solo. Un secondo completamento è rifiutato con 400 <code class="docutils literal notranslate"><span class="pre">ERR_BUS_005</span></code> e non sovrascrive
+l’operatore originale. <code class="docutils literal notranslate"><span class="pre">operator_id</span></code> (claim <code class="docutils literal notranslate"><span class="pre">sub</span></code>) e <code class="docutils literal notranslate"><span class="pre">operator_name</span></code> vengono dal JWT, non dal
+body.</p></li>
+<li><p><strong>Storico immutabile.</strong> <code class="docutils literal notranslate"><span class="pre">routine_name</span></code> è uno snapshot; rinominare una routine non cambia le
+occorrenze già create.</p></li>
+<li><p><strong>Modifica di una routine.</strong> <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> con optimistic locking su <code class="docutils literal notranslate"><span class="pre">version</span></code> (409 <code class="docutils literal notranslate"><span class="pre">ERR_BUS_007</span></code>
+se non coincide). <code class="docutils literal notranslate"><span class="pre">null</span></code> esplicito su <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">frequency</span></code>, <code class="docutils literal notranslate"><span class="pre">is_active</span></code> è rifiutato (400);
+<code class="docutils literal notranslate"><span class="pre">description</span></code> e <code class="docutils literal notranslate"><span class="pre">due_time</span></code> si possono azzerare con <code class="docutils literal notranslate"><span class="pre">null</span></code>. Se la <code class="docutils literal notranslate"><span class="pre">frequency</span></code> cambia davvero,
+<code class="docutils literal notranslate"><span class="pre">weekday</span></code>/<code class="docutils literal notranslate"><span class="pre">day_of_month</span></code> ripartono da vuoto e vanno indicati insieme alla nuova frequenza;
+con la stessa frequenza restano quelli salvati. Il risultato deve rispettare la regola di
+pianificazione, altrimenti 400 <code class="docutils literal notranslate"><span class="pre">ERR_VAL_001</span></code>. Cambiare <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">due_time</span></code>, <code class="docutils literal notranslate"><span class="pre">frequency</span></code>,
+<code class="docutils literal notranslate"><span class="pre">weekday</span></code> o <code class="docutils literal notranslate"><span class="pre">day_of_month</span></code> scarta le occorrenze <code class="docutils literal notranslate"><span class="pre">pending</span></code> non ancora scadute (quella di oggi,
+che porta ancora i vecchi <code class="docutils literal notranslate"><span class="pre">due_at</span></code> e <code class="docutils literal notranslate"><span class="pre">routine_name</span></code>); il ciclo successivo le ricrea con i
+valori nuovi. Le <code class="docutils literal notranslate"><span class="pre">done</span></code> e le già scadute restano come storico.</p></li>
+<li><p><strong>Eliminazione e disattivazione.</strong> <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> è un soft delete (richiede <code class="docutils literal notranslate"><span class="pre">?version=</span></code>).
+Eliminare o disattivare (<code class="docutils literal notranslate"><span class="pre">is_active:</span> <span class="pre">false</span></code>) una routine cancella solo le occorrenze
+<strong>future</strong> ancora <code class="docutils literal notranslate"><span class="pre">pending</span></code>; quelle <code class="docutils literal notranslate"><span class="pre">done</span></code> e quelle già scadute restano come storico.</p></li>
+</ul>
+</section>
+<section id="job-arq-ogni-15-minuti">
+<h2>Job arq (ogni 15 minuti)<a class="headerlink" href="#job-arq-ogni-15-minuti" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">run_cleaning_cycle_task</span></code> in <code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code> (cron ai minuti 0, 15, 30, 45). Legge gli store
+attivi con <code class="docutils literal notranslate"><span class="pre">set_system_job_context</span></code>, poi per ognuno apre una sessione con
+<code class="docutils literal notranslate"><span class="pre">set_db_tenant_context</span></code> e chiama <code class="docutils literal notranslate"><span class="pre">CleaningService.run_cycle(store_id,</span> <span class="pre">timezone,</span> <span class="pre">now)</span></code>, così un
+errore su uno store non blocca gli altri:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">materialize_tasks</span></code>: crea le occorrenze mancanti per la data locale di oggi
+(<code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">...</span> <span class="pre">ON</span> <span class="pre">CONFLICT</span> <span class="pre">DO</span> <span class="pre">NOTHING</span></code>, idempotente);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">notify_overdue</span></code>: per ogni occorrenza <code class="docutils literal notranslate"><span class="pre">pending</span></code> scaduta con <code class="docutils literal notranslate"><span class="pre">overdue_notified_at</span></code> nullo crea
+una notifica <strong>per store</strong> (non per utente) e imposta <code class="docutils literal notranslate"><span class="pre">overdue_notified_at</span></code>.</p></li>
+</ol>
+<p>La notifica ha tipo <code class="docutils literal notranslate"><span class="pre">CLEANING_OVERDUE</span></code>, severity <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">reference_id</span> <span class="pre">=</span> <span class="pre">&quot;cleaning_task:&lt;public_id&gt;&quot;</span></code> e <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">=</span> <span class="pre">{task_id,</span> <span class="pre">routine_name}</span></code>. Il guard
+<code class="docutils literal notranslate"><span class="pre">overdue_notified_at</span></code> serve perché <code class="docutils literal notranslate"><span class="pre">create_notification</span></code> fa upsert e rimetterebbe
+<code class="docutils literal notranslate"><span class="pre">is_read</span> <span class="pre">=</span> <span class="pre">false</span></code> a ogni giro.</p>
+</section>
+<section id="endpoint">
+<h2>Endpoint<a class="headerlink" href="#endpoint" title="Link to this heading"></a></h2>
+<p>Router <code class="docutils literal notranslate"><span class="pre">/cleaning</span></code> (montato con prefisso <code class="docutils literal notranslate"><span class="pre">/v1</span></code>). Permessi in <code class="docutils literal notranslate"><span class="pre">auth/schemas.py</span></code> e mapping in
+<code class="docutils literal notranslate"><span class="pre">auth/dependencies.py</span></code>: <code class="docutils literal notranslate"><span class="pre">chef</span></code> ha <code class="docutils literal notranslate"><span class="pre">CLEANING_READ</span></code> e <code class="docutils literal notranslate"><span class="pre">CLEANING_EXECUTE</span></code>; <code class="docutils literal notranslate"><span class="pre">manager</span></code> ha anche
+<code class="docutils literal notranslate"><span class="pre">CLEANING_MANAGE</span></code>; <code class="docutils literal notranslate"><span class="pre">admin</span></code> passa per <code class="docutils literal notranslate"><span class="pre">ADMIN_ALL</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metodo e percorso</p></th>
+<th class="head"><p>Permesso</p></th>
+<th class="head"><p>Uso</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/cleaning/routines</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:manage</span></code></p></td>
+<td><p>Crea una routine (201)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/cleaning/routines</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:read</span></code></p></td>
+<td><p>Elenca le routine dello store, per nome</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PATCH</span> <span class="pre">/v1/cleaning/routines/{routine_id}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:manage</span></code></p></td>
+<td><p>Modifica, richiede <code class="docutils literal notranslate"><span class="pre">version</span></code> nel body</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/cleaning/routines/{routine_id}?version=N</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:manage</span></code></p></td>
+<td><p>Soft delete</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/cleaning/tasks</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:read</span></code></p></td>
+<td><p>Occorrenze di oggi e archivio: filtri <code class="docutils literal notranslate"><span class="pre">from</span></code>, <code class="docutils literal notranslate"><span class="pre">to</span></code> (data locale), <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">overdue</span></code> (true/false), paginazione; risposta <code class="docutils literal notranslate"><span class="pre">{items,</span> <span class="pre">total}</span></code>, più recenti prima</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/cleaning/tasks/{task_id}/photo-upload-urls</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:execute</span></code></p></td>
+<td><p>Presigned POST per le foto (solo occorrenze <code class="docutils literal notranslate"><span class="pre">pending</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/cleaning/tasks/{task_id}/complete</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cleaning:execute</span></code></p></td>
+<td><p>Segna come fatta (<code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">photo_keys</span></code> opzionali)</p></td>
+</tr>
+</tbody>
+</table>
+<section id="esempi">
+<h3>Esempi<a class="headerlink" href="#esempi" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">"&lt;bearer-token&gt;"</span>
+
+<span class="c1"># Il manager crea una routine settimanale (lunedì) con scadenza alle 10:00 locali</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/v1/cleaning/routines<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"name": "Sanificare affettatrice", "frequency": "weekly", "weekday": 0, "due_time": "10:00:00"}'</span>
+
+<span class="c1"># Lo chef segna come fatta l'occorrenza</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/v1/cleaning/tasks/&lt;task_public_id&gt;/complete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"notes": "Lama smontata e sanificata"}'</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="foto-opzionali">
+<h2>Foto opzionali<a class="headerlink" href="#foto-opzionali" title="Link to this heading"></a></h2>
+<p>Ogni occorrenza può avere fino a 5 foto, caricate direttamente dal mobile su S3 (nessun byte
+passa dal backend). Flusso:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/cleaning/tasks/{task_id}/photo-upload-urls</span></code> con <code class="docutils literal notranslate"><span class="pre">{&quot;count&quot;:</span> <span class="pre">1-5,</span> <span class="pre">&quot;content_type&quot;:</span> <span class="pre">&quot;image/jpeg&quot;</span> <span class="pre">|</span> <span class="pre">&quot;image/png&quot;</span> <span class="pre">|</span> <span class="pre">&quot;image/webp&quot;}</span></code>. Risponde con una lista di <code class="docutils literal notranslate"><span class="pre">{key,</span> <span class="pre">url,</span> <span class="pre">fields}</span></code>:
+un presigned POST per foto, valido 10 minuti, con chiave
+<code class="docutils literal notranslate"><span class="pre">cleaning/{store_id}/{task_public_id}/{uuid}.{ext}</span></code>. La policy del POST impone il
+content-type e <code class="docutils literal notranslate"><span class="pre">content-length-range</span></code> da 1 byte a 5 MB.</p></li>
+<li><p>Il client carica ogni file con una richiesta <code class="docutils literal notranslate"><span class="pre">multipart/form-data</span></code> verso <code class="docutils literal notranslate"><span class="pre">url</span></code>, inviando
+tutti i <code class="docutils literal notranslate"><span class="pre">fields</span></code> restituiti e il file come ultimo campo <code class="docutils literal notranslate"><span class="pre">file</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/cleaning/tasks/{task_id}/complete</span></code> con <code class="docutils literal notranslate"><span class="pre">photo_keys</span></code> (max 5, senza duplicati). Ogni
+chiave deve iniziare col prefisso di quello store e di quell’occorrenza (altrimenti 400
+<code class="docutils literal notranslate"><span class="pre">ERR_VAL_001</span></code>). Prima di salvare, il backend fa un <code class="docutils literal notranslate"><span class="pre">head_object</span></code> per ogni chiave: deve
+esistere, pesare da 1 byte a 5 MB e avere il Content-Type coerente con l’estensione. Se una
+foto non risulta caricata, 400 <code class="docutils literal notranslate"><span class="pre">ERR_VAL_001</span></code> e l’occorrenza resta <code class="docutils literal notranslate"><span class="pre">pending</span></code>; se S3 risponde
+con un errore diverso da “non trovato”, 503 <code class="docutils literal notranslate"><span class="pre">ERR_EXT_001</span></code>.</p></li>
+</ol>
+<p>Limiti: 5 foto, 5 MB ciascuna, solo JPEG/PNG/WebP. Il mobile deve comprimere prima del
+caricamento; il server non ridimensiona né controlla i byte del file.</p>
+<p>Lettura: <code class="docutils literal notranslate"><span class="pre">TaskResponse.photos</span></code> contiene <code class="docutils literal notranslate"><span class="pre">{key,</span> <span class="pre">url}</span></code> con URL presigned di download validi
+5 minuti, solo per occorrenze <code class="docutils literal notranslate"><span class="pre">done</span></code> con <code class="docutils literal notranslate"><span class="pre">completed_at</span></code> entro 90 giorni
+(<code class="docutils literal notranslate"><span class="pre">PHOTO_RETENTION_DAYS</span></code>); oltre, l’elenco è vuoto. Gli oggetti sono eliminati dalla lifecycle
+rule S3 (<code class="docutils literal notranslate"><span class="pre">cleaning_photos_retention_days</span></code>, 90): i due valori devono coincidere. Nessun cron di
+pulizia dedicato.</p>
+<p>Senza bucket (<code class="docutils literal notranslate"><span class="pre">CLEANING_PHOTOS_BUCKET</span></code> vuoto) solo <code class="docutils literal notranslate"><span class="pre">photo-upload-urls</span></code> e il <code class="docutils literal notranslate"><span class="pre">complete</span></code> con
+<code class="docutils literal notranslate"><span class="pre">photo_keys</span></code> rispondono 503 <code class="docutils literal notranslate"><span class="pre">ERR_EXT_001</span></code>; il resto del modulo funziona. Infrastruttura e
+variabili: <a class="reference internal" href="19-aws-terraform-deploy.html"><span class="std std-doc">19-aws-terraform-deploy.md</span></a>.</p>
+<p><strong>Upload dal browser (solo fuori produzione).</strong> La UI web (<code class="docutils literal notranslate"><span class="pre">/ui</span></code> → Pulizie) carica le foto
+direttamente su S3 con il presigned POST solo se <code class="docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code> non è production e il bucket è
+configurato (flag <code class="docutils literal notranslate"><span class="pre">cleaning_photo_upload</span></code> in <code class="docutils literal notranslate"><span class="pre">/ui/config.json</span></code>); in produzione le foto si
+caricano solo da mobile e la UI non offre il campo. In locale si usa un S3 locale (RustFS, servizio <code class="docutils literal notranslate"><span class="pre">s3</span></code>
+del compose dev) impostando <code class="docutils literal notranslate"><span class="pre">CLEANING_PHOTOS_BUCKET</span></code>, <code class="docutils literal notranslate"><span class="pre">CLEANING_PHOTOS_ENDPOINT_URL=http://localhost:9000</span></code>
+e <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code>/<code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code> (vedi <code class="docutils literal notranslate"><span class="pre">.env.example</span></code>); La CSP della UI ammette l’origine dell’endpoint per <code class="docutils literal notranslate"><span class="pre">img-src</span></code> e, fuori
+produzione, per <code class="docutils literal notranslate"><span class="pre">connect-src</span></code>.</p>
+<p><strong>GDPR.</strong> Le foto possono ritrarre persone: il bucket è privato con block public access, gli
+URL di download sono a vita breve e i file scadono dopo 90 giorni. Da considerare nella
+valutazione GDPR del cliente.</p>
+</section>
+<section id="errori">
+<h2>Errori<a class="headerlink" href="#errori" title="Link to this heading"></a></h2>
+<p>Nessun nuovo <code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code>: sono riusati quelli esistenti (vedi <a class="reference internal" href="10-error-handling.html"><span class="std std-doc">10-error-handling.md</span></a>).</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Codice</p></th>
+<th class="head"><p>HTTP</p></th>
+<th class="head"><p>Quando</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ERR_BUS_001</span></code></p></td>
+<td><p>404</p></td>
+<td><p>Routine o occorrenza inesistente nello store</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ERR_BUS_005</span></code></p></td>
+<td><p>400</p></td>
+<td><p>Occorrenza già completata (anche per <code class="docutils literal notranslate"><span class="pre">photo-upload-urls</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ERR_BUS_007</span></code></p></td>
+<td><p>409</p></td>
+<td><p>Conflitto di versione su <code class="docutils literal notranslate"><span class="pre">PATCH</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ERR_VAL_001</span></code></p></td>
+<td><p>400</p></td>
+<td><p>Pianificazione incoerente, <code class="docutils literal notranslate"><span class="pre">photo_keys</span></code> non valide o non caricate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ERR_EXT_001</span></code></p></td>
+<td><p>503</p></td>
+<td><p>Storage foto non configurato o errore S3</p></td>
+</tr>
+</tbody>
+</table>
+<p>Anche gli errori di validazione Pydantic del body (es. <code class="docutils literal notranslate"><span class="pre">null</span></code> su <code class="docutils literal notranslate"><span class="pre">name</span></code>) sono convertiti
+dall’handler globale in <code class="docutils literal notranslate"><span class="pre">ERR_VAL_001</span></code> (400).</p>
+</section>
+<section id="note-per-il-client-mobile">
+<h2>Note per il client (mobile)<a class="headerlink" href="#note-per-il-client-mobile" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CLEANING_OVERDUE</span></code> è un nuovo valore di <code class="docutils literal notranslate"><span class="pre">NotificationType</span></code>: i client devono tollerarlo.</p></li>
+<li><p>Il completamento va fatto con <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/cleaning/tasks/{id}/complete</span></code> dopo
+<code class="docutils literal notranslate"><span class="pre">requireOperatorConfirmation</span></code>; l’operatore è quello del token.</p></li>
+<li><p>Leggere <code class="docutils literal notranslate"><span class="pre">overdue</span></code> e <code class="docutils literal notranslate"><span class="pre">late</span></code> dalla risposta invece di calcolarli.</p></li>
+<li><p>Foto: <code class="docutils literal notranslate"><span class="pre">photo-upload-urls</span></code>, upload con i <code class="docutils literal notranslate"><span class="pre">fields</span></code> del presigned POST, poi <code class="docutils literal notranslate"><span class="pre">photo_keys</span></code> in
+<code class="docutils literal notranslate"><span class="pre">complete</span></code>. Le foto spariscono dopo 90 giorni.</p></li>
+</ul>
 </section>
 </section>
 
@@ -1188,8 +1183,8 @@ REDIS_URL=redis://localhost:6379/0
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="07-cicd-pipeline.html" class="btn btn-neutral float-left" title="CI/CD Pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="09-auth.html" class="btn btn-neutral float-right" title="Authentication &amp; Authorization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="22-disaster-recovery.html" class="btn btn-neutral float-left" title="Disaster recovery: istanza EC2 di produzione ricreata" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="24-temperature-log.html" class="btn btn-neutral float-right" title="Registro temperature (HACCP)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

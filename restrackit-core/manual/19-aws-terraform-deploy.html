@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1041,6 +1061,45 @@ d’esempio.</p>
 dell’istanza, con retention configurabile (<code class="docutils literal notranslate"><span class="pre">backup_retention_days</span></code>, default 14
 giorni). Ripristino: crea un nuovo volume dallo snapshot in AWS Backup console
 o CLI, poi allega alla nuova istanza.</p>
+</section>
+<section id="bucket-foto-delle-pulizie">
+<h2>Bucket foto delle pulizie<a class="headerlink" href="#bucket-foto-delle-pulizie" title="Link to this heading"></a></h2>
+<p>Le foto opzionali delle routine di pulizia HACCP (vedi
+<a class="reference internal" href="23-cleaning-routines.html"><span class="std std-doc">23-cleaning-routines.md</span></a>) stanno in un bucket S3
+privato; il backend firma soltanto gli URL, nessun byte passa dall’app.
+<code class="docutils literal notranslate"><span class="pre">terraform/photos.tf</span></code> crea:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">aws_s3_bucket.cleaning_photos</span></code>: <code class="docutils literal notranslate"><span class="pre">&lt;project_name&gt;-cleaning-photos-&lt;account_id&gt;</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aws_s3_bucket_public_access_block</span></code>: blocca ACL e policy pubbliche;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aws_s3_bucket_server_side_encryption_configuration</span></code>: cifratura SSE-S3 (AES256);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aws_s3_bucket_lifecycle_configuration</span></code>: elimina gli oggetti del prefisso
+<code class="docutils literal notranslate"><span class="pre">cleaning/</span></code> dopo <code class="docutils literal notranslate"><span class="pre">cleaning_photos_retention_days</span></code> giorni (default 90) e
+abbandona gli upload multipart incompleti dopo 1 giorno. Il valore deve
+coincidere con <code class="docutils literal notranslate"><span class="pre">PHOTO_RETENTION_DAYS</span></code> in <code class="docutils literal notranslate"><span class="pre">app/services/photo_storage.py</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aws_iam_role_policy.cleaning_photos_rw</span></code> sul ruolo dell’istanza:
+<code class="docutils literal notranslate"><span class="pre">s3:PutObject</span></code>/<code class="docutils literal notranslate"><span class="pre">s3:GetObject</span></code> sul solo prefisso <code class="docutils literal notranslate"><span class="pre">cleaning/*</span></code> e
+<code class="docutils literal notranslate"><span class="pre">s3:ListBucket</span></code> sul bucket. Senza <code class="docutils literal notranslate"><span class="pre">ListBucket</span></code>, <code class="docutils literal notranslate"><span class="pre">head_object</span></code> su una chiave
+assente risponderebbe 403 invece di 404 e l’app non distinguerebbe una foto
+non caricata da un errore di permessi.</p></li>
+</ul>
+<p>L’app usa le credenziali del ruolo dell’istanza tramite il metadata service
+(IMDSv2). Con <code class="docutils literal notranslate"><span class="pre">http_tokens</span> <span class="pre">=</span> <span class="pre">&quot;required&quot;</span></code> l’hop limit di default (1) impedisce ai
+container Docker di raggiungerlo, quindi <code class="docutils literal notranslate"><span class="pre">terraform/instance.tf</span></code> imposta
+<code class="docutils literal notranslate"><span class="pre">http_put_response_hop_limit</span> <span class="pre">=</span> <span class="pre">2</span></code>.</p>
+<p>Dopo <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">apply</span></code>, copia il nome del bucket (output
+<code class="docutils literal notranslate"><span class="pre">cleaning_photos_bucket</span></code>) e la regione nei parametri SSM, poi rilancia il deploy
+applicativo:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>terraform<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>terraform<span class="w"> </span>plan<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>terraform<span class="w"> </span>apply
+aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="w"> </span>--name<span class="w"> </span>/restrackit/prod/cleaning_photos_bucket<span class="w"> </span>--type<span class="w"> </span>String<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--value<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>terraform<span class="w"> </span>output<span class="w"> </span>-raw<span class="w"> </span>cleaning_photos_bucket<span class="k">)</span><span class="s2">"</span><span class="w"> </span>--overwrite
+aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="w"> </span>--name<span class="w"> </span>/restrackit/prod/aws_region<span class="w"> </span>--type<span class="w"> </span>String<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--value<span class="w"> </span>eu-south-1<span class="w"> </span>--overwrite
+</pre></div>
+</div>
+<p>Finché <code class="docutils literal notranslate"><span class="pre">cleaning_photos_bucket</span></code> resta <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> (valore iniziale dei
+parametri) <code class="docutils literal notranslate"><span class="pre">CLEANING_PHOTOS_BUCKET</span></code> non è impostato e gli endpoint foto
+rispondono 503 <code class="docutils literal notranslate"><span class="pre">ERR_EXT_001</span></code>: routine, occorrenze e completamento senza foto
+funzionano comunque.</p>
 </section>
 </section>
 

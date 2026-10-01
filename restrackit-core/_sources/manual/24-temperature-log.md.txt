@@ -1,0 +1,64 @@
+# Registro temperature (HACCP)
+
+Il modulo `app/modules/temperature/` tiene il **registro digitale delle temperature** di uno
+store: il manager definisce i punti di misura (frigo, congelatore, abbattitore, mantenimento a
+caldo) con le soglie, il personale registra le letture dal mobile. Il registro supporta le
+procedure HACCP richieste dal Reg. (CE) 852/2004 art. 5 (documenti e registrazioni).
+
+Layout standard del modulo: `models.py`, `schemas.py`, `service.py`, `router.py`.
+
+---
+
+## Modello
+
+| Tabella | Ruolo |
+|---|---|
+| `temperature_points` | Punto di misura: `name`, `kind` (`fridge`/`freezer`/`blast_chiller`/`hot_holding`/`other`), `min_c`, `max_c` (°C, `Numeric(5,1)`), `is_active`. Soft delete e `version` (optimistic locking). `CHECK min_c < max_c`. |
+| `temperature_readings` | Lettura append-only: `value_c`, `out_of_range`, `corrective_action`, `recorded_at`, `operator_id`, `operator_name`, più snapshot `point_name`, `min_c`, `max_c`. |
+
+- Entrambe le tabelle hanno `store_id` e la policy RLS `<tabella>_isolation_policy`.
+- Gli identificativi esposti dall'API sono i `public_id` (UUID), mai gli `id` interi.
+
+## Regole
+
+- **Soglie inclusive.** Un valore è fuori soglia se `value_c < min_c` o `value_c > max_c`.
+- **Azione correttiva obbligatoria.** Una lettura fuori soglia senza `corrective_action`
+  (vuota o solo spazi) è rifiutata con 400; il flag `out_of_range` è calcolato dal server.
+- **Orario del server.** `recorded_at` non è modificabile dal client.
+- **Append-only.** Non esistono endpoint di modifica o cancellazione delle letture; modificare
+  o eliminare un punto non cambia le letture già registrate (hanno nome e soglie come snapshot).
+- **Operatore** dal JWT (`operator_id`, `operator_name` denormalizzato), come nel resto
+  dell'audit HACCP.
+- Un punto disattivato o eliminato non accetta nuove letture (400 / 404).
+
+## API (`/v1/temperature`)
+
+| Metodo e path | Permesso | Note |
+|---|---|---|
+| `POST /points` | `temperature:manage` | Crea un punto. |
+| `GET /points` | `temperature:read` | Elenco per nome. |
+| `PATCH /points/{id}` | `temperature:manage` | Richiede `version`; 409 se obsoleta. |
+| `DELETE /points/{id}?version=` | `temperature:manage` | Soft delete. |
+| `GET /due-today` | `temperature:read` | Controlli attesi oggi con stato (vedi sotto). |
+| `POST /readings` | `temperature:execute` | Registra una lettura. |
+| `GET /readings` | `temperature:read` | Filtri `point_id`, `from`, `to` (giorni locali dello store, inclusi), `out_of_range`; paginato. |
+
+Ruoli: `chef` ha read + execute, `manager` anche manage.
+
+## Metodo di conservazione e UI web
+
+- Un punto può avere un `storage_method_id` opzionale (public_id di uno `StorageMethod` dello store; `null` lo rimuove). La lettura ne conserva lo snapshot (`storage_method_public_id`) e espone `point_public_id`, stabile dopo una rinomina.
+- La UI web (`/ui`, sezione *Temperature*) mostra letture e punti in ogni ambiente. Il form "Registra lettura", che simula l'app mobile, compare solo fuori produzione (`temperature_record` in `/ui/config.json`); l'endpoint API resta attivo in prod.
+
+## Piano orario e "Da fare oggi"
+
+- Un punto può avere `check_times` (orari locali, es. `["08:00", "16:00"]`; vuoto = nessun piano, comportamento invariato) e `check_tolerance_minutes` (default 120, 1–720). Gli orari sono normalizzati al minuto, ordinati e deduplicati; le finestre ± tolleranza non possono sovrapporsi (controllo anche a cavallo di mezzanotte), così una lettura copre un solo orario. In `PATCH`, `check_times: []` rimuove il piano.
+- `GET /due-today` non legge tabelle di occorrenze: per ogni punto attivo con piano e per ogni orario del giorno locale dello store calcola lo stato dalle letture. `covered` se esiste una lettura del punto nella finestra (la risposta include `reading_public_id`), `pending` finché la finestra non è chiusa, `overdue` dopo. Le finestre sono tempo reale (corrette nei giorni di cambio ora) e una lettura a cavallo di mezzanotte può coprire l'orario del giorno dopo.
+- Registrare una lettura (`POST /readings`) è l'unico gesto: non esiste un "segna come fatto" separato. Un controllo saltato è l'assenza di lettura nella finestra.
+- UI web: il form dei punti ha *Orari dei controlli* (un campo orario per controllo, con "+ Aggiungi orario") e *Tolleranza*; l'elenco punti mostra il piano.
+- Fuori scope: notifiche per controlli scaduti, vista unificata con le pulizie e UI mobile.
+
+## Fuori scope
+
+Sensori IoT e monitoraggio continuo (Reg. (CE) 37/2005 per i surgelati), notifiche per valori
+fuori soglia, interfaccia web.

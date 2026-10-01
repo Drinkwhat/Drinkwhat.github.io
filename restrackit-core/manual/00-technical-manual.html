@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📘 Documentazione Tecnica - Restrackit Project &mdash; Restrackit 2.102.0 documentation</title>
+  <title>📘 Documentazione Tecnica - Restrackit Project &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,12 +14,14 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -491,7 +493,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -529,7 +531,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -554,7 +555,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -572,9 +573,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1124,6 +1123,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1153,6 +1153,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1368,7 +1390,6 @@ for private packages in organization repositories.)</a></li>
     Middleware --&gt;|Request ID, Logging| Router
     Router --&gt;|&quot;Validation (Pydantic)&quot;| Service
     Service --&gt;|ORM| Database[(PostgreSQL)]
-    Service --&gt;|API Call| GoogleVision[Google Cloud Vision OCR]
     Service --&gt;|API Call| Gemini[Google Gemini AI]
 
     subgraph &quot;Core Services&quot;
@@ -1380,12 +1401,11 @@ for private packages in organization repositories.)</a></li>
 <section id="flusso-dei-dati-principale-analisi-etichetta">
 <h3>🔄 Flusso dei Dati Principale (Analisi Etichetta)<a class="headerlink" href="#flusso-dei-dati-principale-analisi-etichetta" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
-<li><p><strong>Upload Immagine</strong>: Il client invia una foto dell’etichetta del prodotto (<code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/analyze</span></code>).</p></li>
-<li><p><strong>Preprocessing</strong>: L’immagine viene convertita e ottimizzata.</p></li>
-<li><p><strong>OCR (Google Vision)</strong>: Estrazione del testo grezzo dall’immagine.</p></li>
-<li><p><strong>AI Parsing (Gemini Agent)</strong>: L’agente AI analizza il testo OCR, cerca il prodotto nel DB (usando un tool personalizzato) ed estrae strutturati:</p>
+<li><p><strong>OCR on-device</strong>: L’app mobile estrae il testo dell’etichetta localmente (ML Kit).</p></li>
+<li><p><strong>Invio testo</strong>: Il client invia il testo grezzo (<code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/inventory/parse-text</span></code>).</p></li>
+<li><p><strong>AI Parsing (Gemini Agent)</strong>: L’agente AI analizza il testo OCR ed estrae dati strutturati:</p>
 <ul class="simple">
-<li><p>Prodotto (convalidato sul DB tramite <code class="docutils literal notranslate"><span class="pre">search_product_tool</span></code>)</p></li>
+<li><p>Prodotto (riconciliato con il catalogo dello store: match esatto, poi per sottostringa)</p></li>
 <li><p>Lotto</p></li>
 <li><p>Data di scadenza</p></li>
 <li><p>Confidence score</p></li>
@@ -1397,7 +1417,7 @@ for private packages in organization repositories.)</a></li>
 <li><p><strong>Prompt Injection Protection</strong>: L’input OCR viene delimitato e separato dalle istruzioni tramite <code class="docutils literal notranslate"><span class="pre">system_instruction</span></code>.</p></li>
 <li><p><strong>Output Strutturato</strong>: Utilizzo del <strong>JSON Mode</strong> e schemi Pydantic per garantire dati affidabili e pronti all’uso.</p></li>
 </ul>
-<ol class="arabic simple" start="5">
+<ol class="arabic simple" start="4">
 <li><p><strong>Post-Processing OCR</strong>: Il sistema confronta il lotto estratto con lo storico dei lotti salvati per lo stesso prodotto. Se rileva ambiguità comuni (es. <code class="docutils literal notranslate"><span class="pre">O</span></code> vs <code class="docutils literal notranslate"><span class="pre">0</span></code>), applica una correzione automatica basata su firme strutturali, aumentando il confidence score.</p></li>
 <li><p><strong>Risposta</strong>: I dati strutturati (ed eventualmente corretti) vengono restituiti al client.</p></li>
 </ol>
@@ -1418,10 +1438,10 @@ for private packages in organization repositories.)</a></li>
 │   │   │   ├── schemas.py   # Schemi Pydantic (DTO)
 │   │   │   ├── service.py   # Logica di business
 │   │   │   └── router.py    # Endpoint API
-│   ├── services/        # Integrazioni esterne (OCR, AI Agent)
+│   ├── services/        # Integrazioni esterne (AI Agent)
 │   ├── shared/          # Schemi e utility condivise
 │   ├── database.py      # Configurazione SQLAlchemy e Sessioni
-│   └── main.py          # Entry point dell&#39;applicazione
+│   └── main.py          # Entry point dell'applicazione
 ├── tests/               # Suite di test (Unit e Integration)
 ├── Dockerfile           # Definizione build immagine
 ├── deploy/              # Stack Docker Compose (local/staging/prod)
@@ -1466,27 +1486,22 @@ for private packages in organization repositories.)</a></li>
 <td><p>Latest</p></td>
 <td><p>Gestione versionata dello schema DB.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>OCR</strong></p></td>
-<td><p>Google Cloud Vision</p></td>
-<td><p>API v1</p></td>
-<td><p>Riconoscimento testo leader di mercato.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>AI / LLM</strong></p></td>
+<tr class="row-odd"><td><p><strong>AI / LLM</strong></p></td>
 <td><p>Google Gemini</p></td>
 <td><p>Flash 2.0</p></td>
 <td><p>Parsing intelligente veloce ed economico.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Testing</strong></p></td>
+<tr class="row-even"><td><p><strong>Testing</strong></p></td>
 <td><p>Pytest</p></td>
 <td><p>Latest</p></td>
 <td><p>Standard de-facto per testing Python.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Linting</strong></p></td>
+<tr class="row-odd"><td><p><strong>Linting</strong></p></td>
 <td><p>Ruff</p></td>
 <td><p>Latest</p></td>
 <td><p>Linter/Formatter estremamente veloce (sostituisce Black/Flake8).</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Container</strong></p></td>
+<tr class="row-even"><td><p><strong>Container</strong></p></td>
 <td><p>Docker</p></td>
 <td><p>-</p></td>
 <td><p>Portabilità e coerenza tra ambienti.</p></td>
@@ -1502,7 +1517,7 @@ for private packages in organization repositories.)</a></li>
 <ul class="simple">
 <li><p>Docker &amp; Docker Compose</p></li>
 <li><p>Python 3.14.4 (opzionale se si usa solo Docker)</p></li>
-<li><p>Account Google Cloud (per Vision e Gemini)</p></li>
+<li><p>API key Google (per Gemini)</p></li>
 </ul>
 </section>
 <section id="setup-locale">
@@ -1523,11 +1538,8 @@ Copia <code class="docutils literal notranslate"><span class="pre">.env.example<
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code>: URL di connessione al DB (default per docker: <code class="docutils literal notranslate"><span class="pre">postgresql://user:password&#64;db:5432/database</span></code>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GOOGLE_API_KEY</span></code>: Chiave API per Gemini.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code>: Path al file JSON della Service Account (per Vision API).</p></li>
 </ul>
 </li>
-<li><p><strong>Service Account Google</strong>:
-Posiziona il file <code class="docutils literal notranslate"><span class="pre">service_account.json</span></code> nella root del progetto.</p></li>
 <li><p><strong>Avvia l’ambiente</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up<span class="w"> </span>--build
 </pre></div>
@@ -1575,7 +1587,7 @@ Documentazione Swagger: <code class="docutils literal notranslate"><span class="
 <section id="inventory-module-inventory">
 <h3>📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)<a class="headerlink" href="#inventory-module-inventory" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/analyze</span></code>: Carica foto -&gt; OCR -&gt; AI -&gt; Dati proposti.</p></li>
+<li><p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/parse-text</span></code>: Testo OCR (estratto on-device) -&gt; AI -&gt; Dati proposti.</p></li>
 <li><p><strong>POST</strong> <code class="docutils literal notranslate"><span class="pre">/confirm</span></code>: Conferma e salva un lotto nel DB.</p></li>
 <li><p><strong>GET</strong> <code class="docutils literal notranslate"><span class="pre">/list</span></code>: Elenco lotti con filtri (paginazione, data, prodotto).</p></li>
 <li><p><strong>PUT</strong> <code class="docutils literal notranslate"><span class="pre">/batch/{id}</span></code>: Aggiornamento manuale dati lotto.</p></li>
@@ -1682,7 +1694,7 @@ Query <code class="docutils literal notranslate"><span class="pre">?reset=true</
 <ul class="simple">
 <li><p>Testano l’intera catena API -&gt; DB.</p></li>
 <li><p>Utilizzano un DB Postgres reale (via Docker Service in CI o locale).</p></li>
-<li><p>Mockano solo le chiamate AI/Vision per determinismo e costi.</p></li>
+<li><p>Mockano solo le chiamate AI per determinismo e costi.</p></li>
 </ul>
 </li>
 </ol>
@@ -1712,7 +1724,6 @@ pytest<span class="w"> </span>tests/<span class="w"> </span>-v<span class="w"> <
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/service_account.json:/app/service_account.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>restrackit-api:latest
 </pre></div>
 </div>
@@ -1748,11 +1759,7 @@ pytest<span class="w"> </span>tests/<span class="w"> </span>-v<span class="w"> <
 <td><p>API Key invalida o quota superata</p></td>
 <td><p>Verifica <code class="docutils literal notranslate"><span class="pre">GOOGLE_API_KEY</span></code> e quote Google Cloud.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span> <span class="pre">(Vision)</span></code></p></td>
-<td><p>Credenziali JSON errate</p></td>
-<td><p>Verifica path <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> e permessi IAM.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Connection</span> <span class="pre">Refused</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Connection</span> <span class="pre">Refused</span></code></p></td>
 <td><p>Container DB non pronto</p></td>
 <td><p>Attendi che il healthcheck del DB sia verde.</p></td>
 </tr>

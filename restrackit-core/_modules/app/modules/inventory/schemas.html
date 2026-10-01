@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.inventory.schemas &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.modules.inventory.schemas &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1276,9 +1298,9 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.modules.inventory.schemas</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Schema per le operazioni di carico merce.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
@@ -1290,11 +1312,11 @@ for private packages in organization repositories.)</a></li>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppLanguage</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.shared.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnitOfMeasure</span>
 
-<span class="n">_EXAMPLE_PRODUCT_NAME</span> <span class="o">=</span> <span class="s2">&quot;Latte Intero&quot;</span>
+<span class="n">_EXAMPLE_PRODUCT_NAME</span> <span class="o">=</span> <span class="s2">"Latte Intero"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rifiuta stringhe con byte NUL, che Postgres non accetta in campi testuali.</span>
+<span class="w">    </span><span class="sd">"""Rifiuta stringhe con byte NUL, che Postgres non accetta in campi testuali.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        v: Stringa in input.</span>
@@ -1304,19 +1326,19 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: Se la stringa contiene un byte NUL.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il campo non può contenere il carattere NUL&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="s2">"</span><span class="se">\x00</span><span class="s2">"</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Il campo non può contenere il carattere NUL"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">v</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_BatchValidatorsMixin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validator comuni a BatchConfirm e BatchUpdate.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Validator comuni a BatchConfirm e BatchUpdate."""</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;expiry_date&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"expiry_date"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_expiry_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida e converte il formato della data di scadenza.</span>
+<span class="w">        </span><span class="sd">"""Valida e converte il formato della data di scadenza.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            v: Data come stringa ``YYYY-MM-DD`` oppure ``date``.</span>
@@ -1326,20 +1348,20 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Se il formato non è valido.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">v</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il formato della data deve essere YYYY-MM-DD&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Formato data non valido&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Il formato della data deve essere YYYY-MM-DD"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Formato data non valido"</span><span class="p">)</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;lot_code&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"lot_code"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_lot_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che il lotto non sia vuoto.</span>
+<span class="w">        </span><span class="sd">"""Valida che il lotto non sia vuoto.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            v: Codice lotto in input.</span>
@@ -1349,36 +1371,40 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Se il lotto è vuoto o None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Il codice lotto non può essere vuoto&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Il codice lotto non può essere vuoto"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
 
 <div class="viewcode-block" id="BatchConfirm">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchConfirm</span><span class="p">(</span><span class="n">_BatchValidatorsMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Dati tecnici del prodotto inviati dopo la revisione dello chef.</span>
-<span class="sd">    L&#39;identità (store/operatore) è gestita dal middleware.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    L'identità (store/operatore) è gestita dal middleware.</span>
+<span class="sd">    """</span>
 
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome validato in anagrafica&quot;</span><span class="p">)</span>
-    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lotto alfanumerico dell&#39;etichetta&quot;</span><span class="p">)</span>
-    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Formato YYYY-MM-DD&quot;</span><span class="p">)</span>
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Nome validato in anagrafica"</span><span class="p">)</span>
+    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Lotto alfanumerico dell'etichetta"</span><span class="p">)</span>
+    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Formato YYYY-MM-DD"</span><span class="p">)</span>
     <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Punteggio AI salvato per controllo qualità&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Punteggio AI salvato per controllo qualità"</span>
     <span class="p">)</span>
     <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico del metodo di conservazione iniziale del lotto&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"UUID pubblico del metodo di conservazione iniziale del lotto"</span>
+    <span class="p">)</span>
+    <span class="n">analysis_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"analysis_id restituito da /inventory/parse-text, per collegare la conferma"</span><span class="p">,</span>
     <span class="p">)</span>
 
 <div class="viewcode-block" id="BatchConfirm.validate_product_name">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchConfirm.validate_product_name">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;product_name&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"product_name"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_product_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che il nome prodotto non sia vuoto o NON_IDENTIFICATO.</span>
+<span class="w">        </span><span class="sd">"""Valida che il nome prodotto non sia vuoto o NON_IDENTIFICATO.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            v: Nome prodotto in input.</span>
@@ -1388,20 +1414,20 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Se il nome non è valido.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">&quot;NON_IDENTIFICATO&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Devi selezionare un prodotto valido&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">"NON_IDENTIFICATO"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Devi selezionare un prodotto valido"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
-                <span class="s2">&quot;lot_code&quot;</span><span class="p">:</span> <span class="s2">&quot;LOT123ABC&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;expiry_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-12-31&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
-                <span class="s2">&quot;storage_method_public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440010&quot;</span><span class="p">,</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"product_name"</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
+                <span class="s2">"lot_code"</span><span class="p">:</span> <span class="s2">"LOT123ABC"</span><span class="p">,</span>
+                <span class="s2">"expiry_date"</span><span class="p">:</span> <span class="s2">"2026-12-31"</span><span class="p">,</span>
+                <span class="s2">"confidence"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+                <span class="s2">"storage_method_public_id"</span><span class="p">:</span> <span class="s2">"550e8400-e29b-41d4-a716-446655440010"</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
@@ -1411,17 +1437,17 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchParseTextRequest">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchParseTextRequest">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchParseTextRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Payload per il parsing di testo OCR già estratto lato client.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Payload per il parsing di testo OCR già estratto lato client."""</span>
 
     <span class="n">raw_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Testo OCR grezzo estratto on-device (es. ML Kit)&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Testo OCR grezzo estratto on-device (es. ML Kit)"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;raw_text&quot;</span><span class="p">:</span> <span class="s2">&quot;LATTE INTERO LOT123 SCAD 31/12/26&quot;</span><span class="p">}}</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"raw_text"</span><span class="p">:</span> <span class="s2">"LATTE INTERO LOT123 SCAD 31/12/26"</span><span class="p">}}</span>
     <span class="p">)</span></div>
 
 
@@ -1429,60 +1455,49 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="ProductAnalysisData">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.ProductAnalysisData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProductAnalysisData</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dati strutturati estratti dall&#39;AI dopo l&#39;analisi OCR.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dati strutturati estratti dall'AI dopo l'analisi OCR."""</span>
 
-    <span class="n">prodotto</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto identificato&quot;</span><span class="p">)</span>
-    <span class="n">lotto</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto identificato&quot;</span><span class="p">)</span>
-    <span class="n">scadenza</span><span class="p">:</span> <span class="n">date</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data di scadenza (YYYY-MM-DD)&quot;</span><span class="p">)</span>
-    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Punteggio di affidabilità&quot;</span><span class="p">)</span>
+    <span class="n">prodotto</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Nome del prodotto identificato"</span><span class="p">)</span>
+    <span class="n">lotto</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Codice lotto identificato"</span><span class="p">)</span>
+    <span class="n">scadenza</span><span class="p">:</span> <span class="n">date</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Data di scadenza (YYYY-MM-DD)"</span><span class="p">)</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Punteggio di affidabilità"</span><span class="p">)</span>
 
     <span class="c1"># Flag aggiunto per segnalare se il lotto è stato corretto automaticamente</span>
     <span class="n">is_corrected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Indica se il lotto è stato corretto via fuzzy match&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Indica se il lotto è stato corretto via fuzzy match"</span>
     <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="JobStatus">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.JobStatus">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JobStatus</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stati possibili per un job di analisi in background (allineati a arq).&quot;&quot;&quot;</span>
-
-    <span class="n">DEFERRED</span> <span class="o">=</span> <span class="s2">&quot;deferred&quot;</span>
-    <span class="n">QUEUED</span> <span class="o">=</span> <span class="s2">&quot;queued&quot;</span>
-    <span class="n">IN_PROGRESS</span> <span class="o">=</span> <span class="s2">&quot;in_progress&quot;</span>
-    <span class="n">COMPLETE</span> <span class="o">=</span> <span class="s2">&quot;complete&quot;</span>
-    <span class="n">FAILED</span> <span class="o">=</span> <span class="s2">&quot;failed&quot;</span>
-    <span class="n">NOT_FOUND</span> <span class="o">=</span> <span class="s2">&quot;not_found&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="BatchAnalyzeResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchAnalyzeResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchAnalyzeResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta dall&#39;analisi dell&#39;immagine.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Risposta dall'analisi dell'immagine."""</span>
 
-    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato dell&#39;analisi (revision/error)&quot;</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Stato dell'analisi (revision/error)"</span><span class="p">)</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ProductAnalysisData</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dati del prodotto estratti ed elaborati dall&#39;AI&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Dati del prodotto estratti ed elaborati dall'AI"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Avviso per prodotti non identificati&quot;</span><span class="p">)</span>
-    <span class="n">raw_ocr_debug</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Testo OCR grezzo per debug&quot;</span><span class="p">)</span>
+    <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Avviso per prodotti non identificati"</span><span class="p">)</span>
+    <span class="n">raw_ocr_debug</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Testo OCR grezzo per debug"</span><span class="p">)</span>
+    <span class="n">analysis_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Identificativo dell'analisi salvata, da rimandare in /inventory/confirm"</span>
+    <span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;revision&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;prodotto&quot;</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
-                    <span class="s2">&quot;lotto&quot;</span><span class="p">:</span> <span class="s2">&quot;LOT123&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;scadenza&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-12-31&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
-                    <span class="s2">&quot;is_corrected&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"revision"</span><span class="p">,</span>
+                <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"prodotto"</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
+                    <span class="s2">"lotto"</span><span class="p">:</span> <span class="s2">"LOT123"</span><span class="p">,</span>
+                    <span class="s2">"scadenza"</span><span class="p">:</span> <span class="s2">"2026-12-31"</span><span class="p">,</span>
+                    <span class="s2">"confidence"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+                    <span class="s2">"is_corrected"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="s2">&quot;warning&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s2">&quot;raw_ocr_debug&quot;</span><span class="p">:</span> <span class="s2">&quot;LATTE INTERO LOT123...&quot;</span><span class="p">,</span>
+                <span class="s2">"warning"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">"raw_ocr_debug"</span><span class="p">:</span> <span class="s2">"LATTE INTERO LOT123..."</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
@@ -1492,67 +1507,67 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta dopo il conferimento di un lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Risposta dopo il conferimento di un lotto."""</span>
 
-    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato dell&#39;operazione&quot;</span><span class="p">)</span>
-    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Messaggio descrittivo&quot;</span><span class="p">)</span>
-    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico del lotto&quot;</span><span class="p">)</span>
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
-    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto confermato&quot;</span><span class="p">)</span>
-    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data di scadenza&quot;</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Stato dell'operazione"</span><span class="p">)</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Messaggio descrittivo"</span><span class="p">)</span>
+    <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"UUID pubblico del lotto"</span><span class="p">)</span>
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Nome del prodotto"</span><span class="p">)</span>
+    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Codice lotto confermato"</span><span class="p">)</span>
+    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Data di scadenza"</span><span class="p">)</span>
     <span class="n">current_storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico dello storage method corrente del lotto&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"UUID pubblico dello storage method corrente del lotto"</span>
     <span class="p">)</span>
     <span class="n">storage_expiry_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data e ora di scadenza secondaria calcolata dallo storage method&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Data e ora di scadenza secondaria calcolata dallo storage method"</span>
     <span class="p">)</span>
     <span class="n">product_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico del prodotto master collegato al lotto&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"UUID pubblico del prodotto master collegato al lotto"</span>
     <span class="p">)</span>
-    <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID dell&#39;operatore&quot;</span><span class="p">)</span>
+    <span class="n">operator_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"ID dell'operatore"</span><span class="p">)</span>
     <span class="n">operator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome e cognome dell&#39;operatore (fallback: operator_id se assente)&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Nome e cognome dell'operatore (fallback: operator_id se assente)"</span>
     <span class="p">)</span>
-    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Confidence del riconoscimento&quot;</span><span class="p">)</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Confidence del riconoscimento"</span><span class="p">)</span>
     <span class="n">is_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True se il lotto è stato segnato come concluso/esaurito&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"True se il lotto è stato segnato come concluso/esaurito"</span>
     <span class="p">)</span>
-    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Timestamp di creazione (UTC)&quot;</span><span class="p">)</span>
-    <span class="n">finished_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Timestamp di conclusione lotto (UTC)&quot;</span><span class="p">)</span>
-    <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Timestamp ultimo aggiornamento (UTC)&quot;</span><span class="p">)</span>
-    <span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Timestamp soft delete (UTC)&quot;</span><span class="p">)</span>
-    <span class="n">wasted_quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità sprecata/scaduta&quot;</span><span class="p">)</span>
-    <span class="n">wasted_unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura dello spreco&quot;</span><span class="p">)</span>
-    <span class="n">quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità corrente disponibile nel lotto&quot;</span><span class="p">)</span>
-    <span class="n">unit_of_measure</span><span class="p">:</span> <span class="n">UnitOfMeasure</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura della quantità&quot;</span><span class="p">)</span>
-    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione per optimistic locking&quot;</span><span class="p">)</span>
+    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Timestamp di creazione (UTC)"</span><span class="p">)</span>
+    <span class="n">finished_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Timestamp di conclusione lotto (UTC)"</span><span class="p">)</span>
+    <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Timestamp ultimo aggiornamento (UTC)"</span><span class="p">)</span>
+    <span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Timestamp soft delete (UTC)"</span><span class="p">)</span>
+    <span class="n">wasted_quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Quantità sprecata/scaduta"</span><span class="p">)</span>
+    <span class="n">wasted_unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Unità di misura dello spreco"</span><span class="p">)</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Quantità corrente disponibile nel lotto"</span><span class="p">)</span>
+    <span class="n">unit_of_measure</span><span class="p">:</span> <span class="n">UnitOfMeasure</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Unità di misura della quantità"</span><span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Versione per optimistic locking"</span><span class="p">)</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_storage_method_uuid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">data</span>
-        <span class="n">sm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;current_storage_method&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">sm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"current_storage_method"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;current_storage_method_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">public_id</span>
-        <span class="n">pm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;product_master&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"current_storage_method_public_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">public_id</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"product_master"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;product_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">public_id</span>
+            <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"product_public_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">public_id</span>
         <span class="k">return</span> <span class="n">data</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Lotto registrato con successo&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
-                <span class="s2">&quot;lot_code&quot;</span><span class="p">:</span> <span class="s2">&quot;LOT123ABC&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;expiry_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-12-31&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;operator_id&quot;</span><span class="p">:</span> <span class="s2">&quot;chef01&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
-                <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-01-12T10:30:00&quot;</span><span class="p">,</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"success"</span><span class="p">,</span>
+                <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Lotto registrato con successo"</span><span class="p">,</span>
+                <span class="s2">"public_id"</span><span class="p">:</span> <span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+                <span class="s2">"product_name"</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
+                <span class="s2">"lot_code"</span><span class="p">:</span> <span class="s2">"LOT123ABC"</span><span class="p">,</span>
+                <span class="s2">"expiry_date"</span><span class="p">:</span> <span class="s2">"2026-12-31"</span><span class="p">,</span>
+                <span class="s2">"operator_id"</span><span class="p">:</span> <span class="s2">"chef01"</span><span class="p">,</span>
+                <span class="s2">"confidence"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+                <span class="s2">"created_at"</span><span class="p">:</span> <span class="s2">"2026-01-12T10:30:00"</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">},</span>
     <span class="p">)</span></div>
@@ -1562,50 +1577,50 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchSortField">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchSortField">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSortField</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Campo di ordinamento per la lista dei lotti.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Campo di ordinamento per la lista dei lotti."""</span>
 
-    <span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
-    <span class="n">EXPIRY_DATE</span> <span class="o">=</span> <span class="s2">&quot;expiry_date&quot;</span>
-    <span class="n">STORAGE_EXPIRY_AT</span> <span class="o">=</span> <span class="s2">&quot;storage_expiry_at&quot;</span></div>
+    <span class="n">ID</span> <span class="o">=</span> <span class="s2">"id"</span>
+    <span class="n">EXPIRY_DATE</span> <span class="o">=</span> <span class="s2">"expiry_date"</span>
+    <span class="n">STORAGE_EXPIRY_AT</span> <span class="o">=</span> <span class="s2">"storage_expiry_at"</span></div>
 
 
 
 <div class="viewcode-block" id="SortDirection">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.SortDirection">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SortDirection</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Direzione di ordinamento.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Direzione di ordinamento."""</span>
 
-    <span class="n">ASC</span> <span class="o">=</span> <span class="s2">&quot;asc&quot;</span>
-    <span class="n">DESC</span> <span class="o">=</span> <span class="s2">&quot;desc&quot;</span></div>
+    <span class="n">ASC</span> <span class="o">=</span> <span class="s2">"asc"</span>
+    <span class="n">DESC</span> <span class="o">=</span> <span class="s2">"desc"</span></div>
 
 
 
 <div class="viewcode-block" id="BatchListFilter">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchListFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchListFilter</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filtri e paginazione per la lista dei lotti (keyset-based).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Filtri e paginazione per la lista dei lotti (keyset-based)."""</span>
 
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per nome prodotto&quot;</span><span class="p">)</span>
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filtra per nome prodotto"</span><span class="p">)</span>
     <span class="n">is_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filtra per stato (True=esaurito, False=attivo)&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filtra per stato (True=esaurito, False=attivo)"</span>
     <span class="p">)</span>
     <span class="n">expired</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mostra solo scaduti (True) o non scaduti (False)&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Mostra solo scaduti (True) o non scaduti (False)"</span>
     <span class="p">)</span>
-    <span class="n">sort</span><span class="p">:</span> <span class="n">BatchSortField</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">BatchSortField</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Campo di ordinamento&quot;</span><span class="p">)</span>
-    <span class="n">order</span><span class="p">:</span> <span class="n">SortDirection</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">DESC</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Direzione di ordinamento&quot;</span><span class="p">)</span>
+    <span class="n">sort</span><span class="p">:</span> <span class="n">BatchSortField</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">BatchSortField</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Campo di ordinamento"</span><span class="p">)</span>
+    <span class="n">order</span><span class="p">:</span> <span class="n">SortDirection</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">DESC</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Direzione di ordinamento"</span><span class="p">)</span>
     <span class="n">cursor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cursor opaco per paginazione (base64, codifica valore ordinamento + id)&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Cursor opaco per paginazione (base64, codifica valore ordinamento + id)"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero di elementi per pagina&quot;</span><span class="p">)</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Numero di elementi per pagina"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BatchListFilter.validate_product_name">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchListFilter.validate_product_name">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;product_name&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"product_name"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_product_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rifiuta byte NUL nel filtro, che Postgres non accetta in campi testuali.</span>
+<span class="w">        </span><span class="sd">"""Rifiuta byte NUL nel filtro, che Postgres non accetta in campi testuali.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            v: Nome prodotto da filtrare, opzionale.</span>
@@ -1615,7 +1630,7 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Se la stringa contiene un byte NUL.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">v</span>
         <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
@@ -1623,7 +1638,7 @@ for private packages in organization repositories.)</a></li>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latte&quot;</span><span class="p">,</span> <span class="s2">&quot;is_empty&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;expired&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"product_name"</span><span class="p">:</span> <span class="s2">"Latte"</span><span class="p">,</span> <span class="s2">"is_empty"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"expired"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
 
@@ -1632,21 +1647,21 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchUpdate">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchUpdate">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchUpdate</span><span class="p">(</span><span class="n">_BatchValidatorsMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema per la modifica di un lotto (immutabile dopo la creazione).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Schema per la modifica di un lotto (immutabile dopo la creazione)."""</span>
 
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa (optimistic locking)&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Versione attesa della risorsa (optimistic locking)"</span>
     <span class="p">)</span>
-    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nome del prodotto&quot;</span><span class="p">)</span>
-    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Codice lotto confermato&quot;</span><span class="p">)</span>
-    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Formato YYYY-MM-DD&quot;</span><span class="p">)</span>
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Nome del prodotto"</span><span class="p">)</span>
+    <span class="n">lot_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Codice lotto confermato"</span><span class="p">)</span>
+    <span class="n">expiry_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Formato YYYY-MM-DD"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BatchUpdate.validate_product_name">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchUpdate.validate_product_name">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;product_name&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"product_name"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_product_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che il nome prodotto non sia vuoto.</span>
+<span class="w">        </span><span class="sd">"""Valida che il nome prodotto non sia vuoto.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            v: Nome prodotto in input.</span>
@@ -1656,9 +1671,9 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Se il nome non è valido.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Devi selezionare un prodotto valido&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Devi selezionare un prodotto valido"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_reject_nul_byte</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 </div>
 
@@ -1667,21 +1682,21 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchMoveStorage">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchMoveStorage">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchMoveStorage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Payload per spostare un lotto su uno storage method (con optimistic locking).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Payload per spostare un lotto su uno storage method (con optimistic locking)."""</span>
 
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa della risorsa (optimistic locking)&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Versione attesa della risorsa (optimistic locking)"</span>
     <span class="p">)</span>
     <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico dello storage method destinazione&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"UUID pubblico dello storage method destinazione"</span>
     <span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
-                <span class="s2">&quot;lot_code&quot;</span><span class="p">:</span> <span class="s2">&quot;LOT123ABC&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;expiry_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-12-31&quot;</span><span class="p">,</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"product_name"</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
+                <span class="s2">"lot_code"</span><span class="p">:</span> <span class="s2">"LOT123ABC"</span><span class="p">,</span>
+                <span class="s2">"expiry_date"</span><span class="p">:</span> <span class="s2">"2026-12-31"</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
@@ -1691,16 +1706,16 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchSplitStorage">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchSplitStorage">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSplitStorage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Payload per spostare una quantità parziale di un lotto su un altro storage method.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Payload per spostare una quantità parziale di un lotto su un altro storage method."""</span>
 
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa del lotto originale (optimistic locking)&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Versione attesa del lotto originale (optimistic locking)"</span>
     <span class="p">)</span>
     <span class="n">storage_method_public_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;UUID pubblico dello storage method destinazione&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"UUID pubblico dello storage method destinazione"</span>
     <span class="p">)</span>
     <span class="n">quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità da spostare (deve essere minore della quantità totale)&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Quantità da spostare (deve essere minore della quantità totale)"</span>
     <span class="p">)</span></div>
 
 
@@ -1708,13 +1723,13 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchSplitStorageResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchSplitStorageResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchSplitStorageResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta dopo lo split parziale: stato aggiornato di entrambi i lotti coinvolti.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Risposta dopo lo split parziale: stato aggiornato di entrambi i lotti coinvolti."""</span>
 
     <span class="n">original_batch</span><span class="p">:</span> <span class="n">BatchResponse</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lotto originale con quantità decrementata&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Lotto originale con quantità decrementata"</span>
     <span class="p">)</span>
     <span class="n">new_batch</span><span class="p">:</span> <span class="n">BatchResponse</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Nuovo lotto creato nello storage method di destinazione&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Nuovo lotto creato nello storage method di destinazione"</span>
     <span class="p">)</span></div>
 
 
@@ -1722,50 +1737,50 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchEventType">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchEventType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchEventType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tipi di eventi registrati nello storico del lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tipi di eventi registrati nello storico del lotto."""</span>
 
-    <span class="n">PREPARATION_COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;preparation_completed&quot;</span>
-    <span class="n">BATCH_COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;batch_completed&quot;</span></div>
+    <span class="n">PREPARATION_COMPLETED</span> <span class="o">=</span> <span class="s2">"preparation_completed"</span>
+    <span class="n">BATCH_COMPLETED</span> <span class="o">=</span> <span class="s2">"batch_completed"</span></div>
 
 
 
 <div class="viewcode-block" id="BatchCompletionReason">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchCompletionReason">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchCompletionReason</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Motivo standardizzato per la conclusione di un lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Motivo standardizzato per la conclusione di un lotto."""</span>
 
-    <span class="n">SOLD_OUT</span> <span class="o">=</span> <span class="s2">&quot;sold_out&quot;</span>
-    <span class="n">EXPIRED</span> <span class="o">=</span> <span class="s2">&quot;expired&quot;</span>
-    <span class="n">DAMAGED</span> <span class="o">=</span> <span class="s2">&quot;damaged&quot;</span>
-    <span class="n">QC_REJECT</span> <span class="o">=</span> <span class="s2">&quot;qc_reject&quot;</span>
-    <span class="n">INVENTORY_ADJUSTMENT</span> <span class="o">=</span> <span class="s2">&quot;inventory_adjustment&quot;</span>
-    <span class="n">OTHER</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
+    <span class="n">SOLD_OUT</span> <span class="o">=</span> <span class="s2">"sold_out"</span>
+    <span class="n">EXPIRED</span> <span class="o">=</span> <span class="s2">"expired"</span>
+    <span class="n">DAMAGED</span> <span class="o">=</span> <span class="s2">"damaged"</span>
+    <span class="n">QC_REJECT</span> <span class="o">=</span> <span class="s2">"qc_reject"</span>
+    <span class="n">INVENTORY_ADJUSTMENT</span> <span class="o">=</span> <span class="s2">"inventory_adjustment"</span>
+    <span class="n">OTHER</span> <span class="o">=</span> <span class="s2">"other"</span></div>
 
 
 
 <div class="viewcode-block" id="BatchComplete">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchComplete">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchComplete</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Payload per segnalare la conclusione definitiva di un lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Payload per segnalare la conclusione definitiva di un lotto."""</span>
 
-    <span class="n">reason</span><span class="p">:</span> <span class="n">BatchCompletionReason</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Motivo della conclusione del lotto&quot;</span><span class="p">)</span>
-    <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Note opzionali di completamento&quot;</span><span class="p">)</span>
-    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Versione attesa del lotto (optimistic locking)&quot;</span><span class="p">)</span>
+    <span class="n">reason</span><span class="p">:</span> <span class="n">BatchCompletionReason</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Motivo della conclusione del lotto"</span><span class="p">)</span>
+    <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Note opzionali di completamento"</span><span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Versione attesa del lotto (optimistic locking)"</span><span class="p">)</span>
     <span class="n">wasted_quantity</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Quantità sprecata/scaduta al momento della chiusura&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Quantità sprecata/scaduta al momento della chiusura"</span>
     <span class="p">)</span>
     <span class="n">wasted_unit</span><span class="p">:</span> <span class="n">UnitOfMeasure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unità di misura dello spreco (es. kg, g, pz, l)&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Unità di misura dello spreco (es. kg, g, pz, l)"</span>
     <span class="p">)</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_wasted_pair</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchComplete</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valida che wasted_quantity e wasted_unit siano entrambi presenti o entrambi assenti.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Valida che wasted_quantity e wasted_unit siano entrambi presenti o entrambi assenti."""</span>
         <span class="n">has_qty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wasted_quantity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">has_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wasted_unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">has_qty</span> <span class="o">!=</span> <span class="n">has_unit</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;wasted_quantity e wasted_unit devono essere entrambi presenti o entrambi assenti&quot;</span>
+                <span class="s2">"wasted_quantity e wasted_unit devono essere entrambi presenti o entrambi assenti"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -1774,7 +1789,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchEventResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchEventResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchEventResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evento append-only nello storico del lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Evento append-only nello storico del lotto."""</span>
 
     <span class="n">public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">batch_public_id</span><span class="p">:</span> <span class="n">UUID</span>
@@ -1786,15 +1801,15 @@ for private packages in organization repositories.)</a></li>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">occurred_at</span><span class="p">:</span> <span class="n">datetime</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_related_uuids</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">data</span>
-        <span class="n">batch</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;batch&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">preparation</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;preparation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;batch_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">batch</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;preparation_public_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preparation</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">preparation</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"batch"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">preparation</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"preparation"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"batch_public_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">batch</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"preparation_public_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">preparation</span><span class="o">.</span><span class="n">public_id</span> <span class="k">if</span> <span class="n">preparation</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">data</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -1804,27 +1819,27 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchHistoryEntryType">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchHistoryEntryType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchHistoryEntryType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tipo di voce nella storia aggregata di un lotto (issue #424).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tipo di voce nella storia aggregata di un lotto (issue #424)."""</span>
 
-    <span class="n">BATCH_CREATED</span> <span class="o">=</span> <span class="s2">&quot;batch_created&quot;</span>
-    <span class="n">STORAGE_MOVED</span> <span class="o">=</span> <span class="s2">&quot;storage_moved&quot;</span>
-    <span class="n">PREPARATION_COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;preparation_completed&quot;</span>
-    <span class="n">BATCH_COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;batch_completed&quot;</span>
-    <span class="n">CONSUMED_IN_PREPARATION</span> <span class="o">=</span> <span class="s2">&quot;consumed_in_preparation&quot;</span></div>
+    <span class="n">BATCH_CREATED</span> <span class="o">=</span> <span class="s2">"batch_created"</span>
+    <span class="n">STORAGE_MOVED</span> <span class="o">=</span> <span class="s2">"storage_moved"</span>
+    <span class="n">PREPARATION_COMPLETED</span> <span class="o">=</span> <span class="s2">"preparation_completed"</span>
+    <span class="n">BATCH_COMPLETED</span> <span class="o">=</span> <span class="s2">"batch_completed"</span>
+    <span class="n">CONSUMED_IN_PREPARATION</span> <span class="o">=</span> <span class="s2">"consumed_in_preparation"</span></div>
 
 
 
 <div class="viewcode-block" id="BatchHistoryEntry">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchHistoryEntry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchHistoryEntry</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Singola voce cronologica nella storia completa di un lotto.</span>
+<span class="w">    </span><span class="sd">"""Singola voce cronologica nella storia completa di un lotto.</span>
 
 <span class="sd">    Aggrega, in un formato uniforme, la creazione del lotto, gli spostamenti di</span>
 <span class="sd">    storage (``BatchStorageMove``), gli eventi di ciclo vita (``BatchEvent``) e</span>
 <span class="sd">    i consumi come ingrediente in una preparazione (``PreparationItem``) —</span>
-<span class="sd">    pensata per essere leggibile durante un&#39;ispezione ASL/NAS senza dover</span>
+<span class="sd">    pensata per essere leggibile durante un'ispezione ASL/NAS senza dover</span>
 <span class="sd">    incrociare più endpoint.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">entry_type</span><span class="p">:</span> <span class="n">BatchHistoryEntryType</span>
     <span class="n">occurred_at</span><span class="p">:</span> <span class="n">datetime</span>
@@ -1844,20 +1859,20 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchHistoryResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchHistoryResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchHistoryResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storia completa e ordinata cronologicamente di un lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Storia completa e ordinata cronologicamente di un lotto."""</span>
 
     <span class="n">batch_public_id</span><span class="p">:</span> <span class="n">UUID</span>
     <span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchHistoryEntry</span><span class="p">]</span></div>
 
 
 
-<span class="n">_STATUS_FIELD_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;Stato della richiesta&quot;</span>
+<span class="n">_STATUS_FIELD_DESCRIPTION</span> <span class="o">=</span> <span class="s2">"Stato della richiesta"</span>
 
 
 <div class="viewcode-block" id="BatchCompletionReasonItem">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchCompletionReasonItem">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchCompletionReasonItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Voce i18n per un motivo di conclusione lotto.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Voce i18n per un motivo di conclusione lotto."""</span>
 
     <span class="n">slug</span><span class="p">:</span> <span class="n">BatchCompletionReason</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -1867,79 +1882,45 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="BatchCompletionReasonsResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchCompletionReasonsResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchCompletionReasonsResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta per la lista dei motivi di conclusione lotto (i18n).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Risposta per la lista dei motivi di conclusione lotto (i18n)."""</span>
 
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">_STATUS_FIELD_DESCRIPTION</span><span class="p">)</span>
-    <span class="n">lang</span><span class="p">:</span> <span class="n">AppLanguage</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lingua delle etichette&quot;</span><span class="p">)</span>
-    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchCompletionReasonItem</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lista motivi disponibili&quot;</span><span class="p">)</span></div>
+    <span class="n">lang</span><span class="p">:</span> <span class="n">AppLanguage</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Lingua delle etichette"</span><span class="p">)</span>
+    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchCompletionReasonItem</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Lista motivi disponibili"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="BatchListResponse">
 <a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchListResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchListResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta per la lista dei lotti con keyset pagination.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Risposta per la lista dei lotti con keyset pagination."""</span>
 
     <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">_STATUS_FIELD_DESCRIPTION</span><span class="p">)</span>
-    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Numero totale di lotti&quot;</span><span class="p">)</span>
-    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchResponse</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lista dei lotti&quot;</span><span class="p">)</span>
-    <span class="n">next_cursor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cursor prossima pagina (None se fine)&quot;</span><span class="p">)</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Numero totale di lotti"</span><span class="p">)</span>
+    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BatchResponse</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Lista dei lotti"</span><span class="p">)</span>
+    <span class="n">next_cursor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Cursor prossima pagina (None se fine)"</span><span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"example"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"success"</span><span class="p">,</span>
+                <span class="s2">"count"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">"items"</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Lotto registrato&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;public_id&quot;</span><span class="p">:</span> <span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;product_name&quot;</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
-                        <span class="s2">&quot;lot_code&quot;</span><span class="p">:</span> <span class="s2">&quot;LOT123ABC&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;expiry_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-12-31&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;operator_id&quot;</span><span class="p">:</span> <span class="s2">&quot;chef01&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-                        <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-01-12T10:30:00&quot;</span><span class="p">,</span>
+                        <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"success"</span><span class="p">,</span>
+                        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Lotto registrato"</span><span class="p">,</span>
+                        <span class="s2">"public_id"</span><span class="p">:</span> <span class="s2">"550e8400-e29b-41d4-a716-446655440000"</span><span class="p">,</span>
+                        <span class="s2">"product_name"</span><span class="p">:</span> <span class="n">_EXAMPLE_PRODUCT_NAME</span><span class="p">,</span>
+                        <span class="s2">"lot_code"</span><span class="p">:</span> <span class="s2">"LOT123ABC"</span><span class="p">,</span>
+                        <span class="s2">"expiry_date"</span><span class="p">:</span> <span class="s2">"2026-12-31"</span><span class="p">,</span>
+                        <span class="s2">"operator_id"</span><span class="p">:</span> <span class="s2">"chef01"</span><span class="p">,</span>
+                        <span class="s2">"confidence"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                        <span class="s2">"created_at"</span><span class="p">:</span> <span class="s2">"2026-01-12T10:30:00"</span><span class="p">,</span>
                     <span class="p">}</span>
                 <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="BatchAnalyzeQueuedResponse">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchAnalyzeQueuedResponse">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchAnalyzeQueuedResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta quando l&#39;analisi è messa in coda (background).&quot;&quot;&quot;</span>
-
-    <span class="n">status</span><span class="p">:</span> <span class="n">JobStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">JobStatus</span><span class="o">.</span><span class="n">QUEUED</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">_STATUS_FIELD_DESCRIPTION</span><span class="p">)</span>
-    <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del job per il tracciamento&quot;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="BatchWorkerResult">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.BatchWorkerResult">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BatchWorkerResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risultato dell&#39;elaborazione del worker per un lotto.&quot;&quot;&quot;</span>
-
-    <span class="n">status</span><span class="p">:</span> <span class="n">JobStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato finale&quot;</span><span class="p">)</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">ProductAnalysisData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dati estratti in caso di successo&quot;</span><span class="p">)</span>
-    <span class="n">raw_ocr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Snippet OCR per debug&quot;</span><span class="p">)</span>
-    <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Avviso per prodotti non identificati&quot;</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Messaggio di errore in caso di fallimento&quot;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="JobStatusResponse">
-<a class="viewcode-back" href="../../../../app.modules.inventory.html#app.modules.inventory.schemas.JobStatusResponse">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JobStatusResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Risposta per il controllo dello stato di un job in background.&quot;&quot;&quot;</span>
-
-    <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID del job&quot;</span><span class="p">)</span>
-    <span class="n">status</span><span class="p">:</span> <span class="n">JobStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stato del job&quot;</span><span class="p">)</span>
-    <span class="n">result</span><span class="p">:</span> <span class="n">BatchWorkerResult</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Risultato del job se completato&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

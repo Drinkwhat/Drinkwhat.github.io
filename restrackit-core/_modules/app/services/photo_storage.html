@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.image_processing &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.services.photo_storage &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1266,7 +1288,7 @@ for private packages in organization repositories.)</a></li>
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">app.services.image_processing</li>
+      <li class="breadcrumb-item active">app.services.photo_storage</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1275,62 +1297,175 @@ for private packages in organization repositories.)</a></li>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for app.services.image_processing</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Image format conversion and preprocessing utilities.</span>
+  <h1>Source code for app.services.photo_storage</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Firma di URL S3 per le foto delle pulizie: nessun byte transita dal backend."""</span>
 
-<span class="sd">This module handles conversion of various image formats (HEIC, JPEG, PNG)</span>
-<span class="sd">to a standard JPEG format suitable for OCR processing.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botocore.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botocore.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">BotoCoreError</span><span class="p">,</span> <span class="n">ClientError</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">pi_heif</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExternalServiceError</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span><span class="p">,</span> <span class="n">ValidationError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="n">MAX_PHOTOS</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">MAX_PHOTO_BYTES</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>
+<span class="c1"># Deve coincidere con cleaning_photos_retention_days in terraform/variables.tf</span>
+<span class="c1"># (lifecycle rule del bucket): oltre questo limite l'API smette di mostrare le foto.</span>
+<span class="n">PHOTO_RETENTION_DAYS</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">UPLOAD_URL_TTL_SECONDS</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">DOWNLOAD_URL_TTL_SECONDS</span> <span class="o">=</span> <span class="mi">300</span>
 
-<span class="c1"># Enable HEIF/HEIC support in Pillow for iPhone image handling</span>
-<span class="n">pi_heif</span><span class="o">.</span><span class="n">register_heif_opener</span><span class="p">()</span>
+<span class="n">EXTENSIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"image/jpeg"</span><span class="p">:</span> <span class="s2">"jpg"</span><span class="p">,</span> <span class="s2">"image/png"</span><span class="p">:</span> <span class="s2">"png"</span><span class="p">,</span> <span class="s2">"image/webp"</span><span class="p">:</span> <span class="s2">"webp"</span><span class="p">}</span>
+<span class="n">CONTENT_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="n">ext</span><span class="p">:</span> <span class="n">content_type</span> <span class="k">for</span> <span class="n">content_type</span><span class="p">,</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">EXTENSIONS</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 
-<div class="viewcode-block" id="convert_to_jpeg_bytes">
-<a class="viewcode-back" href="../../../app.services.html#app.services.image_processing.convert_to_jpeg_bytes">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_jpeg_bytes</span><span class="p">(</span><span class="n">file_bytes</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert incoming image bytes to standard JPEG format.</span>
+<div class="viewcode-block" id="photo_prefix">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.photo_prefix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">photo_prefix</span><span class="p">(</span><span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">task_public_id</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Prefisso S3 riservato alle foto di un'occorrenza (isola store e occorrenza)."""</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"cleaning/</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">task_public_id</span><span class="si">}</span><span class="s2">/"</span></div>
 
-<span class="sd">    Handles multiple input formats:</span>
-<span class="sd">    - HEIC/HEIF: Apple&#39;s image format from iPhones</span>
-<span class="sd">    - JPEG: Standard compressed format</span>
-<span class="sd">    - PNG: Lossless format</span>
 
-<span class="sd">    All formats are converted to RGB JPEG with 95% quality for consistency</span>
-<span class="sd">    and optimal OCR performance.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        file_bytes (bytes): Raw image file bytes in any supported format</span>
+<div class="viewcode-block" id="PhotoStorage">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.PhotoStorage">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PhotoStorage</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Genera URL firmati (upload e download) per il bucket delle foto delle pulizie."""</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        bytes: JPEG-encoded image bytes ready for OCR</span>
+<div class="viewcode-block" id="PhotoStorage.__init__">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.PhotoStorage.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">internal_endpoint_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Crea il client S3 con firma SigV4 (necessaria per il presigned POST).</span>
 
-<span class="sd">    Raises:</span>
-<span class="sd">        ImageProcessingError: If format is unsupported or file is corrupted</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Open image from bytes and convert to RGB</span>
-        <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">file_bytes</span><span class="p">))</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
+<span class="sd">        Args:</span>
+<span class="sd">            bucket: Nome del bucket S3 privato.</span>
+<span class="sd">            region: Regione AWS del bucket, es. ``eu-south-1``.</span>
+<span class="sd">            endpoint_url: Endpoint S3-compatibile path-style (solo dev, es. RustFS) usato negli</span>
+<span class="sd">                URL firmati per il browser; ``None`` = AWS.</span>
+<span class="sd">            internal_endpoint_url: Endpoint con cui il server raggiunge lo stesso S3 (solo dev,</span>
+<span class="sd">                es. ``http://s3:9000`` nella rete Docker); ``None`` = usa ``endpoint_url``.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">bucket</span>
 
-        <span class="c1"># Save as JPEG to buffer</span>
-        <span class="n">buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
-        <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;JPEG&quot;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">95</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Image conversion failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-            <span class="n">ErrorCode</span><span class="o">.</span><span class="n">VAL_IMAGE_ERROR</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)},</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">exc</span>
-        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span></div>
+        <span class="k">def</span><span class="w"> </span><span class="nf">make_client</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+                <span class="s2">"s3"</span><span class="p">,</span>
+                <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
+                <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(</span>
+                    <span class="n">signature_version</span><span class="o">=</span><span class="s2">"s3v4"</span><span class="p">,</span>
+                    <span class="n">s3</span><span class="o">=</span><span class="p">{</span><span class="s2">"addressing_style"</span><span class="p">:</span> <span class="s2">"path"</span><span class="p">}</span> <span class="k">if</span> <span class="n">endpoint</span> <span class="k">else</span> <span class="p">{},</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">make_client</span><span class="p">(</span><span class="n">endpoint_url</span><span class="p">)</span>
+        <span class="c1"># Le chiamate di rete del server (HEAD) non passano dall'host pubblico dei presigned URL.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server_client</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">make_client</span><span class="p">(</span><span class="n">internal_endpoint_url</span><span class="p">)</span> <span class="k">if</span> <span class="n">internal_endpoint_url</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PhotoStorage.upload_slots">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.PhotoStorage.upload_slots">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upload_slots</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">task_public_id</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Restituisce ``count`` presigned POST, uno per foto.</span>
+
+<span class="sd">        La policy del POST impone il ``content_type`` e ``content-length-range`` da 1 byte a</span>
+<span class="sd">        ``MAX_PHOTO_BYTES``: un PUT presigned non potrebbe imporre il limite di dimensione.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[dict]: elementi con ``key`` (chiave S3), ``url`` e ``fields`` (campi form).</span>
+<span class="sd">        """</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="n">EXTENSIONS</span><span class="p">[</span><span class="n">content_type</span><span class="p">]</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">photo_prefix</span><span class="p">(</span><span class="n">store_id</span><span class="p">,</span> <span class="n">task_public_id</span><span class="p">)</span>
+        <span class="n">slots</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">generate_presigned_post</span><span class="p">(</span>
+                <span class="n">Bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span>
+                <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">Fields</span><span class="o">=</span><span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="n">content_type</span><span class="p">},</span>
+                <span class="n">Conditions</span><span class="o">=</span><span class="p">[</span>
+                    <span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="n">content_type</span><span class="p">},</span>
+                    <span class="p">[</span><span class="s2">"content-length-range"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_PHOTO_BYTES</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="n">ExpiresIn</span><span class="o">=</span><span class="n">UPLOAD_URL_TTL_SECONDS</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">slots</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"key"</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span> <span class="s2">"url"</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="s2">"fields"</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s2">"fields"</span><span class="p">]})</span>
+        <span class="k">return</span> <span class="n">slots</span></div>
+
+
+<div class="viewcode-block" id="PhotoStorage.download_url">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.PhotoStorage.download_url">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""URL presigned di download (GET) valido ``DOWNLOAD_URL_TTL_SECONDS`` secondi."""</span>
+        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">generate_presigned_url</span><span class="p">(</span>
+            <span class="s2">"get_object"</span><span class="p">,</span>
+            <span class="n">Params</span><span class="o">=</span><span class="p">{</span><span class="s2">"Bucket"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="s2">"Key"</span><span class="p">:</span> <span class="n">key</span><span class="p">},</span>
+            <span class="n">ExpiresIn</span><span class="o">=</span><span class="n">DOWNLOAD_URL_TTL_SECONDS</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span></div>
+
+
+<div class="viewcode-block" id="PhotoStorage.verify_object">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.PhotoStorage.verify_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Controlla che ``key`` sia stata davvero caricata e rispetti i limiti.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True se l'oggetto esiste, pesa da 1 byte a ``MAX_PHOTO_BYTES`` e ha il</span>
+<span class="sd">                Content-Type atteso per la sua estensione; False se manca, è fuori limite</span>
+<span class="sd">                o l'estensione non è tra quelle ammesse (in quel caso S3 non viene chiamato).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ExternalServiceError: per qualunque errore S3 diverso da "non trovato"</span>
+<span class="sd">                (permessi, rete, indisponibilità): non si può stabilire se la foto esista.</span>
+<span class="sd">        """</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">CONTENT_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_client</span><span class="o">.</span><span class="n">head_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Error"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Code"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"404"</span><span class="p">,</span> <span class="s2">"NoSuchKey"</span><span class="p">,</span> <span class="s2">"NotFound"</span><span class="p">}:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">raise</span> <span class="n">ExternalServiceError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">EXT_SERVICE_UNAVAILABLE</span><span class="p">,</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">except</span> <span class="n">BotoCoreError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExternalServiceError</span><span class="p">(</span><span class="n">ErrorCode</span><span class="o">.</span><span class="n">EXT_SERVICE_UNAVAILABLE</span><span class="p">,</span> <span class="n">original_exc</span><span class="o">=</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span>
+            <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">head</span><span class="p">[</span><span class="s2">"ContentLength"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">MAX_PHOTO_BYTES</span> <span class="ow">and</span> <span class="n">head</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ContentType"</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="get_photo_storage">
+<a class="viewcode-back" href="../../../app.services.html#app.services.photo_storage.get_photo_storage">[docs]</a>
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_photo_storage</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PhotoStorage</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Istanza condivisa costruita dalle impostazioni, ``None`` se il bucket non è configurato."""</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">cleaning_photos_bucket</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">PhotoStorage</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">cleaning_photos_bucket</span><span class="p">,</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">aws_region</span><span class="p">,</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">cleaning_photos_endpoint_url</span><span class="p">,</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">cleaning_photos_internal_endpoint_url</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 </pre></div>
 

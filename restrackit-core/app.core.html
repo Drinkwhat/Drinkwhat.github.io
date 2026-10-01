@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core package &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.core package &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="_static/documentation_options.js?v=fa7658e3"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1013,21 +1033,14 @@ for private packages in organization repositories.)</a></li>
 </section>
 <section id="module-app.core.circuit_breaker">
 <span id="app-core-circuit-breaker-module"></span><h2>app.core.circuit_breaker module<a class="headerlink" href="#module-app.core.circuit_breaker" title="Link to this heading"></a></h2>
-<p>Circuit breaker for external API calls (Google Vision, Gemini).</p>
+<p>Circuit breaker for external API calls (Gemini).</p>
 <p>Implements fail-fast behavior to prevent cascading failures when external
 services are degraded. Opens after N consecutive failures, returns error
 immediately while open, half-opens periodically to probe recovery.</p>
-<p>The breaker only counts <code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (the wrapper both OCR and agent
-services raise for genuine upstream failures). This is deliberate: input-driven
-errors (<code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> for an unreadable image, parsing/business errors) do
-NOT mean the external service is down, so they must not trip a process-wide
-breaker that would block every tenant.</p>
-<p>Thread-safety note: the <code class="docutils literal notranslate"><span class="pre">circuitbreaker</span></code> library keeps its failure counter in
-plain attributes without locking. <code class="docutils literal notranslate"><span class="pre">vision_api_call</span></code> runs inside
-<code class="docutils literal notranslate"><span class="pre">run_in_threadpool</span></code>, so concurrent worker threads can race on that counter and
-the open transition may be delayed by a few failures. This is acceptable
-(the breaker still opens, just slightly later) and restricting the counted
-exception type above keeps such increments rare.</p>
+<p>The breaker only counts <code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (the wrapper the agent service
+raises for genuine upstream failures). This is deliberate: input-driven errors
+(parsing/business errors) do NOT mean the external service is down, so they must
+not trip a process-wide breaker that would block every tenant.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.circuit_breaker.gemini_api_call">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.circuit_breaker.</span></span><span class="sig-name descname"><span class="pre">gemini_api_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/circuit_breaker.html#gemini_api_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.circuit_breaker.gemini_api_call" title="Link to this definition"></a></dt>
@@ -1046,56 +1059,15 @@ exception type above keeps such increments rare.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="app.core.circuit_breaker.vision_api_call">
-<span class="sig-prename descclassname"><span class="pre">app.core.circuit_breaker.</span></span><span class="sig-name descname"><span class="pre">vision_api_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/circuit_breaker.html#vision_api_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.circuit_breaker.vision_api_call" title="Link to this definition"></a></dt>
-<dd><p>Wrapper for Vision API calls with circuit breaker protection.</p>
-<p>Synchronous on purpose: the Vision OCR client is blocking and is invoked via
-<code class="docutils literal notranslate"><span class="pre">run_in_threadpool</span></code>, so this wrapper must be a plain callable (not a
-coroutine) to actually execute inside the worker thread.</p>
-<p>Note: <code class="docutils literal notranslate"><span class="pre">func</span></code> (<code class="docutils literal notranslate"><span class="pre">OcrService.extract_text</span></code>) is decorated with Tenacity
-<code class="docutils literal notranslate"><span class="pre">&#64;retry(stop=stop_after_attempt(3))</span></code>. Each failure counted by the circuit
-breaker therefore represents 3 exhausted Vision API calls. The circuit opens
-after <code class="docutils literal notranslate"><span class="pre">failure_threshold=5</span></code> such events (i.e. 15 real API failures).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> (<em>Callable</em><em>[</em><em>__annotationlib_name_1__</em><em>, </em><em>__annotationlib_name_2__</em><em>]</em>)</p></li>
-<li><p><strong>args</strong> (<em>object</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>object</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>T</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 <section id="module-app.core.clients">
 <span id="app-core-clients-module"></span><h2>app.core.clients module<a class="headerlink" href="#module-app.core.clients" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="app.core.clients.get_vision_client">
-<span class="sig-prename descclassname"><span class="pre">app.core.clients.</span></span><span class="sig-name descname"><span class="pre">get_vision_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/clients.html#get_vision_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.clients.get_vision_client" title="Link to this definition"></a></dt>
-<dd><p>Get Google Cloud Vision API client.</p>
-<p>Ensures Google Application Credentials are loaded from settings
-before initializing the Vision client.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Google Cloud Vision API client</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>vision.ImageAnnotatorClient</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.clients.get_gemini_client">
 <span class="sig-prename descclassname"><span class="pre">app.core.clients.</span></span><span class="sig-name descname"><span class="pre">get_gemini_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/clients.html#get_gemini_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.clients.get_gemini_client" title="Link to this definition"></a></dt>
 <dd><p>Get Google Gemini LLM client with API key authentication.</p>
 <p>Retrieves API key from settings and initializes the GenAI client.
-Used for intelligent parsing of OCR text and data extraction.</p>
+Used for intelligent parsing of client-extracted OCR text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Google GenAI client configured with API key</p>
@@ -1116,7 +1088,7 @@ Used for intelligent parsing of OCR text and data extraction.</p>
 - Cached settings instance for singleton pattern</p>
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.config.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_case_sensitive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_nested_model_default_partial_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_prefix_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_file_encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_ignore_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_nested_delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_nested_max_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_parse_none_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_parse_enums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_prog_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_parse_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_settings_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_parse_none_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_hide_none_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_avoid_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_enforce_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_use_class_docs_for_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_exit_on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_flag_prefix_char</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_implicit_flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_ignore_unknown_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_kebab_case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_shortcuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_secrets_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_build_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">google_api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">google_application_credentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_URL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_INTERNAL_URL</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_REALM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_CLIENT_ID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keycloak_onboarding_client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keycloak_onboarding_client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cors_origins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_hosts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted_proxy_ips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_security_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;default-src</span> <span class="pre">'self';</span> <span class="pre">img-src</span> <span class="pre">'self'</span> <span class="pre">data:</span> <span class="pre">https:;</span> <span class="pre">style-src</span> <span class="pre">'self'</span> <span class="pre">'unsafe-inline'</span> <span class="pre">https:;</span> <span class="pre">script-src</span> <span class="pre">'self'</span> <span class="pre">'unsafe-inline'</span> <span class="pre">https:;</span> <span class="pre">connect-src</span> <span class="pre">'self'</span> <span class="pre">https:;</span> <span class="pre">object-src</span> <span class="pre">'none';</span> <span class="pre">base-uri</span> <span class="pre">'self';</span> <span class="pre">form-action</span> <span class="pre">'self';</span> <span class="pre">frame-ancestors</span> <span class="pre">'none'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_security_policy_strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;default-src</span> <span class="pre">'self';</span> <span class="pre">img-src</span> <span class="pre">'self'</span> <span class="pre">data:;</span> <span class="pre">style-src</span> <span class="pre">'self';</span> <span class="pre">script-src</span> <span class="pre">'self';</span> <span class="pre">connect-src</span> <span class="pre">'self';</span> <span class="pre">object-src</span> <span class="pre">'none';</span> <span class="pre">base-uri</span> <span class="pre">'self';</span> <span class="pre">form-action</span> <span class="pre">'self';</span> <span class="pre">frame-ancestors</span> <span class="pre">'none'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cors_allow_credentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_dsn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_send_pii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_traces_sample_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_profiles_sample_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apitally_client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'local'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_upload_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10485760</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upload_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/app/uploads'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idempotency_key_ttl_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'redis://localhost:6379/0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_cache_ttl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_connect_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_socket_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prometheus_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">otel_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">otel_endpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">otel_service_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'restrackit-core'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datadog_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worker_metrics_port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#Settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.core.config.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_case_sensitive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_nested_model_default_partial_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_prefix_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_file_encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_ignore_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_nested_delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_nested_max_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_parse_none_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_env_parse_enums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_prog_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_parse_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_settings_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_parse_none_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_hide_none_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_avoid_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_enforce_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_use_class_docs_for_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_show_env_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_exit_on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_flag_prefix_char</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_implicit_flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_ignore_unknown_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_kebab_case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_cli_shortcuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_secrets_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_build_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">google_api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_URL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_INTERNAL_URL</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_REALM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KEYCLOAK_CLIENT_ID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keycloak_onboarding_client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keycloak_onboarding_client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cors_origins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_hosts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted_proxy_ips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_security_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;default-src</span> <span class="pre">'self';</span> <span class="pre">img-src</span> <span class="pre">'self'</span> <span class="pre">data:</span> <span class="pre">https:;</span> <span class="pre">style-src</span> <span class="pre">'self'</span> <span class="pre">'unsafe-inline'</span> <span class="pre">https:;</span> <span class="pre">script-src</span> <span class="pre">'self'</span> <span class="pre">'unsafe-inline'</span> <span class="pre">https:;</span> <span class="pre">connect-src</span> <span class="pre">'self'</span> <span class="pre">https:;</span> <span class="pre">object-src</span> <span class="pre">'none';</span> <span class="pre">base-uri</span> <span class="pre">'self';</span> <span class="pre">form-action</span> <span class="pre">'self';</span> <span class="pre">frame-ancestors</span> <span class="pre">'none'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_security_policy_strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;default-src</span> <span class="pre">'self';</span> <span class="pre">img-src</span> <span class="pre">'self'</span> <span class="pre">data:;</span> <span class="pre">style-src</span> <span class="pre">'self';</span> <span class="pre">script-src</span> <span class="pre">'self';</span> <span class="pre">connect-src</span> <span class="pre">'self';</span> <span class="pre">object-src</span> <span class="pre">'none';</span> <span class="pre">base-uri</span> <span class="pre">'self';</span> <span class="pre">form-action</span> <span class="pre">'self';</span> <span class="pre">frame-ancestors</span> <span class="pre">'none'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cors_allow_credentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_dsn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_send_pii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_traces_sample_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentry_profiles_sample_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apitally_client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'local'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idempotency_key_ttl_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'redis://localhost:6379/0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_cache_ttl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_connect_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_socket_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prometheus_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">otel_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">otel_endpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">otel_service_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'restrackit-core'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datadog_enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worker_metrics_port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleaning_photos_bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleaning_photos_endpoint_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleaning_photos_internal_endpoint_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'eu-south-1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#Settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
 <p>Application settings loaded from environment or .env file.</p>
 <dl class="field-list simple">
@@ -1141,6 +1113,7 @@ Used for intelligent parsing of OCR text and data extraction.</p>
 <li><p><strong>_cli_avoid_json</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>_cli_enforce_required</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>_cli_use_class_docs_for_groups</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>_cli_show_env_vars</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>_cli_exit_on_error</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>_cli_prefix</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>_cli_flag_prefix_char</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
@@ -1151,7 +1124,6 @@ Used for intelligent parsing of OCR text and data extraction.</p>
 <li><p><strong>_secrets_dir</strong> (<em>PathType</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>_build_sources</strong> (<em>tuple</em><em>[</em><em>tuple</em><em>[</em><em>PydanticBaseSettingsSource</em><em>, </em><em>...</em><em>]</em><em>, </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>google_api_key</strong> (<em>str</em>)</p></li>
-<li><p><strong>google_application_credentials</strong> (<em>str</em>)</p></li>
 <li><p><strong>database_url</strong> (<em>str</em>)</p></li>
 <li><p><strong>KEYCLOAK_URL</strong> (<em>str</em>)</p></li>
 <li><p><strong>KEYCLOAK_INTERNAL_URL</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
@@ -1172,8 +1144,6 @@ Used for intelligent parsing of OCR text and data extraction.</p>
 <li><p><strong>sentry_profiles_sample_rate</strong> (<em>float</em>)</p></li>
 <li><p><strong>apitally_client_id</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>environment</strong> (<em>str</em>)</p></li>
-<li><p><strong>max_upload_size</strong> (<em>int</em>)</p></li>
-<li><p><strong>upload_dir</strong> (<em>str</em>)</p></li>
 <li><p><strong>idempotency_key_ttl_hours</strong> (<em>int</em>)</p></li>
 <li><p><strong>redis_url</strong> (<em>str</em>)</p></li>
 <li><p><strong>redis_cache_ttl</strong> (<em>int</em>)</p></li>
@@ -1185,6 +1155,10 @@ Used for intelligent parsing of OCR text and data extraction.</p>
 <li><p><strong>otel_service_name</strong> (<em>str</em>)</p></li>
 <li><p><strong>datadog_enabled</strong> (<em>bool</em>)</p></li>
 <li><p><strong>worker_metrics_port</strong> (<em>int</em>)</p></li>
+<li><p><strong>cleaning_photos_bucket</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>cleaning_photos_endpoint_url</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>cleaning_photos_internal_endpoint_url</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>aws_region</strong> (<em>str</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1192,18 +1166,6 @@ Used for intelligent parsing of OCR text and data extraction.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">google_api_key</span></span></dt>
 <dd><p>API key for Google Gemini LLM</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">google_application_credentials</span></span></dt>
-<dd><p>Path to service account JSON for
-Google Cloud Vision API</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -1225,11 +1187,6 @@ Google Cloud Vision API</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">google_api_key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">google_application_credentials</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1315,6 +1272,9 @@ Google Cloud Vision API</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">inject_keycloak_into_csp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#Settings.inject_keycloak_into_csp"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Add KEYCLOAK_URL origin to connect-src of both CSP policies.</p>
+<p>With a photo bucket configured, the strict policy also allows its S3 origin: in
+img-src to show completed-cleaning photos, and (outside production only) in
+connect-src so the web UI can upload them with the presigned POST.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><em>Settings</em></p>
@@ -1359,36 +1319,8 @@ Google Cloud Vision API</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">max_upload_size</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">upload_dir</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">idempotency_key_ttl_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">upload_dir_must_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#Settings.upload_dir_must_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Create the upload directory if missing so it’s ready at startup.</p>
-<p>Idempotent (<code class="docutils literal notranslate"><span class="pre">exist_ok=True</span></code>): safe to run on every settings load,
-including repeated instantiations in tests. Prevents the
-<code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code>/silent “directory not found” behaviour
-previously seen when running locally without Docker (issue #181).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>str</em>)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
@@ -1449,6 +1381,26 @@ previously seen when running locally without Docker (issue #181).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">worker_metrics_port</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleaning_photos_bucket</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleaning_photos_endpoint_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleaning_photos_internal_endpoint_url</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">aws_region</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -1548,8 +1500,7 @@ the public Keycloak URL when an internal URL is not provided.</p>
 <span class="sig-prename descclassname"><span class="pre">app.core.config.</span></span><span class="sig-name descname"><span class="pre">get_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/core/config.html#get_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Get cached settings instance (singleton pattern).</p>
 <p>This function uses lru_cache to ensure only one Settings instance
-is created throughout the application lifecycle. It also sets up
-Google Cloud credentials path for the Vision API.</p>
+is created throughout the application lifecycle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Cached application settings instance</p>
@@ -1641,26 +1592,6 @@ azioni correttive (sia lato client che lato osservabilità).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_INVALID_FORMAT">
 <span class="sig-name descname"><span class="pre">VAL_INVALID_FORMAT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_003'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_INVALID_FORMAT" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_EMPTY_FILE">
-<span class="sig-name descname"><span class="pre">VAL_EMPTY_FILE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_004'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_EMPTY_FILE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_FILE_TOO_LARGE">
-<span class="sig-name descname"><span class="pre">VAL_FILE_TOO_LARGE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_FILE_TOO_LARGE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_NO_TEXT_FOUND">
-<span class="sig-name descname"><span class="pre">VAL_NO_TEXT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_006'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_NO_TEXT_FOUND" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.VAL_IMAGE_ERROR">
-<span class="sig-name descname"><span class="pre">VAL_IMAGE_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_007'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.VAL_IMAGE_ERROR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1769,11 +1700,6 @@ azioni correttive (sia lato client che lato osservabilità).</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_VISION_ERROR">
-<span class="sig-name descname"><span class="pre">EXT_VISION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_004'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_VISION_ERROR" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.EXT_GEMINI_ERROR">
 <span class="sig-name descname"><span class="pre">EXT_GEMINI_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_005'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.EXT_GEMINI_ERROR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1879,26 +1805,6 @@ action (str): Azione suggerita per risolvere o mitigare.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.errors.ErrorCode.VAL_EMPTY_FILE">
-<span class="sig-name descname"><span class="pre">VAL_EMPTY_FILE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_004'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.VAL_EMPTY_FILE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.errors.ErrorCode.VAL_FILE_TOO_LARGE">
-<span class="sig-name descname"><span class="pre">VAL_FILE_TOO_LARGE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_005'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.VAL_FILE_TOO_LARGE" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.errors.ErrorCode.VAL_NO_TEXT_FOUND">
-<span class="sig-name descname"><span class="pre">VAL_NO_TEXT_FOUND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_006'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.VAL_NO_TEXT_FOUND" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.errors.ErrorCode.VAL_IMAGE_ERROR">
-<span class="sig-name descname"><span class="pre">VAL_IMAGE_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_007'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.VAL_IMAGE_ERROR" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.errors.ErrorCode.VAL_INVALID_CURSOR">
 <span class="sig-name descname"><span class="pre">VAL_INVALID_CURSOR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_VAL_008'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.VAL_INVALID_CURSOR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -2001,11 +1907,6 @@ action (str): Azione suggerita per risolvere o mitigare.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.errors.ErrorCode.EXT_API_ERROR">
 <span class="sig-name descname"><span class="pre">EXT_API_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_003'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.EXT_API_ERROR" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="app.core.errors.ErrorCode.EXT_VISION_ERROR">
-<span class="sig-name descname"><span class="pre">EXT_VISION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_EXT_004'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.EXT_VISION_ERROR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

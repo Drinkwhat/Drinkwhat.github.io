@@ -12,7 +12,7 @@ Questa pagina riassume gli endpoint principali. Per la lista completa e sempre a
 > **API IDs**: Tutti i path parameter usano UUID opachi (`public_id`) invece di interi sequenziali. Questo previene attacchi IDOR per enumerazione. Il campo `id: int` rimane nelle response per compatibilità e sarà rimosso in una versione futura.
 
 > **Prefisso di versione**: tutti gli endpoint applicativi documentati di seguito sono
-> esposti sotto il prefisso `/v1` (es. `POST /v1/inventory/analyze`). Gli endpoint
+> esposti sotto il prefisso `/v1` (es. `POST /v1/inventory/parse-text`). Gli endpoint
 > infrastrutturali (`/health`, `/health/ready`, `/docs`, `/openapi.json`, `/ui/*`)
 > restano invariati e non sono versionati.
 
@@ -57,57 +57,10 @@ Health check endpoint (senza dipendenze di dominio).
 
 ## Inventory Module (`/v1/inventory`)
 
-### `POST /v1/inventory/analyze`
-
-Analizza una foto di etichetta con OCR + Agent.
-
-**Request** (multipart/form-data):
-
-```bash
-curl -H "Authorization: Bearer ${TOKEN}" \
-  -F "file=@label.jpg" \
-  "http://localhost:8000/v1/inventory/analyze?background=false"
-```
-
-**Response** (200 OK - Synchronous):
-
-```json
-{
-  "status": "revision",
-  "data": {
-    "prodotto": "latte intero",
-    "lotto": "L12345",
-    "scadenza": "2024-12-31",
-    "confidence": 0.95,
-    "is_corrected": false
-  },
-  "warning": null,
-  "raw_ocr_debug": "LATTE INTERO L12345 SCAD 31/12/24"
-}
-```
-
-**Response** (200 OK - Asynchronous):
-
-```json
-{
-  "status": "queued",
-  "job_id": "84d72023-..."
-}
-```
-
-**Errors**:
-
-- `400 Bad Request`: File vuoto o dati non validi.
-- `422 Unprocessable Entity`: Parsing AI fallito.
-- `502 Bad Gateway`: Errore OCR/servizio esterno.
-
----
-
 ### `POST /v1/inventory/parse-text`
 
 Analizza testo OCR già estratto lato client (es. ML Kit on-device), senza
-inviare l'immagine. Restituisce lo stesso formato di `/v1/inventory/analyze`
-in modalità sincrona.
+inviare l'immagine: il backend non esegue OCR, solo il parsing con Gemini.
 
 **Request**:
 
@@ -141,49 +94,6 @@ curl -H "Authorization: Bearer ${TOKEN}" \
 - `422 Unprocessable Entity`: Parsing AI fallito.
 - `429 Too Many Requests`: Rate limit superato (10 richieste/60s).
 - `502 Bad Gateway`: Errore del servizio Gemini.
-
----
-
-### `GET /v1/inventory/analyze/{job_id}`
-
-Get the status and result of a background analysis job.
-
-**Request**:
-
-```http
-GET /v1/inventory/analyze/84d72023-...
-Authorization: Bearer <token>
-```
-
-**Response** (200 OK - Completed):
-
-```json
-{
-  "job_id": "84d72023-...",
-  "status": "completed",
-  "result": {
-    "status": "completed",
-    "data": {
-      "prodotto": "latte intero",
-      "lotto": "L12345",
-      "scadenza": "2024-12-31",
-      "confidence": 0.95
-    },
-    "raw_ocr": "snippet...",
-    "error": null
-  }
-}
-```
-
-**Response** (200 OK - In Progress):
-
-```json
-{
-  "job_id": "84d72023-...",
-  "status": "deferred",
-  "result": null
-}
-```
 
 ---
 

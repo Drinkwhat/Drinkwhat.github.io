@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.ocr_post_processing &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.services.ocr_post_processing &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1286,15 +1308,15 @@ for private packages in organization repositories.)</a></li>
 <a class="viewcode-back" href="../../../app.services.html#app.services.ocr_post_processing.MatchResult">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MatchResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Risultato dell&#39;elaborazione di un codice lotto.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Risultato dell'elaborazione di un codice lotto.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        corrected_lot (str): Il codice lotto finale (corretto o originale).</span>
-<span class="sd">        match_type (str): Tipo di match effettuato (&#39;exact&#39;, &#39;fuzzy&#39;, &#39;raw&#39;, &#39;missing&#39;).</span>
+<span class="sd">        match_type (str): Tipo di match effettuato ('exact', 'fuzzy', 'raw', 'missing').</span>
 <span class="sd">        accuracy (float): Punteggio di affidabilità della correzione (0.0 - 1.0).</span>
 <span class="sd">        confidence_boost (float): Bonus di confidenza da aggiungere al punteggio AI.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">corrected_lot</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span>
@@ -1306,24 +1328,24 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="LotCodePostProcessor">
 <a class="viewcode-back" href="../../../app.services.html#app.services.ocr_post_processing.LotCodePostProcessor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LotCodePostProcessor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Motore di post-processing per la correzione intelligente dei codici lotto.</span>
 
 <span class="sd">    Utilizza un approccio non distruttivo basato su firme strutturali e</span>
 <span class="sd">    controllo posizionale delle ambiguità OCR note per distinguere tra</span>
 <span class="sd">    errori di lettura e varianti valide di nuovi lotti.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1"># Coppie di caratteri che l&#39;OCR scambia spesso (bidirezionali)</span>
+    <span class="c1"># Coppie di caratteri che l'OCR scambia spesso (bidirezionali)</span>
     <span class="n">AMBIGUOUS_PAIRS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;8&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">)),</span>
-        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"O"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"I"</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"L"</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"S"</span><span class="p">,</span> <span class="s2">"5"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"B"</span><span class="p">,</span> <span class="s2">"8"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"Z"</span><span class="p">,</span> <span class="s2">"2"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"G"</span><span class="p">,</span> <span class="s2">"6"</span><span class="p">)),</span>
+        <span class="nb">frozenset</span><span class="p">((</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"4"</span><span class="p">)),</span>
     <span class="p">}</span>
 
     <span class="c1"># Set ottimizzato di tutti i caratteri coinvolti in ambiguità per get_structural_pattern</span>
@@ -1333,18 +1355,18 @@ for private packages in organization repositories.)</a></li>
 <a class="viewcode-back" href="../../../app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.are_ambiguous">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">are_ambiguous</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">char1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">char2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Verifica se due caratteri sono una coppia di ambiguità OCR nota.</span>
 
-<span class="sd">        Esempio: &#39;O&#39; e &#39;0&#39; sono ambigui, &#39;2&#39; e &#39;4&#39; no.</span>
+<span class="sd">        Esempio: 'O' e '0' sono ambigui, '2' e '4' no.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            char1 (str): Primo carattere da confrontare.</span>
 <span class="sd">            char2 (str): Secondo carattere da confrontare.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True se i caratteri sono considerati interscambiabili dall&#39;OCR.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            bool: True se i caratteri sono considerati interscambiabili dall'OCR.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">char1</span> <span class="o">==</span> <span class="n">char2</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="nb">frozenset</span><span class="p">((</span><span class="n">char1</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">char2</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">AMBIGUOUS_PAIRS</span></div>
@@ -1354,90 +1376,90 @@ for private packages in organization repositories.)</a></li>
 <a class="viewcode-back" href="../../../app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.get_structural_pattern">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_structural_pattern</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Genera una firma strutturale basata sui tipi di caratteri.</span>
 
 <span class="sd">        Mappa ogni carattere in una macro-categoria:</span>
-<span class="sd">        - Alfabetico -&gt; &#39;A&#39;</span>
-<span class="sd">        - Numerico -&gt; &#39;N&#39;</span>
-<span class="sd">        - Speciale -&gt; &#39;S&#39;</span>
+<span class="sd">        - Alfabetico -&gt; 'A'</span>
+<span class="sd">        - Numerico -&gt; 'N'</span>
+<span class="sd">        - Speciale -&gt; 'S'</span>
 
-<span class="sd">        Esempio: &#39;LOT12S&#39; -&gt; &#39;AAANNA&#39;</span>
+<span class="sd">        Esempio: 'LOT12S' -&gt; 'AAANNA'</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            s (str): Stringa del lotto.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: La firma strutturale del lotto.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">pattern</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_AMBIGUOUS_CHARS</span><span class="p">:</span>
-                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>  <span class="c1"># Categoria per caratteri con ambiguità nota OCR</span>
+                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"X"</span><span class="p">)</span>  <span class="c1"># Categoria per caratteri con ambiguità nota OCR</span>
             <span class="k">elif</span> <span class="n">char</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
-                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"A"</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">char</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">)</span>
+                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"N"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>  <span class="c1"># Speciale/Altro</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span></div>
+                <span class="n">pattern</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"S"</span><span class="p">)</span>  <span class="c1"># Speciale/Altro</span>
+        <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LotCodePostProcessor.find_best_match">
 <a class="viewcode-back" href="../../../app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.find_best_match">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">find_best_match</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">historical_lots</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatchResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Analizza un lotto estratto dall&#39;OCR e decide se correggerlo o accettarlo come nuovo.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Analizza un lotto estratto dall'OCR e decide se correggerlo o accettarlo come nuovo.</span>
 
 <span class="sd">        Algoritmo:</span>
-<span class="sd">        1. Se il lotto è vuoto, restituisce &#39;missing&#39;.</span>
-<span class="sd">        2. Se esiste un match esatto nello storico, restituisce &#39;exact&#39;.</span>
+<span class="sd">        1. Se il lotto è vuoto, restituisce 'missing'.</span>
+<span class="sd">        2. Se esiste un match esatto nello storico, restituisce 'exact'.</span>
 <span class="sd">        3. Se esiste un lotto nello storico con la STESSA firma strutturale:</span>
 <span class="sd">           - Confronta i caratteri nelle posizioni in cui differiscono.</span>
 <span class="sd">           - Se TUTTE le differenze sono ambiguità OCR note (es. O invece di 0), corregge.</span>
-<span class="sd">           - Se una differenza è &quot;reale&quot; (es. 2 vs 4), lo considera un nuovo lotto.</span>
-<span class="sd">        4. Altrimenti, lo accetta come &#39;raw&#39; (nuovo lotto).</span>
+<span class="sd">           - Se una differenza è "reale" (es. 2 vs 4), lo considera un nuovo lotto.</span>
+<span class="sd">        4. Altrimenti, lo accetta come 'raw' (nuovo lotto).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            raw_lot (str | None): Il lotto grezzo letto dall&#39;OCR.</span>
+<span class="sd">            raw_lot (str | None): Il lotto grezzo letto dall'OCR.</span>
 <span class="sd">            historical_lots (list[str]): Elenco dei lotti precedentemente salvati per il prodotto.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            MatchResult: Il risultato dell&#39;analisi con la proposta di correzione.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_lot</span> <span class="ow">or</span> <span class="n">raw_lot</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Lot code missing or empty&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="sd">            MatchResult: Il risultato dell'analisi con la proposta di correzione.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_lot</span> <span class="ow">or</span> <span class="n">raw_lot</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Lot code missing or empty"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">"missing"</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
         <span class="n">raw_lot</span> <span class="o">=</span> <span class="n">raw_lot</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="c1"># Se non c&#39;è storico o c&#39;è un match esatto, restituiamo subito il valore</span>
+        <span class="c1"># Se non c'è storico o c'è un match esatto, restituiamo subito il valore</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">historical_lots</span> <span class="ow">or</span> <span class="n">raw_lot</span> <span class="ow">in</span> <span class="p">[</span><span class="n">h</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">historical_lots</span><span class="p">]:</span>
-            <span class="n">match_type</span> <span class="o">=</span> <span class="s2">&quot;exact&quot;</span> <span class="k">if</span> <span class="n">historical_lots</span> <span class="k">else</span> <span class="s2">&quot;raw&quot;</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Lot code </span><span class="si">%s</span><span class="s2"> match: type=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="p">)</span>
+            <span class="n">match_type</span> <span class="o">=</span> <span class="s2">"exact"</span> <span class="k">if</span> <span class="n">historical_lots</span> <span class="k">else</span> <span class="s2">"raw"</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Lot code </span><span class="si">%s</span><span class="s2"> match: type=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="n">match_type</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
         <span class="c1"># 2. Controllo Posizionale delle Ambiguità</span>
         <span class="n">best_match</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_find_fuzzy_match</span><span class="p">(</span><span class="n">raw_lot</span><span class="p">,</span> <span class="n">historical_lots</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">best_match</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="s2">&quot;Lot code fuzzy corrected: </span><span class="si">%s</span><span class="s2"> → </span><span class="si">%s</span><span class="s2"> accuracy=</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Lot code fuzzy corrected: </span><span class="si">%s</span><span class="s2"> → </span><span class="si">%s</span><span class="s2"> accuracy=</span><span class="si">%.2f</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">raw_lot</span><span class="p">,</span>
                 <span class="n">best_match</span><span class="o">.</span><span class="n">corrected_lot</span><span class="p">,</span>
                 <span class="n">best_match</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Lot code accepted as new (raw): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Lot code accepted as new (raw): </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">best_match</span>
             <span class="k">if</span> <span class="n">best_match</span>
-            <span class="k">else</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">MatchResult</span><span class="p">(</span><span class="n">corrected_lot</span><span class="o">=</span><span class="n">raw_lot</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">"raw"</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
         <span class="p">)</span></div>
 
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_find_fuzzy_match</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">raw_lot</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">historical_lots</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatchResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cerca il miglior match fuzzy tra i lotti storici basandosi sulle ambiguità OCR.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Cerca il miglior match fuzzy tra i lotti storici basandosi sulle ambiguità OCR."""</span>
         <span class="n">raw_pattern</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_structural_pattern</span><span class="p">(</span><span class="n">raw_lot</span><span class="p">)</span>
         <span class="n">best_match</span><span class="p">:</span> <span class="n">MatchResult</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -1456,7 +1478,7 @@ for private packages in organization repositories.)</a></li>
                     <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
                     <span class="n">best_match</span> <span class="o">=</span> <span class="n">MatchResult</span><span class="p">(</span>
                         <span class="n">corrected_lot</span><span class="o">=</span><span class="n">hist_lot</span><span class="p">,</span>
-                        <span class="n">match_type</span><span class="o">=</span><span class="s2">&quot;fuzzy&quot;</span><span class="p">,</span>
+                        <span class="n">match_type</span><span class="o">=</span><span class="s2">"fuzzy"</span><span class="p">,</span>
                         <span class="n">accuracy</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
                         <span class="n">confidence_boost</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -1464,7 +1486,7 @@ for private packages in organization repositories.)</a></li>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_ocr_ambiguity</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">lot1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lot2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verifica se tutte le differenze tra due lotti sono ambiguità OCR note.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Verifica se tutte le differenze tra due lotti sono ambiguità OCR note."""</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">are_ambiguous</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span> <span class="k">for</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lot1</span><span class="p">,</span> <span class="n">lot2</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 </pre></div>

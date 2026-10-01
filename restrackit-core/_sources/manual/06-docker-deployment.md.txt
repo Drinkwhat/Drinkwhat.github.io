@@ -151,7 +151,6 @@ DATABASE_URL=postgresql://app_user:password@db:5432/app_db
 
 # Google Cloud
 GOOGLE_API_KEY=your_api_key
-GOOGLE_APPLICATION_CREDENTIALS=./service_account.json
 
 # Keycloak (OIDC)
 KEYCLOAK_URL=https://example.com/auth
@@ -199,8 +198,6 @@ volumes:
   - ./logs:/app/logs           # Application logs
   - ./app:/app/app             # Hot reload (dev)
   - ./alembic:/app/alembic     # Migrations
-  - ./service_account.json:/app/service_account.json:ro
-  - uploads_data:/app/uploads   # Shared uploads between app & worker
 ```
 
 ### Database Volume

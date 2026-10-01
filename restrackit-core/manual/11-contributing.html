@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guida Team (contribuzioni) &mdash; Restrackit 2.102.0 documentation</title>
+  <title>Guida Team (contribuzioni) &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -173,7 +173,6 @@
 <li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -216,9 +215,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -768,6 +765,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -797,6 +795,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1049,24 +1069,24 @@ test(carico): Add tests for batch deletion
 <h3>Write Tests<a class="headerlink" href="#write-tests" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">test_analyze_photo_success</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test successful image analysis&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_parse_text_success</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Test successful label text parsing"""</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-        <span class="s2">&quot;/inventory/analyze&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer token_chef_marco&quot;</span><span class="p">},</span>
-        <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test_image.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)}</span>
+        <span class="s2">"/inventory/parse-text"</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer token_chef_marco"</span><span class="p">},</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"raw_text"</span><span class="p">:</span> <span class="s2">"LATTE INTERO L12345 SCAD 31/12/24"</span><span class="p">}</span>
     <span class="p">)</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
-    <span class="k">assert</span> <span class="s2">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="s2">"data"</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">test_analyze_empty_file</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test error handling for empty file&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_parse_text_empty</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Test error handling for empty text"""</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-        <span class="s2">&quot;/inventory/analyze&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer token_chef_marco&quot;</span><span class="p">},</span>
-        <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">}</span>
+        <span class="s2">"/inventory/parse-text"</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer token_chef_marco"</span><span class="p">},</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"raw_text"</span><span class="p">:</span> <span class="s2">""</span><span class="p">}</span>
     <span class="p">)</span>
-    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;error&quot;</span><span class="p">][</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ERR_VAL_004&quot;</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">400</span>
 </pre></div>
 </div>
 </section>
@@ -1183,17 +1203,17 @@ How to test these changes:
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.schemas.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomRequest</span><span class="p">,</span> <span class="n">CustomResponse</span>
 
-<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/custom&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;custom&quot;</span><span class="p">])</span>
+<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">"/custom"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">])</span>
 
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">CustomResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">CustomResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_custom</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">CustomRequest</span><span class="p">,</span>
     <span class="n">user</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_current_user_data</span><span class="p">),</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create custom resource&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create custom resource"""</span>
     <span class="c1"># Implementation</span>
-    <span class="k">return</span> <span class="n">CustomResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{})</span>
+    <span class="k">return</span> <span class="n">CustomResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">"success"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{})</span>
 </pre></div>
 </div>
 <ol class="arabic simple">
@@ -1209,9 +1229,9 @@ How to test these changes:
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_create_custom</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-        <span class="s2">&quot;/custom/&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer token_chef_marco&quot;</span><span class="p">},</span>
-        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;field1&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;field2&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">}</span>
+        <span class="s2">"/custom/"</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer token_chef_marco"</span><span class="p">},</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"field1"</span><span class="p">:</span> <span class="s2">"value"</span><span class="p">,</span> <span class="s2">"field2"</span><span class="p">:</span> <span class="mi">123</span><span class="p">}</span>
     <span class="p">)</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
 </pre></div>
@@ -1222,7 +1242,7 @@ How to test these changes:
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make changes to models (app/modules/&lt;module&gt;/models.py)</span>
 
 <span class="c1"># Generate migration</span>
-make<span class="w"> </span>make-migration<span class="w"> </span><span class="nv">MSG</span><span class="o">=</span><span class="s2">&quot;add_new_field&quot;</span>
+make<span class="w"> </span>make-migration<span class="w"> </span><span class="nv">MSG</span><span class="o">=</span><span class="s2">"add_new_field"</span>
 
 <span class="c1"># Review migration (alembic/versions/)</span>
 
@@ -1254,7 +1274,7 @@ make<span class="w"> </span>migrate
 <section id="docstrings">
 <h3>DocStrings<a class="headerlink" href="#docstrings" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_batch_by_id</span><span class="p">(</span><span class="n">batch_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Batch</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Retrieve a batch record from the database.</span>
 
 <span class="sd">    Args:</span>
@@ -1269,7 +1289,7 @@ make<span class="w"> </span>migrate
 
 <span class="sd">    Example:</span>
 <span class="sd">        batch = get_batch_by_id(42, store_id=1)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">pass</span>
 </pre></div>
 </div>

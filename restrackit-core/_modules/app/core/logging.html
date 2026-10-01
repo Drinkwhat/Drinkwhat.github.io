@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.logging &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.core.logging &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1276,7 +1298,7 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.logging</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Logging configuration for Restrackit application.</span>
 
 <span class="sd">This module sets up a centralized logging system with:</span>
@@ -1284,7 +1306,7 @@ for private packages in organization repositories.)</a></li>
 <span class="sd">- Console output (stdout) for real-time monitoring</span>
 <span class="sd">- Configurable log levels via environment variables</span>
 <span class="sd">- Contextual information in logs (timestamp, level, module, etc.)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -1311,91 +1333,91 @@ for private packages in organization repositories.)</a></li>
 
 <span class="c1"># ContextVar to store the current request ID for the duration of the request.</span>
 <span class="c1"># This allows the logging filter to access it without passing it as an argument.</span>
-<span class="n">request_id_var</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">&quot;request_id&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">request_id_var</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">"request_id"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="CustomJsonFormatter">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.CustomJsonFormatter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomJsonFormatter</span><span class="p">(</span><span class="n">JsonFormatter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom JSON formatter per strutturare i log in modo coerente per Datadog/Grafana.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Custom JSON formatter per strutturare i log in modo coerente per Datadog/Grafana."""</span>
 
 <div class="viewcode-block" id="CustomJsonFormatter.add_fields">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.CustomJsonFormatter.add_fields">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_fields</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">log_record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">,</span> <span class="n">message_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggiunge campi extra al record di log.</span>
+<span class="w">        </span><span class="sd">"""Aggiunge campi extra al record di log.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log_record: Dizionario che verrà serializzato in JSON.</span>
 <span class="sd">            record: LogRecord originale di Python logging.</span>
 <span class="sd">            message_dict: Campi estratti dal messaggio formattato.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_fields</span><span class="p">(</span><span class="n">log_record</span><span class="p">,</span> <span class="n">record</span><span class="p">,</span> <span class="n">message_dict</span><span class="p">)</span>
 
         <span class="c1"># Standardize timestamp - always use ISO 8601 format with proper timezone</span>
         <span class="c1"># Convert record.created (float timestamp) to ISO 8601 format</span>
         <span class="c1"># This ensures consistent format with colons in timezone offset (+00:00)</span>
-        <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">created</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="n">log_record</span><span class="p">[</span><span class="s2">"timestamp"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">created</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
 
         <span class="c1"># Standardize severity level</span>
-        <span class="k">if</span> <span class="n">log_record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;level&quot;</span><span class="p">):</span>
-            <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">log_record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"level"</span><span class="p">):</span>
+            <span class="n">log_record</span><span class="p">[</span><span class="s2">"level"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">log_record</span><span class="p">[</span><span class="s2">"level"</span><span class="p">])</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">levelname</span>
+            <span class="n">log_record</span><span class="p">[</span><span class="s2">"level"</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">levelname</span>
 
         <span class="c1"># Ensure module and logger name presence</span>
-        <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;logger&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;module&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">module</span>
-        <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;lineno&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">lineno</span>
+        <span class="n">log_record</span><span class="p">[</span><span class="s2">"logger"</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">log_record</span><span class="p">[</span><span class="s2">"module"</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">module</span>
+        <span class="n">log_record</span><span class="p">[</span><span class="s2">"lineno"</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">lineno</span>
 
         <span class="c1"># Include request_id if present (injected by RequestIdFilter)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="s2">&quot;request_id&quot;</span><span class="p">):</span>
-            <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;request_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">request_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="s2">"request_id"</span><span class="p">):</span>
+            <span class="n">log_record</span><span class="p">[</span><span class="s2">"request_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">request_id</span>
 
         <span class="c1"># Inject Datadog trace correlation fields when ddtrace is active.</span>
         <span class="c1"># These allow Datadog to correlate logs with APM traces.</span>
         <span class="k">if</span> <span class="n">_DDTRACE_AVAILABLE</span> <span class="ow">and</span> <span class="n">_dd_tracer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">span</span> <span class="o">=</span> <span class="n">_dd_tracer</span><span class="o">.</span><span class="n">current_span</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">span</span><span class="p">:</span>
-                <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;dd.trace_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span>
-                <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;dd.span_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">span_id</span><span class="p">)</span>
+                <span class="n">log_record</span><span class="p">[</span><span class="s2">"dd.trace_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span>
+                <span class="n">log_record</span><span class="p">[</span><span class="s2">"dd.span_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">span_id</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">span</span><span class="o">.</span><span class="n">service</span><span class="p">:</span>
-                    <span class="n">log_record</span><span class="p">[</span><span class="s2">&quot;dd.service&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="n">service</span></div>
+                    <span class="n">log_record</span><span class="p">[</span><span class="s2">"dd.service"</span><span class="p">]</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="n">service</span></div>
 </div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_path_prefixes</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converte una stringa di prefissi path separati da virgola in una tupla.</span>
+<span class="w">    </span><span class="sd">"""Converte una stringa di prefissi path separati da virgola in una tupla.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        value: Lista di prefissi separati da virgola (es. ``&quot;/health,/metrics&quot;``).</span>
+<span class="sd">        value: Lista di prefissi separati da virgola (es. ``"/health,/metrics"``).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[str, ...]: Prefissi normalizzati, ciascuno garantito con ``/`` iniziale.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"/"</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_env_path_prefixes</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Legge un env var e lo interpreta come lista di prefissi path.</span>
+<span class="w">    </span><span class="sd">"""Legge un env var e lo interpreta come lista di prefissi path.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name: Nome della variabile d&#39;ambiente.</span>
+<span class="sd">        name: Nome della variabile d'ambiente.</span>
 <span class="sd">        default: Valore di fallback se la variabile non è impostata.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[str, ...]: Tupla di prefissi normalizzati.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">default</span>
@@ -1403,15 +1425,15 @@ for private packages in organization repositories.)</a></li>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_env_int</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Legge un intero da variabile d&#39;ambiente con fallback sicuro.</span>
+<span class="w">    </span><span class="sd">"""Legge un intero da variabile d'ambiente con fallback sicuro.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name: Nome della variabile d&#39;ambiente.</span>
+<span class="sd">        name: Nome della variabile d'ambiente.</span>
 <span class="sd">        default: Valore da usare se la variabile non è presente o non è un intero valido.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        int: Valore configurato o fallback.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">default</span>
@@ -1422,25 +1444,25 @@ for private packages in organization repositories.)</a></li>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_env_bool</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Legge un booleano da variabile d&#39;ambiente con fallback sicuro.</span>
+<span class="w">    </span><span class="sd">"""Legge un booleano da variabile d'ambiente con fallback sicuro.</span>
 
 <span class="sd">    Valori considerati ``True`` (case-insensitive): ``1,true,yes,y,on``.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name: Nome della variabile d&#39;ambiente.</span>
+<span class="sd">        name: Nome della variabile d'ambiente.</span>
 <span class="sd">        default: Valore da usare se la variabile non è presente.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        bool: Valore interpretato.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">default</span>
-    <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">,</span> <span class="s2">"on"</span><span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_extract_access_path_and_status</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estrae path e status HTTP da un record di log di uvicorn.access.</span>
+<span class="w">    </span><span class="sd">"""Estrae path e status HTTP da un record di log di uvicorn.access.</span>
 
 <span class="sd">    Uvicorn emette log con argomenti posizionali (args) oppure come stringa già formattata.</span>
 <span class="sd">    Questa funzione gestisce entrambi i casi e tenta un parsing robusto.</span>
@@ -1450,8 +1472,8 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[str | None, int | None]: (path, status). Se non determinabile, i valori sono None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="s2">"args"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">_UVICORN_ACCESS_ARGS_MIN_LEN</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">_UVICORN_ACCESS_PATH_INDEX</span><span class="p">]</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">_UVICORN_ACCESS_STATUS_INDEX</span><span class="p">]</span>
@@ -1459,10 +1481,10 @@ for private packages in organization repositories.)</a></li>
             <span class="k">return</span> <span class="n">path</span><span class="p">,</span> <span class="n">status</span>
 
     <span class="n">msg</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">getMessage</span><span class="p">()</span>
-    <span class="n">q1</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'"'</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">q1</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="n">q2</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="n">q1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="n">q1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">q2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="n">request_line</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="n">q1</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">q2</span><span class="p">]</span>
@@ -1472,7 +1494,7 @@ for private packages in organization repositories.)</a></li>
     <span class="n">path</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">_REQUEST_LINE_PATH_INDEX</span><span class="p">]</span>
 
     <span class="n">tail</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="n">q2</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
-    <span class="n">status_str</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">tail</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">status_str</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">tail</span> <span class="k">else</span> <span class="s2">""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">status</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">status_str</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -1483,11 +1505,11 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="UvicornAccessLogFilter">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.UvicornAccessLogFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UvicornAccessLogFilter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filtro per ridurre il rumore dei log di accesso di Uvicorn.</span>
+<span class="w">    </span><span class="sd">"""Filtro per ridurre il rumore dei log di accesso di Uvicorn.</span>
 
-<span class="sd">    Il comportamento tipico è: nascondere richieste &quot;noisy&quot; (es. health check)</span>
+<span class="sd">    Il comportamento tipico è: nascondere richieste "noisy" (es. health check)</span>
 <span class="sd">    quando hanno status &lt; soglia, ma preservare warning/error e/o prefissi inclusi.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="UvicornAccessLogFilter.__init__">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.UvicornAccessLogFilter.__init__">[docs]</a>
@@ -1499,14 +1521,14 @@ for private packages in organization repositories.)</a></li>
         <span class="n">exclude_status_below</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">keep_level_at_least</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Crea un filtro configurabile per uvicorn.access.</span>
+<span class="w">        </span><span class="sd">"""Crea un filtro configurabile per uvicorn.access.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            exclude_prefixes: Prefissi path da escludere (es. ``(&quot;/health&quot;,)``).</span>
-<span class="sd">            include_prefixes: Prefissi path da includere sempre (override dell&#39;esclusione).</span>
+<span class="sd">            exclude_prefixes: Prefissi path da escludere (es. ``("/health",)``).</span>
+<span class="sd">            include_prefixes: Prefissi path da includere sempre (override dell'esclusione).</span>
 <span class="sd">            exclude_status_below: Esclude (filtra) solo se lo status è &lt; di questa soglia.</span>
 <span class="sd">            keep_level_at_least: Non filtra mai record con level &gt;= di questo valore.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_prefixes</span> <span class="o">=</span> <span class="n">exclude_prefixes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_include_prefixes</span> <span class="o">=</span> <span class="n">include_prefixes</span>
@@ -1517,14 +1539,14 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="UvicornAccessLogFilter.filter">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.UvicornAccessLogFilter.filter">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decide se un record di accesso deve essere mantenuto.</span>
+<span class="w">        </span><span class="sd">"""Decide se un record di accesso deve essere mantenuto.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            record: LogRecord di Uvicorn.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True per mantenere il record; False per filtrarlo.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keep_level_at_least</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
 
@@ -1546,23 +1568,23 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="RequestIdFilter">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.RequestIdFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RequestIdFilter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Logging filter that injects the current request_id from contextvars.</span>
+<span class="w">    </span><span class="sd">"""Logging filter that injects the current request_id from contextvars.</span>
 
-<span class="sd">    This makes &#39;request_id&#39; available as an attribute on every LogRecord,</span>
+<span class="sd">    This makes 'request_id' available as an attribute on every LogRecord,</span>
 <span class="sd">    allowing formatters to include it in the output.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="RequestIdFilter.filter">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.RequestIdFilter.filter">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inject request_id into the LogRecord.</span>
+<span class="w">        </span><span class="sd">"""Inject request_id into the LogRecord.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            record: The LogRecord to modify.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: Always True (never filters out records).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">record</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">request_id_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 </div>
@@ -1572,7 +1594,7 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="create_uvicorn_access_log_filter_from_env">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.create_uvicorn_access_log_filter_from_env">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_uvicorn_access_log_filter_from_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">UvicornAccessLogFilter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Costruisce un UvicornAccessLogFilter leggendo la configurazione da env.</span>
+<span class="w">    </span><span class="sd">"""Costruisce un UvicornAccessLogFilter leggendo la configurazione da env.</span>
 
 <span class="sd">    Env var supportate:</span>
 <span class="sd">        - UVICORN_ACCESS_LOG_EXCLUDE_PREFIXES (default: ``/health``)</span>
@@ -1582,17 +1604,17 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        UvicornAccessLogFilter: Istanza configurata.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">exclude_prefixes</span> <span class="o">=</span> <span class="n">_get_env_path_prefixes</span><span class="p">(</span>
-        <span class="s2">&quot;UVICORN_ACCESS_LOG_EXCLUDE_PREFIXES&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">,),</span>
+        <span class="s2">"UVICORN_ACCESS_LOG_EXCLUDE_PREFIXES"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s2">"/health"</span><span class="p">,),</span>
     <span class="p">)</span>
     <span class="n">include_prefixes</span> <span class="o">=</span> <span class="n">_get_env_path_prefixes</span><span class="p">(</span>
-        <span class="s2">&quot;UVICORN_ACCESS_LOG_INCLUDE_PREFIXES&quot;</span><span class="p">,</span>
+        <span class="s2">"UVICORN_ACCESS_LOG_INCLUDE_PREFIXES"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="p">(),</span>
     <span class="p">)</span>
-    <span class="n">exclude_status_below</span> <span class="o">=</span> <span class="n">_get_env_int</span><span class="p">(</span><span class="s2">&quot;UVICORN_ACCESS_LOG_EXCLUDE_STATUS_BELOW&quot;</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
-    <span class="n">keep_level_at_least</span> <span class="o">=</span> <span class="n">_get_env_int</span><span class="p">(</span><span class="s2">&quot;UVICORN_ACCESS_LOG_KEEP_LEVEL_AT_LEAST&quot;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+    <span class="n">exclude_status_below</span> <span class="o">=</span> <span class="n">_get_env_int</span><span class="p">(</span><span class="s2">"UVICORN_ACCESS_LOG_EXCLUDE_STATUS_BELOW"</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">keep_level_at_least</span> <span class="o">=</span> <span class="n">_get_env_int</span><span class="p">(</span><span class="s2">"UVICORN_ACCESS_LOG_KEEP_LEVEL_AT_LEAST"</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">UvicornAccessLogFilter</span><span class="p">(</span>
         <span class="n">exclude_prefixes</span><span class="o">=</span><span class="n">exclude_prefixes</span><span class="p">,</span>
         <span class="n">include_prefixes</span><span class="o">=</span><span class="n">include_prefixes</span><span class="p">,</span>
@@ -1605,42 +1627,42 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="configure_uvicorn_access_logs">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.configure_uvicorn_access_logs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">configure_uvicorn_access_logs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applica il filtro ai log di uvicorn.access (se abilitato via env).&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_get_env_bool</span><span class="p">(</span><span class="s2">&quot;UVICORN_ACCESS_LOG_FILTER_ENABLED&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Applica il filtro ai log di uvicorn.access (se abilitato via env)."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_get_env_bool</span><span class="p">(</span><span class="s2">"UVICORN_ACCESS_LOG_FILTER_ENABLED"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
         <span class="k">return</span>
-    <span class="n">access_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;uvicorn.access&quot;</span><span class="p">)</span>
+    <span class="n">access_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"uvicorn.access"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">UvicornAccessLogFilter</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">access_logger</span><span class="o">.</span><span class="n">filters</span><span class="p">):</span>
         <span class="n">access_logger</span><span class="o">.</span><span class="n">addFilter</span><span class="p">(</span><span class="n">create_uvicorn_access_log_filter_from_env</span><span class="p">())</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_formatter</span><span class="p">(</span><span class="n">use_json</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Costruisce il formatter appropriato in base al formato richiesto.</span>
+<span class="w">    </span><span class="sd">"""Costruisce il formatter appropriato in base al formato richiesto.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        use_json: Se True, restituisce CustomJsonFormatter; altrimenti formatter testo.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        logging.Formatter: Formatter configurato.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">use_json</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">CustomJsonFormatter</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(levelname)s</span><span class="s2"> </span><span class="si">%(name)s</span><span class="s2"> </span><span class="si">%(module)s</span><span class="s2"> </span><span class="si">%(lineno)d</span><span class="s2"> </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">rename_fields</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;levelname&quot;</span><span class="p">:</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;asctime&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">},</span>
+            <span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(levelname)s</span><span class="s2"> </span><span class="si">%(name)s</span><span class="s2"> </span><span class="si">%(module)s</span><span class="s2"> </span><span class="si">%(lineno)d</span><span class="s2"> </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">rename_fields</span><span class="o">=</span><span class="p">{</span><span class="s2">"levelname"</span><span class="p">:</span> <span class="s2">"level"</span><span class="p">,</span> <span class="s2">"asctime"</span><span class="p">:</span> <span class="s2">"timestamp"</span><span class="p">},</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - &quot;</span>
-        <span class="s2">&quot;[</span><span class="si">%(module)s</span><span class="s2">:</span><span class="si">%(lineno)d</span><span class="s2">] - [</span><span class="si">%(request_id)s</span><span class="s2">] - </span><span class="si">%(message)s</span><span class="s2">&quot;</span>
+        <span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - "</span>
+        <span class="s2">"[</span><span class="si">%(module)s</span><span class="s2">:</span><span class="si">%(lineno)d</span><span class="s2">] - [</span><span class="si">%(request_id)s</span><span class="s2">] - </span><span class="si">%(message)s</span><span class="s2">"</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_apply_handler</span><span class="p">(</span><span class="n">target_logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">,</span> <span class="n">formatter</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rimuove handler esistenti e applica un nuovo StreamHandler su stdout.</span>
+<span class="w">    </span><span class="sd">"""Rimuove handler esistenti e applica un nuovo StreamHandler su stdout.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        target_logger: Logger da configurare.</span>
 <span class="sd">        formatter: Formatter da applicare al nuovo handler.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">existing</span> <span class="ow">in</span> <span class="p">[</span><span class="o">*</span><span class="n">target_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">]:</span>
         <span class="n">target_logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">existing</span><span class="p">)</span>
         <span class="n">existing</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1654,19 +1676,19 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="setup_logging">
 <a class="viewcode-back" href="../../../app.core.html#app.core.logging.setup_logging">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_logging</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inizializza la configurazione di logging root.</span>
+<span class="w">    </span><span class="sd">"""Inizializza la configurazione di logging root.</span>
 
 <span class="sd">    Quando ``LOG_FORMAT=json`` (default), applica ``CustomJsonFormatter`` anche ai logger</span>
 <span class="sd">    uvicorn (``uvicorn``, ``uvicorn.access``, ``uvicorn.error``) in modo che tutti i log</span>
 <span class="sd">    nel container siano JSON strutturati e Loki possa parserli con ``| json``.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        logging.Logger: L&#39;istanza del logger &#39;restrackit&#39; configurata.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">use_json</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOG_FORMAT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span>
+<span class="sd">        logging.Logger: L'istanza del logger 'restrackit' configurata.</span>
+<span class="sd">    """</span>
+    <span class="n">use_json</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"LOG_FORMAT"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"json"</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"json"</span>
     <span class="n">formatter</span> <span class="o">=</span> <span class="n">_build_formatter</span><span class="p">(</span><span class="n">use_json</span><span class="p">)</span>
 
-    <span class="n">log_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOG_LEVEL&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;INFO&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">log_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"LOG_LEVEL"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"INFO"</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="n">invalid_log_level_value</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Support numeric strings (e.g. LOG_LEVEL=10) as well as named levels</span>
@@ -1677,18 +1699,18 @@ for private packages in organization repositories.)</a></li>
             <span class="n">numeric_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
             <span class="n">invalid_log_level_value</span> <span class="o">=</span> <span class="n">log_level</span>
 
-    <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;restrackit&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"restrackit"</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">numeric_level</span><span class="p">)</span>
     <span class="n">_apply_handler</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">use_json</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">uvicorn_name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span> <span class="s2">&quot;uvicorn.access&quot;</span><span class="p">,</span> <span class="s2">&quot;uvicorn.error&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">uvicorn_name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"uvicorn"</span><span class="p">,</span> <span class="s2">"uvicorn.access"</span><span class="p">,</span> <span class="s2">"uvicorn.error"</span><span class="p">):</span>
             <span class="n">uv_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">uvicorn_name</span><span class="p">)</span>
             <span class="n">uv_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">numeric_level</span><span class="p">)</span>
             <span class="n">_apply_handler</span><span class="p">(</span><span class="n">uv_logger</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">invalid_log_level_value</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Invalid LOG_LEVEL &#39;</span><span class="si">%s</span><span class="s2">&#39;, defaulting to INFO&quot;</span><span class="p">,</span> <span class="n">invalid_log_level_value</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Invalid LOG_LEVEL '</span><span class="si">%s</span><span class="s2">', defaulting to INFO"</span><span class="p">,</span> <span class="n">invalid_log_level_value</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">logger</span></div>
 

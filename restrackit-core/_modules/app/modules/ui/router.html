@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.ui.router &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.modules.ui.router &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1276,11 +1298,11 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.modules.ui.router</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Static UI endpoints.</span>
+<span></span><span class="sd">"""Static UI endpoints.</span>
 
 <span class="sd">Serve la UI desktop (HTML/CSS/JS) sotto `/ui` e pubblica una configurazione runtime</span>
 <span class="sd">tramite `/ui/config.json`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
@@ -1291,73 +1313,78 @@ for private packages in organization repositories.)</a></li>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">FULL_VERSION</span>
 
-<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ui&quot;</span><span class="p">])</span>
+<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"ui"</span><span class="p">])</span>
 
-<span class="n">UI_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="s2">&quot;ui&quot;</span>
+<span class="n">UI_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="s2">"ui"</span>
 
 
 <div class="viewcode-block" id="ui_root">
 <a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_root">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/ui"</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">RedirectResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Redirect canonico `/ui` → `/ui/`.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">RedirectResponse</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;/ui/&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">302</span><span class="p">)</span></div>
+<span class="w">    </span><span class="sd">"""Redirect canonico `/ui` → `/ui/`."""</span>
+    <span class="k">return</span> <span class="n">RedirectResponse</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"/ui/"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">302</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="ui_index">
 <a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_index">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/ui/"</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_index</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ritorna index.html con cache-busting sulla versione.&quot;&quot;&quot;</span>
-    <span class="n">index_path</span> <span class="o">=</span> <span class="n">UI_DIR</span> <span class="o">/</span> <span class="s2">&quot;index.html&quot;</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="k">await</span> <span class="n">anyio</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">index_path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/ui/styles.css&quot;&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;/ui/styles.css?v=</span><span class="si">{</span><span class="n">FULL_VERSION</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/ui/app.js&quot;&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;/ui/app.js?v=</span><span class="si">{</span><span class="n">FULL_VERSION</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Ritorna index.html con cache-busting sulla versione."""</span>
+    <span class="n">index_path</span> <span class="o">=</span> <span class="n">UI_DIR</span> <span class="o">/</span> <span class="s2">"index.html"</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="k">await</span> <span class="n">anyio</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">index_path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'/ui/styles.css"'</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'/ui/styles.css?v=</span><span class="si">{</span><span class="n">FULL_VERSION</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'/ui/app.js"'</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'/ui/app.js?v=</span><span class="si">{</span><span class="n">FULL_VERSION</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
         <span class="n">content</span><span class="o">=</span><span class="n">html</span><span class="p">,</span>
-        <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;text/html; charset=utf-8&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store, max-age=0&quot;</span><span class="p">},</span>
+        <span class="n">media_type</span><span class="o">=</span><span class="s2">"text/html; charset=utf-8"</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Cache-Control"</span><span class="p">:</span> <span class="s2">"no-store, max-age=0"</span><span class="p">},</span>
     <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="vite_client_noop">
 <a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.vite_client_noop">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/@vite/client&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/@vite/client"</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">vite_client_noop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;No-op compatibilità Vite (evita errori in alcuni ambienti).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""No-op compatibilità Vite (evita errori in alcuni ambienti)."""</span>
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
-        <span class="n">content</span><span class="o">=</span><span class="s2">&quot;export </span><span class="si">{}</span><span class="s2">;&quot;</span><span class="p">,</span>
-        <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;application/javascript; charset=utf-8&quot;</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store, max-age=0&quot;</span><span class="p">},</span>
+        <span class="n">content</span><span class="o">=</span><span class="s2">"export </span><span class="si">{}</span><span class="s2">;"</span><span class="p">,</span>
+        <span class="n">media_type</span><span class="o">=</span><span class="s2">"application/javascript; charset=utf-8"</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Cache-Control"</span><span class="p">:</span> <span class="s2">"no-store, max-age=0"</span><span class="p">},</span>
     <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="ui_config">
 <a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_config">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/config.json&quot;</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/ui/config.json"</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ritorna configurazione runtime per la UI (OIDC, versione, redirect URI).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Ritorna configurazione runtime per la UI (OIDC, versione, redirect URI)."""</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
-    <span class="n">base_url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">public_base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">public_base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;api_base&quot;</span><span class="p">:</span> <span class="s2">&quot;/v1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">FULL_VERSION</span><span class="p">,</span>
-        <span class="s2">&quot;environment&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">environment</span><span class="p">,</span>
-        <span class="s2">&quot;oidc&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;issuer&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">oidc_url</span><span class="p">,</span>
-            <span class="s2">&quot;authorization_endpoint&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">authorization_url</span><span class="p">,</span>
-            <span class="s2">&quot;token_endpoint&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">token_url</span><span class="p">,</span>
-            <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_CLIENT_ID</span><span class="p">,</span>
-            <span class="s2">&quot;realm&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="p">,</span>
-            <span class="s2">&quot;redirect_uri&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/ui/callback.html&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;allow_insecure_pkce_plain&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">environment</span> <span class="o">!=</span> <span class="s2">&quot;production&quot;</span><span class="p">,</span>
+        <span class="s2">"api_base"</span><span class="p">:</span> <span class="s2">"/v1"</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="n">FULL_VERSION</span><span class="p">,</span>
+        <span class="s2">"environment"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">environment</span><span class="p">,</span>
+        <span class="c1"># Foto pulizie: in produzione si caricano solo da mobile, la UI web le carica in dev.</span>
+        <span class="s2">"cleaning_photo_upload"</span><span class="p">:</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">is_production</span>
+        <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">cleaning_photos_bucket</span><span class="p">),</span>
+        <span class="c1"># Letture temperatura: azione dell'app mobile, dalla UI web solo fuori produzione.</span>
+        <span class="s2">"temperature_record"</span><span class="p">:</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">is_production</span><span class="p">,</span>
+        <span class="s2">"oidc"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"enabled"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"issuer"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">oidc_url</span><span class="p">,</span>
+            <span class="s2">"authorization_endpoint"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">authorization_url</span><span class="p">,</span>
+            <span class="s2">"token_endpoint"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">token_url</span><span class="p">,</span>
+            <span class="s2">"client_id"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_CLIENT_ID</span><span class="p">,</span>
+            <span class="s2">"realm"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="p">,</span>
+            <span class="s2">"redirect_uri"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/ui/callback.html"</span><span class="p">,</span>
+            <span class="s2">"allow_insecure_pkce_plain"</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">environment</span> <span class="o">!=</span> <span class="s2">"production"</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store, max-age=0&quot;</span><span class="p">})</span></div>
+    <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Cache-Control"</span><span class="p">:</span> <span class="s2">"no-store, max-age=0"</span><span class="p">})</span></div>
 
 </pre></div>
 

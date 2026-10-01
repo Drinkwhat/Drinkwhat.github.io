@@ -1,0 +1,177 @@
+# Cleaning Routines (pulizie HACCP)
+
+Il modulo `app/modules/cleaning/` gestisce le **routine di pulizia ricorrenti** di uno store
+(es. "sanificare l'affettatrice"). Il manager le definisce, il personale le segna come fatte
+dal mobile, e se una pulizia scade senza essere eseguita lo store riceve una notifica. Ogni
+esecuzione resta in un archivio consultabile per le ispezioni.
+
+Layout standard del modulo: `models.py`, `schemas.py`, `schedule.py` (calcoli puri di
+pianificazione), `service.py`, `router.py`. Le foto usano `app/services/photo_storage.py`.
+
+---
+
+## Modello
+
+| Tabella | Ruolo |
+|---|---|
+| `cleaning_routines` | Definizione: `name`, `description`, `frequency` (`daily`/`weekly`/`monthly`), `weekday` (0-6, 0 = lunedì, solo weekly), `day_of_month` (1-28, solo monthly), `due_time` (opzionale), `is_active`. Soft delete e `version` (optimistic locking). |
+| `cleaning_tasks` | Occorrenza di una routine per un giorno locale: `due_date`, `due_at` (UTC), `status` (`pending`/`done`), `routine_name` (snapshot), `completed_at`, `operator_id`, `operator_name`, `notes`, `photo_keys`, `overdue_notified_at`. |
+
+- Entrambe le tabelle hanno `store_id` e la policy RLS `<tabella>_isolation_policy`.
+- Il `CHECK` `ck_cleaning_routine_schedule` impone la coerenza frequenza/pianificazione:
+  `weekday IS NOT NULL AND weekday BETWEEN 0 AND 6` per le settimanali,
+  `day_of_month IS NOT NULL AND day_of_month BETWEEN 1 AND 28` per le mensili
+  (le clausole `IS NOT NULL` servono perché un `CHECK` accetta `NULL`). Lo stesso controllo è
+  fatto in `schemas.py::_check_schedule`.
+- `UNIQUE (routine_id, due_date)` rende idempotente la generazione delle occorrenze.
+- Gli identificativi esposti dall'API sono i `public_id` (UUID), mai gli `id` interi.
+- Vedi anche `docs/relazione_basi_di_dati.tex` per DDL e motivazioni.
+
+## Regole
+
+- **Fuso orario per store.** `stores.timezone` (nome IANA, default `Europe/Rome`, impostabile
+  in `POST /onboarding/stores`) decide quando cambia il giorno: ogni store passa al giorno
+  successivo alla propria mezzanotte.
+- **Giorno locale e scadenza.** L'occorrenza di oggi ha `due_date` = data locale dello store e
+  `due_at` = `due_date` + `due_time` nel fuso dello store, convertito in UTC. Senza `due_time`
+  la scadenza è alle 23:59:59 locali. Una routine non genera un'occorrenza con `due_at`
+  precedente alla propria `created_at`: una routine appena creata non nasce già scaduta.
+- **Scaduta e tardiva sono derivate, mai salvate.** `overdue` = `pending` con `due_at` passato;
+  `late` = `done` con `completed_at > due_at`. Entrambi sono calcolati nella risposta
+  (`TaskResponse.overdue` / `late`): i client li leggono, non li ricalcolano. Una pulizia
+  scaduta si può comunque completare e risulta tardiva.
+- **Completamento atomico.** `UPDATE ... WHERE status = 'pending'`: con due tap simultanei ne
+  passa uno solo. Un secondo completamento è rifiutato con 400 `ERR_BUS_005` e non sovrascrive
+  l'operatore originale. `operator_id` (claim `sub`) e `operator_name` vengono dal JWT, non dal
+  body.
+- **Storico immutabile.** `routine_name` è uno snapshot; rinominare una routine non cambia le
+  occorrenze già create.
+- **Modifica di una routine.** `PATCH` con optimistic locking su `version` (409 `ERR_BUS_007`
+  se non coincide). `null` esplicito su `name`, `frequency`, `is_active` è rifiutato (400);
+  `description` e `due_time` si possono azzerare con `null`. Se la `frequency` cambia davvero,
+  `weekday`/`day_of_month` ripartono da vuoto e vanno indicati insieme alla nuova frequenza;
+  con la stessa frequenza restano quelli salvati. Il risultato deve rispettare la regola di
+  pianificazione, altrimenti 400 `ERR_VAL_001`. Cambiare `name`, `due_time`, `frequency`,
+  `weekday` o `day_of_month` scarta le occorrenze `pending` non ancora scadute (quella di oggi,
+  che porta ancora i vecchi `due_at` e `routine_name`); il ciclo successivo le ricrea con i
+  valori nuovi. Le `done` e le già scadute restano come storico.
+- **Eliminazione e disattivazione.** `DELETE` è un soft delete (richiede `?version=`).
+  Eliminare o disattivare (`is_active: false`) una routine cancella solo le occorrenze
+  **future** ancora `pending`; quelle `done` e quelle già scadute restano come storico.
+
+## Job arq (ogni 15 minuti)
+
+`run_cleaning_cycle_task` in `app/worker.py` (cron ai minuti 0, 15, 30, 45). Legge gli store
+attivi con `set_system_job_context`, poi per ognuno apre una sessione con
+`set_db_tenant_context` e chiama `CleaningService.run_cycle(store_id, timezone, now)`, così un
+errore su uno store non blocca gli altri:
+
+1. `materialize_tasks`: crea le occorrenze mancanti per la data locale di oggi
+   (`INSERT ... ON CONFLICT DO NOTHING`, idempotente);
+2. `notify_overdue`: per ogni occorrenza `pending` scaduta con `overdue_notified_at` nullo crea
+   una notifica **per store** (non per utente) e imposta `overdue_notified_at`.
+
+La notifica ha tipo `CLEANING_OVERDUE`, severity `warning`, `reference_id =
+"cleaning_task:<public_id>"` e `data = {task_id, routine_name}`. Il guard
+`overdue_notified_at` serve perché `create_notification` fa upsert e rimetterebbe
+`is_read = false` a ogni giro.
+
+## Endpoint
+
+Router `/cleaning` (montato con prefisso `/v1`). Permessi in `auth/schemas.py` e mapping in
+`auth/dependencies.py`: `chef` ha `CLEANING_READ` e `CLEANING_EXECUTE`; `manager` ha anche
+`CLEANING_MANAGE`; `admin` passa per `ADMIN_ALL`.
+
+| Metodo e percorso | Permesso | Uso |
+|---|---|---|
+| `POST /v1/cleaning/routines` | `cleaning:manage` | Crea una routine (201) |
+| `GET /v1/cleaning/routines` | `cleaning:read` | Elenca le routine dello store, per nome |
+| `PATCH /v1/cleaning/routines/{routine_id}` | `cleaning:manage` | Modifica, richiede `version` nel body |
+| `DELETE /v1/cleaning/routines/{routine_id}?version=N` | `cleaning:manage` | Soft delete |
+| `GET /v1/cleaning/tasks` | `cleaning:read` | Occorrenze di oggi e archivio: filtri `from`, `to` (data locale), `status`, `overdue` (true/false), paginazione; risposta `{items, total}`, più recenti prima |
+| `POST /v1/cleaning/tasks/{task_id}/photo-upload-urls` | `cleaning:execute` | Presigned POST per le foto (solo occorrenze `pending`) |
+| `POST /v1/cleaning/tasks/{task_id}/complete` | `cleaning:execute` | Segna come fatta (`notes`, `photo_keys` opzionali) |
+
+### Esempi
+
+```bash
+TOKEN="<bearer-token>"
+
+# Il manager crea una routine settimanale (lunedì) con scadenza alle 10:00 locali
+curl -X POST http://localhost:8000/v1/cleaning/routines \
+  -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" \
+  -d '{"name": "Sanificare affettatrice", "frequency": "weekly", "weekday": 0, "due_time": "10:00:00"}'
+
+# Lo chef segna come fatta l'occorrenza
+curl -X POST http://localhost:8000/v1/cleaning/tasks/<task_public_id>/complete \
+  -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" \
+  -d '{"notes": "Lama smontata e sanificata"}'
+```
+
+## Foto opzionali
+
+Ogni occorrenza può avere fino a 5 foto, caricate direttamente dal mobile su S3 (nessun byte
+passa dal backend). Flusso:
+
+1. `POST /v1/cleaning/tasks/{task_id}/photo-upload-urls` con `{"count": 1-5, "content_type":
+   "image/jpeg" | "image/png" | "image/webp"}`. Risponde con una lista di `{key, url, fields}`:
+   un presigned POST per foto, valido 10 minuti, con chiave
+   `cleaning/{store_id}/{task_public_id}/{uuid}.{ext}`. La policy del POST impone il
+   content-type e `content-length-range` da 1 byte a 5 MB.
+2. Il client carica ogni file con una richiesta `multipart/form-data` verso `url`, inviando
+   tutti i `fields` restituiti e il file come ultimo campo `file`.
+3. `POST /v1/cleaning/tasks/{task_id}/complete` con `photo_keys` (max 5, senza duplicati). Ogni
+   chiave deve iniziare col prefisso di quello store e di quell'occorrenza (altrimenti 400
+   `ERR_VAL_001`). Prima di salvare, il backend fa un `head_object` per ogni chiave: deve
+   esistere, pesare da 1 byte a 5 MB e avere il Content-Type coerente con l'estensione. Se una
+   foto non risulta caricata, 400 `ERR_VAL_001` e l'occorrenza resta `pending`; se S3 risponde
+   con un errore diverso da "non trovato", 503 `ERR_EXT_001`.
+
+Limiti: 5 foto, 5 MB ciascuna, solo JPEG/PNG/WebP. Il mobile deve comprimere prima del
+caricamento; il server non ridimensiona né controlla i byte del file.
+
+Lettura: `TaskResponse.photos` contiene `{key, url}` con URL presigned di download validi
+5 minuti, solo per occorrenze `done` con `completed_at` entro 90 giorni
+(`PHOTO_RETENTION_DAYS`); oltre, l'elenco è vuoto. Gli oggetti sono eliminati dalla lifecycle
+rule S3 (`cleaning_photos_retention_days`, 90): i due valori devono coincidere. Nessun cron di
+pulizia dedicato.
+
+Senza bucket (`CLEANING_PHOTOS_BUCKET` vuoto) solo `photo-upload-urls` e il `complete` con
+`photo_keys` rispondono 503 `ERR_EXT_001`; il resto del modulo funziona. Infrastruttura e
+variabili: [19-aws-terraform-deploy.md](19-aws-terraform-deploy.md).
+
+**Upload dal browser (solo fuori produzione).** La UI web (`/ui` → Pulizie) carica le foto
+direttamente su S3 con il presigned POST solo se `ENVIRONMENT` non è production e il bucket è
+configurato (flag `cleaning_photo_upload` in `/ui/config.json`); in produzione le foto si
+caricano solo da mobile e la UI non offre il campo. In locale si usa un S3 locale (RustFS, servizio `s3`
+del compose dev) impostando `CLEANING_PHOTOS_BUCKET`, `CLEANING_PHOTOS_ENDPOINT_URL=http://localhost:9000`
+e `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY` (vedi `.env.example`); La CSP della UI ammette l'origine dell'endpoint per `img-src` e, fuori
+produzione, per `connect-src`.
+
+**GDPR.** Le foto possono ritrarre persone: il bucket è privato con block public access, gli
+URL di download sono a vita breve e i file scadono dopo 90 giorni. Da considerare nella
+valutazione GDPR del cliente.
+
+## Errori
+
+Nessun nuovo `ErrorCode`: sono riusati quelli esistenti (vedi [10-error-handling.md](10-error-handling.md)).
+
+| Codice | HTTP | Quando |
+|---|---|---|
+| `ERR_BUS_001` | 404 | Routine o occorrenza inesistente nello store |
+| `ERR_BUS_005` | 400 | Occorrenza già completata (anche per `photo-upload-urls`) |
+| `ERR_BUS_007` | 409 | Conflitto di versione su `PATCH`/`DELETE` |
+| `ERR_VAL_001` | 400 | Pianificazione incoerente, `photo_keys` non valide o non caricate |
+| `ERR_EXT_001` | 503 | Storage foto non configurato o errore S3 |
+
+Anche gli errori di validazione Pydantic del body (es. `null` su `name`) sono convertiti
+dall'handler globale in `ERR_VAL_001` (400).
+
+## Note per il client (mobile)
+
+- `CLEANING_OVERDUE` è un nuovo valore di `NotificationType`: i client devono tollerarlo.
+- Il completamento va fatto con `POST /v1/cleaning/tasks/{id}/complete` dopo
+  `requireOperatorConfirmation`; l'operatore è quello del token.
+- Leggere `overdue` e `late` dalla risposta invece di calcolarli.
+- Foto: `photo-upload-urls`, upload con i `fields` del presigned POST, poi `photo_keys` in
+  `complete`. Le foto spariscono dopo 90 giorni.

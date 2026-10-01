@@ -152,12 +152,13 @@ TOKEN="<bearer-token>"
 curl http://localhost:8000/health
 ```
 
-### Analyze Image
+### Parse Label Text
 
 ```bash
-curl -X POST http://localhost:8000/inventory/analyze \
+curl -X POST http://localhost:8000/v1/inventory/parse-text \
+  -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${TOKEN}" \
-  -F "file=@image.jpg"
+  -d '{"raw_text": "LATTE INTERO L12345 SCAD 31/12/24"}'
 ```
 
 ### Confirm Batch
@@ -200,7 +201,7 @@ curl -X POST http://localhost:8000/products/bulk-load \
 ### Chef
 
 - View products: ✅ GET `/products/list`
-- Analyze images: ✅ POST `/inventory/analyze`
+- Parse label text: ✅ POST `/inventory/parse-text`
 - Confirm batches: ✅ POST `/inventory/confirm`
 - Manage products: ❌
 - Edit batches: ❌

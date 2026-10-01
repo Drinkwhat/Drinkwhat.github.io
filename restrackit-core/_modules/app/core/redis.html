@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.redis &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.core.redis &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1296,16 +1318,16 @@ for private packages in organization repositories.)</a></li>
 
 <span class="nb">type</span> <span class="n">RedisPrimitive</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="nb">type</span> <span class="n">JSONValue</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span>
-<span class="nb">type</span> <span class="n">RedisValue</span> <span class="o">=</span> <span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RedisPrimitive</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;RedisValue&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;RedisValue&quot;</span><span class="p">]</span>
+<span class="nb">type</span> <span class="n">RedisValue</span> <span class="o">=</span> <span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RedisPrimitive</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="s2">"RedisValue"</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">"RedisValue"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="RedisService">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RedisService</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Centralized service for Redis operations including connection management,</span>
 <span class="sd">    caching, and rate limiting support.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="RedisService.__init__">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.__init__">[docs]</a>
@@ -1317,25 +1339,25 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="RedisService.connect">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.connect">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Redis connection pool.</span>
+<span class="w">        </span><span class="sd">"""Initialize the Redis connection pool.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            Exception: If connection fails after ping.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_url</span><span class="p">,</span>
-                    <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+                    <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
                     <span class="n">decode_responses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We use msgpack for serialization</span>
                     <span class="n">socket_connect_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_connect_timeout</span><span class="p">,</span>
                     <span class="n">socket_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_socket_timeout</span><span class="p">,</span>
                     <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">ping</span><span class="p">()</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;✅ Connected to Redis at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_url</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"✅ Connected to Redis at </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_url</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Failed to connect to Redis: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"❌ Failed to connect to Redis: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">raise</span></div>
 
@@ -1343,61 +1365,61 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="RedisService.disconnect">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.disconnect">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the Redis connection pool.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Close the Redis connection pool."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;🔌 Disconnected from Redis&quot;</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"🔌 Disconnected from Redis"</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ready</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the Redis client is initialized and ready.</span>
+<span class="w">        </span><span class="sd">"""Check if the Redis client is initialized and ready.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if connected, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Redis</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the active Redis client.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the active Redis client."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">AppSystemError</span><span class="p">(</span>
-                <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_REDIS_NOT_INITIALIZED</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="s2">&quot;Call connect() first&quot;</span><span class="p">}</span>
+                <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_REDIS_NOT_INITIALIZED</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"details"</span><span class="p">:</span> <span class="s2">"Call connect() first"</span><span class="p">}</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 
 <div class="viewcode-block" id="RedisService.get_cache">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.get_cache">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_cache</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve and deserialize data from Redis cache.</span>
+<span class="w">        </span><span class="sd">"""Retrieve and deserialize data from Redis cache.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            key (str): The Redis key to retrieve.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            T | None: The deserialized value or None if missing or on error.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
         <span class="k">except</span> <span class="n">AppSystemError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">unpackb</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">unpackb</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache retrieval error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Cache retrieval error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="RedisService.get_model">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.get_model">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_model</span><span class="p">[</span><span class="n">M</span><span class="p">:</span> <span class="n">BaseModel</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">M</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">M</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve data and validate it against a Pydantic model.</span>
+<span class="w">        </span><span class="sd">"""Retrieve data and validate it against a Pydantic model.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            key (str): The Redis key to retrieve.</span>
@@ -1405,20 +1427,20 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            M | None: The model instance or None if missing, invalid or on error.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cache</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">model_type</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Cache validation error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Cache validation error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="RedisService.set_cache">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.set_cache">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize and store data in Redis cache with an optional TTL.</span>
+<span class="w">        </span><span class="sd">"""Serialize and store data in Redis cache with an optional TTL.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            key (str): The Redis key to store.</span>
@@ -1427,88 +1449,88 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if storage was successful, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
         <span class="k">except</span> <span class="n">AppSystemError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">ttl</span> <span class="o">=</span> <span class="n">ttl</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">redis_cache_ttl</span>
 
-            <span class="c1"># If it&#39;s a Pydantic model, convert to dict.</span>
+            <span class="c1"># If it's a Pydantic model, convert to dict.</span>
             <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_value</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">RedisValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONValue</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;__table__&quot;</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"json"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">"__table__"</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="n">AppSystemError</span><span class="p">(</span>
                         <span class="n">ErrorCode</span><span class="o">.</span><span class="n">DB_REDIS_SERIALIZATION_ERROR</span><span class="p">,</span>
                         <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-                            <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span>
-                            <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;SQLAlchemy model </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must be converted &quot;</span>
-                                <span class="s2">&quot;to a Pydantic model or dict first.&quot;</span>
+                            <span class="s2">"key"</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span>
+                            <span class="s2">"details"</span><span class="p">:</span> <span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">"SQLAlchemy model </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must be converted "</span>
+                                <span class="s2">"to a Pydantic model or dict first."</span>
                             <span class="p">),</span>
                         <span class="p">},</span>
                     <span class="p">)</span>
-                <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;JSONValue&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"JSONValue"</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">_normalize_value</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">_normalize_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-            <span class="n">packed_data</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">packb</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="n">packed_data</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"bytes"</span><span class="p">,</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">packb</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
             <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">packed_data</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="n">ttl</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache storage error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Cache storage error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="RedisService.delete_cache">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.delete_cache">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an item from the cache.</span>
+<span class="w">        </span><span class="sd">"""Remove an item from the cache.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            key (str): The Redis key to delete.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if deletion was successful (or key didn&#39;t exist), False on error.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            bool: True if deletion was successful (or key didn't exist), False on error.</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
         <span class="k">except</span> <span class="n">AppSystemError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache deletion error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Cache deletion error for key </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="RedisService.delete_pattern">
 <a class="viewcode-back" href="../../../app.core.html#app.core.redis.RedisService.delete_pattern">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete all keys matching a specific pattern safely using SCAN.</span>
+<span class="w">        </span><span class="sd">"""Delete all keys matching a specific pattern safely using SCAN.</span>
 
-<span class="sd">        This avoids blocking Redis as &#39;KEYS&#39; would do in production.</span>
+<span class="sd">        This avoids blocking Redis as 'KEYS' would do in production.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            pattern (str): The glob-style pattern to match keys.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            int: The total number of keys deleted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
         <span class="k">except</span> <span class="n">AppSystemError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">REDIS_NOT_INITIALIZED_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
             <span class="k">return</span> <span class="mi">0</span>
 
         <span class="n">total_deleted</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1527,11 +1549,11 @@ for private packages in organization repositories.)</a></li>
                 <span class="n">total_deleted</span> <span class="o">+=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">total_deleted</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;🗑️ Deleted </span><span class="si">%d</span><span class="s2"> keys matching pattern: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">total_deleted</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"🗑️ Deleted </span><span class="si">%d</span><span class="s2"> keys matching pattern: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">total_deleted</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">total_deleted</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache pattern deletion error for pattern </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Cache pattern deletion error for pattern </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">0</span></div>
 </div>
 

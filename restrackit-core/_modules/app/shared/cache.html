@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.shared.cache &mdash; Restrackit 2.102.0 documentation</title>
+  <title>app.shared.cache &mdash; Restrackit 2.110.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,12 +13,14 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=0b1af04b"></script>
+      <script src="../../../_static/documentation_options.js?v=fa7658e3"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -488,7 +490,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#health-check">Health Check</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#analyze-image">Analyze Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#get-products">Get Products</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
@@ -526,7 +528,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#errori-database">Errori Database</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/02-setup.html#credenziali-google">Credenziali Google</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-image-analysis">Data Flow: Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
@@ -569,9 +570,7 @@ window.runMermaid = runMermaid;</script>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-analyze"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/analyze</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-analyze-job-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/analyze/{job_id}</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
@@ -1121,6 +1120,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
@@ -1150,6 +1150,28 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1291,7 +1313,7 @@ for private packages in organization repositories.)</a></li>
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_cache_key</span><span class="p">(</span>
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key_builder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates the Redis key for caching.</span>
+<span class="w">    </span><span class="sd">"""Generates the Redis key for caching.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        prefix (str): Prefix for the Redis key.</span>
@@ -1301,14 +1323,14 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: The generated Redis key.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">key_builder</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;restrackit:</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">key_builder</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"restrackit:</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">key_builder</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="c1"># Default: usa gli argomenti della funzione (saltando il primo se è self/cls)</span>
     <span class="n">key_parts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
-    <span class="n">key_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())])</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;restrackit:</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_parts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">key_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())])</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"restrackit:</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="s1">':'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_parts</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_reconstruct_result</span><span class="p">(</span>
@@ -1317,7 +1339,7 @@ for private packages in organization repositories.)</a></li>
     <span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">return_type</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempts to reconstruct Pydantic models from raw cache data using TypeAdapter.</span>
+<span class="w">    </span><span class="sd">"""Attempts to reconstruct Pydantic models from raw cache data using TypeAdapter.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cached_val (Any): The raw value retrieved from Redis.</span>
@@ -1327,7 +1349,7 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Any: The reconstructed type or the raw value if reconstruction fails.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">adapter</span> <span class="ow">or</span> <span class="n">cached_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">cached_val</span>
 
@@ -1335,9 +1357,9 @@ for private packages in organization repositories.)</a></li>
         <span class="k">return</span> <span class="n">adapter</span><span class="o">.</span><span class="n">validate_python</span><span class="p">(</span><span class="n">cached_val</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;Cache reconstruction failed for </span><span class="si">%s</span><span class="s2"> (expected </span><span class="si">%s</span><span class="s2">): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">func_name</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-            <span class="n">return_type</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">"Cache reconstruction failed for </span><span class="si">%s</span><span class="s2"> (expected </span><span class="si">%s</span><span class="s2">): </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">func_name</span> <span class="ow">or</span> <span class="s2">"unknown"</span><span class="p">,</span>
+            <span class="n">return_type</span> <span class="ow">or</span> <span class="s2">"unknown"</span><span class="p">,</span>
             <span class="n">e</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1351,7 +1373,7 @@ for private packages in organization repositories.)</a></li>
     <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">key_builder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">F</span><span class="p">],</span> <span class="n">F</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator to cache the results of an async function in Redis.</span>
+<span class="w">    </span><span class="sd">"""Decorator to cache the results of an async function in Redis.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        prefix (str): Prefix for the Redis key.</span>
@@ -1360,26 +1382,26 @@ for private packages in organization repositories.)</a></li>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: The decorated function with caching logic.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">F</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">F</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap function con caching Redis (TypeAdapter inizializzato una volta).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Wrap function con caching Redis (TypeAdapter inizializzato una volta)."""</span>
         <span class="c1"># Pre-inizializza il TypeAdapter per massimizzare le performance</span>
         <span class="n">return_type</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">return_type</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span>
+            <span class="n">return_type</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"return"</span><span class="p">)</span>
             <span class="n">adapter</span> <span class="o">=</span> <span class="n">TypeAdapter</span><span class="p">(</span><span class="n">return_type</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_type</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Could not initialize TypeAdapter for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Could not initialize TypeAdapter for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="n">adapter</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Esegue lookup in cache, altrimenti calcola e memorizza il risultato.&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">"""Esegue lookup in cache, altrimenti calcola e memorizza il risultato."""</span>
             <span class="c1"># 1. Verifica disponibilità Redis</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">ready</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Cache fail-open: Redis not ready, bypassing cache for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"Cache fail-open: Redis not ready, bypassing cache for </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="k">await</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1390,7 +1412,7 @@ for private packages in organization repositories.)</a></li>
             <span class="c1"># 3. Tentativo recupero da cache</span>
             <span class="n">cached_val</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">get_cache</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">cached_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cache hit for key: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Cache hit for key: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">_reconstruct_result</span><span class="p">(</span>
                     <span class="n">cached_val</span><span class="p">,</span> <span class="n">adapter</span><span class="p">,</span> <span class="n">func_name</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span>
                 <span class="p">)</span>
@@ -1401,11 +1423,11 @@ for private packages in organization repositories.)</a></li>
             <span class="c1"># 5. Salvataggio in cache</span>
             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">await</span> <span class="n">redis_service</span><span class="o">.</span><span class="n">set_cache</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="n">ttl</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cache store for key: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Cache store for key: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">result</span>
 
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">wrapper</span><span class="p">)</span>  <span class="c1"># preserva la firma originale per mypy</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"F"</span><span class="p">,</span> <span class="n">wrapper</span><span class="p">)</span>  <span class="c1"># preserva la firma originale per mypy</span>
 
     <span class="k">return</span> <span class="n">decorator</span></div>
 
