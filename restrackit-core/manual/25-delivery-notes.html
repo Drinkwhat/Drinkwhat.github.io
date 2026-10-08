@@ -1,0 +1,1451 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delivery Notes (bolle di consegna fornitori) &mdash; Restrackit 2.116.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=05f8e374"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Catalogo Codici Errore Restrackit" href="ERROR_CODES.html" />
+    <link rel="prev" title="Registro temperature (HACCP)" href="24-temperature-log.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Restrackit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">app</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app.html">app package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.core.html">app.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.modules.html">app.modules package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.services.html">app.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.shared.html">app.shared package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#app-database-module">app.database module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#app-main-module">app.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#app-worker-module">app.worker module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../markdown_docs.html">Documentazione Manuale (Markdown)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00-technical-manual.html">📘 Documentazione Tecnica - Restrackit Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#vision-di-prodotto">0. Vision di Prodotto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#problema-che-risolve">0.1 Problema che risolve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#obiettivo-principale">0.2 Obiettivo principale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#valore-per-lutente">0.3 Valore per l’utente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#flusso-operativo-minimo-mvp">0.4 Flusso operativo minimo (MVP)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#statistiche-impatto-atteso">0.5 Statistiche: impatto atteso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#notifiche-coerenti-con-la-vision">0.6 Notifiche (coerenti con la vision)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#architettura-del-progetto">1. Architettura del Progetto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#struttura-ad-alto-livello">🏗️ Struttura ad Alto Livello</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#flusso-dei-dati-principale-analisi-etichetta">🔄 Flusso dei Dati Principale (Analisi Etichetta)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#struttura-delle-cartelle">2. Struttura delle Cartelle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#stack-tecnologico">3. Stack Tecnologico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#configurazione-ambientale">4. Configurazione Ambientale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#setup-locale">Setup Locale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#flussi-di-sviluppo">5. Flussi di Sviluppo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#standard-di-codice">Standard di Codice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#git-flow-branching">Git Flow &amp; Branching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#ci-cd-pipeline">CI/CD Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#system">🏥 System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#database-schema">7. Database Schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#tabelle-principali">Tabelle Principali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#testing-strategy">8. Testing Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#deployment-guide">9. Deployment Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#dockerfile-multi-stage">Dockerfile (Multi-stage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#procedura-di-deploy">Procedura di Deploy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#monitoraggio">Monitoraggio</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-quick-reference.html">Quick Reference Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#test">🧪 Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#db">🗄️ DB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#database-migrations">🗄️ Database Migrations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#testing">🧪 Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#linting-formatting">🔍 Linting &amp; Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#docker-commands">🐳 Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#roles-permissions">🔐 Roles &amp; Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#chef">Chef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#manager">Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#admin">Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#environment-variables">🌍 Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#debugging">🐛 Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#enable-debug-logging">Enable Debug Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#database-debug">Database Debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#notifications">Notifications</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-setup.html">Installation &amp; Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#setup-rapido-consigliato">Setup Rapido (Consigliato)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#configura-environment">2. Configura Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#avvia-con-docker">3. Avvia con Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#verifica">4. Verifica</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#comandi-utili-makefile">Comandi Utili (Makefile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#setup-locale-senza-docker">Setup Locale (Senza Docker)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-architecture.html">Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#system-design">System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#technology-stack">Technology Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#backend">Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-data">AI &amp; Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#devops">DevOps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#key-components">Key Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#orm-loading-strategy-app-modules-models-py">8. ORM Loading Strategy (<code class="docutils literal notranslate"><span class="pre">app/modules/*/models.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-api-reference.html">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#health">Health</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-batch-batch-id-move-storage"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/batch/{batch_id}/move-storage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-batch-batch-id-complete"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/batch/{batch_id}/complete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-batch-batch-id-events"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}/events</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-batch-batch-id-history"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}/history</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#products-module-v1-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/v1/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/allergens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/products/bulk-load</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#categories-v1-categories">Categories (<code class="docutils literal notranslate"><span class="pre">/v1/categories</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-categories"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-categories"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#units-of-measure-v1-units-of-measure">Units of Measure (<code class="docutils literal notranslate"><span class="pre">/v1/units-of-measure</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-units-of-measure"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-units-of-measure"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#legacy-removed-conservation-methods">Legacy (removed): Conservation Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#storage-methods-v1-storage-methods">Storage Methods (<code class="docutils literal notranslate"><span class="pre">/v1/storage-methods</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-storage-methods"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-storage-methods"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/storage-methods/{method_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/storage-methods/{method_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#product-storage-rules-v1-products-product-id-storage-rules">Product Storage Rules (<code class="docutils literal notranslate"><span class="pre">/v1/products/{product_id}/storage-rules</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#kitchen-module-v1-kitchen">Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/v1/kitchen</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#ricette">Ricette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#preparazioni">Preparazioni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#stats-module-v1-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/v1/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#setup-module-v1-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/v1/setup</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/setup/seed-demo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#common-error-codes">Common Error Codes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-database-schema.html">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#entity-relationship-diagram">Entity Relationship Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#table-definitions">Table Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#stores"><code class="docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#storage-methods"><code class="docutils literal notranslate"><span class="pre">storage_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#product-storage-rules"><code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#categories"><code class="docutils literal notranslate"><span class="pre">categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#preparations-e-preparation-items"><code class="docutils literal notranslate"><span class="pre">preparations</span></code> e <code class="docutils literal notranslate"><span class="pre">preparation_items</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#notifications"><code class="docutils literal notranslate"><span class="pre">notifications</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#migrations">Migrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="06-docker-deployment.html">Docker Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#docker-architecture">Docker Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#files">Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#dockerfile"><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-files-deploy">Docker Compose files (<code class="docutils literal notranslate"><span class="pre">deploy/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#build-locally">Build Locally</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#build-with-compose">Build with Compose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#running">Running</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#environment-configuration">Environment Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#env-for-docker"><code class="docutils literal notranslate"><span class="pre">.env</span></code> for Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#volume-management">Volume Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#application-volumes">Application Volumes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-volume">Database Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#named-volumes">Named Volumes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#networking">Networking</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-network">Docker Compose Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#port-mapping">Port Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#external-access">External Access</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#health-checks">Health Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#application">Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#manual-check">Manual Check</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#persistence">Persistence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#data-persistence">Data Persistence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-backup">Database Backup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#execute-commands">Execute Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#inspect-container">Inspect Container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#security">Security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#container-registry">Container Registry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#push-to-github-container-registry">Push to GitHub Container Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#container-won-t-start">Container Won’t Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-connection-issues">Database Connection Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#permission-errors">Permission Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-cicd-pipeline.html">CI/CD Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#diagramma-pipeline-mermaid">Diagramma pipeline (Mermaid)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#docker-build-workflow-docker-build-yml">Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#trigger-events">Trigger events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#jobs-current">Jobs (current)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#runner-selection-self-hosted-github-hosted">Runner selection (self-hosted + GitHub-hosted)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#self-hosted-runners-do-not-have-automatic-org-access-to-github-token-so-a-manual-pat-is-required-for-private-packages-in-organization-repositories">(Self-hosted runners do not have automatic org access to <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code>, so a manual PAT is required
+for private packages in organization repositories.)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#execution-flow">Execution Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#pull-request">Pull Request</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#main-branch-push">Main Branch Push</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#version-tag">Version Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#openapi-schema-export-release-yml-tag-and-release">OpenAPI schema export (<code class="docutils literal notranslate"><span class="pre">release.yml</span></code> – <code class="docutils literal notranslate"><span class="pre">tag-and-release</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#status-checks">Status Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#required-checks-main-branch">Required Checks (main branch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#view-status">View Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#view-workflow-runs">View Workflow Runs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#check-logs">Check Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#common-issues">Common issues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#github-secrets">GitHub Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#caching">Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#parallel-jobs">Parallel Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#branch-strategy">Branch Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#semantic-versioning">Semantic Versioning</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#monitoring">Monitoring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#notifications">Notifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#metrics">Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08-environment-config.html">Environment Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#google-ai">Google / AI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#keycloak-oidc">Keycloak (OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#cors">CORS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#best-practice">Best practice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#secrets-management">Secrets Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#endpoint-utili">Endpoint utili</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="10-error-handling.html">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#type-definitions">Type Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#errorinfo-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorInfo</span></code> (TypedDict)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#errorpayload-errorresponse-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorPayload</span></code> / <code class="docutils literal notranslate"><span class="pre">ErrorResponse</span></code> (TypedDict)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#exception-classes">Exception Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#apperror-base"><code class="docutils literal notranslate"><span class="pre">AppError</span></code> (Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#validationerror-400"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> (400)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#externalserviceerror-502"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (502)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#parsingerror-422"><code class="docutils literal notranslate"><span class="pre">ParsingError</span></code> (422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#businesslogicerror-404-409-422"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code> (404/409/422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#databaseerror-409-500"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code> (409/500)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#systemerror-500"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code> (500)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#exception-handling-pattern">Exception Handling Pattern</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#try-catch-raise">Try-Catch-Raise</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-handler-pattern">Error Handler Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#logging-integration">Logging Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#log-on-error">Log on Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#log-levels">Log Levels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#do">✅ Do</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#don-t">❌ Don’t</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#testing-errors">Testing Errors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#pytest">pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#with-client">With Client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#error-response-format">Error Response Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#standard-format">Standard Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#with-original-exception-details">With Original Exception Details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#production-considerations">Production Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-code-usage">Error Code Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-tracking">Error Tracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#internationalization-i18n">Internationalization (i18n)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#get-message"><code class="docutils literal notranslate"><span class="pre">get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#coverage">Coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="11-contributing.html">Guida Team (contribuzioni)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#setup-ambiente">2. Setup ambiente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#crea-branch-dalla-issue">3. Crea branch dalla issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#dev-workflow-pratico">Dev workflow (pratico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#regole-base">Regole base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#test">Test</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#write-tests">Write Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#run-tests">Run Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#test-coverage">Test Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#pull-request">Pull Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#push-branch">1. Push branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#apri-pr">2. Apri PR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#pr-title">PR Title</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#pr-description">PR Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#review">3. Review</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#merge">4. Merge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#adding-features">Adding Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#new-api-endpoint">New API Endpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#database-migration">Database Migration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#documentation">Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#update-docs">Update Docs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#add-to-index">Add to Index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#docstrings">DocStrings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#common-tasks">Common Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#setup-local-development">Setup Local Development</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#run-all-checks">Run All Checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#update-dependencies">Update Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#build-docker-image">Build Docker Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#issues">Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#report-bug">Report Bug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#community">Community</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#communication">Communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="12-issue-management.html">Gestione delle Issue e Suddivisione del Lavoro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#gerarchia-delle-issue">1. Gerarchia delle Issue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#issue-principale-epic-feature-macro-bug">🔹 Issue Principale (Epic / Feature / Macro-Bug)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#sub-issue-task-sub-task">🔸 Sub-Issue (Task / Sub-task)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#criteri-di-decomposizione">2. Criteri di Decomposizione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#regole-d-oro-per-la-scomposizione">Regole d’Oro per la Scomposizione</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#nomenclatura-e-etichettatura">3. Nomenclatura e Etichettatura</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#formato-titolo">Formato Titolo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#tipi-prefissi">Tipi (Prefissi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#etichette-labels">Etichette (Labels)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#template-standardizzato-issue">4. Template Standardizzato Issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#esempi-pratici-di-suddivisione">5. Esempi Pratici di Suddivisione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#scenario-a-nuova-funzionalita-sviluppo-auth">Scenario A: Nuova Funzionalità (Sviluppo Auth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#scenario-b-bug-fixing-errore-500-su-upload">Scenario B: Bug Fixing (Errore 500 su Upload)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#scenario-c-refactoring-pulizia-codice">Scenario C: Refactoring (Pulizia Codice)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#workflow-e-tracciamento">6. Workflow e Tracciamento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#checklist-di-validazione-definition-of-ready">7. Checklist di Validazione (Definition of Ready)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="13-kitchen-module.html">🍳 Kitchen Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#overview">1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#data-models">2. Data Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipe-recipes">📖 Recipe (<code class="docutils literal notranslate"><span class="pre">recipes</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipeingredient-recipe-ingredients">🥕 RecipeIngredient (<code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparation-preparations">👨‍🍳 Preparation (<code class="docutils literal notranslate"><span class="pre">preparations</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#haccp-compliance-expiry-logic">3. HACCP Compliance &amp; Expiry Logic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#expiry-date-calculation">🧮 Expiry Date Calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipes-management">Recipes Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#availability-check">Availability Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#permissions">7. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="14-logging.html">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#example-env">Example <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-formats">Log Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#json-default-production">JSON (Default – Production)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#text-development">Text (Development)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#architecture">Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#module-app-core-logging-py">Module: <code class="docutils literal notranslate"><span class="pre">app/core/logging.py</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#setup-logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#customjsonformatter"><code class="docutils literal notranslate"><span class="pre">CustomJsonFormatter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#basic-logging">Basic Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#structured-extra-fields">Structured Extra Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#exception-logging">Exception Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#design-decisions">Design Decisions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-stdout-only">Why stdout only?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#dati-utilizzati">Dati utilizzati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#multi-tenancy-store">Multi-tenancy (store)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#api-reference-stats">API Reference (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-preparations-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/preparations/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-recipes-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-recipes-top-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top-series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-ingredients-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/ingredients/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#note-su-bucket-e-week">Note su bucket e “week”</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="18-production-completion.html">Completamento Produzione (Preparazione + Lotto)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#ui-operatore-ui">UI Operatore (<code class="docutils literal notranslate"><span class="pre">/ui</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-preparazione-completata">1) Conferma “Preparazione completata”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-lotto-concluso">2) Conferma “Lotto concluso”</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#vincolo-di-sequenzialita">Vincolo di sequenzialità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-fine-preparazione">Conferma fine preparazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-fine-lotto">Conferma fine lotto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#lista-motivi-i18n">Lista motivi (i18n)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#storico-eventi-del-lotto">Storico eventi del lotto</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#persistenza-e-tracciabilita">Persistenza e tracciabilità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#notifiche-automatiche-team">Notifiche automatiche (team)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="19-aws-terraform-deploy.html">Deploy su AWS con Terraform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#panoramica">Panoramica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#setup-una-tantum">Setup una tantum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#deploy-applicativo">Deploy applicativo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#hostname-pubblico">Hostname pubblico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#creare-un-nuovo-store-primo-account-manager">1. Creare un nuovo store (+ primo account manager)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#aggiungere-un-nuovo-account-a-uno-store-esistente-chef-o-altro-manager">2. Aggiungere un nuovo account a uno store esistente (chef o altro manager)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#riferimento-rapido-variabili-d-ambiente-coinvolte">3. Riferimento rapido: variabili d’ambiente coinvolte</a></li>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#cosa-manca-oggi-roadmap">4. Cosa manca oggi (roadmap)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="21-supporto-clienti.html">Supporto clienti: runbook operativo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#onboarding-nuovo-cliente">1. Onboarding nuovo cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#aggiungere-un-account-a-uno-store-gia-esistente">2. Aggiungere un account a uno store già esistente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#reset-password-utente-bloccato">3. Reset password / utente bloccato</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#troubleshooting-dove-guardare-i-log">4. Troubleshooting: dove guardare i log</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="21-supporto-clienti.html#alert-automatici-alertmanager-slack">Alert automatici (Alertmanager → Slack)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#errori-applicativi-come-leggerli">5. Errori applicativi: come leggerli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#riferimento-rapido-variabili-d-ambiente">6. Riferimento rapido variabili d’ambiente</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="22-disaster-recovery.html">Disaster recovery: istanza EC2 di produzione ricreata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#individua-l-ultimo-recovery-point">1. Individua l’ultimo recovery point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-in-un-istanza-ec2-temporanea">2. Ripristina in un’istanza EC2 temporanea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#estrai-i-dump-postgres">3. Estrai i dump Postgres</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-sull-istanza-di-produzione-nuova">4. Ripristina sull’istanza di produzione (nuova)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#come-misurare">Come misurare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#come-funziona">Come funziona</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#convenzioni-dei-commit">Convenzioni dei Commit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#configurazione-locale">Configurazione Locale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#pipeline-di-rilascio-ci-cd">Pipeline di Rilascio (CI/CD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#bump-automatico-su-dev">Bump automatico su <code class="docutils literal notranslate"><span class="pre">dev</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#tag-e-release-automatici-su-main">Tag e Release automatici su <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#rilascio-manuale-forzatura">Rilascio Manuale / Forzatura</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mermaid_diagrams.html">Diagrammi Mermaid — Restrackit Basi di Dati</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag1-png-schema-scheletro">diag1.png — Schema Scheletro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag2-png-ambito-auth-store">diag2.png — Ambito Auth &amp; Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag3-png-ambito-catalogo-prodotti">diag3.png — Ambito Catalogo Prodotti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag4-png-ambito-inventario-batch">diag4.png — Ambito Inventario &amp; Batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag5-png-ambito-cucina-ricette">diag5.png — Ambito Cucina &amp; Ricette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag6-png-ambito-preparazioni">diag6.png — Ambito Preparazioni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag7-png-ambito-notifiche">diag7.png — Ambito Notifiche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag8-png-schema-concettuale-finale-completo">diag8.png — Schema Concettuale Finale (completo)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag9-png-nav-1-registrazione-batch-via-ocr">diag9.png — Nav. 1: Registrazione batch via OCR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag10-png-nav-2-lotti-in-scadenza-per-store">diag10.png — Nav. 2: Lotti in scadenza per store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag11-png-nav-3-storico-spostamenti-di-un-batch">diag11.png — Nav. 3: Storico spostamenti di un batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag12-png-nav-4-eseguire-una-preparazione">diag12.png — Nav. 4: Eseguire una preparazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag13-png-nav-5-prodotti-con-regole-di-conservazione">diag13.png — Nav. 5: Prodotti con regole di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag14-png-nav-6-storico-preparazioni-per-ricetta">diag14.png — Nav. 6: Storico preparazioni per ricetta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="relazione_basi_di_dati.html">RESTRACKIT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#struttura-dell-elaborato">STRUTTURA DELL’ELABORATO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#introduzione">1 – INTRODUZIONE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#analisi-dei-requisiti">2 – ANALISI DEI REQUISITI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#requisiti-in-linguaggio-naturale">2.1 – Requisiti in linguaggio naturale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#estrazione-dei-concetti-fondamentali">2.2 – Estrazione dei concetti fondamentali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#progetto-dello-schema-concettuale">3 – PROGETTO DELLO SCHEMA CONCETTUALE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-auth-store">3.1 – Sviluppo dell’ambito “Auth &amp; Store”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-catalogo-prodotti">3.2 – Sviluppo dell’ambito “Catalogo Prodotti”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-inventario-batch">3.3 – Sviluppo dell’ambito “Inventario &amp; Batch”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-cucina-ricette">3.4 – Sviluppo dell’ambito “Cucina &amp; Ricette”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-preparazioni">3.5 – Sviluppo dell’ambito “Preparazioni”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-notifiche">3.6 – Sviluppo dell’ambito “Notifiche”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#anteprima-dello-schema-generale">3.7 – Anteprima dello schema generale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#specifiche-funzionali">4 – SPECIFICHE FUNZIONALI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#analisi-delle-funzionalita-richieste">4.1 – Analisi delle funzionalità richieste</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#registrazione-nuovo-batch-tramite-ocr">4.2 – Registrazione nuovo batch tramite OCR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#visualizzare-lotti-in-scadenza-per-store">4.3 – Visualizzare lotti in scadenza per store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#visualizzare-storico-spostamenti-di-un-batch">4.4 – Visualizzare storico spostamenti di un batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#eseguire-una-preparazione-consumare-batch">4.5 – Eseguire una preparazione (consumare batch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#visualizzare-prodotti-con-regole-di-conservazione">4.6 – Visualizzare prodotti con regole di conservazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#consultare-storico-preparazioni-per-ricetta">4.7 – Consultare storico preparazioni per ricetta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#aggiungere-o-modificare-prodotti-nel-catalogo">4.8 – Aggiungere o modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#il-progetto-logico">5 – IL PROGETTO LOGICO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#schemi-di-navigazione">5.1 – Schemi di navigazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#frequenza-e-costo-degli-accessi">5.2 – Frequenza e costo degli accessi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#trasformazioni-dello-schema-concettuale">5.3 – Trasformazioni dello schema concettuale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#progetto-logico-per-il-modello-relazionale">5.4 – Progetto logico per il modello relazionale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#traduzione-delle-operazioni-in-query-sql">5.5 – Traduzione delle operazioni in Query SQL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#il-progetto-fisico">6 – IL PROGETTO FISICO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#indicizzazione-di-attributi">6.1 – Indicizzazione di attributi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#ordinamento-su-attributi">6.2 – Ordinamento su attributi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#l-interfaccia-utente">7 – L’INTERFACCIA UTENTE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#il-manager">7.1 – Il Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#l-operatore">7.2 – L’Operatore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#note">Note</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Restrackit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../markdown_docs.html">Documentazione Manuale (Markdown)</a></li>
+      <li class="breadcrumb-item active">Delivery Notes (bolle di consegna fornitori)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/manual/25-delivery-notes.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="delivery-notes-bolle-di-consegna-fornitori">
+<h1>Delivery Notes (bolle di consegna fornitori)<a class="headerlink" href="#delivery-notes-bolle-di-consegna-fornitori" title="Link to this heading"></a></h1>
+<p>Il modulo <code class="docutils literal notranslate"><span class="pre">app/modules/delivery_notes/</span></code> legge le <strong>bolle (DDT) dei fornitori</strong> da foto: il
+personale carica da 1 a 6 immagini, un job in background le trascrive con Gemini, il codice
+valida e abbina le righe ai prodotti dello store, una persona rivede le bozze e, alla conferma,
+nascono i <strong>lotti</strong> (<code class="docutils literal notranslate"><span class="pre">Batch</span></code>) collegati alla riga di origine. L’LLM non scrive mai nel
+magazzino: propone, il codice valida, l’umano conferma.</p>
+<p>Layout: <code class="docutils literal notranslate"><span class="pre">models.py</span></code>, <code class="docutils literal notranslate"><span class="pre">schemas.py</span></code>, <code class="docutils literal notranslate"><span class="pre">router.py</span></code> e il servizio, diviso in <code class="docutils literal notranslate"><span class="pre">base.py</span></code> (valutazione
+righe, caricamento e regole di conservazione in bulk), <code class="docutils literal notranslate"><span class="pre">service.py</span></code> (upload, elaborazione,
+letture, fallimenti) e <code class="docutils literal notranslate"><span class="pre">review.py</span></code> (revisione e conferma, mixin di <code class="docutils literal notranslate"><span class="pre">DeliveryNoteService</span></code>);
+<code class="docutils literal notranslate"><span class="pre">presenters.py</span></code> converte le entità negli schemi di risposta. Moduli puri: <code class="docutils literal notranslate"><span class="pre">parsing.py</span></code>
+(numeri e date italiani), <code class="docutils literal notranslate"><span class="pre">validators.py</span></code> (flag), <code class="docutils literal notranslate"><span class="pre">matching.py</span></code> (fuzzy), <code class="docutils literal notranslate"><span class="pre">expiry.py</span></code>
+(scadenza effettiva; la formula della scadenza secondaria è in <code class="docutils literal notranslate"><span class="pre">inventory/expiry.py</span></code>,
+condivisa con il carico OCR), <code class="docutils literal notranslate"><span class="pre">extractor.py</span></code> (Gemini) e <code class="docutils literal notranslate"><span class="pre">storage.py</span></code> (S3).</p>
+<hr class="docutils" />
+<section id="panoramica-e-flusso">
+<h2>Panoramica e flusso<a class="headerlink" href="#panoramica-e-flusso" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Upload</strong> <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/delivery-notes</span></code> (multipart, campo <code class="docutils literal notranslate"><span class="pre">files</span></code>). Risponde <code class="docutils literal notranslate"><span class="pre">202</span></code> con la bolla in
+<code class="docutils literal notranslate"><span class="pre">elaborazione</span></code> (o <code class="docutils literal notranslate"><span class="pre">200</span></code> se lo stesso contenuto esiste già). Controlli, nell’ordine:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GuardedUploadRoute</span></code> rifiuta il corpo <strong>prima del parsing multipart</strong>: modulo spento →
+<code class="docutils literal notranslate"><span class="pre">404</span></code>; <code class="docutils literal notranslate"><span class="pre">Content-Length</span></code> (o i byte in streaming) oltre <code class="docutils literal notranslate"><span class="pre">pagine</span> <span class="pre">x</span> <span class="pre">byte</span> <span class="pre">per</span> <span class="pre">pagina</span> <span class="pre">+</span> <span class="pre">64</span> <span class="pre">KiB</span></code>
+→ errore di validazione <code class="docutils literal notranslate"><span class="pre">400</span></code>.</p></li>
+<li><p>da 1 a <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGES</span></code> (6) pagine, al massimo <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGE_BYTES</span></code>
+(10 MB) ciascuna; il tipo è deciso dai <strong>magic byte</strong> (JPEG/PNG), non dal nome o dal
+<code class="docutils literal notranslate"><span class="pre">Content-Type</span></code>;</p></li>
+<li><p><strong>idempotenza</strong>: SHA-256 dei contenuti (hash degli hash delle pagine) con vincolo unico
+<code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">file_sha256)</span></code>; lo stesso file nello stesso store restituisce la bolla esistente;</p></li>
+<li><p><strong>tetto giornaliero</strong> per store (<code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_DAILY_LIMIT_PER_STORE</span></code>, 50): <code class="docutils literal notranslate"><span class="pre">429</span></code>.
+Le pagine vanno su S3 (<code class="docutils literal notranslate"><span class="pre">delivery-notes/{store}/{nota}/...</span></code>), la bolla è creata e il job
+è messo in coda.</p></li>
+</ul>
+</li>
+<li><p><strong>Job arq</strong> <code class="docutils literal notranslate"><span class="pre">process_delivery_note</span></code>: estrazione, validazione, abbinamento, bozze.</p></li>
+<li><p><strong>Estrazione</strong> con Gemini: nessuno strumento, JSON con schema stretto, <code class="docutils literal notranslate"><span class="pre">temperature</span> <span class="pre">0</span></code>.
+L’output <strong>non è mai considerato affidabile</strong>: ogni campo passa dai parser e dai validatori.
+La disambiguazione dei prodotti avviene solo tra al massimo 5 candidati e l’ID restituito
+deve essere uno di quei candidati.</p>
+<ul class="simple">
+<li><p><strong>Suggerimenti di layout</strong> in <code class="docutils literal notranslate"><span class="pre">EXTRACTION_INSTRUCTION</span></code> (validi per ogni fornitore): il
+lotto sta di norma sulla riga sotto la descrizione (<code class="docutils literal notranslate"><span class="pre">L.</span> <span class="pre">(260632855)</span></code>, <code class="docutils literal notranslate"><span class="pre">Lotto:</span> <span class="pre">...</span></code>,
+<code class="docutils literal notranslate"><span class="pre">LOT</span> <span class="pre">...</span></code>) e va trascritto senza prefisso né parentesi; le righe di dettaglio (lotto,
+<code class="docutils literal notranslate"><span class="pre">Ma:</span></code>, <code class="docutils literal notranslate"><span class="pre">Pr:</span></code>) appartengono all’articolo sopra; l’unità di misura è nella colonna <code class="docutils literal notranslate"><span class="pre">U.M.</span></code>;
+la foto può essere ruotata o avere altri fogli sullo sfondo e conta solo il documento in
+primo piano. Senza questi suggerimenti, su una bolla reale lotto e unità risultavano
+vuoti su tutte le righe. Altri due suggerimenti: la quantità è quella <strong>fatturata</strong> (peso
+netto o numero di pezzi accanto alla <code class="docutils literal notranslate"><span class="pre">U.M.</span></code>, coerente con importo = quantità × prezzo),
+non il numero di colli né il peso lordo; il totale del documento è quello della merce
+(<code class="docutils literal notranslate"><span class="pre">TOTALE</span> <span class="pre">DOCUMENTO</span></code>), non il saldo del cliente né acconti. Il modello può comunque
+sbagliare: il flag <code class="docutils literal notranslate"><span class="pre">importo_riga_non_torna</span></code> (sotto) intercetta le quantità incoerenti.</p></li>
+<li><p><strong>Timeout per richiesta</strong>: ogni chiamata a Gemini (estrazione e disambiguazione) passa
+<code class="docutils literal notranslate"><span class="pre">http_options.timeout</span></code> = <code class="docutils literal notranslate"><span class="pre">GEMINI_REQUEST_TIMEOUT_S</span></code> (120 s, in <code class="docutils literal notranslate"><span class="pre">extractor.py</span></code>), perché il
+client condiviso ha 30 s e una bolla di 3 pagine ne usa già circa 29. Resta sotto il
+timeout del job (600 s); il client condiviso non è modificato.</p></li>
+<li><p><strong>Normalizzazione del lotto</strong> (<code class="docutils literal notranslate"><span class="pre">parsing.normalize_lot</span></code>): se il modello restituisce
+comunque <code class="docutils literal notranslate"><span class="pre">L.</span> <span class="pre">(260632855)</span></code>, <code class="docutils literal notranslate"><span class="pre">(260632855)</span></code>, <code class="docutils literal notranslate"><span class="pre">Lotto:</span> <span class="pre">260632855</span></code> o <code class="docutils literal notranslate"><span class="pre">LOT</span> <span class="pre">260632855</span></code>, la riga
+salva <code class="docutils literal notranslate"><span class="pre">260632855</span></code>. Maiuscole, spazi e trattini interni non cambiano (la conferma fa poi
+<code class="docutils literal notranslate"><span class="pre">strip().lower()</span></code>); la validazione <code class="docutils literal notranslate"><span class="pre">lotto_non_valido</span></code> vede il valore normalizzato.</p></li>
+</ul>
+</li>
+<li><p><strong>Validazione deterministica</strong>: i flag nascono solo da codice (<code class="docutils literal notranslate"><span class="pre">validators.py</span></code>).</p></li>
+<li><p><strong>Bozze</strong>: le righe sono salvate in <code class="docutils literal notranslate"><span class="pre">bozza</span></code> (o <code class="docutils literal notranslate"><span class="pre">prodotto_sconosciuto</span></code>/<code class="docutils literal notranslate"><span class="pre">regola_mancante</span></code>)
+e la bolla passa a <code class="docutils literal notranslate"><span class="pre">da_rivedere</span></code>.</p></li>
+<li><p><strong>Revisione umana</strong>: <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> per correggere, <code class="docutils literal notranslate"><span class="pre">resolve</span></code> per assegnare il prodotto.</p></li>
+<li><p><strong>Conferma</strong>: crea un <code class="docutils literal notranslate"><span class="pre">Batch</span></code> per ogni riga confermabile, con <code class="docutils literal notranslate"><span class="pre">delivery_note_line_id</span></code>.</p></li>
+</ol>
+<section id="worker">
+<h3>Worker<a class="headerlink" href="#worker" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Registrato per funzione: <code class="docutils literal notranslate"><span class="pre">func(process_delivery_note,</span> <span class="pre">max_tries=3,</span> <span class="pre">timeout=600)</span></code>.</p></li>
+<li><p>arq riprova <strong>solo</strong> <code class="docutils literal notranslate"><span class="pre">arq.Retry</span></code>, e solo per i guasti dei servizi esterni
+(<code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code>, compreso il circuito Gemini aperto): ai tentativi 1 e 2 il job
+solleva <code class="docutils literal notranslate"><span class="pre">Retry(defer=30</span> <span class="pre">*</span> <span class="pre">job_try)</span></code>. Ogni altro errore (es. output illeggibile) non
+migliora al secondo giro e ogni giro costa una chiamata Gemini: <code class="docutils literal notranslate"><span class="pre">mark_failed</span></code> subito. Al
+terzo tentativo <code class="docutils literal notranslate"><span class="pre">mark_failed</span></code> segna la bolla <code class="docutils literal notranslate"><span class="pre">fallita</span></code> con il codice d’errore e il job
+rilancia l’eccezione originale.</p></li>
+<li><p><strong>Cron <code class="docutils literal notranslate"><span class="pre">fail_stale_delivery_notes_task</span></code></strong> (ogni 15 minuti, solo con il modulo attivo): se
+arq interrompe il job per timeout, <code class="docutils literal notranslate"><span class="pre">mark_failed</span></code> non parte; il cron porta a <code class="docutils literal notranslate"><span class="pre">fallita</span></code> le
+bolle in <code class="docutils literal notranslate"><span class="pre">elaborazione</span></code> da oltre 30 minuti, saltando quelle ancora bloccate da un job in
+corso (<code class="docutils literal notranslate"><span class="pre">FOR</span> <span class="pre">UPDATE</span> <span class="pre">SKIP</span> <span class="pre">LOCKED</span></code>).</p></li>
+<li><p>Le bolle <code class="docutils literal notranslate"><span class="pre">fallita</span></code> (e quelle in <code class="docutils literal notranslate"><span class="pre">elaborazione</span></code> da oltre 30 minuti) si
+<strong>rimettono in coda ricaricando gli stessi file</strong>: l’upload ritrova la bolla per hash e la
+riaccoda, sempre entro il tetto giornaliero.</p></li>
+<li><p>L’enqueue non passa <code class="docutils literal notranslate"><span class="pre">_job_id</span></code>: arq salterebbe in silenzio una riaccodatura finché il
+risultato del job precedente è conservato. Eventuali job doppi sono innocui
+(<code class="docutils literal notranslate"><span class="pre">FOR</span> <span class="pre">UPDATE</span> <span class="pre">SKIP</span> <span class="pre">LOCKED</span></code> e filtro sullo stato <code class="docutils literal notranslate"><span class="pre">elaborazione</span></code>).</p></li>
+<li><p>Se Redis non risponde all’enqueue la bolla diventa <code class="docutils literal notranslate"><span class="pre">fallita</span></code> (<code class="docutils literal notranslate"><span class="pre">503</span></code>).</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<p>Prefisso <code class="docutils literal notranslate"><span class="pre">/delivery-notes</span></code>. Ruoli <code class="docutils literal notranslate"><span class="pre">chef</span></code> e <code class="docutils literal notranslate"><span class="pre">manager</span></code> hanno tutti e tre i permessi.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metodo e rotta</p></th>
+<th class="head"><p>Permesso</p></th>
+<th class="head"><p>Risposte</p></th>
+<th class="head"><p>Note</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/delivery-notes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_WRITE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">202</span></code>, <code class="docutils literal notranslate"><span class="pre">200</span></code>, <code class="docutils literal notranslate"><span class="pre">400</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code>, <code class="docutils literal notranslate"><span class="pre">429</span></code>, <code class="docutils literal notranslate"><span class="pre">503</span></code></p></td>
+<td><p>Upload idempotente (<code class="docutils literal notranslate"><span class="pre">200</span></code> se già presente)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/delivery-notes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_READ</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">200</span></code></p></td>
+<td><p>Paginato, filtro <code class="docutils literal notranslate"><span class="pre">?status=</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/delivery-notes/{note_id}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_READ</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">200</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code></p></td>
+<td><p>Righe e URL firmati delle immagini (vuoti oltre la retention)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/delivery-notes/by-batch/{batch_id}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_READ</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">200</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code></p></td>
+<td><p>Bolla, riga e immagini da cui è nato un lotto</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PATCH</span> <span class="pre">/delivery-notes/{note_id}/lines/{line_id}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_WRITE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">200</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code>, <code class="docutils literal notranslate"><span class="pre">409</span></code></p></td>
+<td><p>Corregge lotto, scadenza, quantità, unità, prodotto, metodo; <code class="docutils literal notranslate"><span class="pre">discard</span></code> scarta. Richiede <code class="docutils literal notranslate"><span class="pre">version</span></code> (locking ottimistico)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/delivery-notes/{note_id}/lines/{line_id}/resolve</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_WRITE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">200</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code>, <code class="docutils literal notranslate"><span class="pre">409</span></code></p></td>
+<td><p>Assegna il prodotto e salva l’alias</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/delivery-notes/{note_id}/confirm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_CONFIRM</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">200</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code>, <code class="docutils literal notranslate"><span class="pre">409</span></code></p></td>
+<td><p>Conferma parziale e idempotente; restituisce <code class="docutils literal notranslate"><span class="pre">confirmed</span></code> e <code class="docutils literal notranslate"><span class="pre">skipped</span></code> con il motivo</p></td>
+</tr>
+</tbody>
+</table>
+<p>Tutte le rotte rispondono <code class="docutils literal notranslate"><span class="pre">404</span></code> se <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_ENABLED</span></code> è <code class="docutils literal notranslate"><span class="pre">false</span></code>. L’upload usa anche
+<code class="docutils literal notranslate"><span class="pre">expensive_op_limiter</span></code> (<code class="docutils literal notranslate"><span class="pre">429</span></code>).</p>
+</section>
+<hr class="docutils" />
+<section id="stati">
+<h2>Stati<a class="headerlink" href="#stati" title="Link to this heading"></a></h2>
+<p><strong>Bolla</strong> (<code class="docutils literal notranslate"><span class="pre">DeliveryNoteStatus</span></code>): <code class="docutils literal notranslate"><span class="pre">elaborazione</span></code> → <code class="docutils literal notranslate"><span class="pre">da_rivedere</span></code> → <code class="docutils literal notranslate"><span class="pre">confermata</span></code>;
+<code class="docutils literal notranslate"><span class="pre">fallita</span></code> (errore dopo i tentativi, o coda non disponibile); <code class="docutils literal notranslate"><span class="pre">archiviata</span></code>.</p>
+<p><strong>Riga</strong> (<code class="docutils literal notranslate"><span class="pre">LineStatus</span></code>): <code class="docutils literal notranslate"><span class="pre">bozza</span></code> (confermabile), <code class="docutils literal notranslate"><span class="pre">prodotto_sconosciuto</span></code> (nessun prodotto),
+<code class="docutils literal notranslate"><span class="pre">regola_mancante</span></code> (il prodotto non ha regole di conservazione), <code class="docutils literal notranslate"><span class="pre">confermata</span></code>, <code class="docutils literal notranslate"><span class="pre">scartata</span></code>.
+La bolla diventa <code class="docutils literal notranslate"><span class="pre">confermata</span></code> quando tutte le righe sono confermate o scartate.</p>
+<p><strong>Flag di riga</strong> (<code class="docutils literal notranslate"><span class="pre">validators.py</span></code>): bloccanti (impediscono la conferma) <code class="docutils literal notranslate"><span class="pre">quantita_mancante</span></code>,
+<code class="docutils literal notranslate"><span class="pre">quantita_fuori_range</span></code> (&gt; 0 e ≤ 10000), <code class="docutils literal notranslate"><span class="pre">lotto_non_valido</span></code>, <code class="docutils literal notranslate"><span class="pre">lotto_mancante</span></code>,
+<code class="docutils literal notranslate"><span class="pre">scadenza_fuori_finestra</span></code>, <code class="docutils literal notranslate"><span class="pre">unita_non_riconosciuta</span></code>, <code class="docutils literal notranslate"><span class="pre">metodo_conservazione_da_scegliere</span></code>;
+informativi <code class="docutils literal notranslate"><span class="pre">descrizione_lunga</span></code>, <code class="docutils literal notranslate"><span class="pre">prezzo_fuori_range</span></code>, <code class="docutils literal notranslate"><span class="pre">importo_riga_non_torna</span></code> (importo
+stampato diverso da quantità × prezzo unitario oltre <code class="docutils literal notranslate"><span class="pre">max(0,05</span> <span class="pre">€,</span> <span class="pre">0,5</span> <span class="pre">%)</span></code> dell’importo; si
+calcola solo con quantità, prezzo &gt; 0 e importo presenti, e non blocca perché uno sconto o un
+arrotondamento legittimi lo producono; è ricalcolato a ogni modifica, quindi correggere la
+quantità lo toglie) e <code class="docutils literal notranslate"><span class="pre">quantita_ambigua</span></code> (quantità in
+kg o l letta come migliaia da un numero col solo punto, es. <code class="docutils literal notranslate"><span class="pre">2.500</span></code> → 2500: probabile
+decimale; sparisce quando la quantità viene corretta). <strong>Flag di bolla</strong>:
+<code class="docutils literal notranslate"><span class="pre">nessuna_riga_estratta</span></code>, <code class="docutils literal notranslate"><span class="pre">fornitore_non_riconosciuto</span></code>, <code class="docutils literal notranslate"><span class="pre">totale_non_torna</span></code>,
+<code class="docutils literal notranslate"><span class="pre">data_documento_mancante</span></code>, <code class="docutils literal notranslate"><span class="pre">data_documento_anomala</span></code> (oltre 60 giorni da oggi).</p>
+</section>
+<hr class="docutils" />
+<section id="matching-a-livelli">
+<h2>Matching a livelli<a class="headerlink" href="#matching-a-livelli" title="Link to this heading"></a></h2>
+<p>Per ogni riga, in ordine:</p>
+<ol class="arabic simple">
+<li><p><strong>Alias</strong> (<code class="docutils literal notranslate"><span class="pre">supplier_product_aliases</span></code>), prima per <code class="docutils literal notranslate"><span class="pre">(fornitore,</span> <span class="pre">codice</span> <span class="pre">articolo)</span></code> e poi per
+<code class="docutils literal notranslate"><span class="pre">(fornitore,</span> <span class="pre">descrizione</span> <span class="pre">normalizzata)</span></code> → prodotto; punteggio 1. Il secondo copre le righe
+senza codice e le descrizioni generiche che il fuzzy manderebbe all’LLM.</p></li>
+<li><p><strong>Fuzzy</strong> su descrizione normalizzata: accettato se punteggio ≥ <strong>0,9</strong> e distacco dal
+secondo ≥ 0,05; tra <strong>0,6</strong> e 0,9 (o non univoco) è ambiguo; sotto 0,6 è sconosciuto. Gli
+stessi token in ordine diverso valgono 0,9; token di un nome contenuti nell’altro
+(<code class="docutils literal notranslate"><span class="pre">latte</span></code> / <code class="docutils literal notranslate"><span class="pre">latte</span> <span class="pre">intero</span></code>) valgono <strong>0,85</strong>: non bastano da soli per accettare, vanno
+all’LLM tra i candidati.</p></li>
+<li><p><strong>LLM solo sui candidati</strong>: le righe ambigue vanno a Gemini con al massimo 5 candidati; un
+ID fuori dai candidati diventa «nessun prodotto».</p></li>
+</ol>
+<p><strong>Apprendimento</strong>: <code class="docutils literal notranslate"><span class="pre">resolve</span></code> e la <strong>conferma</strong> salvano (o aggiornano) gli alias di ogni riga con
+prodotto, per codice e per descrizione; la conferma conta solo per le righe che diventano
+lotto, quindi anche le scelte dell’LLM che l’utente ha accettato. Un upsert per tipo di chiave,
+l’ultima scelta vince. La stessa riga nelle bolle future è abbinata al livello 1, senza
+chiamate a Gemini. Il metodo (<code class="docutils literal notranslate"><span class="pre">match_method</span></code>) è <code class="docutils literal notranslate"><span class="pre">alias</span></code>, <code class="docutils literal notranslate"><span class="pre">fuzzy</span></code>,
+<code class="docutils literal notranslate"><span class="pre">llm</span></code> o <code class="docutils literal notranslate"><span class="pre">manuale</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="scadenza-e-metodo-di-conservazione">
+<h2>Scadenza e metodo di conservazione<a class="headerlink" href="#scadenza-e-metodo-di-conservazione" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Scadenza secondaria: <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span> <span class="pre">=</span> <span class="pre">min(adesso</span> <span class="pre">+</span> <span class="pre">durata</span> <span class="pre">regola,</span> <span class="pre">scadenza</span> <span class="pre">in</span> <span class="pre">etichetta</span> <span class="pre">a</span> <span class="pre">fine</span> <span class="pre">giornata)</span></code> (stessa formula di <code class="docutils literal notranslate"><span class="pre">BatchService.confirm_batch</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Batch.expiry_date</span></code> è la scadenza letta in etichetta; se manca si usa la data della scadenza
+secondaria e <code class="docutils literal notranslate"><span class="pre">Batch.expiry_estimated</span> <span class="pre">=</span> <span class="pre">true</span></code>.</p></li>
+<li><p><strong>Metodo di conservazione proposto</strong>: l’unico con regola, altrimenti il più usato per quel
+prodotto tra i metodi con regola (conteggio del metodo corrente dei lotti, non di ingresso).
+Se esiste una regola ma nessun metodo è deducibile, il flag bloccante
+<code class="docutils literal notranslate"><span class="pre">metodo_conservazione_da_scegliere</span></code> obbliga a sceglierlo.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="conferma-sicurezza-concorrente">
+<h2>Conferma: sicurezza concorrente<a class="headerlink" href="#conferma-sicurezza-concorrente" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>La bolla è letta <code class="docutils literal notranslate"><span class="pre">FOR</span> <span class="pre">UPDATE</span></code>; <code class="docutils literal notranslate"><span class="pre">patch_line</span></code> prende lo stesso lock, quindi revisione e
+conferma si serializzano e due conferme parallele non duplicano i lotti.</p></li>
+<li><p>Indice <strong>UNIQUE parziale</strong> su <code class="docutils literal notranslate"><span class="pre">batches.delivery_note_line_id</span></code> <code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">parent_batch_id</span> <span class="pre">IS</span> <span class="pre">NULL</span></code>
+(migrazione <code class="docutils literal notranslate"><span class="pre">a7d3e9c1b5f2</span></code>): un secondo lotto «radice» per la stessa riga viola il vincolo e la
+conferma risponde <code class="docutils literal notranslate"><span class="pre">BUS_CONFLICT</span></code>. I lotti creati dalla conferma hanno sempre <code class="docutils literal notranslate"><span class="pre">parent_batch_id</span></code>
+nullo; i figli di uno split (<code class="docutils literal notranslate"><span class="pre">split_batch_storage</span></code>) ereditano <code class="docutils literal notranslate"><span class="pre">delivery_note_line_id</span></code> ed
+<code class="docutils literal notranslate"><span class="pre">expiry_estimated</span></code> dal padre, quindi <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/delivery-notes/by-batch/{batch_id}</span></code> funziona anche
+per i figli.</p></li>
+<li><p>Alla conferma ogni riga è <strong>rivalutata dal codice</strong> (flag, regole): i flag salvati in revisione
+non contano; le righe con flag bloccanti restano in bozza e finiscono in <code class="docutils literal notranslate"><span class="pre">skipped</span></code>.</p></li>
+<li><p>Ogni lotto crea un <code class="docutils literal notranslate"><span class="pre">BatchEvent</span></code> <code class="docutils literal notranslate"><span class="pre">batch_created_from_delivery_note</span></code>; lo storico lotto
+(<code class="docutils literal notranslate"><span class="pre">BatchHistoryEntryType</span></code>) espone la voce con lo stesso valore <code class="docutils literal notranslate"><span class="pre">batch_created_from_delivery_note</span></code>
+(note e operatore dall’evento).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="sicurezza">
+<h2>Sicurezza<a class="headerlink" href="#sicurezza" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>L’LLM <strong>non ha strumenti</strong> e non conosce store, utenti o dati oltre alla bolla.</p></li>
+<li><p>Testo della bolla = dato: le istruzioni di sistema lo dichiarano, ma la difesa vera è a valle.</p></li>
+<li><p>Tutti i valori letti passano da parser e validatori deterministici; i flag bloccanti
+impediscono la conferma (quantità assurde, lotti con URL o caratteri strani, scadenze fuori
+finestra, unità sconosciute).</p></li>
+<li><p>L’ID prodotto scelto dall’LLM è accettato solo se è tra i candidati passati (mai prodotti di
+altri store); altrimenti la riga resta <code class="docutils literal notranslate"><span class="pre">prodotto_sconosciuto</span></code>.</p></li>
+<li><p><strong>Nessun lotto senza conferma umana</strong>; ogni dato per la conferma è rivalidato.</p></li>
+<li><p>Isolamento per store con RLS su tutte le tabelle; URL delle immagini firmati e a scadenza.</p></li>
+<li><p>I test avversari sono in <code class="docutils literal notranslate"><span class="pre">tests/integration/test_delivery_notes_security.py</span></code>.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="configurazione">
+<h2>Configurazione<a class="headerlink" href="#configurazione" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variabile</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Descrizione</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_ENABLED</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Attiva il modulo (spento: <code class="docutils literal notranslate"><span class="pre">404</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_BUCKET</span></code></p></td>
+<td><p>vuoto</p></td>
+<td><p>Bucket S3 delle immagini; senza, gli upload falliscono con <code class="docutils literal notranslate"><span class="pre">503</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MODEL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gemini-3.1-flash-lite</span></code></p></td>
+<td><p>Modello Gemini</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_THINKING_LEVEL</span></code></p></td>
+<td><p>vuoto</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">medium</span></code> o <code class="docutils literal notranslate"><span class="pre">high</span></code>; vuoto = default del modello (nessun <code class="docutils literal notranslate"><span class="pre">thinking_config</span></code> inviato). Vale per estrazione e disambiguazione; il supporto dipende dal modello (<code class="docutils literal notranslate"><span class="pre">minimal</span></code> è rifiutato da <code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code>, quindi non è ammesso)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGES</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">6</span></code></p></td>
+<td><p>Pagine massime per bolla (1-20)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGE_BYTES</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10485760</span></code></p></td>
+<td><p>Byte massimi per pagina</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_DAILY_LIMIT_PER_STORE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">50</span></code></p></td>
+<td><p>Bolle al giorno per store</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Prezzo per milione di token in ingresso (stima costo)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Prezzo per milione di token in uscita</p></td>
+</tr>
+</tbody>
+</table>
+<p>Dove vivono: <code class="docutils literal notranslate"><span class="pre">app/core/config.py</span></code>, <code class="docutils literal notranslate"><span class="pre">.env.example</span></code>, <code class="docutils literal notranslate"><span class="pre">terraform/ssm.tf</span></code> (mappa
+<code class="docutils literal notranslate"><span class="pre">ssm_parameters</span></code>) e <code class="docutils literal notranslate"><span class="pre">scripts/render_env_from_ssm.sh</span></code>. Il bucket e il ruolo IAM sono in
+<code class="docutils literal notranslate"><span class="pre">terraform/delivery_notes.tf</span></code> (cifratura a riposo AES256 come default del bucket: l’app non invia l’header SSE, così funziona anche con l’S3 locale; accesso pubblico bloccato, lifecycle con
+scadenza degli oggetti dopo <code class="docutils literal notranslate"><span class="pre">delivery_notes_retention_days</span></code> = <strong>730 giorni</strong>, uguale a
+<code class="docutils literal notranslate"><span class="pre">IMAGE_RETENTION_DAYS</span></code> in <code class="docutils literal notranslate"><span class="pre">storage.py</span></code>: i due valori vanno tenuti allineati).
+Il costo di ogni bolla è in <code class="docutils literal notranslate"><span class="pre">delivery_notes.usage</span></code> (token, <code class="docutils literal notranslate"><span class="pre">thinking_tokens</span></code>, latenza, <code class="docutils literal notranslate"><span class="pre">cost_usd</span></code> stimato). <code class="docutils literal notranslate"><span class="pre">output_tokens</span></code> include i token di thinking, che Gemini fattura come output.</p>
+<blockquote>
+<div><p><strong>Avviso di rilascio.</strong> <code class="docutils literal notranslate"><span class="pre">BatchEventType</span></code> guadagna <code class="docutils literal notranslate"><span class="pre">batch_created_from_delivery_note</span></code>.
+Rigenerare l’SDK mobile (<code class="docutils literal notranslate"><span class="pre">packages/restrackit_sdk</span></code>) e rilasciare l’app <strong>prima</strong> di abilitare
+<code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_ENABLED</span></code> in produzione, altrimenti l’app può non decodificare lo storico dei lotti.
+Lo stesso valore è presente anche in <code class="docutils literal notranslate"><span class="pre">BatchHistoryEntryType</span></code> (voce di <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">.../history</span></code>).</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="costi-e-modelli">
+<h2>Costi e modelli<a class="headerlink" href="#costi-e-modelli" title="Link to this heading"></a></h2>
+<p>Misure su un solo set di 3 foto (una bolla di 3 pagine), prezzi di listino a ottobre 2026:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modello</p></th>
+<th class="head"><p>Thinking</p></th>
+<th class="head"><p>Costo per bolla</p></th>
+<th class="head"><p>Tempo</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gemini-3.1-flash-lite</span></code></p></td>
+<td><p>n/d</p></td>
+<td><p>≈ 0,003 USD</p></td>
+<td><p>≈ 6 s</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code></p></td>
+<td><p>default</p></td>
+<td><p>≈ 0,019-0,036 USD (2600-7100 token di thinking)</p></td>
+<td><p>30-70 s</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">low</span></code></p></td>
+<td><p>≈ 0,007 USD (0 token di thinking)</p></td>
+<td><p>9-12 s</p></td>
+</tr>
+</tbody>
+</table>
+<p>Prezzi di listino per milione di token (ingresso / uscita): <code class="docutils literal notranslate"><span class="pre">gemini-3.1-flash-lite</span></code> 0,25 / 1,50;
+<code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code> 0,75 / 3,75 fino al 31 dicembre 2026, poi 1,50 / 7,50. L’uscita include i
+token di thinking. La stima <code class="docutils literal notranslate"><span class="pre">cost_usd</span></code> è calcolata solo se <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD</span></code>
+e <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD</span></code> sono impostati (a 0 il costo risulta 0).</p>
+<p>Con <code class="docutils literal notranslate"><span class="pre">low</span></code> la qualità strutturale è risultata uguale a quella del livello di default. Il supporto
+ai livelli dipende dal modello: <code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code> rifiuta <code class="docutils literal notranslate"><span class="pre">minimal</span></code> con HTTP 400. Per le foto
+difficili si consiglia <code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code> con <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_THINKING_LEVEL=low</span></code>, da validare
+con <code class="docutils literal notranslate"><span class="pre">scripts/eval_delivery_notes.py</span></code> sul proprio campione.</p>
+</section>
+<hr class="docutils" />
+<section id="interfaccia-web">
+<h2>Interfaccia web<a class="headerlink" href="#interfaccia-web" title="Link to this heading"></a></h2>
+<p>La UI web (<code class="docutils literal notranslate"><span class="pre">/ui</span></code>, sezione <strong>Bolle</strong>, <code class="docutils literal notranslate"><span class="pre">#/delivery-notes</span></code>) è visibile solo con il modulo attivo:
+<code class="docutils literal notranslate"><span class="pre">/ui/config.json</span></code> espone due flag, letti da <code class="docutils literal notranslate"><span class="pre">app/modules/ui/router.py</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Valore</p></th>
+<th class="head"><p>Effetto</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">delivery_notes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_ENABLED</span></code></p></td>
+<td><p>Mostra la voce “Bolle” nel menu e la rotta; spento, la rotta non esiste</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">delivery_note_upload</span></code></p></td>
+<td><p>modulo attivo <strong>e</strong> ambiente non di produzione <strong>e</strong> <code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_BUCKET</span></code> valorizzato</p></td>
+<td><p>Mostra il form di upload</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><strong>Elenco</strong>: fornitore, numero, data documento, stato, numero di segnalazioni (flag di bolla), data di
+caricamento; filtro per stato e paginazione. Per le bolle <code class="docutils literal notranslate"><span class="pre">fallita</span></code> mostra l’<code class="docutils literal notranslate"><span class="pre">error_code</span></code>. Finché
+una bolla è in <code class="docutils literal notranslate"><span class="pre">elaborazione</span></code> l’elenco si aggiorna ogni 3 secondi; il polling si ferma quando
+nessuna bolla è più in elaborazione o si lascia la pagina.</p></li>
+<li><p><strong>Dettaglio</strong> (finestra modale aperta dal click su una riga): intestazione, segnalazioni di bolla con
+etichette leggibili (codici sconosciuti mostrati così come sono), link alle pagine
+(URL firmati, aperti in una nuova scheda; niente anteprime, la CSP stretta di <code class="docutils literal notranslate"><span class="pre">/ui</span></code> non
+ammette il bucket delle bolle in <code class="docutils literal notranslate"><span class="pre">img-src</span></code>) e tabella delle righe. Per le righe in <code class="docutils literal notranslate"><span class="pre">bozza</span></code>,
+<code class="docutils literal notranslate"><span class="pre">prodotto_sconosciuto</span></code> o <code class="docutils literal notranslate"><span class="pre">regola_mancante</span></code>: <strong>Modifica</strong> (<code class="docutils literal notranslate"><span class="pre">PATCH</span></code>, sempre con <code class="docutils literal notranslate"><span class="pre">version</span></code>),
+<strong>Associa prodotto</strong> (<code class="docutils literal notranslate"><span class="pre">resolve</span></code>, per le righe senza prodotto) e <strong>Scarta</strong>. “Conferma righe”
+chiama <code class="docutils literal notranslate"><span class="pre">confirm</span></code> e mostra righe confermate e saltate con il motivo. Su <code class="docutils literal notranslate"><span class="pre">409</span></code> la bolla viene
+ricaricata. Righe confermate o scartate sono in sola lettura. I permessi sono decisi dal
+backend: gli errori vengono mostrati così come arrivano.</p></li>
+<li><p><strong>Upload</strong> (solo se <code class="docutils literal notranslate"><span class="pre">delivery_note_upload</span></code>): da 1 a 6 immagini JPEG/PNG inviate come multipart
+al campo <code class="docutils literal notranslate"><span class="pre">files</span></code>. Simula l’app mobile: in produzione il caricamento si fa <strong>solo</strong> dall’app;
+l’endpoint API resta attivo. Revisione, correzione e conferma sono disponibili in ogni
+ambiente.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="dati">
+<h2>Dati<a class="headerlink" href="#dati" title="Link to this heading"></a></h2>
+<p>Tabelle <code class="docutils literal notranslate"><span class="pre">suppliers</span></code>, <code class="docutils literal notranslate"><span class="pre">delivery_notes</span></code>, <code class="docutils literal notranslate"><span class="pre">delivery_note_lines</span></code>, <code class="docutils literal notranslate"><span class="pre">supplier_product_aliases</span></code> (con
+RLS) e due colonne in <code class="docutils literal notranslate"><span class="pre">batches</span></code>: vedi <code class="docutils literal notranslate"><span class="pre">05-database-schema.md</span></code>. I vincoli unici non sono
+parziali (tranne l’indice su <code class="docutils literal notranslate"><span class="pre">batches.delivery_note_line_id</span></code>, parziale sui lotti senza padre): una bolla eliminata (soft delete) con lo stesso hash blocca il re-upload
+(<code class="docutils literal notranslate"><span class="pre">BUS_ALREADY_EXISTS</span></code>); un fornitore eliminato con la stessa partita IVA viene riusato.</p>
+</section>
+<hr class="docutils" />
+<section id="valori-anomali-e-tetto-agli-accodamenti">
+<h2>Valori anomali e tetto agli accodamenti<a class="headerlink" href="#valori-anomali-e-tetto-agli-accodamenti" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Numeri fuori range</strong>: <code class="docutils literal notranslate"><span class="pre">quantity</span></code> (<code class="docutils literal notranslate"><span class="pre">Numeric(10,3)</span></code>), <code class="docutils literal notranslate"><span class="pre">unit_price</span></code> (<code class="docutils literal notranslate"><span class="pre">Numeric(12,4)</span></code>),
+<code class="docutils literal notranslate"><span class="pre">line_amount</span></code> e <code class="docutils literal notranslate"><span class="pre">printed_total</span></code> (<code class="docutils literal notranslate"><span class="pre">Numeric(12,2)</span></code>) vengono salvati solo se entrano nella colonna
+(<code class="docutils literal notranslate"><span class="pre">fit_numeric</span></code> in <code class="docutils literal notranslate"><span class="pre">parsing.py</span></code>: |x| &lt; 10^7, 10^8, 10^10); altrimenti diventano <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. Il testo
+stampato resta in <code class="docutils literal notranslate"><span class="pre">quantity_printed</span></code> e in <code class="docutils literal notranslate"><span class="pre">proposed</span></code>, quindi i flag bloccanti esistenti (es.
+<code class="docutils literal notranslate"><span class="pre">quantita_mancante</span></code>) tengono la riga in bozza e una sola riga assurda (es. un EAN nella
+colonna quantità) non fa fallire l’intera bolla.</p></li>
+<li><p><strong>Byte NUL</strong>: <code class="docutils literal notranslate"><span class="pre">strip_nul</span></code> toglie <code class="docutils literal notranslate"><span class="pre">\x00</span></code> da ogni stringa restituita dal modello (anche dentro
+<code class="docutils literal notranslate"><span class="pre">proposed</span></code>) prima del salvataggio; <code class="docutils literal notranslate"><span class="pre">LinePatch.lot_code</span></code> rifiuta i NUL con errore di validazione
+(<code class="docutils literal notranslate"><span class="pre">422</span></code>), come i campi dell’inventario.</p></li>
+<li><p><strong>Tetto agli accodamenti</strong>: <code class="docutils literal notranslate"><span class="pre">delivery_notes.process_attempts</span></code> conta gli accodamenti della
+bolla (<code class="docutils literal notranslate"><span class="pre">1</span></code> all’upload, <code class="docutils literal notranslate"><span class="pre">+1</span></code> a ogni ri-accodo di una bolla <code class="docutils literal notranslate"><span class="pre">fallita</span></code> o bloccata in
+<code class="docutils literal notranslate"><span class="pre">elaborazione</span></code>). Con <code class="docutils literal notranslate"><span class="pre">MAX_REQUEUES</span> <span class="pre">=</span> <span class="pre">3</span></code> (in <code class="docutils literal notranslate"><span class="pre">service.py</span></code>) un quarto accodamento è rifiutato con
+<code class="docutils literal notranslate"><span class="pre">BUS_RATE_LIMIT_EXCEEDED</span></code> (<code class="docutils literal notranslate"><span class="pre">429</span></code>) senza toccare la bolla: serve un intervento di un
+amministratore (azzerare <code class="docutils literal notranslate"><span class="pre">process_attempts</span></code> o ricaricare file diversi). Il conteggio
+giornaliero per store resta invariato.</p></li>
+<li><p><strong>Le interruzioni non consumano il tetto</strong>: se la bolla fallisce con
+<code class="docutils literal notranslate"><span class="pre">EXT_SERVICE_UNAVAILABLE</span></code> (S3 o Redis non raggiungibili, circuito Gemini aperto) nessuna
+chiamata a pagamento è andata a buon fine e l’accodamento viene restituito
+(<code class="docutils literal notranslate"><span class="pre">process_attempts</span> <span class="pre">-</span> <span class="pre">1</span></code>, anche quando l’enqueue stesso fallisce). Gli errori Gemini veri e
+gli output illeggibili restano contati.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="limiti-noti">
+<h2>Limiti noti<a class="headerlink" href="#limiti-noti" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Tetto giornaliero</strong>: conteggio e inserimento non sono atomici; con richieste concorrenti si
+può superare il limite di al massimo il numero di richieste in parallelo. Il «giorno» è il
+giorno UTC, non quello locale dello store.</p></li>
+<li><p><strong>Corpo dell’upload</strong>: un chiamante non autenticato può far leggere al server fino al tetto
+del corpo prima dell’autenticazione. Un corpo troppo grande dà <code class="docutils literal notranslate"><span class="pre">400</span></code>, non <code class="docutils literal notranslate"><span class="pre">413</span></code>.</p></li>
+<li><p><strong>boto3 sincrono</strong> eseguito con <code class="docutils literal notranslate"><span class="pre">asyncio.to_thread</span></code>: occupa un thread del pool per I/O S3.</p></li>
+<li><p><strong>Totale</strong>: se la bolla stampa il totale IVA inclusa, può comparire un falso
+<code class="docutils literal notranslate"><span class="pre">totale_non_torna</span></code> (informativo).</p></li>
+<li><p><strong>Retention unica</strong> (730 giorni) per tutti gli store; oltre, le immagini non sono più
+disponibili e <code class="docutils literal notranslate"><span class="pre">image_urls</span></code> è vuoto.</p></li>
+<li><p><strong>Concorrenza</strong>: il comportamento sotto lock è coperto dal vincolo unico e da test a
+connessione singola; non c’è un test con due connessioni reali in parallelo.</p></li>
+<li><p>Il tetto <code class="docutils literal notranslate"><span class="pre">MAX_REQUEUES</span></code> è per bolla: una bolla legittima che fallisce 3 volte per cause
+non infrastrutturali richiede un amministratore; non esiste un endpoint di reset, si azzera
+<code class="docutils literal notranslate"><span class="pre">delivery_notes.process_attempts</span></code> a mano su DB.</p></li>
+<li><p>Il job tiene una transazione (e il lock sulla bolla) aperta durante le chiamate S3 e Gemini
+(fino al timeout di 600 s): occupa una connessione del pool per tutta la durata.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="come-misurare">
+<h2>Come misurare<a class="headerlink" href="#come-misurare" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/eval_delivery_notes.py<span class="w"> </span>&lt;cartella&gt;
+</pre></div>
+</div>
+<p>Per ogni <code class="docutils literal notranslate"><span class="pre">&lt;nome&gt;.jpg|jpeg|png</span></code> serve <code class="docutils literal notranslate"><span class="pre">&lt;nome&gt;.expected.json</span></code> con
+<code class="docutils literal notranslate"><span class="pre">{&quot;doc_number&quot;:</span> <span class="pre">&quot;...&quot;,</span> <span class="pre">&quot;supplier_vat&quot;:</span> <span class="pre">&quot;...&quot;,</span> <span class="pre">&quot;lines&quot;:</span> <span class="pre">[{&quot;lot_code&quot;:</span> <span class="pre">&quot;...&quot;,</span> <span class="pre">&quot;quantity&quot;:</span> <span class="pre">&quot;...&quot;,</span> <span class="pre">&quot;unit&quot;:</span> <span class="pre">&quot;...&quot;}]}</span></code>.
+Lo script chiama davvero Gemini (serve <code class="docutils literal notranslate"><span class="pre">GOOGLE_API_KEY</span></code>) e stampa, per campo, i valori corretti
+sul totale (le righe si confrontano per posizione) e il costo stimato per bolla. Il confronto
+(<code class="docutils literal notranslate"><span class="pre">compare_note</span></code>) è testato in <code class="docutils literal notranslate"><span class="pre">tests/scripts/test_eval_delivery_notes.py</span></code>.</p>
+<p>La qualità della foto (rotazione, fogli sovrapposti, risoluzione) incide sull’esito quanto il
+prompt: dopo ogni modifica al prompt va rimisurato con <code class="docutils literal notranslate"><span class="pre">scripts/eval_delivery_notes.py</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="24-temperature-log.html" class="btn btn-neutral float-left" title="Registro temperature (HACCP)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ERROR_CODES.html" class="btn btn-neutral float-right" title="Catalogo Codici Errore Restrackit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Restrackit Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+# Delivery Notes (bolle di consegna fornitori)
+
+Il modulo `app/modules/delivery_notes/` legge le **bolle (DDT) dei fornitori** da foto: il
+personale carica da 1 a 6 immagini, un job in background le trascrive con Gemini, il codice
+valida e abbina le righe ai prodotti dello store, una persona rivede le bozze e, alla conferma,
+nascono i **lotti** (`Batch`) collegati alla riga di origine. L'LLM non scrive mai nel
+magazzino: propone, il codice valida, l'umano conferma.
+
+Layout: `models.py`, `schemas.py`, `router.py` e il servizio, diviso in `base.py` (valutazione
+righe, caricamento e regole di conservazione in bulk), `service.py` (upload, elaborazione,
+letture, fallimenti) e `review.py` (revisione e conferma, mixin di `DeliveryNoteService`);
+`presenters.py` converte le entità negli schemi di risposta. Moduli puri: `parsing.py`
+(numeri e date italiani), `validators.py` (flag), `matching.py` (fuzzy), `expiry.py`
+(scadenza effettiva; la formula della scadenza secondaria è in `inventory/expiry.py`,
+condivisa con il carico OCR), `extractor.py` (Gemini) e `storage.py` (S3).
+
+---
+
+## Panoramica e flusso
+
+1. **Upload** `POST /delivery-notes` (multipart, campo `files`). Risponde `202` con la bolla in
+   `elaborazione` (o `200` se lo stesso contenuto esiste già). Controlli, nell'ordine:
+   - `GuardedUploadRoute` rifiuta il corpo **prima del parsing multipart**: modulo spento →
+     `404`; `Content-Length` (o i byte in streaming) oltre `pagine x byte per pagina + 64 KiB`
+     → errore di validazione `400`.
+   - da 1 a `DELIVERY_NOTES_MAX_PAGES` (6) pagine, al massimo `DELIVERY_NOTES_MAX_PAGE_BYTES`
+     (10 MB) ciascuna; il tipo è deciso dai **magic byte** (JPEG/PNG), non dal nome o dal
+     `Content-Type`;
+   - **idempotenza**: SHA-256 dei contenuti (hash degli hash delle pagine) con vincolo unico
+     `(store_id, file_sha256)`; lo stesso file nello stesso store restituisce la bolla esistente;
+   - **tetto giornaliero** per store (`DELIVERY_NOTES_DAILY_LIMIT_PER_STORE`, 50): `429`.
+   Le pagine vanno su S3 (`delivery-notes/{store}/{nota}/...`), la bolla è creata e il job
+   è messo in coda.
+2. **Job arq** `process_delivery_note`: estrazione, validazione, abbinamento, bozze.
+3. **Estrazione** con Gemini: nessuno strumento, JSON con schema stretto, `temperature 0`.
+   L'output **non è mai considerato affidabile**: ogni campo passa dai parser e dai validatori.
+   La disambiguazione dei prodotti avviene solo tra al massimo 5 candidati e l'ID restituito
+   deve essere uno di quei candidati.
+   - **Suggerimenti di layout** in `EXTRACTION_INSTRUCTION` (validi per ogni fornitore): il
+     lotto sta di norma sulla riga sotto la descrizione (`L. (260632855)`, `Lotto: ...`,
+     `LOT ...`) e va trascritto senza prefisso né parentesi; le righe di dettaglio (lotto,
+     `Ma:`, `Pr:`) appartengono all'articolo sopra; l'unità di misura è nella colonna `U.M.`;
+     la foto può essere ruotata o avere altri fogli sullo sfondo e conta solo il documento in
+     primo piano. Senza questi suggerimenti, su una bolla reale lotto e unità risultavano
+     vuoti su tutte le righe. Altri due suggerimenti: la quantità è quella **fatturata** (peso
+     netto o numero di pezzi accanto alla `U.M.`, coerente con importo = quantità × prezzo),
+     non il numero di colli né il peso lordo; il totale del documento è quello della merce
+     (`TOTALE DOCUMENTO`), non il saldo del cliente né acconti. Il modello può comunque
+     sbagliare: il flag `importo_riga_non_torna` (sotto) intercetta le quantità incoerenti.
+   - **Timeout per richiesta**: ogni chiamata a Gemini (estrazione e disambiguazione) passa
+     `http_options.timeout` = `GEMINI_REQUEST_TIMEOUT_S` (120 s, in `extractor.py`), perché il
+     client condiviso ha 30 s e una bolla di 3 pagine ne usa già circa 29. Resta sotto il
+     timeout del job (600 s); il client condiviso non è modificato.
+   - **Normalizzazione del lotto** (`parsing.normalize_lot`): se il modello restituisce
+     comunque `L. (260632855)`, `(260632855)`, `Lotto: 260632855` o `LOT 260632855`, la riga
+     salva `260632855`. Maiuscole, spazi e trattini interni non cambiano (la conferma fa poi
+     `strip().lower()`); la validazione `lotto_non_valido` vede il valore normalizzato.
+4. **Validazione deterministica**: i flag nascono solo da codice (`validators.py`).
+5. **Bozze**: le righe sono salvate in `bozza` (o `prodotto_sconosciuto`/`regola_mancante`)
+   e la bolla passa a `da_rivedere`.
+6. **Revisione umana**: `PATCH` per correggere, `resolve` per assegnare il prodotto.
+7. **Conferma**: crea un `Batch` per ogni riga confermabile, con `delivery_note_line_id`.
+
+### Worker
+
+- Registrato per funzione: `func(process_delivery_note, max_tries=3, timeout=600)`.
+- arq riprova **solo** `arq.Retry`, e solo per i guasti dei servizi esterni
+  (`ExternalServiceError`, compreso il circuito Gemini aperto): ai tentativi 1 e 2 il job
+  solleva `Retry(defer=30 * job_try)`. Ogni altro errore (es. output illeggibile) non
+  migliora al secondo giro e ogni giro costa una chiamata Gemini: `mark_failed` subito. Al
+  terzo tentativo `mark_failed` segna la bolla `fallita` con il codice d'errore e il job
+  rilancia l'eccezione originale.
+- **Cron `fail_stale_delivery_notes_task`** (ogni 15 minuti, solo con il modulo attivo): se
+  arq interrompe il job per timeout, `mark_failed` non parte; il cron porta a `fallita` le
+  bolle in `elaborazione` da oltre 30 minuti, saltando quelle ancora bloccate da un job in
+  corso (`FOR UPDATE SKIP LOCKED`).
+- Le bolle `fallita` (e quelle in `elaborazione` da oltre 30 minuti) si
+  **rimettono in coda ricaricando gli stessi file**: l'upload ritrova la bolla per hash e la
+  riaccoda, sempre entro il tetto giornaliero.
+- L'enqueue non passa `_job_id`: arq salterebbe in silenzio una riaccodatura finché il
+  risultato del job precedente è conservato. Eventuali job doppi sono innocui
+  (`FOR UPDATE SKIP LOCKED` e filtro sullo stato `elaborazione`).
+- Se Redis non risponde all'enqueue la bolla diventa `fallita` (`503`).
+
+---
+
+## API
+
+Prefisso `/delivery-notes`. Ruoli `chef` e `manager` hanno tutti e tre i permessi.
+
+| Metodo e rotta | Permesso | Risposte | Note |
+|---|---|---|---|
+| `POST /delivery-notes` | `DELIVERY_NOTES_WRITE` | `202`, `200`, `400`, `404`, `429`, `503` | Upload idempotente (`200` se già presente) |
+| `GET /delivery-notes` | `DELIVERY_NOTES_READ` | `200` | Paginato, filtro `?status=` |
+| `GET /delivery-notes/{note_id}` | `DELIVERY_NOTES_READ` | `200`, `404` | Righe e URL firmati delle immagini (vuoti oltre la retention) |
+| `GET /delivery-notes/by-batch/{batch_id}` | `DELIVERY_NOTES_READ` | `200`, `404` | Bolla, riga e immagini da cui è nato un lotto |
+| `PATCH /delivery-notes/{note_id}/lines/{line_id}` | `DELIVERY_NOTES_WRITE` | `200`, `404`, `409` | Corregge lotto, scadenza, quantità, unità, prodotto, metodo; `discard` scarta. Richiede `version` (locking ottimistico) |
+| `POST /delivery-notes/{note_id}/lines/{line_id}/resolve` | `DELIVERY_NOTES_WRITE` | `200`, `404`, `409` | Assegna il prodotto e salva l'alias |
+| `POST /delivery-notes/{note_id}/confirm` | `DELIVERY_NOTES_CONFIRM` | `200`, `404`, `409` | Conferma parziale e idempotente; restituisce `confirmed` e `skipped` con il motivo |
+
+Tutte le rotte rispondono `404` se `DELIVERY_NOTES_ENABLED` è `false`. L'upload usa anche
+`expensive_op_limiter` (`429`).
+
+---
+
+## Stati
+
+**Bolla** (`DeliveryNoteStatus`): `elaborazione` → `da_rivedere` → `confermata`;
+`fallita` (errore dopo i tentativi, o coda non disponibile); `archiviata`.
+
+**Riga** (`LineStatus`): `bozza` (confermabile), `prodotto_sconosciuto` (nessun prodotto),
+`regola_mancante` (il prodotto non ha regole di conservazione), `confermata`, `scartata`.
+La bolla diventa `confermata` quando tutte le righe sono confermate o scartate.
+
+**Flag di riga** (`validators.py`): bloccanti (impediscono la conferma) `quantita_mancante`,
+`quantita_fuori_range` (> 0 e ≤ 10000), `lotto_non_valido`, `lotto_mancante`,
+`scadenza_fuori_finestra`, `unita_non_riconosciuta`, `metodo_conservazione_da_scegliere`;
+informativi `descrizione_lunga`, `prezzo_fuori_range`, `importo_riga_non_torna` (importo
+stampato diverso da quantità × prezzo unitario oltre `max(0,05 €, 0,5 %)` dell'importo; si
+calcola solo con quantità, prezzo > 0 e importo presenti, e non blocca perché uno sconto o un
+arrotondamento legittimi lo producono; è ricalcolato a ogni modifica, quindi correggere la
+quantità lo toglie) e `quantita_ambigua` (quantità in
+kg o l letta come migliaia da un numero col solo punto, es. `2.500` → 2500: probabile
+decimale; sparisce quando la quantità viene corretta). **Flag di bolla**:
+`nessuna_riga_estratta`, `fornitore_non_riconosciuto`, `totale_non_torna`,
+`data_documento_mancante`, `data_documento_anomala` (oltre 60 giorni da oggi).
+
+---
+
+## Matching a livelli
+
+Per ogni riga, in ordine:
+
+1. **Alias** (`supplier_product_aliases`), prima per `(fornitore, codice articolo)` e poi per
+   `(fornitore, descrizione normalizzata)` → prodotto; punteggio 1. Il secondo copre le righe
+   senza codice e le descrizioni generiche che il fuzzy manderebbe all'LLM.
+2. **Fuzzy** su descrizione normalizzata: accettato se punteggio ≥ **0,9** e distacco dal
+   secondo ≥ 0,05; tra **0,6** e 0,9 (o non univoco) è ambiguo; sotto 0,6 è sconosciuto. Gli
+   stessi token in ordine diverso valgono 0,9; token di un nome contenuti nell'altro
+   (`latte` / `latte intero`) valgono **0,85**: non bastano da soli per accettare, vanno
+   all'LLM tra i candidati.
+3. **LLM solo sui candidati**: le righe ambigue vanno a Gemini con al massimo 5 candidati; un
+   ID fuori dai candidati diventa «nessun prodotto».
+
+**Apprendimento**: `resolve` e la **conferma** salvano (o aggiornano) gli alias di ogni riga con
+prodotto, per codice e per descrizione; la conferma conta solo per le righe che diventano
+lotto, quindi anche le scelte dell'LLM che l'utente ha accettato. Un upsert per tipo di chiave,
+l'ultima scelta vince. La stessa riga nelle bolle future è abbinata al livello 1, senza
+chiamate a Gemini. Il metodo (`match_method`) è `alias`, `fuzzy`,
+`llm` o `manuale`.
+
+---
+
+## Scadenza e metodo di conservazione
+
+- Scadenza secondaria: `storage_expiry_at = min(adesso + durata regola, scadenza in etichetta a
+  fine giornata)` (stessa formula di `BatchService.confirm_batch`).
+- `Batch.expiry_date` è la scadenza letta in etichetta; se manca si usa la data della scadenza
+  secondaria e `Batch.expiry_estimated = true`.
+- **Metodo di conservazione proposto**: l'unico con regola, altrimenti il più usato per quel
+  prodotto tra i metodi con regola (conteggio del metodo corrente dei lotti, non di ingresso).
+  Se esiste una regola ma nessun metodo è deducibile, il flag bloccante
+  `metodo_conservazione_da_scegliere` obbliga a sceglierlo.
+
+---
+
+## Conferma: sicurezza concorrente
+
+- La bolla è letta `FOR UPDATE`; `patch_line` prende lo stesso lock, quindi revisione e
+  conferma si serializzano e due conferme parallele non duplicano i lotti.
+- Indice **UNIQUE parziale** su `batches.delivery_note_line_id` `WHERE parent_batch_id IS NULL`
+  (migrazione `a7d3e9c1b5f2`): un secondo lotto «radice» per la stessa riga viola il vincolo e la
+  conferma risponde `BUS_CONFLICT`. I lotti creati dalla conferma hanno sempre `parent_batch_id`
+  nullo; i figli di uno split (`split_batch_storage`) ereditano `delivery_note_line_id` ed
+  `expiry_estimated` dal padre, quindi `GET /delivery-notes/by-batch/{batch_id}` funziona anche
+  per i figli.
+- Alla conferma ogni riga è **rivalutata dal codice** (flag, regole): i flag salvati in revisione
+  non contano; le righe con flag bloccanti restano in bozza e finiscono in `skipped`.
+- Ogni lotto crea un `BatchEvent` `batch_created_from_delivery_note`; lo storico lotto
+  (`BatchHistoryEntryType`) espone la voce con lo stesso valore `batch_created_from_delivery_note`
+  (note e operatore dall'evento).
+
+---
+
+## Sicurezza
+
+- L'LLM **non ha strumenti** e non conosce store, utenti o dati oltre alla bolla.
+- Testo della bolla = dato: le istruzioni di sistema lo dichiarano, ma la difesa vera è a valle.
+- Tutti i valori letti passano da parser e validatori deterministici; i flag bloccanti
+  impediscono la conferma (quantità assurde, lotti con URL o caratteri strani, scadenze fuori
+  finestra, unità sconosciute).
+- L'ID prodotto scelto dall'LLM è accettato solo se è tra i candidati passati (mai prodotti di
+  altri store); altrimenti la riga resta `prodotto_sconosciuto`.
+- **Nessun lotto senza conferma umana**; ogni dato per la conferma è rivalidato.
+- Isolamento per store con RLS su tutte le tabelle; URL delle immagini firmati e a scadenza.
+- I test avversari sono in `tests/integration/test_delivery_notes_security.py`.
+
+---
+
+## Configurazione
+
+| Variabile | Default | Descrizione |
+|---|---|---|
+| `DELIVERY_NOTES_ENABLED` | `false` | Attiva il modulo (spento: `404`) |
+| `DELIVERY_NOTES_BUCKET` | vuoto | Bucket S3 delle immagini; senza, gli upload falliscono con `503` |
+| `DELIVERY_NOTES_MODEL` | `gemini-3.1-flash-lite` | Modello Gemini |
+| `DELIVERY_NOTES_THINKING_LEVEL` | vuoto | `low`, `medium` o `high`; vuoto = default del modello (nessun `thinking_config` inviato). Vale per estrazione e disambiguazione; il supporto dipende dal modello (`minimal` è rifiutato da `gemini-3.8-flash`, quindi non è ammesso) |
+| `DELIVERY_NOTES_MAX_PAGES` | `6` | Pagine massime per bolla (1-20) |
+| `DELIVERY_NOTES_MAX_PAGE_BYTES` | `10485760` | Byte massimi per pagina |
+| `DELIVERY_NOTES_DAILY_LIMIT_PER_STORE` | `50` | Bolle al giorno per store |
+| `DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD` | `0` | Prezzo per milione di token in ingresso (stima costo) |
+| `DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD` | `0` | Prezzo per milione di token in uscita |
+
+Dove vivono: `app/core/config.py`, `.env.example`, `terraform/ssm.tf` (mappa
+`ssm_parameters`) e `scripts/render_env_from_ssm.sh`. Il bucket e il ruolo IAM sono in
+`terraform/delivery_notes.tf` (cifratura a riposo AES256 come default del bucket: l'app non invia l'header SSE, così funziona anche con l'S3 locale; accesso pubblico bloccato, lifecycle con
+scadenza degli oggetti dopo `delivery_notes_retention_days` = **730 giorni**, uguale a
+`IMAGE_RETENTION_DAYS` in `storage.py`: i due valori vanno tenuti allineati).
+Il costo di ogni bolla è in `delivery_notes.usage` (token, `thinking_tokens`, latenza, `cost_usd` stimato). `output_tokens` include i token di thinking, che Gemini fattura come output.
+
+> **Avviso di rilascio.** `BatchEventType` guadagna `batch_created_from_delivery_note`.
+> Rigenerare l'SDK mobile (`packages/restrackit_sdk`) e rilasciare l'app **prima** di abilitare
+> `DELIVERY_NOTES_ENABLED` in produzione, altrimenti l'app può non decodificare lo storico dei lotti.
+> Lo stesso valore è presente anche in `BatchHistoryEntryType` (voce di `GET .../history`).
+
+---
+
+## Costi e modelli
+
+Misure su un solo set di 3 foto (una bolla di 3 pagine), prezzi di listino a ottobre 2026:
+
+| Modello | Thinking | Costo per bolla | Tempo |
+|---|---|---|---|
+| `gemini-3.1-flash-lite` | n/d | ≈ 0,003 USD | ≈ 6 s |
+| `gemini-3.8-flash` | default | ≈ 0,019-0,036 USD (2600-7100 token di thinking) | 30-70 s |
+| `gemini-3.8-flash` | `low` | ≈ 0,007 USD (0 token di thinking) | 9-12 s |
+
+Prezzi di listino per milione di token (ingresso / uscita): `gemini-3.1-flash-lite` 0,25 / 1,50;
+`gemini-3.8-flash` 0,75 / 3,75 fino al 31 dicembre 2026, poi 1,50 / 7,50. L'uscita include i
+token di thinking. La stima `cost_usd` è calcolata solo se `DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD`
+e `DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD` sono impostati (a 0 il costo risulta 0).
+
+Con `low` la qualità strutturale è risultata uguale a quella del livello di default. Il supporto
+ai livelli dipende dal modello: `gemini-3.8-flash` rifiuta `minimal` con HTTP 400. Per le foto
+difficili si consiglia `gemini-3.8-flash` con `DELIVERY_NOTES_THINKING_LEVEL=low`, da validare
+con `scripts/eval_delivery_notes.py` sul proprio campione.
+
+---
+
+## Interfaccia web
+
+La UI web (`/ui`, sezione **Bolle**, `#/delivery-notes`) è visibile solo con il modulo attivo:
+`/ui/config.json` espone due flag, letti da `app/modules/ui/router.py`.
+
+| Flag | Valore | Effetto |
+|---|---|---|
+| `delivery_notes` | `DELIVERY_NOTES_ENABLED` | Mostra la voce "Bolle" nel menu e la rotta; spento, la rotta non esiste |
+| `delivery_note_upload` | modulo attivo **e** ambiente non di produzione **e** `DELIVERY_NOTES_BUCKET` valorizzato | Mostra il form di upload |
+
+- **Elenco**: fornitore, numero, data documento, stato, numero di segnalazioni (flag di bolla), data di
+  caricamento; filtro per stato e paginazione. Per le bolle `fallita` mostra l'`error_code`. Finché
+  una bolla è in `elaborazione` l'elenco si aggiorna ogni 3 secondi; il polling si ferma quando
+  nessuna bolla è più in elaborazione o si lascia la pagina.
+- **Dettaglio** (finestra modale aperta dal click su una riga): intestazione, segnalazioni di bolla con
+  etichette leggibili (codici sconosciuti mostrati così come sono), link alle pagine
+  (URL firmati, aperti in una nuova scheda; niente anteprime, la CSP stretta di `/ui` non
+  ammette il bucket delle bolle in `img-src`) e tabella delle righe. Per le righe in `bozza`,
+  `prodotto_sconosciuto` o `regola_mancante`: **Modifica** (`PATCH`, sempre con `version`),
+  **Associa prodotto** (`resolve`, per le righe senza prodotto) e **Scarta**. "Conferma righe"
+  chiama `confirm` e mostra righe confermate e saltate con il motivo. Su `409` la bolla viene
+  ricaricata. Righe confermate o scartate sono in sola lettura. I permessi sono decisi dal
+  backend: gli errori vengono mostrati così come arrivano.
+- **Upload** (solo se `delivery_note_upload`): da 1 a 6 immagini JPEG/PNG inviate come multipart
+  al campo `files`. Simula l'app mobile: in produzione il caricamento si fa **solo** dall'app;
+  l'endpoint API resta attivo. Revisione, correzione e conferma sono disponibili in ogni
+  ambiente.
+
+---
+
+## Dati
+
+Tabelle `suppliers`, `delivery_notes`, `delivery_note_lines`, `supplier_product_aliases` (con
+RLS) e due colonne in `batches`: vedi `05-database-schema.md`. I vincoli unici non sono
+parziali (tranne l'indice su `batches.delivery_note_line_id`, parziale sui lotti senza padre): una bolla eliminata (soft delete) con lo stesso hash blocca il re-upload
+(`BUS_ALREADY_EXISTS`); un fornitore eliminato con la stessa partita IVA viene riusato.
+
+---
+
+## Valori anomali e tetto agli accodamenti
+
+- **Numeri fuori range**: `quantity` (`Numeric(10,3)`), `unit_price` (`Numeric(12,4)`),
+  `line_amount` e `printed_total` (`Numeric(12,2)`) vengono salvati solo se entrano nella colonna
+  (`fit_numeric` in `parsing.py`: |x| < 10^7, 10^8, 10^10); altrimenti diventano `NULL`. Il testo
+  stampato resta in `quantity_printed` e in `proposed`, quindi i flag bloccanti esistenti (es.
+  `quantita_mancante`) tengono la riga in bozza e una sola riga assurda (es. un EAN nella
+  colonna quantità) non fa fallire l'intera bolla.
+- **Byte NUL**: `strip_nul` toglie `\x00` da ogni stringa restituita dal modello (anche dentro
+  `proposed`) prima del salvataggio; `LinePatch.lot_code` rifiuta i NUL con errore di validazione
+  (`422`), come i campi dell'inventario.
+- **Tetto agli accodamenti**: `delivery_notes.process_attempts` conta gli accodamenti della
+  bolla (`1` all'upload, `+1` a ogni ri-accodo di una bolla `fallita` o bloccata in
+  `elaborazione`). Con `MAX_REQUEUES = 3` (in `service.py`) un quarto accodamento è rifiutato con
+  `BUS_RATE_LIMIT_EXCEEDED` (`429`) senza toccare la bolla: serve un intervento di un
+  amministratore (azzerare `process_attempts` o ricaricare file diversi). Il conteggio
+  giornaliero per store resta invariato.
+- **Le interruzioni non consumano il tetto**: se la bolla fallisce con
+  `EXT_SERVICE_UNAVAILABLE` (S3 o Redis non raggiungibili, circuito Gemini aperto) nessuna
+  chiamata a pagamento è andata a buon fine e l'accodamento viene restituito
+  (`process_attempts - 1`, anche quando l'enqueue stesso fallisce). Gli errori Gemini veri e
+  gli output illeggibili restano contati.
+
+---
+
+## Limiti noti
+
+- **Tetto giornaliero**: conteggio e inserimento non sono atomici; con richieste concorrenti si
+  può superare il limite di al massimo il numero di richieste in parallelo. Il «giorno» è il
+  giorno UTC, non quello locale dello store.
+- **Corpo dell'upload**: un chiamante non autenticato può far leggere al server fino al tetto
+  del corpo prima dell'autenticazione. Un corpo troppo grande dà `400`, non `413`.
+- **boto3 sincrono** eseguito con `asyncio.to_thread`: occupa un thread del pool per I/O S3.
+- **Totale**: se la bolla stampa il totale IVA inclusa, può comparire un falso
+  `totale_non_torna` (informativo).
+- **Retention unica** (730 giorni) per tutti gli store; oltre, le immagini non sono più
+  disponibili e `image_urls` è vuoto.
+- **Concorrenza**: il comportamento sotto lock è coperto dal vincolo unico e da test a
+  connessione singola; non c'è un test con due connessioni reali in parallelo.
+- Il tetto `MAX_REQUEUES` è per bolla: una bolla legittima che fallisce 3 volte per cause
+  non infrastrutturali richiede un amministratore; non esiste un endpoint di reset, si azzera
+  `delivery_notes.process_attempts` a mano su DB.
+- Il job tiene una transazione (e il lock sulla bolla) aperta durante le chiamate S3 e Gemini
+  (fino al timeout di 600 s): occupa una connessione del pool per tutta la durata.
+
+---
+
+## Come misurare
+
+```bash
+uv run python scripts/eval_delivery_notes.py <cartella>
+```
+
+Per ogni `<nome>.jpg|jpeg|png` serve `<nome>.expected.json` con
+`{"doc_number": "...", "supplier_vat": "...", "lines": [{"lot_code": "...", "quantity": "...", "unit": "..."}]}`.
+Lo script chiama davvero Gemini (serve `GOOGLE_API_KEY`) e stampa, per campo, i valori corretti
+sul totale (le righe si confrontano per posizione) e il costo stimato per bolla. Il confronto
+(`compare_note`) è testato in `tests/scripts/test_eval_delivery_notes.py`.
+
+La qualità della foto (rotazione, fogli sovrapposti, risoluzione) incide sull'esito quanto il
+prompt: dopo ogni modifica al prompt va rimisurato con `scripts/eval_delivery_notes.py`.

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Restrackit 2.115.0 documentation</title>
+  <title>Index &mdash; Restrackit 2.116.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=97873d9f"></script>
+      <script src="_static/documentation_options.js?v=05f8e374"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -645,6 +645,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
@@ -1174,6 +1175,26 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="manual/25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -1314,8 +1335,10 @@ for private packages in organization repositories.)</a></li>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -1336,6 +1359,12 @@ for private packages in organization repositories.)</a></li>
 </li>
         <li><a href="app.modules.auth.html#app.modules.auth.cache.AuthCache.__init__">(app.modules.auth.cache.AuthCache method)</a>
 </li>
+        <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.__init__">(app.modules.delivery_notes.extractor.AmbiguousItem method)</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.__init__">(app.modules.delivery_notes.extractor.Usage method)</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.__init__">(app.modules.delivery_notes.matching.MatchResult method)</a>
+</li>
         <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.__init__">(app.services.ocr_post_processing.MatchResult method)</a>
 </li>
         <li><a href="app.services.html#app.services.photo_storage.PhotoStorage.__init__">(app.services.photo_storage.PhotoStorage method)</a>
@@ -1349,6 +1378,8 @@ for private packages in organization repositories.)</a></li>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome.ACCEPTED">ACCEPTED (app.modules.delivery_notes.matching.MatchOutcome attribute)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.accuracy">accuracy (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id2">[1]</a>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.action">action (app.core.error_catalog.ErrorInfo attribute)</a>
@@ -1369,7 +1400,11 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.shared.html#app.shared.allergens.Allergen">(class in app.shared.allergens)</a>
 </li>
       </ul></li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome.AMBIGUOUS">AMBIGUOUS (app.modules.delivery_notes.matching.MatchOutcome attribute)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.AMBIGUOUS_PAIRS">AMBIGUOUS_PAIRS (app.services.ocr_post_processing.LotCodePostProcessor attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem">AmbiguousItem (class in app.modules.delivery_notes.extractor)</a>
 </li>
       <li>
     app.core.arq
@@ -1463,6 +1498,57 @@ for private packages in organization repositories.)</a></li>
 </li>
       </ul></li>
       <li>
+    app.modules.delivery_notes.expiry
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.expiry">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.modules.delivery_notes.extractor
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.extractor">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.modules.delivery_notes.matching
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.matching">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.modules.delivery_notes.parsing
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.parsing">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.modules.delivery_notes.presenters
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.presenters">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    app.modules.delivery_notes.storage
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.storage">module</a>
+</li>
+      </ul></li>
+      <li>
+    app.modules.delivery_notes.validators
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.validators">module</a>
+</li>
+      </ul></li>
+      <li>
     app.modules.inventory.cursor
 
       <ul>
@@ -1470,14 +1556,12 @@ for private packages in organization repositories.)</a></li>
 </li>
       </ul></li>
       <li>
-    app.modules.kitchen.deploy
+    app.modules.inventory.expiry
 
       <ul>
-        <li><a href="app.modules.kitchen.html#module-app.modules.kitchen.deploy">module</a>
+        <li><a href="app.modules.inventory.html#module-app.modules.inventory.expiry">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     app.modules.onboarding.keycloak_client
 
@@ -1608,6 +1692,10 @@ for private packages in organization repositories.)</a></li>
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.batch_note_out">batch_note_out() (in module app.modules.delivery_notes.presenters)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.brand">brand (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.BUS_ALREADY_EXISTS">BUS_ALREADY_EXISTS (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
@@ -1632,20 +1720,32 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.core.html#app.core.errors.ErrorCode.BUS_CONFLICT">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.core.html#app.core.error_catalog.ErrorCode.BUS_DDT_EXTRACTION_FAILED">BUS_DDT_EXTRACTION_FAILED (app.core.error_catalog.ErrorCode attribute)</a>
+
+      <ul>
+        <li><a href="app.core.html#app.core.errors.ErrorCode.BUS_DDT_EXTRACTION_FAILED">(app.core.errors.ErrorCode attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="app.core.html#app.core.error_catalog.ErrorCode.BUS_DDT_LINE_NOT_CONFIRMABLE">BUS_DDT_LINE_NOT_CONFIRMABLE (app.core.error_catalog.ErrorCode attribute)</a>
+
+      <ul>
+        <li><a href="app.core.html#app.core.errors.ErrorCode.BUS_DDT_LINE_NOT_CONFIRMABLE">(app.core.errors.ErrorCode attribute)</a>
+</li>
+      </ul></li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.BUS_IDEMPOTENCY_CONFLICT">BUS_IDEMPOTENCY_CONFLICT (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
         <li><a href="app.core.html#app.core.errors.ErrorCode.BUS_IDEMPOTENCY_CONFLICT">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.BUS_IDEMPOTENCY_PAYLOAD_MISMATCH">BUS_IDEMPOTENCY_PAYLOAD_MISMATCH (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
         <li><a href="app.core.html#app.core.errors.ErrorCode.BUS_IDEMPOTENCY_PAYLOAD_MISMATCH">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.BUS_INGREDIENT_NOT_COVERED">BUS_INGREDIENT_NOT_COVERED (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
@@ -1690,6 +1790,12 @@ for private packages in organization repositories.)</a></li>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.cache.cached">cached() (in module app.shared.cache)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.candidates">candidates (app.modules.delivery_notes.extractor.AmbiguousItem attribute)</a>
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.candidates">(app.modules.delivery_notes.matching.MatchResult attribute)</a>, <a href="app.modules.delivery_notes.html#id3">[1]</a>
+</li>
+      </ul></li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.CELERY">CELERY (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -1698,16 +1804,18 @@ for private packages in organization repositories.)</a></li>
       </ul></li>
       <li><a href="app.core.html#app.core.redis.RedisService.client">client (app.core.redis.RedisService property)</a>
 </li>
+      <li><a href="app.modules.inventory.html#app.modules.inventory.expiry.compute_storage_expiry_at">compute_storage_expiry_at() (in module app.modules.inventory.expiry)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.confidence_boost">confidence_boost (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id3">[1]</a>
 </li>
       <li><a href="app.core.html#app.core.logging.configure_uvicorn_access_logs">configure_uvicorn_access_logs() (in module app.core.logging)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.redis.RedisService.connect">connect() (app.core.redis.RedisService method)</a>
 </li>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.corrected_lot">corrected_lot (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id0">[1]</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.units.UnitFamily.COUNT">COUNT (app.shared.units.UnitFamily attribute)</a>
 </li>
       <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_manager_user">create_manager_user() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
@@ -1762,21 +1870,37 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.core.html#app.core.errors.ErrorCode.DB_REDIS_SERIALIZATION_ERROR">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.modules.inventory.html#app.modules.inventory.cursor.decode_cursor">decode_cursor() (in module app.modules.inventory.cursor)</a>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.delete_cache">delete_cache() (app.core.redis.RedisService method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.redis.RedisService.delete_pattern">delete_pattern() (app.core.redis.RedisService method)</a>
 </li>
       <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.delete_user">delete_user() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>
       <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.deleted_at">deleted_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage">DeliveryNoteStorage (class in app.modules.delivery_notes.storage)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.description">description (app.modules.delivery_notes.extractor.AmbiguousItem attribute)</a>
+
+      <ul>
+        <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.description">(app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.detect_image_type">detect_image_type() (in module app.modules.delivery_notes.validators)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.disambiguate">disambiguate() (in module app.modules.delivery_notes.extractor)</a>
+</li>
       <li><a href="app.core.html#app.core.redis.RedisService.disconnect">disconnect() (app.core.redis.RedisService method)</a>
 </li>
       <li><a href="app.shared.html#app.shared.units.DISPLAY_UNIT">DISPLAY_UNIT (in module app.shared.units)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.doc_date">doc_date (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.doc_number">doc_number (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
 </li>
       <li><a href="app.services.html#app.services.photo_storage.PhotoStorage.download_url">download_url() (app.services.photo_storage.PhotoStorage method)</a>
 </li>
@@ -1786,6 +1910,8 @@ for private packages in organization repositories.)</a></li>
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.expiry.effective_expiry">effective_expiry() (in module app.modules.delivery_notes.expiry)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.EGGS">EGGS (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -1805,6 +1931,10 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo">ErrorInfo (class in app.core.error_catalog)</a>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorSeverity">ErrorSeverity (class in app.core.error_catalog)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.estimate_cost_usd">estimate_cost_usd() (in module app.modules.delivery_notes.extractor)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.expiry_date">expiry_date (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1832,6 +1962,12 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.core.html#app.core.errors.ErrorCode.EXT_TIMEOUT">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.extract_note">extract_note() (in module app.modules.delivery_notes.extractor)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine">ExtractedLine (class in app.modules.delivery_notes.extractor)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote">ExtractedNote (class in app.modules.delivery_notes.extractor)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1844,16 +1980,18 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.core.html#app.core.logging.UvicornAccessLogFilter.filter">(app.core.logging.UvicornAccessLogFilter method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.find_best_match">find_best_match() (app.services.ocr_post_processing.LotCodePostProcessor class method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.FISH">FISH (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.FISH">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.fit_numeric">fit_numeric() (in module app.modules.delivery_notes.parsing)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1866,6 +2004,8 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisService.get_cache">get_cache() (app.core.redis.RedisService method)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.get_delivery_note_storage">get_delivery_note_storage() (in module app.modules.delivery_notes.storage)</a>
+</li>
       <li><a href="app.core.html#app.core.clients.get_gemini_client">get_gemini_client() (in module app.core.clients)</a>
 </li>
       <li><a href="app.modules.auth.html#app.modules.auth.cache.AuthCache.get_jwks">get_jwks() (app.modules.auth.cache.AuthCache method)</a>
@@ -1876,6 +2016,8 @@ for private packages in organization repositories.)</a></li>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage.get_page">get_page() (app.modules.delivery_notes.storage.DeliveryNoteStorage method)</a>
+</li>
       <li><a href="app.services.html#app.services.photo_storage.get_photo_storage">get_photo_storage() (in module app.services.photo_storage)</a>
 </li>
       <li><a href="app.core.html#app.core.arq.ArqService.get_pool">get_pool() (app.core.arq.ArqService method)</a>
@@ -1906,7 +2048,15 @@ for private packages in organization repositories.)</a></li>
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.image_urls">image_urls() (in module app.modules.delivery_notes.presenters)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorSeverity.INFO">INFO (app.core.error_catalog.ErrorSeverity attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.input_tokens">input_tokens (app.modules.delivery_notes.extractor.Usage attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.is_thousands_format">is_thousands_format() (in module app.modules.delivery_notes.parsing)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1932,10 +2082,24 @@ for private packages in organization repositories.)</a></li>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.L">L (app.shared.units.UnitOfMeasure attribute)</a>
 </li>
-      <li><a href="app.shared.html#app.shared.units.list_options">list_options() (in module app.shared.units)</a>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.latency_ms">latency_ms (app.modules.delivery_notes.extractor.Usage attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.line_amount">line_amount (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.line_flags">line_flags() (in module app.modules.delivery_notes.validators)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.line_index">line_index (app.modules.delivery_notes.extractor.AmbiguousItem attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.line_out">line_out() (in module app.modules.delivery_notes.presenters)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.lines">lines (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
+</li>
+      <li><a href="app.shared.html#app.shared.units.list_options">list_options() (in module app.shared.units)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.lot_code">lot_code (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor">LotCodePostProcessor (class in app.services.ocr_post_processing)</a>
 </li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.LUPIN">LUPIN (app.shared.allergen_enum.Allergen attribute)</a>
@@ -1950,14 +2114,24 @@ for private packages in organization repositories.)</a></li>
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.map_unit">map_unit() (in module app.modules.delivery_notes.parsing)</a>
+</li>
       <li><a href="app.core.html#app.core.i18n.mask_to_localized_list">mask_to_localized_list() (in module app.core.i18n)</a>
 </li>
       <li><a href="app.shared.html#app.shared.units.UnitFamily.MASS">MASS (app.shared.units.UnitFamily attribute)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.match_description">match_description() (in module app.modules.delivery_notes.matching)</a>
+</li>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.match_type">match_type (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id1">[1]</a>
 </li>
-      <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult">MatchResult (class in app.services.ocr_post_processing)</a>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome">MatchOutcome (class in app.modules.delivery_notes.matching)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult">MatchResult (class in app.modules.delivery_notes.matching)</a>
+
+      <ul>
+        <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult">(class in app.services.ocr_post_processing)</a>
+</li>
+      </ul></li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.message">message (app.core.error_catalog.ErrorInfo attribute)</a>
 </li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.MILK">MILK (app.shared.allergen_enum.Allergen attribute)</a>
@@ -1967,6 +2141,8 @@ for private packages in organization repositories.)</a></li>
 </li>
       </ul></li>
       <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.ML">ML (app.shared.units.UnitOfMeasure attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.model">model (app.modules.delivery_notes.extractor.Usage attribute)</a>
 </li>
       <li>
     module
@@ -1998,9 +2174,23 @@ for private packages in organization repositories.)</a></li>
 </li>
         <li><a href="app.modules.auth.html#module-app.modules.auth.cache">app.modules.auth.cache</a>
 </li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.expiry">app.modules.delivery_notes.expiry</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.extractor">app.modules.delivery_notes.extractor</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.matching">app.modules.delivery_notes.matching</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.parsing">app.modules.delivery_notes.parsing</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.presenters">app.modules.delivery_notes.presenters</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.storage">app.modules.delivery_notes.storage</a>
+</li>
+        <li><a href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.validators">app.modules.delivery_notes.validators</a>
+</li>
         <li><a href="app.modules.inventory.html#module-app.modules.inventory.cursor">app.modules.inventory.cursor</a>
 </li>
-        <li><a href="app.modules.kitchen.html#module-app.modules.kitchen.deploy">app.modules.kitchen.deploy</a>
+        <li><a href="app.modules.inventory.html#module-app.modules.inventory.expiry">app.modules.inventory.expiry</a>
 </li>
         <li><a href="app.modules.onboarding.html#module-app.modules.onboarding.keycloak_client">app.modules.onboarding.keycloak_client</a>
 </li>
@@ -2044,10 +2234,38 @@ for private packages in organization repositories.)</a></li>
   </ul></td>
 </tr></table>
 
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_description">normalize_description() (in module app.modules.delivery_notes.parsing)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_lot">normalize_lot() (in module app.modules.delivery_notes.parsing)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_vat">normalize_vat() (in module app.modules.delivery_notes.parsing)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.note_flags">note_flags() (in module app.modules.delivery_notes.validators)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.note_out">note_out() (in module app.modules.delivery_notes.presenters)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.note_summary">note_summary() (in module app.modules.delivery_notes.presenters)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient">OnboardingKeycloakClient (class in app.modules.onboarding.keycloak_client)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.origin">origin (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.outcome">outcome (app.modules.delivery_notes.matching.MatchResult attribute)</a>, <a href="app.modules.delivery_notes.html#id0">[1]</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.output_tokens">output_tokens (app.modules.delivery_notes.extractor.Usage attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2055,6 +2273,12 @@ for private packages in organization repositories.)</a></li>
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.page_key">page_key() (in module app.modules.delivery_notes.storage)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.parse_date_it">parse_date_it() (in module app.modules.delivery_notes.parsing)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.parse_decimal_it">parse_decimal_it() (in module app.modules.delivery_notes.parsing)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.PEANUTS">PEANUTS (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -2067,11 +2291,27 @@ for private packages in organization repositories.)</a></li>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.services.html#app.services.photo_storage.PhotoStorage">PhotoStorage (class in app.services.photo_storage)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.product_id">product_id (app.modules.delivery_notes.matching.MatchResult attribute)</a>, <a href="app.modules.delivery_notes.html#id1">[1]</a>
+</li>
       <li><a href="app.shared.html#app.shared.mixins.PublicIdMixin.public_id">public_id (app.shared.mixins.PublicIdMixin attribute)</a>
 </li>
       <li><a href="app.shared.html#app.shared.mixins.PublicIdMixin">PublicIdMixin (class in app.shared.mixins)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage.put_page">put_page() (app.modules.delivery_notes.storage.DeliveryNoteStorage method)</a>
+</li>
       <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.PZ">PZ (app.shared.units.UnitOfMeasure attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.quantity">quantity (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.quantity_is_ambiguous">quantity_is_ambiguous() (in module app.modules.delivery_notes.validators)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2099,6 +2339,8 @@ for private packages in organization repositories.)</a></li>
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.score">score (app.modules.delivery_notes.matching.MatchResult attribute)</a>, <a href="app.modules.delivery_notes.html#id2">[1]</a>
+</li>
       <li><a href="app.core.html#app.core.arq.SerializablePrimitive">SerializablePrimitive (in module app.core.arq)</a>
 </li>
       <li><a href="app.core.html#app.core.arq.SerializableValue">SerializableValue (in module app.core.arq)</a>
@@ -2117,8 +2359,6 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.telemetry.setup_otel">setup_otel() (in module app.core.telemetry)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.severity">severity (app.core.error_catalog.ErrorInfo attribute)</a>
 </li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SOY">SOY (app.shared.allergen_enum.Allergen attribute)</a>
@@ -2127,12 +2367,22 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.SOY">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.strip_nul">strip_nul() (in module app.modules.delivery_notes.parsing)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SULPHITES">SULPHITES (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.SULPHITES">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.supplier_item_code">supplier_item_code (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.supplier_name">supplier_name (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.supplier_vat">supplier_vat (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.SYS_INTERNAL_ERROR">SYS_INTERNAL_ERROR (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
@@ -2151,12 +2401,20 @@ for private packages in organization repositories.)</a></li>
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.thinking_tokens">thinking_tokens (app.modules.delivery_notes.extractor.Usage attribute)</a>
+</li>
       <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin">TimestampVersionMixin (class in app.shared.mixins)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.to_dict">to_dict() (app.modules.delivery_notes.extractor.Usage method)</a>
 </li>
       <li><a href="app.shared.html#app.shared.units.to_display_unit">to_display_unit() (in module app.shared.units)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.total_amount">total_amount (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.totals_mismatch">totals_mismatch() (in module app.modules.delivery_notes.validators)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.TREE_NUTS">TREE_NUTS (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -2175,17 +2433,25 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.modules.ui.html#app.modules.ui.router.ui_root">ui_root() (in module app.modules.ui.router)</a>
 </li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.unit">unit (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.unit_price">unit_price (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
       <li><a href="app.shared.html#app.shared.units.UnitFamily">UnitFamily (class in app.shared.units)</a>
 </li>
       <li><a href="app.shared.html#app.shared.units.UnitOfMeasure">UnitOfMeasure (class in app.shared.units)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome.UNKNOWN">UNKNOWN (app.modules.delivery_notes.matching.MatchOutcome attribute)</a>
+</li>
       <li><a href="app.shared.html#app.shared.units.uom_enum_type">uom_enum_type() (in module app.shared.units)</a>
 </li>
       <li><a href="app.shared.html#app.shared.mixins.TimestampVersionMixin.updated_at">updated_at (app.shared.mixins.TimestampVersionMixin attribute)</a>
 </li>
       <li><a href="app.services.html#app.services.photo_storage.PhotoStorage.upload_slots">upload_slots() (app.services.photo_storage.PhotoStorage method)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage">Usage (class in app.modules.delivery_notes.extractor)</a>
 </li>
       <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.username_or_email_exists">username_or_email_exists() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>
@@ -2215,15 +2481,17 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.core.html#app.core.errors.ErrorCode.VAL_INVALID_INPUT">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.VAL_MISSING_FIELD">VAL_MISSING_FIELD (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
         <li><a href="app.core.html#app.core.errors.ErrorCode.VAL_MISSING_FIELD">(app.core.errors.ErrorCode attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.timezones.validate_timezone">validate_timezone() (in module app.shared.timezones)</a>
+</li>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.vat_rate">vat_rate (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
 </li>
       <li><a href="app.services.html#app.services.photo_storage.PhotoStorage.verify_object">verify_object() (app.services.photo_storage.PhotoStorage method)</a>
 </li>

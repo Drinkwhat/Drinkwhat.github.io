@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Environment Configuration &mdash; Restrackit 2.115.0 documentation</title>
+  <title>Environment Configuration &mdash; Restrackit 2.116.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=97873d9f"></script>
+      <script src="../_static/documentation_options.js?v=05f8e374"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -290,6 +290,7 @@
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
@@ -819,6 +820,26 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -1176,6 +1197,51 @@ REDIS_URL=redis://localhost:6379/0
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">json</span></code></p></td>
 <td><p>Log format: <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">text</span></code> (default: <code class="docutils literal notranslate"><span class="pre">json</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_ENABLED</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Abilita il modulo bolle fornitori (spento: 404)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_BUCKET</span></code></p></td>
+<td><p>Se abilitato</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">restrackit-delivery-notes-123</span></code></p></td>
+<td><p>Bucket S3 delle immagini delle bolle</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MODEL</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gemini-3.1-flash-lite</span></code></p></td>
+<td><p>Modello Gemini per leggere le bolle</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_THINKING_LEVEL</span></code></p></td>
+<td><p>No</p></td>
+<td><p>vuoto (default modello)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">medium</span></code> o <code class="docutils literal notranslate"><span class="pre">high</span></code>; supporto per modello (con <code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code> costa ~3x meno)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGES</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">6</span></code></p></td>
+<td><p>Pagine massime per bolla (1-20)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGE_BYTES</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10485760</span></code></p></td>
+<td><p>Byte massimi per pagina (10 MB)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_DAILY_LIMIT_PER_STORE</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">50</span></code></p></td>
+<td><p>Bolle massime al giorno per store</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>USD per milione di token in ingresso (stima costo)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>USD per milione di token in uscita (stima costo)</p></td>
 </tr>
 </tbody>
 </table>

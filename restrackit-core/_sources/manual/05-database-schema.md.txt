@@ -295,6 +295,28 @@ CREATE TABLE batches (
 
 ---
 
+### Delivery notes (bolle fornitori)
+
+Quattro tabelle del modulo `delivery_notes`, tutte con `store_id` e RLS
+(`<tabella>_isolation_policy`). Dettagli di flusso in [25-delivery-notes.md](25-delivery-notes.md).
+
+| Tabella | Contenuto | Vincoli principali |
+|---|---|---|
+| `suppliers` | `name`, `vat_number` (11 caratteri) | `UNIQUE (store_id, vat_number)` non parziale: un fornitore eliminato con la stessa P.IVA viene riusato |
+| `delivery_notes` | `supplier_id`, `doc_number`, `doc_date`, `printed_total`, `status` (`elaborazione`/`da_rivedere`/`confermata`/`fallita`/`archiviata`), `file_keys` (JSONB, chiavi S3), `file_sha256`, `usage` (JSONB), `error_code`, `flags` (JSONB), `operator_id`, `operator_name`, `process_attempts` (`INTEGER NOT NULL DEFAULT 0`: accodamenti totali, tetto `MAX_REQUEUES = 3`, oltre serve un admin) | `UNIQUE (store_id, file_sha256)` non parziale (una bolla eliminata con lo stesso hash dà `BUS_ALREADY_EXISTS`); indice `(store_id, created_at)` |
+| `delivery_note_lines` | `position`, `description`, `supplier_item_code`, `brand`, `origin`, `lot_code`, `expiry_date`, valori stampati (`quantity_printed`, `unit_printed`) e normalizzati (`quantity`, `unit_of_measure`, `unit_price`, `line_amount`, `vat_rate`), `product_master_id`, `storage_method_id`, `match_method`, `match_score`, `status`, `flags`, `proposed` (JSONB, output grezzo del modello), `confirmed` (JSONB) | indice `(delivery_note_id, position)` |
+| `supplier_product_aliases` | `supplier_id`, `supplier_item_code` (nullable), `description_norm` (nullable), `product_master_id` | `UNIQUE (supplier_id, supplier_item_code)`; indice unico parziale `(supplier_id, description_norm)`; `CHECK` almeno una delle due chiavi |
+
+Colonne aggiunte a `batches`:
+
+- `delivery_note_line_id` — FK a `delivery_note_lines.id`, con indice **UNIQUE parziale**
+  `WHERE parent_batch_id IS NULL` (migrazione `a7d3e9c1b5f2`): un solo lotto «radice» per riga di
+  bolla; i figli dello split ereditano il valore (e `expiry_estimated`).
+- `expiry_estimated` — `BOOLEAN`, `true` se la scadenza non era in etichetta ed è stata stimata
+  dalla regola di conservazione.
+
+---
+
 ### `batch_storage_moves`
 
 Storico dei trasferimenti di uno specifico lotto tra metodi di storage, con scadenza calcolata.

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules package &mdash; Restrackit 2.115.0 documentation</title>
+  <title>app.modules package &mdash; Restrackit 2.116.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=97873d9f"></script>
+      <script src="_static/documentation_options.js?v=05f8e374"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -290,6 +290,7 @@
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
@@ -819,6 +820,26 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="manual/25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -980,11 +1001,135 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.cleaning.html#app-modules-cleaning-service-module">app.modules.cleaning.service module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="app.modules.delivery_notes.html">app.modules.delivery_notes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-base-module">app.modules.delivery_notes.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.expiry">app.modules.delivery_notes.expiry module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.expiry.effective_expiry"><code class="docutils literal notranslate"><span class="pre">effective_expiry()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.extractor">app.modules.delivery_notes.extractor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine"><code class="docutils literal notranslate"><span class="pre">ExtractedLine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.description"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.supplier_item_code"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.supplier_item_code</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.brand"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.brand</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.origin"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.origin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.lot_code"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.lot_code</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.expiry_date"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.expiry_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.quantity"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.quantity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.unit"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.unit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.unit_price"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.unit_price</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.line_amount"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.line_amount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.vat_rate"><code class="docutils literal notranslate"><span class="pre">ExtractedLine.vat_rate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote"><code class="docutils literal notranslate"><span class="pre">ExtractedNote</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.supplier_name"><code class="docutils literal notranslate"><span class="pre">ExtractedNote.supplier_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.supplier_vat"><code class="docutils literal notranslate"><span class="pre">ExtractedNote.supplier_vat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.doc_number"><code class="docutils literal notranslate"><span class="pre">ExtractedNote.doc_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.doc_date"><code class="docutils literal notranslate"><span class="pre">ExtractedNote.doc_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.total_amount"><code class="docutils literal notranslate"><span class="pre">ExtractedNote.total_amount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.lines"><code class="docutils literal notranslate"><span class="pre">ExtractedNote.lines</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage"><code class="docutils literal notranslate"><span class="pre">Usage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.model"><code class="docutils literal notranslate"><span class="pre">Usage.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.input_tokens"><code class="docutils literal notranslate"><span class="pre">Usage.input_tokens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.output_tokens"><code class="docutils literal notranslate"><span class="pre">Usage.output_tokens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.latency_ms"><code class="docutils literal notranslate"><span class="pre">Usage.latency_ms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.thinking_tokens"><code class="docutils literal notranslate"><span class="pre">Usage.thinking_tokens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.to_dict"><code class="docutils literal notranslate"><span class="pre">Usage.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.__init__"><code class="docutils literal notranslate"><span class="pre">Usage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem"><code class="docutils literal notranslate"><span class="pre">AmbiguousItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.line_index"><code class="docutils literal notranslate"><span class="pre">AmbiguousItem.line_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.description"><code class="docutils literal notranslate"><span class="pre">AmbiguousItem.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.candidates"><code class="docutils literal notranslate"><span class="pre">AmbiguousItem.candidates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.AmbiguousItem.__init__"><code class="docutils literal notranslate"><span class="pre">AmbiguousItem.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.extract_note"><code class="docutils literal notranslate"><span class="pre">extract_note()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.disambiguate"><code class="docutils literal notranslate"><span class="pre">disambiguate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.estimate_cost_usd"><code class="docutils literal notranslate"><span class="pre">estimate_cost_usd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.matching">app.modules.delivery_notes.matching module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome"><code class="docutils literal notranslate"><span class="pre">MatchOutcome</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome.ACCEPTED"><code class="docutils literal notranslate"><span class="pre">MatchOutcome.ACCEPTED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome.AMBIGUOUS"><code class="docutils literal notranslate"><span class="pre">MatchOutcome.AMBIGUOUS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchOutcome.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">MatchOutcome.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult"><code class="docutils literal notranslate"><span class="pre">MatchResult</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.outcome"><code class="docutils literal notranslate"><span class="pre">MatchResult.outcome</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.product_id"><code class="docutils literal notranslate"><span class="pre">MatchResult.product_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.score"><code class="docutils literal notranslate"><span class="pre">MatchResult.score</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.candidates"><code class="docutils literal notranslate"><span class="pre">MatchResult.candidates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#id0"><code class="docutils literal notranslate"><span class="pre">MatchResult.outcome</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#id1"><code class="docutils literal notranslate"><span class="pre">MatchResult.product_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#id2"><code class="docutils literal notranslate"><span class="pre">MatchResult.score</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#id3"><code class="docutils literal notranslate"><span class="pre">MatchResult.candidates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.__init__"><code class="docutils literal notranslate"><span class="pre">MatchResult.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.match_description"><code class="docutils literal notranslate"><span class="pre">match_description()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-models-module">app.modules.delivery_notes.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.parsing">app.modules.delivery_notes.parsing module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.parse_decimal_it"><code class="docutils literal notranslate"><span class="pre">parse_decimal_it()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.is_thousands_format"><code class="docutils literal notranslate"><span class="pre">is_thousands_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.fit_numeric"><code class="docutils literal notranslate"><span class="pre">fit_numeric()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.strip_nul"><code class="docutils literal notranslate"><span class="pre">strip_nul()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.parse_date_it"><code class="docutils literal notranslate"><span class="pre">parse_date_it()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.map_unit"><code class="docutils literal notranslate"><span class="pre">map_unit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_vat"><code class="docutils literal notranslate"><span class="pre">normalize_vat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_description"><code class="docutils literal notranslate"><span class="pre">normalize_description()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_lot"><code class="docutils literal notranslate"><span class="pre">normalize_lot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.presenters">app.modules.delivery_notes.presenters module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.image_urls"><code class="docutils literal notranslate"><span class="pre">image_urls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.note_summary"><code class="docutils literal notranslate"><span class="pre">note_summary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.line_out"><code class="docutils literal notranslate"><span class="pre">line_out()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.note_out"><code class="docutils literal notranslate"><span class="pre">note_out()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.batch_note_out"><code class="docutils literal notranslate"><span class="pre">batch_note_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-review-module">app.modules.delivery_notes.review module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-router-module">app.modules.delivery_notes.router module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-schemas-module">app.modules.delivery_notes.schemas module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-service-module">app.modules.delivery_notes.service module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.storage">app.modules.delivery_notes.storage module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.page_key"><code class="docutils literal notranslate"><span class="pre">page_key()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage"><code class="docutils literal notranslate"><span class="pre">DeliveryNoteStorage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage.put_page"><code class="docutils literal notranslate"><span class="pre">DeliveryNoteStorage.put_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage.get_page"><code class="docutils literal notranslate"><span class="pre">DeliveryNoteStorage.get_page()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.get_delivery_note_storage"><code class="docutils literal notranslate"><span class="pre">get_delivery_note_storage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.validators">app.modules.delivery_notes.validators module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.detect_image_type"><code class="docutils literal notranslate"><span class="pre">detect_image_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.line_flags"><code class="docutils literal notranslate"><span class="pre">line_flags()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.quantity_is_ambiguous"><code class="docutils literal notranslate"><span class="pre">quantity_is_ambiguous()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.note_flags"><code class="docutils literal notranslate"><span class="pre">note_flags()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.totals_mismatch"><code class="docutils literal notranslate"><span class="pre">totals_mismatch()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="app.modules.inventory.html">app.modules.inventory package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.inventory.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.cursor">app.modules.inventory.cursor module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.cursor.encode_cursor"><code class="docutils literal notranslate"><span class="pre">encode_cursor()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.cursor.decode_cursor"><code class="docutils literal notranslate"><span class="pre">decode_cursor()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.expiry">app.modules.inventory.expiry module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.modules.inventory.html#app.modules.inventory.expiry.compute_storage_expiry_at"><code class="docutils literal notranslate"><span class="pre">compute_storage_expiry_at()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-models-module">app.modules.inventory.models module</a></li>
@@ -995,7 +1140,6 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="app.modules.kitchen.html">app.modules.kitchen package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.kitchen.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="app.modules.kitchen.html#module-app.modules.kitchen.deploy">app.modules.kitchen.deploy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-models-module">app.modules.kitchen.models module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-router-module">app.modules.kitchen.router module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-schemas-module">app.modules.kitchen.schemas module</a></li>

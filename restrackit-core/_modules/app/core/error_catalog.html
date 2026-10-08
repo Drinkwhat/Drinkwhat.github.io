@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.error_catalog &mdash; Restrackit 2.115.0 documentation</title>
+  <title>app.core.error_catalog &mdash; Restrackit 2.116.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=97873d9f"></script>
+      <script src="../../../_static/documentation_options.js?v=05f8e374"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -645,6 +645,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../manual/05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
@@ -1174,6 +1175,26 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../manual/25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../manual/25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../manual/25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -1358,6 +1379,8 @@ for private packages in organization repositories.)</a></li>
     <span class="n">BUS_IDEMPOTENCY_PAYLOAD_MISMATCH</span> <span class="o">=</span> <span class="s2">"ERR_BUS_010"</span>
     <span class="n">BUS_INGREDIENT_NOT_COVERED</span> <span class="o">=</span> <span class="s2">"ERR_BUS_011"</span>
     <span class="n">BUS_BATCH_NOT_IN_RECIPE</span> <span class="o">=</span> <span class="s2">"ERR_BUS_012"</span>
+    <span class="n">BUS_DDT_EXTRACTION_FAILED</span> <span class="o">=</span> <span class="s2">"ERR_BUS_013"</span>
+    <span class="n">BUS_DDT_LINE_NOT_CONFIRMABLE</span> <span class="o">=</span> <span class="s2">"ERR_BUS_014"</span>
 
     <span class="c1"># --- DATABASE (DB) ---</span>
     <span class="n">DB_CONNECTION_ERROR</span> <span class="o">=</span> <span class="s2">"ERR_DB_001"</span>
@@ -1499,6 +1522,18 @@ for private packages in organization repositories.)</a></li>
         <span class="s2">"severity"</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
         <span class="s2">"http_status"</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
         <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"Usa solo lotti dei prodotti previsti dagli ingredienti della ricetta."</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_DDT_EXTRACTION_FAILED</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Impossibile leggere i dati dalla bolla."</span><span class="p">,</span>
+        <span class="s2">"severity"</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+        <span class="s2">"http_status"</span><span class="p">:</span> <span class="mi">422</span><span class="p">,</span>
+        <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"Riprova con una foto più nitida o inserisci i lotti manualmente."</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_DDT_LINE_NOT_CONFIRMABLE</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Riga di bolla non modificabile: </span><span class="si">{details}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"severity"</span><span class="p">:</span> <span class="n">ErrorSeverity</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+        <span class="s2">"http_status"</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"La riga è già confermata o scartata: non può più essere modificata."</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="n">ErrorCode</span><span class="o">.</span><span class="n">BUS_ALREADY_EXISTS</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Esiste già una risorsa '</span><span class="si">{resource}</span><span class="s2">' con questi dati."</span><span class="p">,</span>

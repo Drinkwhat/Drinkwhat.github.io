@@ -153,6 +153,15 @@ env:
 | `TAILSCALE_HOSTNAME`            | Prod Docker| `my-host.example.ts.net`| Required for prod compose Traefik/Keycloak routing |
 | `LOG_LEVEL`                     | No        | `INFO`                   | Logging level (default: `INFO`) |
 | `LOG_FORMAT`                    | No        | `json`                   | Log format: `json` or `text` (default: `json`) |
+| `DELIVERY_NOTES_ENABLED`        | No        | `false`                  | Abilita il modulo bolle fornitori (spento: 404) |
+| `DELIVERY_NOTES_BUCKET`         | Se abilitato | `restrackit-delivery-notes-123` | Bucket S3 delle immagini delle bolle |
+| `DELIVERY_NOTES_MODEL`          | No        | `gemini-3.1-flash-lite`  | Modello Gemini per leggere le bolle |
+| `DELIVERY_NOTES_THINKING_LEVEL` | No        | vuoto (default modello)  | `low`, `medium` o `high`; supporto per modello (con `gemini-3.8-flash`, `low` costa ~3x meno) |
+| `DELIVERY_NOTES_MAX_PAGES`      | No        | `6`                      | Pagine massime per bolla (1-20) |
+| `DELIVERY_NOTES_MAX_PAGE_BYTES` | No        | `10485760`               | Byte massimi per pagina (10 MB) |
+| `DELIVERY_NOTES_DAILY_LIMIT_PER_STORE` | No | `50`                     | Bolle massime al giorno per store |
+| `DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD` | No | `0`                      | USD per milione di token in ingresso (stima costo) |
+| `DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD` | No | `0`                     | USD per milione di token in uscita (stima costo) |
 
 ---
 

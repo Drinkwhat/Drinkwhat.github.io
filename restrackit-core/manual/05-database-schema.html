@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Database Schema &mdash; Restrackit 2.115.0 documentation</title>
+  <title>Database Schema &mdash; Restrackit 2.116.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=97873d9f"></script>
+      <script src="../_static/documentation_options.js?v=05f8e374"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -290,6 +290,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
@@ -819,6 +820,26 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -1219,6 +1240,46 @@ for private packages in organization repositories.)</a></li>
 <li><p>INDEX on <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span></code></p></li>
 <li><p>COMPOSITE INDEX <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">product_master_id,</span> <span class="pre">created_at)</span></code> — per post-processing OCR e storico lotti con filtri combinati</p></li>
 <li><p>BRIN INDEX on <code class="docutils literal notranslate"><span class="pre">created_at</span></code> — tabella append-only con correlazione fisica naturale; ~100× più piccolo di B-tree per range scan temporali</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="delivery-notes-bolle-fornitori">
+<h3>Delivery notes (bolle fornitori)<a class="headerlink" href="#delivery-notes-bolle-fornitori" title="Link to this heading"></a></h3>
+<p>Quattro tabelle del modulo <code class="docutils literal notranslate"><span class="pre">delivery_notes</span></code>, tutte con <code class="docutils literal notranslate"><span class="pre">store_id</span></code> e RLS
+(<code class="docutils literal notranslate"><span class="pre">&lt;tabella&gt;_isolation_policy</span></code>). Dettagli di flusso in <a class="reference internal" href="25-delivery-notes.html"><span class="std std-doc">25-delivery-notes.md</span></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tabella</p></th>
+<th class="head"><p>Contenuto</p></th>
+<th class="head"><p>Vincoli principali</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">suppliers</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">vat_number</span></code> (11 caratteri)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UNIQUE</span> <span class="pre">(store_id,</span> <span class="pre">vat_number)</span></code> non parziale: un fornitore eliminato con la stessa P.IVA viene riusato</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">delivery_notes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">supplier_id</span></code>, <code class="docutils literal notranslate"><span class="pre">doc_number</span></code>, <code class="docutils literal notranslate"><span class="pre">doc_date</span></code>, <code class="docutils literal notranslate"><span class="pre">printed_total</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code> (<code class="docutils literal notranslate"><span class="pre">elaborazione</span></code>/<code class="docutils literal notranslate"><span class="pre">da_rivedere</span></code>/<code class="docutils literal notranslate"><span class="pre">confermata</span></code>/<code class="docutils literal notranslate"><span class="pre">fallita</span></code>/<code class="docutils literal notranslate"><span class="pre">archiviata</span></code>), <code class="docutils literal notranslate"><span class="pre">file_keys</span></code> (JSONB, chiavi S3), <code class="docutils literal notranslate"><span class="pre">file_sha256</span></code>, <code class="docutils literal notranslate"><span class="pre">usage</span></code> (JSONB), <code class="docutils literal notranslate"><span class="pre">error_code</span></code>, <code class="docutils literal notranslate"><span class="pre">flags</span></code> (JSONB), <code class="docutils literal notranslate"><span class="pre">operator_id</span></code>, <code class="docutils literal notranslate"><span class="pre">operator_name</span></code>, <code class="docutils literal notranslate"><span class="pre">process_attempts</span></code> (<code class="docutils literal notranslate"><span class="pre">INTEGER</span> <span class="pre">NOT</span> <span class="pre">NULL</span> <span class="pre">DEFAULT</span> <span class="pre">0</span></code>: accodamenti totali, tetto <code class="docutils literal notranslate"><span class="pre">MAX_REQUEUES</span> <span class="pre">=</span> <span class="pre">3</span></code>, oltre serve un admin)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UNIQUE</span> <span class="pre">(store_id,</span> <span class="pre">file_sha256)</span></code> non parziale (una bolla eliminata con lo stesso hash dà <code class="docutils literal notranslate"><span class="pre">BUS_ALREADY_EXISTS</span></code>); indice <code class="docutils literal notranslate"><span class="pre">(store_id,</span> <span class="pre">created_at)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">delivery_note_lines</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">position</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">supplier_item_code</span></code>, <code class="docutils literal notranslate"><span class="pre">brand</span></code>, <code class="docutils literal notranslate"><span class="pre">origin</span></code>, <code class="docutils literal notranslate"><span class="pre">lot_code</span></code>, <code class="docutils literal notranslate"><span class="pre">expiry_date</span></code>, valori stampati (<code class="docutils literal notranslate"><span class="pre">quantity_printed</span></code>, <code class="docutils literal notranslate"><span class="pre">unit_printed</span></code>) e normalizzati (<code class="docutils literal notranslate"><span class="pre">quantity</span></code>, <code class="docutils literal notranslate"><span class="pre">unit_of_measure</span></code>, <code class="docutils literal notranslate"><span class="pre">unit_price</span></code>, <code class="docutils literal notranslate"><span class="pre">line_amount</span></code>, <code class="docutils literal notranslate"><span class="pre">vat_rate</span></code>), <code class="docutils literal notranslate"><span class="pre">product_master_id</span></code>, <code class="docutils literal notranslate"><span class="pre">storage_method_id</span></code>, <code class="docutils literal notranslate"><span class="pre">match_method</span></code>, <code class="docutils literal notranslate"><span class="pre">match_score</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">flags</span></code>, <code class="docutils literal notranslate"><span class="pre">proposed</span></code> (JSONB, output grezzo del modello), <code class="docutils literal notranslate"><span class="pre">confirmed</span></code> (JSONB)</p></td>
+<td><p>indice <code class="docutils literal notranslate"><span class="pre">(delivery_note_id,</span> <span class="pre">position)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">supplier_product_aliases</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">supplier_id</span></code>, <code class="docutils literal notranslate"><span class="pre">supplier_item_code</span></code> (nullable), <code class="docutils literal notranslate"><span class="pre">description_norm</span></code> (nullable), <code class="docutils literal notranslate"><span class="pre">product_master_id</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UNIQUE</span> <span class="pre">(supplier_id,</span> <span class="pre">supplier_item_code)</span></code>; indice unico parziale <code class="docutils literal notranslate"><span class="pre">(supplier_id,</span> <span class="pre">description_norm)</span></code>; <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> almeno una delle due chiavi</p></td>
+</tr>
+</tbody>
+</table>
+<p>Colonne aggiunte a <code class="docutils literal notranslate"><span class="pre">batches</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">delivery_note_line_id</span></code> — FK a <code class="docutils literal notranslate"><span class="pre">delivery_note_lines.id</span></code>, con indice <strong>UNIQUE parziale</strong>
+<code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">parent_batch_id</span> <span class="pre">IS</span> <span class="pre">NULL</span></code> (migrazione <code class="docutils literal notranslate"><span class="pre">a7d3e9c1b5f2</span></code>): un solo lotto «radice» per riga di
+bolla; i figli dello split ereditano il valore (e <code class="docutils literal notranslate"><span class="pre">expiry_estimated</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expiry_estimated</span></code> — <code class="docutils literal notranslate"><span class="pre">BOOLEAN</span></code>, <code class="docutils literal notranslate"><span class="pre">true</span></code> se la scadenza non era in etichetta ed è stata stimata
+dalla regola di conservazione.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
