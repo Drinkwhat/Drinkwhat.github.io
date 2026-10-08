@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.services.photo_storage &mdash; Restrackit 2.116.0 documentation</title>
+  <title>app.services.photo_storage &mdash; Restrackit 2.116.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=05f8e374"></script>
+      <script src="../../../_static/documentation_options.js?v=9678ed07"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1380,13 +1380,16 @@ for private packages in organization repositories.)</a></li>
         <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">bucket</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">make_client</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="c1"># Su AWS reale (nessun endpoint) l'host deve essere quello regionale: l'host globale</span>
+            <span class="c1"># `&lt;bucket&gt;.s3.amazonaws.com` non e' accettato da S3 per le regioni su richiesta</span>
+            <span class="c1"># (es. eu-south-1) e risponde 400 AuthorizationQueryParametersError.</span>
             <span class="k">return</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
                 <span class="s2">"s3"</span><span class="p">,</span>
                 <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
-                <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
+                <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">"https://s3.</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">.amazonaws.com"</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(</span>
                     <span class="n">signature_version</span><span class="o">=</span><span class="s2">"s3v4"</span><span class="p">,</span>
-                    <span class="n">s3</span><span class="o">=</span><span class="p">{</span><span class="s2">"addressing_style"</span><span class="p">:</span> <span class="s2">"path"</span><span class="p">}</span> <span class="k">if</span> <span class="n">endpoint</span> <span class="k">else</span> <span class="p">{},</span>
+                    <span class="n">s3</span><span class="o">=</span><span class="p">{</span><span class="s2">"addressing_style"</span><span class="p">:</span> <span class="s2">"path"</span> <span class="k">if</span> <span class="n">endpoint</span> <span class="k">else</span> <span class="s2">"virtual"</span><span class="p">},</span>
                 <span class="p">),</span>
             <span class="p">)</span>
 
