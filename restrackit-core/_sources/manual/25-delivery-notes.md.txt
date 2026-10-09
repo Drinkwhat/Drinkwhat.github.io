@@ -203,13 +203,14 @@ chiamate a Gemini. Il metodo (`match_method`) è `alias`, `fuzzy`,
 |---|---|---|
 | `DELIVERY_NOTES_ENABLED` | `false` | Attiva il modulo (spento: `404`) |
 | `DELIVERY_NOTES_BUCKET` | vuoto | Bucket S3 delle immagini; senza, gli upload falliscono con `503` |
-| `DELIVERY_NOTES_MODEL` | `gemini-3.1-flash-lite` | Modello Gemini |
+| `DELIVERY_NOTES_PROVIDER` | `anthropic` | `anthropic` (Claude Haiku) o `gemini` (usato in locale e in staging). Con `anthropic` serve `ANTHROPIC_API_KEY` (in SSM: `anthropic_api_key`); lo schema di output va nel prompt perché gli output strutturati di Anthropic rifiutano lo schema della bolla ("Schema is too complex"). Il livello di thinking diventa `effort`; la temperatura non è inviata. Con una chiave di ambito organizzazione imposta anche `ANTHROPIC_WORKSPACE_ID` (header `anthropic-workspace-id`) |
+| `DELIVERY_NOTES_MODEL` | `claude-haiku-5-5` | Modello del provider scelto (con Gemini: `gemini-3.1-flash-lite`) |
 | `DELIVERY_NOTES_THINKING_LEVEL` | vuoto | `low`, `medium` o `high`; vuoto = default del modello (nessun `thinking_config` inviato). Vale per estrazione e disambiguazione; il supporto dipende dal modello (`minimal` è rifiutato da `gemini-3.8-flash`, quindi non è ammesso) |
 | `DELIVERY_NOTES_MAX_PAGES` | `6` | Pagine massime per bolla (1-20) |
 | `DELIVERY_NOTES_MAX_PAGE_BYTES` | `10485760` | Byte massimi per pagina |
 | `DELIVERY_NOTES_DAILY_LIMIT_PER_STORE` | `50` | Bolle al giorno per store |
-| `DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD` | `0` | Prezzo per milione di token in ingresso (stima costo) |
-| `DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD` | `0` | Prezzo per milione di token in uscita |
+| `DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD` | `0.10` | Prezzo per milione di token in ingresso (stima costo) |
+| `DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD` | `0.50` | Prezzo per milione di token in uscita |
 
 Dove vivono: `app/core/config.py`, `.env.example`, `terraform/ssm.tf` (mappa
 `ssm_parameters`) e `scripts/render_env_from_ssm.sh`. Il bucket e il ruolo IAM sono in

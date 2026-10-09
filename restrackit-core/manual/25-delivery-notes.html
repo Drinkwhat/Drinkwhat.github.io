@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Delivery Notes (bolle di consegna fornitori) &mdash; Restrackit 2.116.2 documentation</title>
+  <title>Delivery Notes (bolle di consegna fornitori) &mdash; Restrackit 2.117.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=9678ed07"></script>
+      <script src="../_static/documentation_options.js?v=742da92d"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1219,32 +1219,36 @@ altri store); altrimenti la riga resta <code class="docutils literal notranslate
 <td><p>vuoto</p></td>
 <td><p>Bucket S3 delle immagini; senza, gli upload falliscono con <code class="docutils literal notranslate"><span class="pre">503</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MODEL</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">gemini-3.1-flash-lite</span></code></p></td>
-<td><p>Modello Gemini</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PROVIDER</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">anthropic</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">anthropic</span></code> (Claude Haiku) o <code class="docutils literal notranslate"><span class="pre">gemini</span></code> (usato in locale e in staging). Con <code class="docutils literal notranslate"><span class="pre">anthropic</span></code> serve <code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY</span></code> (in SSM: <code class="docutils literal notranslate"><span class="pre">anthropic_api_key</span></code>); lo schema di output va nel prompt perché gli output strutturati di Anthropic rifiutano lo schema della bolla (“Schema is too complex”). Il livello di thinking diventa <code class="docutils literal notranslate"><span class="pre">effort</span></code>; la temperatura non è inviata. Con una chiave di ambito organizzazione imposta anche <code class="docutils literal notranslate"><span class="pre">ANTHROPIC_WORKSPACE_ID</span></code> (header <code class="docutils literal notranslate"><span class="pre">anthropic-workspace-id</span></code>)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_THINKING_LEVEL</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MODEL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">claude-haiku-5-5</span></code></p></td>
+<td><p>Modello del provider scelto (con Gemini: <code class="docutils literal notranslate"><span class="pre">gemini-3.1-flash-lite</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_THINKING_LEVEL</span></code></p></td>
 <td><p>vuoto</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">medium</span></code> o <code class="docutils literal notranslate"><span class="pre">high</span></code>; vuoto = default del modello (nessun <code class="docutils literal notranslate"><span class="pre">thinking_config</span></code> inviato). Vale per estrazione e disambiguazione; il supporto dipende dal modello (<code class="docutils literal notranslate"><span class="pre">minimal</span></code> è rifiutato da <code class="docutils literal notranslate"><span class="pre">gemini-3.8-flash</span></code>, quindi non è ammesso)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGES</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGES</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">6</span></code></p></td>
 <td><p>Pagine massime per bolla (1-20)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGE_BYTES</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_MAX_PAGE_BYTES</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">10485760</span></code></p></td>
 <td><p>Byte massimi per pagina</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_DAILY_LIMIT_PER_STORE</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_DAILY_LIMIT_PER_STORE</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">50</span></code></p></td>
 <td><p>Bolle al giorno per store</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.10</span></code></p></td>
 <td><p>Prezzo per milione di token in ingresso (stima costo)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_OUT_USD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.50</span></code></p></td>
 <td><p>Prezzo per milione di token in uscita</p></td>
 </tr>
 </tbody>

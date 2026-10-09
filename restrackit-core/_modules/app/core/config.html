@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.config &mdash; Restrackit 2.116.2 documentation</title>
+  <title>app.core.config &mdash; Restrackit 2.117.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=9678ed07"></script>
+      <script src="../../../_static/documentation_options.js?v=742da92d"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1575,16 +1575,24 @@ for private packages in organization repositories.)</a></li>
     <span class="c1"># (cleaning_photos_endpoint_url / cleaning_photos_internal_endpoint_url).</span>
     <span class="n">delivery_notes_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">delivery_notes_bucket</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">delivery_notes_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"gemini-3.1-flash-lite"</span>
+    <span class="c1"># Provider LLM della lettura bolle: Claude Haiku di default (serve ``anthropic_api_key``);</span>
+    <span class="c1"># dev e staging usano Gemini (``DELIVERY_NOTES_PROVIDER=gemini`` e il suo modello).</span>
+    <span class="n">delivery_notes_provider</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"gemini"</span><span class="p">,</span> <span class="s2">"anthropic"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"anthropic"</span>
+    <span class="n">delivery_notes_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"claude-haiku-5-5"</span>
+    <span class="n">anthropic_api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Solo per chiavi di ambito organizzazione (sk-ant-usr-...): serve l'ID del workspace.</span>
+    <span class="n">anthropic_workspace_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># None = default del modello. Il supporto dipende dal modello (es. "minimal" è rifiutato da</span>
     <span class="c1"># gemini-3.8-flash), quindi solo i livelli comuni; un valore errato blocca l'avvio.</span>
+    <span class="c1"># Con Anthropic il livello diventa ``output_config.effort`` (se vuoto, ``low``).</span>
     <span class="n">delivery_notes_thinking_level</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"low"</span><span class="p">,</span> <span class="s2">"medium"</span><span class="p">,</span> <span class="s2">"high"</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">delivery_notes_max_pages</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="n">delivery_notes_max_page_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">delivery_notes_daily_limit_per_store</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="c1"># Prezzo per milione di token, per stimare il costo di ogni bolla (0 = non stimato).</span>
-    <span class="n">delivery_notes_price_per_mtok_in_usd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">delivery_notes_price_per_mtok_out_usd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Prezzo per milione di token, per stimare il costo di ogni bolla; i default sono quelli di</span>
+    <span class="c1"># Claude Haiku 5.5 (con Gemini vanno impostati, 0 = non stimato).</span>
+    <span class="n">delivery_notes_price_per_mtok_in_usd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">delivery_notes_price_per_mtok_out_usd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># Pydantic V2: uses model_config instead of inner Config class</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>

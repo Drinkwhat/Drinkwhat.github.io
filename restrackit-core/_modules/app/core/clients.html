@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core.clients &mdash; Restrackit 2.116.2 documentation</title>
+  <title>app.core.clients &mdash; Restrackit 2.117.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=9678ed07"></script>
+      <script src="../../../_static/documentation_options.js?v=742da92d"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1321,6 +1321,7 @@ for private packages in organization repositories.)</a></li>
   <h1>Source code for app.core.clients</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">anthropic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncAnthropic</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google</span><span class="w"> </span><span class="kn">import</span> <span class="n">genai</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.genai.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpOptions</span>
 
@@ -1349,6 +1350,28 @@ for private packages in organization repositories.)</a></li>
         <span class="n">timeout</span><span class="o">=</span><span class="mi">30000</span><span class="p">,</span>  <span class="c1"># 30 seconds</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">genai</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">google_api_key</span><span class="p">,</span> <span class="n">http_options</span><span class="o">=</span><span class="n">http_options</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_anthropic_client">
+<a class="viewcode-back" href="../../../app.core.html#app.core.clients.get_anthropic_client">[docs]</a>
+<span class="nd">@lru_cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_anthropic_client</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AsyncAnthropic</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Client Anthropic con la chiave di ``anthropic_api_key``.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        AsyncAnthropic: Client; con ``anthropic_workspace_id`` manda l'header del workspace</span>
+<span class="sd">        (serve alle chiavi di ambito organizzazione).</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        RuntimeError: Se la chiave manca.</span>
+<span class="sd">    """</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">anthropic_api_key</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"ANTHROPIC_API_KEY non impostata"</span><span class="p">)</span>
+    <span class="n">workspace</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">anthropic_workspace_id</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"anthropic-workspace-id"</span><span class="p">:</span> <span class="n">workspace</span><span class="p">}</span> <span class="k">if</span> <span class="n">workspace</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">AsyncAnthropic</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">anthropic_api_key</span><span class="p">,</span> <span class="n">default_headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span></div>
 
 </pre></div>
 
