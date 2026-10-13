@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Restrackit 2.117.0 documentation</title>
+  <title>Index &mdash; Restrackit 2.119.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=742da92d"></script>
+      <script src="_static/documentation_options.js?v=b3eb4cf0"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1126,9 +1126,11 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#creare-un-nuovo-store-primo-account-manager">1. Creare un nuovo store (+ primo account manager)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#aggiungere-un-nuovo-account-a-uno-store-esistente-chef-o-altro-manager">2. Aggiungere un nuovo account a uno store esistente (chef o altro manager)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#account-dello-staff-gestione-da-parte-del-manager">2. Account dello staff (gestione da parte del manager)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/20-onboarding-utenti.html#alternativa-manuale-admin-keycloak-admin-console">Alternativa manuale (admin, Keycloak Admin Console)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#riferimento-rapido-variabili-d-ambiente-coinvolte">3. Riferimento rapido: variabili d’ambiente coinvolte</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#cosa-manca-oggi-roadmap">4. Cosa manca oggi (roadmap)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/21-supporto-clienti.html">Supporto clienti: runbook operativo</a><ul>
@@ -1364,6 +1366,8 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.__init__">(app.modules.delivery_notes.extractor.Usage method)</a>
 </li>
         <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.__init__">(app.modules.delivery_notes.matching.MatchResult method)</a>
+</li>
+        <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.__init__">(app.modules.onboarding.keycloak_client.NewStaffUser method)</a>
 </li>
         <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.__init__">(app.services.ocr_post_processing.MatchResult method)</a>
 </li>
@@ -1810,15 +1814,17 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.logging.configure_uvicorn_access_logs">configure_uvicorn_access_logs() (in module app.core.logging)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.redis.RedisService.connect">connect() (app.core.redis.RedisService method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.services.html#app.services.ocr_post_processing.MatchResult.corrected_lot">corrected_lot (app.services.ocr_post_processing.MatchResult attribute)</a>, <a href="app.services.html#id0">[1]</a>
 </li>
       <li><a href="app.shared.html#app.shared.units.UnitFamily.COUNT">COUNT (app.shared.units.UnitFamily attribute)</a>
 </li>
       <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_manager_user">create_manager_user() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_staff_user">create_staff_user() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>
       <li><a href="app.core.html#app.core.logging.create_uvicorn_access_log_filter_from_env">create_uvicorn_access_log_filter_from_env() (in module app.core.logging)</a>
 </li>
@@ -1918,6 +1924,8 @@ for private packages in organization repositories.)</a></li>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.EGGS">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.email">email (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
+</li>
       <li><a href="app.modules.inventory.html#app.modules.inventory.cursor.encode_cursor">encode_cursor() (in module app.modules.inventory.cursor)</a>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorSeverity.ERROR">ERROR (app.core.error_catalog.ErrorSeverity attribute)</a>
@@ -1934,10 +1942,10 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.estimate_cost_usd">estimate_cost_usd() (in module app.modules.delivery_notes.extractor)</a>
 </li>
-      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.expiry_date">expiry_date (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.expiry_date">expiry_date (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
+</li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorCode.EXT_API_ERROR">EXT_API_ERROR (app.core.error_catalog.ErrorCode attribute)</a>
 
       <ul>
@@ -1984,6 +1992,8 @@ for private packages in organization repositories.)</a></li>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.first_name">first_name (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.FISH">FISH (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
@@ -2014,10 +2024,10 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.i18n.get_message">get_message() (in module app.core.i18n)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.redis.RedisService.get_model">get_model() (app.core.redis.RedisService method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.storage.DeliveryNoteStorage.get_page">get_page() (app.modules.delivery_notes.storage.DeliveryNoteStorage method)</a>
 </li>
       <li><a href="app.services.html#app.services.photo_storage.get_photo_storage">get_photo_storage() (in module app.services.photo_storage)</a>
@@ -2025,6 +2035,8 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.core.html#app.core.arq.ArqService.get_pool">get_pool() (app.core.arq.ArqService method)</a>
 </li>
       <li><a href="app.core.html#app.core.arq.get_redis_pool">get_redis_pool() (in module app.core.arq)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.get_store_user">get_store_user() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>
       <li><a href="app.services.html#app.services.ocr_post_processing.LotCodePostProcessor.get_structural_pattern">get_structural_pattern() (app.services.ocr_post_processing.LotCodePostProcessor class method)</a>
 </li>
@@ -2084,6 +2096,8 @@ for private packages in organization repositories.)</a></li>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.units.UnitOfMeasure.L">L (app.shared.units.UnitOfMeasure attribute)</a>
 </li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.last_name">last_name (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
+</li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage.latency_ms">latency_ms (app.modules.delivery_notes.extractor.Usage attribute)</a>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.line_amount">line_amount (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
@@ -2099,6 +2113,10 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedNote.lines">lines (app.modules.delivery_notes.extractor.ExtractedNote attribute)</a>
 </li>
       <li><a href="app.shared.html#app.shared.units.list_options">list_options() (in module app.shared.units)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.list_store_users">list_store_users() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.logout_user">logout_user() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.ExtractedLine.lot_code">lot_code (app.modules.delivery_notes.extractor.ExtractedLine attribute)</a>
 </li>
@@ -2239,14 +2257,16 @@ for private packages in organization repositories.)</a></li>
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser">NewStaffUser (class in app.modules.onboarding.keycloak_client)</a>
+</li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_description">normalize_description() (in module app.modules.delivery_notes.parsing)</a>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_lot">normalize_lot() (in module app.modules.delivery_notes.parsing)</a>
 </li>
-      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_vat">normalize_vat() (in module app.modules.delivery_notes.parsing)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.normalize_vat">normalize_vat() (in module app.modules.delivery_notes.parsing)</a>
+</li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.validators.note_flags">note_flags() (in module app.modules.delivery_notes.validators)</a>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.presenters.note_out">note_out() (in module app.modules.delivery_notes.presenters)</a>
@@ -2281,16 +2301,18 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.parse_decimal_it">parse_decimal_it() (in module app.modules.delivery_notes.parsing)</a>
 </li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.password">password (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
+</li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.PEANUTS">PEANUTS (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.PEANUTS">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
-      <li><a href="app.services.html#app.services.photo_storage.photo_prefix">photo_prefix() (in module app.services.photo_storage)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.services.html#app.services.photo_storage.photo_prefix">photo_prefix() (in module app.services.photo_storage)</a>
+</li>
       <li><a href="app.services.html#app.services.photo_storage.PhotoStorage">PhotoStorage (class in app.services.photo_storage)</a>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.matching.MatchResult.product_id">product_id (app.modules.delivery_notes.matching.MatchResult attribute)</a>, <a href="app.modules.delivery_notes.html#id1">[1]</a>
@@ -2327,13 +2349,17 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.redis.RedisPrimitive">RedisPrimitive (in module app.core.redis)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.redis.RedisService">RedisService (class in app.core.redis)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.core.html#app.core.redis.RedisValue">RedisValue (in module app.core.redis)</a>
 </li>
       <li><a href="app.core.html#app.core.logging.RequestIdFilter">RequestIdFilter (class in app.core.logging)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.reset_password">reset_password() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.role">role (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2355,7 +2381,11 @@ for private packages in organization repositories.)</a></li>
       </ul></li>
       <li><a href="app.core.html#app.core.redis.RedisService.set_cache">set_cache() (app.core.redis.RedisService method)</a>
 </li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.set_enabled">set_enabled() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
+</li>
       <li><a href="app.modules.auth.html#app.modules.auth.cache.AuthCache.set_jwks">set_jwks() (app.modules.auth.cache.AuthCache method)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.set_role">set_role() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>
       <li><a href="app.core.html#app.core.logging.setup_logging">setup_logging() (in module app.core.logging)</a>
 </li>
@@ -2363,14 +2393,16 @@ for private packages in organization repositories.)</a></li>
 </li>
       <li><a href="app.core.html#app.core.error_catalog.ErrorInfo.severity">severity (app.core.error_catalog.ErrorInfo attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SOY">SOY (app.shared.allergen_enum.Allergen attribute)</a>
 
       <ul>
         <li><a href="app.shared.html#app.shared.allergens.Allergen.SOY">(app.shared.allergens.Allergen attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.store_id">store_id (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
+</li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.parsing.strip_nul">strip_nul() (in module app.modules.delivery_notes.parsing)</a>
 </li>
       <li><a href="app.shared.html#app.shared.allergen_enum.Allergen.SULPHITES">SULPHITES (app.shared.allergen_enum.Allergen attribute)</a>
@@ -2454,6 +2486,8 @@ for private packages in organization repositories.)</a></li>
       <li><a href="app.services.html#app.services.photo_storage.PhotoStorage.upload_slots">upload_slots() (app.services.photo_storage.PhotoStorage method)</a>
 </li>
       <li><a href="app.modules.delivery_notes.html#app.modules.delivery_notes.extractor.Usage">Usage (class in app.modules.delivery_notes.extractor)</a>
+</li>
+      <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser.username">username (app.modules.onboarding.keycloak_client.NewStaffUser attribute)</a>
 </li>
       <li><a href="app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.username_or_email_exists">username_or_email_exists() (app.modules.onboarding.keycloak_client.OnboardingKeycloakClient method)</a>
 </li>

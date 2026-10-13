@@ -1,6 +1,6 @@
 # Onboarding: nuovo store e nuovi account
 
-Guida operativa per chi deve **creare un nuovo store cliente** o **aggiungere un nuovo account** (manager/chef) a uno store esistente. Copre lo stato attuale del progetto: la creazione di un nuovo store è un endpoint API, l'aggiunta di account aggiuntivi a uno store già esistente è oggi un'operazione manuale su Keycloak (non esiste ancora un endpoint self-service per il manager — vedi nota a fondo pagina).
+Guida operativa per chi deve **creare un nuovo store cliente** o **aggiungere un nuovo account** (manager/chef) a uno store esistente. Copre lo stato attuale del progetto: la creazione di un nuovo store è un endpoint API, l'aggiunta e la gestione degli account di uno store esistente sono a carico del manager (pagina Staff / `/v1/staff`, vedi sezione 2); la procedura manuale su Keycloak resta come alternativa per l'admin.
 
 ## 1. Creare un nuovo store (+ primo account manager)
 
@@ -43,9 +43,43 @@ Note importanti:
 - Se la creazione dell'utente Keycloak fallisce dopo che lo `Store` è già stato committato, il servizio esegue un rollback compensativo cancellando lo `Store` appena creato (i due sistemi non condividono una transazione).
 - Se `username` o `email` sono già in uso, l'endpoint risponde `409`.
 
-## 2. Aggiungere un nuovo account a uno store esistente (chef o altro manager)
+## 2. Account dello staff (gestione da parte del manager)
 
-**Non esiste ancora un endpoint per questo** (self-service manager-facing, pianificato ma non implementato — vedi `CLAUDE.md`, sezione "Operator Identity"). Oggi va fatto manualmente sulla Keycloak Admin Console:
+Endpoint: `/v1/staff` (permesso `STAFF_MANAGE`, concesso al ruolo `manager`). Nella web UI è la pagina **Staff** (`#/staff`). Implementazione: {mod}`app.modules.staff.service`, {mod}`app.modules.staff.router`.
+
+Il manager vede e gestisce gli account `chef`/`manager` del **proprio** store:
+
+| Azione | Endpoint |
+|---|---|
+| Elenco (attivi e disattivati) | `GET /v1/staff` |
+| Creazione | `POST /v1/staff` |
+| Cambio ruolo chef/manager | `PATCH /v1/staff/{id}` |
+| Disattiva / riattiva | `POST /v1/staff/{id}/deactivate` · `/activate` |
+| Reset password | `POST /v1/staff/{id}/reset-password` |
+| Eliminazione | `DELETE /v1/staff/{id}` |
+
+Flusso di creazione: il manager inserisce nome, cognome, username (solo `a-z 0-9 _ -`), ruolo ed email opzionale. Lo username finale è `{slug-store}.{username}` (issue #81). La risposta contiene `temporary_password` **una sola volta**: non c'è SMTP, quindi il manager la **comunica a voce** (o su un canale sicuro) alla persona, che deve cambiarla al primo login (`UPDATE_PASSWORD`). Stessa regola per il reset password. La password non viene mai loggata.
+
+Regole:
+- Ruoli assegnabili: solo `chef` e `manager`, mai `admin`.
+- Nessuna azione sul proprio account (disattivazione, eliminazione, cambio ruolo, reset password).
+- Non si può disattivare né declassare l'ultimo manager attivo dello store.
+- Massimo 20 account attivi per store (quelli disattivati non contano; vale anche per la riattivazione).
+- `DELETE` solo su account già disattivato.
+- Utenti di altri store o con ruolo `admin` rispondono `404`.
+- Username o email già in uso: `409`.
+
+Come funziona: Keycloak è la fonte di verità (utenti trovati tramite l'attributo `store_id`, nessuna tabella locale) e viene riusato il service account dell'onboarding, quindi **nessuna nuova variabile d'ambiente** (`terraform/ssm.tf`, `.env.example` e `render_env_from_ssm.sh` invariati). Le scritture sono serializzate per store con un lock advisory Postgres. Gli errori Keycloak seguono lo standard dei servizi esterni: 502, errore nel log del server e, in produzione, `details` ed eccezione originale mascherati da `AppError` (issue #373). Audit: riga di log strutturata `Staff audit: ...` (chi, cosa, su chi), nessuna tabella.
+
+**Finestra residua dopo la disattivazione.** Disattivazione, eliminazione, cambio ruolo e reset password revocano le sessioni Keycloak dell'utente (il refresh non è più possibile), ma l'access token già emesso resta valido fino alla sua scadenza naturale, di norma pochi minuti: per quel tempo l'utente può ancora chiamare l'API.
+
+**502 dopo la scrittura.** Se disattivazione, cambio ruolo o reset password rispondono 502 la modifica può essere già applicata ma le sessioni non revocate: riprovare l'operazione (la revoca viene rieseguita, anche con lo stesso ruolo).
+
+**Email duplicata.** L'unicità dell'email è verificata su tutto il realm: un 409 può quindi rivelare che un indirizzo è già usato da un altro store (compromesso accettato).
+
+### Alternativa manuale (admin, Keycloak Admin Console)
+
+Se serve intervenire senza passare dal manager:
 
 1. Vai su `${KEYCLOAK_URL}/admin/{realm}/console` (login con `KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD`).
 2. **Users → Add user**:
@@ -65,8 +99,4 @@ Verifica rapida via API (equivalente a quanto sopra, utile per script di provisi
 | `KEYCLOAK_URL` / `KEYCLOAK_INTERNAL_URL` | Base URL Admin Console e API |
 | `KEYCLOAK_REALM` | Realm applicativo (condiviso da tutti gli store) |
 | `KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD` | Credenziali admin master, solo per operazioni manuali/script (mai usate dall'app in runtime) |
-| `KEYCLOAK_ONBOARDING_CLIENT_ID` / `KEYCLOAK_ONBOARDING_CLIENT_SECRET` | Service account scoped (`manage-users` + `view-realm`) usato da `POST /onboarding/stores` |
-
-## 4. Cosa manca oggi (roadmap)
-
-Il manager di uno store **non può ancora** creare o gestire account autonomamente da UI/API — serve un intervento admin come sopra. Se serve costruire questa funzionalità self-service, vedi `CLAUDE.md` § "Operator Identity (issue #81)" per il contesto sulla convenzione username/`operator_id`/`operator_name` da rispettare nel design.
+| `KEYCLOAK_ONBOARDING_CLIENT_ID` / `KEYCLOAK_ONBOARDING_CLIENT_SECRET` | Service account scoped (`manage-users` + `view-realm`) usato da `POST /onboarding/stores` e da `/v1/staff` |

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.onboarding.keycloak_client &mdash; Restrackit 2.117.0 documentation</title>
+  <title>app.modules.onboarding.keycloak_client &mdash; Restrackit 2.119.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=742da92d"></script>
+      <script src="../../../../_static/documentation_options.js?v=b3eb4cf0"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1126,9 +1126,11 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html#creare-un-nuovo-store-primo-account-manager">1. Creare un nuovo store (+ primo account manager)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html#aggiungere-un-nuovo-account-a-uno-store-esistente-chef-o-altro-manager">2. Aggiungere un nuovo account a uno store esistente (chef o altro manager)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html#account-dello-staff-gestione-da-parte-del-manager">2. Account dello staff (gestione da parte del manager)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html#alternativa-manuale-admin-keycloak-admin-console">Alternativa manuale (admin, Keycloak Admin Console)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html#riferimento-rapido-variabili-d-ambiente-coinvolte">3. Riferimento rapido: variabili d’ambiente coinvolte</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/20-onboarding-utenti.html#cosa-manca-oggi-roadmap">4. Cosa manca oggi (roadmap)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../manual/21-supporto-clienti.html">Supporto clienti: runbook operativo</a><ul>
@@ -1319,7 +1321,10 @@ for private packages in organization repositories.)</a></li>
            <div itemprop="articleBody">
              
   <h1>Source code for app.modules.onboarding.keycloak_client</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""Wrapper sul Keycloak Admin API usato dal modulo onboarding.</span>
+<span></span><span class="sd">"""Wrapper sul Keycloak Admin API usato dal modulo onboarding e dalla gestione staff.</span>
+
+<span class="sd">Serve sia l'onboarding di un nuovo store sia la gestione degli account chef/manager</span>
+<span class="sd">dello store da parte del manager (issue #553).</span>
 
 <span class="sd">Isola ``python-keycloak`` dal resto dell'applicazione. Si autentica con un</span>
 <span class="sd">service account client scoped al solo ruolo client ``manage-users`` sul realm</span>
@@ -1327,11 +1332,38 @@ for private packages in organization repositories.)</a></li>
 <span class="sd">cosi' un'eventuale compromissione resta confinata alla gestione utenti di quel realm.</span>
 <span class="sd">"""</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">keycloak</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeycloakAdmin</span><span class="p">,</span> <span class="n">KeycloakOpenIDConnection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keycloak.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeycloakError</span><span class="p">,</span> <span class="n">KeycloakGetError</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.error_catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExternalServiceError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+
+<span class="n">KEYCLOAK_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">STAFF_ROLES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"chef"</span><span class="p">,</span> <span class="s2">"manager"</span><span class="p">)</span>
+<span class="c1"># Precedenza quando un utente ha entrambi i ruoli: manager prima di chef.</span>
+<span class="n">_ROLE_PRECEDENCE</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">STAFF_ROLES</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="NewStaffUser">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.NewStaffUser">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NewStaffUser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Dati per creare un account staff su Keycloak."""</span>
+
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">role</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">password</span><span class="p">:</span> <span class="nb">str</span></div>
+
 
 
 <div class="viewcode-block" id="OnboardingKeycloakClient">
@@ -1363,16 +1395,19 @@ for private packages in organization repositories.)</a></li>
             <span class="n">realm_name</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">KEYCLOAK_REALM</span><span class="p">,</span>
             <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
             <span class="n">client_secret_key</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">KEYCLOAK_TIMEOUT_SECONDS</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">KeycloakAdmin</span><span class="p">(</span><span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OnboardingKeycloakClient.username_or_email_exists">
 <a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.username_or_email_exists">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">username_or_email_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Verifica se username o email risultano gia' registrati su Keycloak."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">username_or_email_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Verifica se username o email (se presente) risultano gia' registrati su Keycloak."""</span>
         <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_users</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">"exact"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}):</span>
             <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">email</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">get_users</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s2">"email"</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span> <span class="s2">"exact"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}))</span></div>
 
 
@@ -1399,6 +1434,147 @@ for private packages in organization repositories.)</a></li>
         <span class="n">manager_role</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_realm_role</span><span class="p">(</span><span class="s2">"manager"</span><span class="p">)</span>
         <span class="n">admin</span><span class="o">.</span><span class="n">assign_realm_roles</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">manager_role</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">user_id</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_staff_role</span><span class="p">(</span><span class="n">role_names</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Ruolo applicativo gestibile (manager &gt; chef), None se admin o assente."""</span>
+        <span class="k">if</span> <span class="s2">"admin"</span> <span class="ow">in</span> <span class="n">role_names</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">((</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_ROLE_PRECEDENCE</span> <span class="k">if</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">role_names</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_in_store</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""True se l'attributo ``store_id`` dell'utente coincide esattamente con lo store."""</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">((</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"attributes"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"store_id"</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">store_id</span><span class="p">)])</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_role_of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">admin</span><span class="p">:</span> <span class="n">KeycloakAdmin</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Ruolo gestibile dell'utente, calcolato sui ruoli effettivi (anche compositi/gruppi)."""</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_composite_realm_roles_of_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_staff_role</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.list_store_users">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.list_store_users">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_store_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Utenti chef/manager dello store (attributo ``store_id``) con la chiave ``role``.</span>
+
+<span class="sd">        Il costo cresce con lo store, non con il realm: i ruoli si leggono per utente.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ExternalServiceError: se Keycloak non restituisce ``attributes`` nella lista</span>
+<span class="sd">                (il tetto account e la regola dell'ultimo manager non sarebbero affidabili).</span>
+<span class="sd">        """</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_users</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s2">"q"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"store_id:</span><span class="si">{</span><span class="n">store_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"briefRepresentation"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="mi">1000</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"attributes"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">"❌ Keycloak error (staff): la lista utenti non contiene gli attributi"</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ExternalServiceError</span><span class="p">(</span>
+                    <span class="n">ErrorCode</span><span class="o">.</span><span class="n">EXT_API_ERROR</span><span class="p">,</span>
+                    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">"service"</span><span class="p">:</span> <span class="s2">"Keycloak"</span><span class="p">,</span>
+                        <span class="s2">"details"</span><span class="p">:</span> <span class="s2">"la lista utenti non contiene gli attributi"</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">)</span>
+            <span class="c1"># Il filtro ``q`` di Keycloak non e' un match esatto: si ricontrolla l'attributo.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_store</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">store_id</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">role</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_role_of</span><span class="p">(</span><span class="n">admin</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">role</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="o">**</span><span class="n">user</span><span class="p">,</span> <span class="s2">"role"</span><span class="p">:</span> <span class="n">role</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.get_store_user">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.get_store_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_store_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Utente chef/manager dello store, o None se assente/di altro store/non gestibile."""</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">KeycloakGetError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">response_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">raise</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_store</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">store_id</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">role</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_role_of</span><span class="p">(</span><span class="n">admin</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">role</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{</span><span class="o">**</span><span class="n">user</span><span class="p">,</span> <span class="s2">"role"</span><span class="p">:</span> <span class="n">role</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.create_staff_user">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.create_staff_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_staff_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="n">NewStaffUser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Crea l'utente staff con password temporanea e ruolo; compensa se il ruolo fallisce.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: id Keycloak dell'utente creato.</span>
+<span class="sd">        """</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"username"</span><span class="p">:</span> <span class="n">new</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="s2">"firstName"</span><span class="p">:</span> <span class="n">new</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span>
+            <span class="s2">"lastName"</span><span class="p">:</span> <span class="n">new</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span>
+            <span class="s2">"enabled"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"attributes"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"store_id"</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">store_id</span><span class="p">)]},</span>
+            <span class="s2">"credentials"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"password"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">new</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="s2">"temporary"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}],</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">new</span><span class="o">.</span><span class="n">email</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">"email"</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">email</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">admin</span><span class="o">.</span><span class="n">assign_realm_roles</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">admin</span><span class="o">.</span><span class="n">get_realm_role</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">role</span><span class="p">)])</span>
+        <span class="k">except</span> <span class="n">KeycloakError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">admin</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">KeycloakError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">"Rollback utente staff fallito: utente orfano su Keycloak id=</span><span class="si">%s</span><span class="s2"> username=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">user_id</span><span class="p">,</span>
+                    <span class="n">new</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">return</span> <span class="n">user_id</span></div>
+
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.set_enabled">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.set_enabled">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Abilita o disabilita l'utente con un PUT dell'intera rappresentazione.</span>
+
+<span class="sd">        Un PUT parziale potrebbe far perdere a Keycloak attributi (``store_id``) o nomi.</span>
+<span class="sd">        """</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="n">admin</span><span class="o">.</span><span class="n">update_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="p">{</span><span class="o">**</span><span class="n">admin</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">),</span> <span class="s2">"enabled"</span><span class="p">:</span> <span class="n">enabled</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.set_role">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.set_role">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">old</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Sostituisce il ruolo realm ``old`` con ``new`` (prima assegna, poi rimuove)."""</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span>
+        <span class="n">admin</span><span class="o">.</span><span class="n">assign_realm_roles</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">admin</span><span class="o">.</span><span class="n">get_realm_role</span><span class="p">(</span><span class="n">new</span><span class="p">)])</span>
+        <span class="n">admin</span><span class="o">.</span><span class="n">delete_realm_roles_of_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="p">[</span><span class="n">admin</span><span class="o">.</span><span class="n">get_realm_role</span><span class="p">(</span><span class="n">old</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.reset_password">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.reset_password">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Imposta una password temporanea (UPDATE_PASSWORD al prossimo login)."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span><span class="o">.</span><span class="n">set_user_password</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">temporary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="OnboardingKeycloakClient.logout_user">
+<a class="viewcode-back" href="../../../../app.modules.onboarding.html#app.modules.onboarding.keycloak_client.OnboardingKeycloakClient.logout_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">logout_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Revoca tutte le sessioni SSO dell'utente."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_admin</span><span class="p">()</span><span class="o">.</span><span class="n">user_logout</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="OnboardingKeycloakClient.delete_user">
