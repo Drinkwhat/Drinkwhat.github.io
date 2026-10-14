@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.119.0 documentation</title>
+  <title>Deploy su AWS con Terraform &mdash; Restrackit 2.120.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=b3eb4cf0"></script>
+      <script src="../_static/documentation_options.js?v=cd3c1ccd"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -762,7 +762,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#panoramica">Panoramica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup-una-tantum">Setup una tantum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#deploy-applicativo">Deploy applicativo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hostname-pubblico">Hostname pubblico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hostname-pubblico">Hostname pubblico</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#host-aggiuntivi-api-app">Host aggiuntivi (api/app)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#backup">Backup</a></li>
@@ -1048,14 +1051,27 @@ errore.</p>
 <p>Per default il deploy calcola l’hostname da <code class="docutils literal notranslate"><span class="pre">&lt;elastic-ip&gt;.sslip.io</span></code>. Per usare un dominio
 proprio o un servizio gratuito come <a class="reference external" href="https://www.duckdns.org">DuckDNS</a>:</p>
 <ol class="arabic simple">
-<li><p>Punta il record (DNS <code class="docutils literal notranslate"><span class="pre">A</span></code>, o l’aggiornamento IP di DuckDNS) all’Elastic IP di Terraform
-(<code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">output</span> <span class="pre">elastic_ip</span></code>).</p></li>
-<li><p>Imposta il valore: <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">ssm</span> <span class="pre">put-parameter</span> <span class="pre">--name</span> <span class="pre">/restrackit/prod/public_hostname</span> <span class="pre">--type</span> <span class="pre">String</span> <span class="pre">--value</span> <span class="pre">&quot;app.tuodominio.it&quot;</span> <span class="pre">--overwrite</span></code> (o <code class="docutils literal notranslate"><span class="pre">tuonome.duckdns.org</span></code>).</p></li>
+<li><p>Il record <code class="docutils literal notranslate"><span class="pre">A</span></code> <code class="docutils literal notranslate"><span class="pre">api.restrackit.it</span></code> verso l’Elastic IP è creato da <code class="docutils literal notranslate"><span class="pre">terraform/dns.tf</span></code> (zona
+Route53 <code class="docutils literal notranslate"><span class="pre">restrackit.it</span></code>; variabili <code class="docutils literal notranslate"><span class="pre">domain_name</span></code> e <code class="docutils literal notranslate"><span class="pre">dns_zone_name</span></code>). Con un dominio
+esterno, crealo a mano su <code class="docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">output</span> <span class="pre">elastic_ip</span></code>.</p></li>
+<li><p>Imposta il valore: <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">ssm</span> <span class="pre">put-parameter</span> <span class="pre">--name</span> <span class="pre">/restrackit/prod/public_hostname</span> <span class="pre">--type</span> <span class="pre">String</span> <span class="pre">--value</span> <span class="pre">&quot;api.restrackit.it&quot;</span> <span class="pre">--overwrite</span></code>. Aggiorna anche <code class="docutils literal notranslate"><span class="pre">public_base_url</span></code> (<code class="docutils literal notranslate"><span class="pre">https://api.restrackit.it</span></code>)
+e <code class="docutils literal notranslate"><span class="pre">cors_origins</span></code>.</p></li>
 <li><p>Al deploy successivo <code class="docutils literal notranslate"><span class="pre">render_env_from_ssm.sh</span></code> legge il parametro e lo usa al posto di
 <code class="docutils literal notranslate"><span class="pre">sslip.io</span></code> — Traefik richiede automaticamente il certificato Let’s Encrypt per il nuovo
 hostname (HTTP-01), quindi il DNS deve gia’ risolvere sull’IP prima del deploy.</p></li>
 </ol>
+<section id="host-aggiuntivi-api-app">
+<h3>Host aggiuntivi (api/app)<a class="headerlink" href="#host-aggiuntivi-api-app" title="Link to this heading"></a></h3>
+<p>Prod resta su <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code> = <code class="docutils literal notranslate"><span class="pre">restrackit.duckdns.org</span></code>: Keycloak (<code class="docutils literal notranslate"><span class="pre">KC_HOSTNAME_STRICT</span></code>)
+emette login e token solo su quell’host, e l’app mobile punta lì. In più rispondono
+<code class="docutils literal notranslate"><span class="pre">api.restrackit.it</span></code> (parametro SSM <code class="docutils literal notranslate"><span class="pre">alt_hostname</span></code>) e <code class="docutils literal notranslate"><span class="pre">app.restrackit.it</span></code> (<code class="docutils literal notranslate"><span class="pre">ui_hostname</span></code>),
+record in <code class="docutils literal notranslate"><span class="pre">terraform/dns.tf</span></code>. Con <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> ciascuno coincide con <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>.
+Aggiungi i nuovi origin a <code class="docutils literal notranslate"><span class="pre">cors_origins</span></code>. In produzione <code class="docutils literal notranslate"><span class="pre">/ui/config.json</span></code> costruisce il
+<code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> OIDC dall’host della richiesta; il login passa comunque da Keycloak su
+<code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>. Per spostare l’host principale su <code class="docutils literal notranslate"><span class="pre">api.restrackit.it</span></code> pubblica prima una
+release mobile con la nuova base URL, poi cambia <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>.</p>
 <p>Per tornare a <code class="docutils literal notranslate"><span class="pre">sslip.io</span></code> basta rimettere il parametro a <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> (o eliminarlo).</p>
+</section>
 </section>
 <section id="keycloak-realm-id">
 <h2>Keycloak realm ID<a class="headerlink" href="#keycloak-realm-id" title="Link to this heading"></a></h2>

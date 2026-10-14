@@ -70,12 +70,25 @@ errore.
 Per default il deploy calcola l'hostname da `<elastic-ip>.sslip.io`. Per usare un dominio
 proprio o un servizio gratuito come [DuckDNS](https://www.duckdns.org):
 
-1. Punta il record (DNS `A`, o l'aggiornamento IP di DuckDNS) all'Elastic IP di Terraform
-   (`terraform output elastic_ip`).
-2. Imposta il valore: `aws ssm put-parameter --name /restrackit/prod/public_hostname --type String --value "app.tuodominio.it" --overwrite` (o `tuonome.duckdns.org`).
+1. Il record `A` `api.restrackit.it` verso l'Elastic IP è creato da `terraform/dns.tf` (zona
+   Route53 `restrackit.it`; variabili `domain_name` e `dns_zone_name`). Con un dominio
+   esterno, crealo a mano su `terraform output elastic_ip`.
+2. Imposta il valore: `aws ssm put-parameter --name /restrackit/prod/public_hostname --type String --value "api.restrackit.it" --overwrite`. Aggiorna anche `public_base_url` (`https://api.restrackit.it`)
+   e `cors_origins`.
 3. Al deploy successivo `render_env_from_ssm.sh` legge il parametro e lo usa al posto di
    `sslip.io` — Traefik richiede automaticamente il certificato Let's Encrypt per il nuovo
    hostname (HTTP-01), quindi il DNS deve gia' risolvere sull'IP prima del deploy.
+
+### Host aggiuntivi (api/app)
+
+Prod resta su `public_hostname` = `restrackit.duckdns.org`: Keycloak (`KC_HOSTNAME_STRICT`)
+emette login e token solo su quell'host, e l'app mobile punta lì. In più rispondono
+`api.restrackit.it` (parametro SSM `alt_hostname`) e `app.restrackit.it` (`ui_hostname`),
+record in `terraform/dns.tf`. Con `CHANGE_ME` ciascuno coincide con `public_hostname`.
+Aggiungi i nuovi origin a `cors_origins`. In produzione `/ui/config.json` costruisce il
+`redirect_uri` OIDC dall'host della richiesta; il login passa comunque da Keycloak su
+`public_hostname`. Per spostare l'host principale su `api.restrackit.it` pubblica prima una
+release mobile con la nuova base URL, poi cambia `public_hostname`.
 
 Per tornare a `sslip.io` basta rimettere il parametro a `CHANGE_ME` (o eliminarlo).
 

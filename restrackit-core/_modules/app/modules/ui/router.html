@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.ui.router &mdash; Restrackit 2.119.0 documentation</title>
+  <title>app.modules.ui.router &mdash; Restrackit 2.120.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=b3eb4cf0"></script>
+      <script src="../../../../_static/documentation_options.js?v=cd3c1ccd"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -1117,7 +1117,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#panoramica">Panoramica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#setup-una-tantum">Setup una tantum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#deploy-applicativo">Deploy applicativo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#hostname-pubblico">Hostname pubblico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#hostname-pubblico">Hostname pubblico</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#host-aggiuntivi-api-app">Host aggiuntivi (api/app)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
@@ -1330,7 +1333,7 @@ for private packages in organization repositories.)</a></li>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">anyio</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_settings</span>
@@ -1383,10 +1386,17 @@ for private packages in organization repositories.)</a></li>
 <div class="viewcode-block" id="ui_config">
 <a class="viewcode-back" href="../../../../app.modules.ui.html#app.modules.ui.router.ui_config">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/ui/config.json"</span><span class="p">,</span> <span class="n">include_in_schema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Ritorna configurazione runtime per la UI (OIDC, versione, redirect URI)."""</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_config</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Ritorna configurazione runtime per la UI (OIDC, versione, redirect URI).</span>
+
+<span class="sd">    In produzione il `redirect_uri` usa l'host da cui la UI è servita (già validato da</span>
+<span class="sd">    `TrustedHostMiddleware`), così la UI può stare su un hostname diverso da quello</span>
+<span class="sd">    dell'API: il verifier PKCE vive in sessionStorage, per-origin.</span>
+<span class="sd">    """</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings</span><span class="p">()</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">public_base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">is_production</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"host"</span><span class="p">):</span>
+        <span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">'host'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">"api_base"</span><span class="p">:</span> <span class="s2">"/v1"</span><span class="p">,</span>
         <span class="s2">"version"</span><span class="p">:</span> <span class="n">FULL_VERSION</span><span class="p">,</span>
