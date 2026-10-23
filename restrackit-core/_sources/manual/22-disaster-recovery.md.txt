@@ -13,9 +13,14 @@ attesi.
 ## 1. Individua l'ultimo recovery point
 
 ```bash
-aws backup list-recovery-points-by-backup-vault --backup-vault-name restrackit-backup-vault \
-  --query 'RecoveryPoints[].[RecoveryPointArn,CreationDate]' --output table
+aws backup list-recovery-points-by-backup-vault --backup-vault-name restrackit-prod-backup-vault \
+  --region eu-south-1 \
+  --query 'sort_by(RecoveryPoints,&CreationDate)[].[RecoveryPointArn,CreationDate,Status]' --output table
 ```
+
+Il nome del vault e' `${project_name}-backup-vault` (`terraform/backup.tf`), con
+`project_name = restrackit-prod`. Con un nome sbagliato AWS risponde `AccessDeniedException`,
+non "vault non trovato".
 
 Prendi l'ARN piu' recente precedente all'incidente.
 
@@ -35,6 +40,14 @@ aws backup start-restore-job \
 Attendi il completamento (`aws backup describe-restore-job --restore-job-id ...`),
 poi recupera l'IP pubblico della nuova istanza temporanea dalla console EC2.
 **Questa istanza e' solo per estrarre i dati: non sostituisce quella gestita da Terraform.**
+
+> **Attenzione**: l'istanza ripristinata si avvia con la configurazione di produzione e i
+> container possono ripartire da soli (restart policy). Il worker arq potrebbe eseguire i
+> cron job (es. notifiche di scadenza) sul database copiato, con notifiche duplicate ai
+> clienti, e Traefik prova a rinnovare i certificati dello stesso dominio. Appena puoi
+> entrare via SSH, ferma lo stack con `docker compose stop` (il solo `restrackit-db` e
+> `restrackit-keycloak-db` servono per i dump: `docker start restrackit-db restrackit-keycloak-db`),
+> e se possibile ripristina con un security group senza ingresso pubblico.
 
 ## 3. Estrai i dump Postgres
 

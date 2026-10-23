@@ -1,0 +1,1246 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forecast Module (Piano del giorno) &mdash; Restrackit 2.129.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=20d98cc7"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Onboarding di un nuovo cliente: runbook per il socio" href="27-onboarding-nuovo-cliente.html" />
+    <link rel="prev" title="Delivery Notes (bolle di consegna fornitori)" href="25-delivery-notes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Restrackit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">app</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app.html">app package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../app.core.html">app.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.modules.html">app.modules package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.services.html">app.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../app.shared.html">app.shared package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#app-database-module">app.database module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#app-main-module">app.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app.html#app-worker-module">app.worker module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../markdown_docs.html">Documentazione Manuale (Markdown)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00-technical-manual.html">📘 Documentazione Tecnica - Restrackit Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#vision-di-prodotto">0. Vision di Prodotto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#problema-che-risolve">0.1 Problema che risolve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#obiettivo-principale">0.2 Obiettivo principale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#valore-per-lutente">0.3 Valore per l’utente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#flusso-operativo-minimo-mvp">0.4 Flusso operativo minimo (MVP)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#statistiche-impatto-atteso">0.5 Statistiche: impatto atteso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#notifiche-coerenti-con-la-vision">0.6 Notifiche (coerenti con la vision)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#architettura-del-progetto">1. Architettura del Progetto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#struttura-ad-alto-livello">🏗️ Struttura ad Alto Livello</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#flusso-dei-dati-principale-analisi-etichetta">🔄 Flusso dei Dati Principale (Analisi Etichetta)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#struttura-delle-cartelle">2. Struttura delle Cartelle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#stack-tecnologico">3. Stack Tecnologico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#configurazione-ambientale">4. Configurazione Ambientale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#setup-locale">Setup Locale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#flussi-di-sviluppo">5. Flussi di Sviluppo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#standard-di-codice">Standard di Codice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#git-flow-branching">Git Flow &amp; Branching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#ci-cd-pipeline">CI/CD Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#system">🏥 System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#database-schema">7. Database Schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#tabelle-principali">Tabelle Principali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#testing-strategy">8. Testing Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#deployment-guide">9. Deployment Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#dockerfile-multi-stage">Dockerfile (Multi-stage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#procedura-di-deploy">Procedura di Deploy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#monitoraggio">Monitoraggio</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-quick-reference.html">Quick Reference Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#test">🧪 Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#db">🗄️ DB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#database-migrations">🗄️ Database Migrations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#testing">🧪 Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#linting-formatting">🔍 Linting &amp; Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#docker-commands">🐳 Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#health-check">Health Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#get-products">Get Products</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#roles-permissions">🔐 Roles &amp; Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#chef">Chef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#manager">Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#admin">Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#environment-variables">🌍 Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#debugging">🐛 Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#enable-debug-logging">Enable Debug Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#database-debug">Database Debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="01-quick-reference.html#notifications">Notifications</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-setup.html">Installation &amp; Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#setup-rapido-consigliato">Setup Rapido (Consigliato)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#configura-environment">2. Configura Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#avvia-con-docker">3. Avvia con Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#verifica">4. Verifica</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#comandi-utili-makefile">Comandi Utili (Makefile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#setup-locale-senza-docker">Setup Locale (Senza Docker)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-setup.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02-setup.html#errori-database">Errori Database</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-architecture.html">Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#system-design">System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#technology-stack">Technology Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#backend">Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-data">AI &amp; Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#devops">DevOps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#key-components">Key Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#orm-loading-strategy-app-modules-models-py">8. ORM Loading Strategy (<code class="docutils literal notranslate"><span class="pre">app/modules/*/models.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-api-reference.html">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#health">Health</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-batch-batch-id-move-storage"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/batch/{batch_id}/move-storage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-inventory-batch-batch-id-complete"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/batch/{batch_id}/complete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-batch-batch-id-events"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}/events</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-inventory-batch-batch-id-history"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}/history</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#products-module-v1-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/v1/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/allergens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/products/bulk-load</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#categories-v1-categories">Categories (<code class="docutils literal notranslate"><span class="pre">/v1/categories</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-categories"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-categories"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#units-of-measure-v1-units-of-measure">Units of Measure (<code class="docutils literal notranslate"><span class="pre">/v1/units-of-measure</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-units-of-measure"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-units-of-measure"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#legacy-removed-conservation-methods">Legacy (removed): Conservation Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#storage-methods-v1-storage-methods">Storage Methods (<code class="docutils literal notranslate"><span class="pre">/v1/storage-methods</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-storage-methods"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-storage-methods"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/storage-methods/{method_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/storage-methods/{method_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#product-storage-rules-v1-products-product-id-storage-rules">Product Storage Rules (<code class="docutils literal notranslate"><span class="pre">/v1/products/{product_id}/storage-rules</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#get-v1-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#put-v1-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#delete-v1-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#kitchen-module-v1-kitchen">Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/v1/kitchen</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#ricette">Ricette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#preparazioni">Preparazioni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#stats-module-v1-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/v1/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#forecast-module-v1-forecast">Forecast Module (<code class="docutils literal notranslate"><span class="pre">/v1/forecast</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#setup-module-v1-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/v1/setup</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/setup/seed-demo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#common-error-codes">Common Error Codes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-database-schema.html">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#entity-relationship-diagram">Entity Relationship Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#table-definitions">Table Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#stores"><code class="docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#storage-methods"><code class="docutils literal notranslate"><span class="pre">storage_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#product-storage-rules"><code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#categories"><code class="docutils literal notranslate"><span class="pre">categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#preparations-e-preparation-items"><code class="docutils literal notranslate"><span class="pre">preparations</span></code> e <code class="docutils literal notranslate"><span class="pre">preparation_items</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#notifications"><code class="docutils literal notranslate"><span class="pre">notifications</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="05-database-schema.html#migrations">Migrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="06-docker-deployment.html">Docker Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#docker-architecture">Docker Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#files">Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#dockerfile"><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-files-deploy">Docker Compose files (<code class="docutils literal notranslate"><span class="pre">deploy/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#build-locally">Build Locally</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#build-with-compose">Build with Compose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#running">Running</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#environment-configuration">Environment Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#env-for-docker"><code class="docutils literal notranslate"><span class="pre">.env</span></code> for Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#volume-management">Volume Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#application-volumes">Application Volumes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-volume">Database Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#named-volumes">Named Volumes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#networking">Networking</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#docker-compose-network">Docker Compose Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#port-mapping">Port Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#external-access">External Access</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#health-checks">Health Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#application">Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#manual-check">Manual Check</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#persistence">Persistence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#data-persistence">Data Persistence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-backup">Database Backup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#execute-commands">Execute Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#inspect-container">Inspect Container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#security">Security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#container-registry">Container Registry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#push-to-github-container-registry">Push to GitHub Container Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#container-won-t-start">Container Won’t Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#database-connection-issues">Database Connection Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06-docker-deployment.html#permission-errors">Permission Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06-docker-deployment.html#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07-cicd-pipeline.html">CI/CD Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#diagramma-pipeline-mermaid">Diagramma pipeline (Mermaid)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#docker-build-workflow-docker-build-yml">Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#trigger-events">Trigger events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#jobs-current">Jobs (current)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#runner-selection-self-hosted-github-hosted">Runner selection (self-hosted + GitHub-hosted)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#self-hosted-runners-do-not-have-automatic-org-access-to-github-token-so-a-manual-pat-is-required-for-private-packages-in-organization-repositories">(Self-hosted runners do not have automatic org access to <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code>, so a manual PAT is required
+for private packages in organization repositories.)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#execution-flow">Execution Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#pull-request">Pull Request</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#main-branch-push">Main Branch Push</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#version-tag">Version Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#openapi-schema-export-release-yml-tag-and-release">OpenAPI schema export (<code class="docutils literal notranslate"><span class="pre">release.yml</span></code> – <code class="docutils literal notranslate"><span class="pre">tag-and-release</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#status-checks">Status Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#required-checks-main-branch">Required Checks (main branch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#view-status">View Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#view-workflow-runs">View Workflow Runs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#check-logs">Check Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#common-issues">Common issues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#github-secrets">GitHub Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#caching">Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#parallel-jobs">Parallel Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#branch-strategy">Branch Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#semantic-versioning">Semantic Versioning</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="07-cicd-pipeline.html#monitoring">Monitoring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#notifications">Notifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="07-cicd-pipeline.html#metrics">Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08-environment-config.html">Environment Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#google-ai">Google / AI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#keycloak-oidc">Keycloak (OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#cors">CORS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#best-practice">Best practice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="08-environment-config.html#secrets-management">Secrets Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#endpoint-utili">Endpoint utili</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="10-error-handling.html">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#type-definitions">Type Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#errorinfo-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorInfo</span></code> (TypedDict)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#errorpayload-errorresponse-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorPayload</span></code> / <code class="docutils literal notranslate"><span class="pre">ErrorResponse</span></code> (TypedDict)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#exception-classes">Exception Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#apperror-base"><code class="docutils literal notranslate"><span class="pre">AppError</span></code> (Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#validationerror-400"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> (400)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#externalserviceerror-502"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (502)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#parsingerror-422"><code class="docutils literal notranslate"><span class="pre">ParsingError</span></code> (422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#businesslogicerror-404-409-422"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code> (404/409/422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#databaseerror-409-500"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code> (409/500)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#systemerror-500"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code> (500)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#exception-handling-pattern">Exception Handling Pattern</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#try-catch-raise">Try-Catch-Raise</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-handler-pattern">Error Handler Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#logging-integration">Logging Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#log-on-error">Log on Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#log-levels">Log Levels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#do">✅ Do</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#don-t">❌ Don’t</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#testing-errors">Testing Errors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#pytest">pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#with-client">With Client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#error-response-format">Error Response Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#standard-format">Standard Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#with-original-exception-details">With Original Exception Details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#production-considerations">Production Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-code-usage">Error Code Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#error-tracking">Error Tracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="10-error-handling.html#internationalization-i18n">Internationalization (i18n)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#get-message"><code class="docutils literal notranslate"><span class="pre">get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="10-error-handling.html#coverage">Coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="11-contributing.html">Guida Team (contribuzioni)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#setup-ambiente">2. Setup ambiente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#crea-branch-dalla-issue">3. Crea branch dalla issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#dev-workflow-pratico">Dev workflow (pratico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#regole-base">Regole base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#test">Test</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#write-tests">Write Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#run-tests">Run Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#test-coverage">Test Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#pull-request">Pull Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#push-branch">1. Push branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#apri-pr">2. Apri PR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#pr-title">PR Title</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#pr-description">PR Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#review">3. Review</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#merge">4. Merge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#adding-features">Adding Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#new-api-endpoint">New API Endpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#database-migration">Database Migration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#documentation">Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#update-docs">Update Docs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#add-to-index">Add to Index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#docstrings">DocStrings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#common-tasks">Common Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#setup-local-development">Setup Local Development</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#run-all-checks">Run All Checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#update-dependencies">Update Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#build-docker-image">Build Docker Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#issues">Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#report-bug">Report Bug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#community">Community</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#communication">Communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11-contributing.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11-contributing.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="12-issue-management.html">Gestione delle Issue e Suddivisione del Lavoro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#gerarchia-delle-issue">1. Gerarchia delle Issue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#issue-principale-epic-feature-macro-bug">🔹 Issue Principale (Epic / Feature / Macro-Bug)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#sub-issue-task-sub-task">🔸 Sub-Issue (Task / Sub-task)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#criteri-di-decomposizione">2. Criteri di Decomposizione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#regole-d-oro-per-la-scomposizione">Regole d’Oro per la Scomposizione</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#nomenclatura-e-etichettatura">3. Nomenclatura e Etichettatura</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#formato-titolo">Formato Titolo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#tipi-prefissi">Tipi (Prefissi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#etichette-labels">Etichette (Labels)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#template-standardizzato-issue">4. Template Standardizzato Issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#esempi-pratici-di-suddivisione">5. Esempi Pratici di Suddivisione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#scenario-a-nuova-funzionalita-sviluppo-auth">Scenario A: Nuova Funzionalità (Sviluppo Auth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#scenario-b-bug-fixing-errore-500-su-upload">Scenario B: Bug Fixing (Errore 500 su Upload)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="12-issue-management.html#scenario-c-refactoring-pulizia-codice">Scenario C: Refactoring (Pulizia Codice)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#workflow-e-tracciamento">6. Workflow e Tracciamento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12-issue-management.html#checklist-di-validazione-definition-of-ready">7. Checklist di Validazione (Definition of Ready)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="13-kitchen-module.html">🍳 Kitchen Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#overview">1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#data-models">2. Data Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipe-recipes">📖 Recipe (<code class="docutils literal notranslate"><span class="pre">recipes</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipeingredient-recipe-ingredients">🥕 RecipeIngredient (<code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparation-preparations">👨‍🍳 Preparation (<code class="docutils literal notranslate"><span class="pre">preparations</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#haccp-compliance-expiry-logic">3. HACCP Compliance &amp; Expiry Logic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#expiry-date-calculation">🧮 Expiry Date Calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#recipes-management">Recipes Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#availability-check">Availability Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="13-kitchen-module.html#permissions">7. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="14-logging.html">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#example-env">Example <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-formats">Log Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#json-default-production">JSON (Default – Production)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#text-development">Text (Development)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#architecture">Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#module-app-core-logging-py">Module: <code class="docutils literal notranslate"><span class="pre">app/core/logging.py</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#setup-logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#customjsonformatter"><code class="docutils literal notranslate"><span class="pre">CustomJsonFormatter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#basic-logging">Basic Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#structured-extra-fields">Structured Extra Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#exception-logging">Exception Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#design-decisions">Design Decisions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-stdout-only">Why stdout only?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#dati-utilizzati">Dati utilizzati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#multi-tenancy-store">Multi-tenancy (store)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#api-reference-stats">API Reference (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-preparations-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/preparations/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-recipes-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-recipes-top-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top-series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-kitchen-ingredients-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/ingredients/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#note-su-bucket-e-week">Note su bucket e “week”</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="18-production-completion.html">Completamento Produzione (Preparazione + Lotto)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#ui-operatore-ui">UI Operatore (<code class="docutils literal notranslate"><span class="pre">/ui</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-preparazione-completata">1) Conferma “Preparazione completata”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-lotto-concluso">2) Conferma “Lotto concluso”</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#vincolo-di-sequenzialita">Vincolo di sequenzialità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-fine-preparazione">Conferma fine preparazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#conferma-fine-lotto">Conferma fine lotto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#lista-motivi-i18n">Lista motivi (i18n)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="18-production-completion.html#storico-eventi-del-lotto">Storico eventi del lotto</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#persistenza-e-tracciabilita">Persistenza e tracciabilità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="18-production-completion.html#notifiche-automatiche-team">Notifiche automatiche (team)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="19-aws-terraform-deploy.html">Deploy su AWS con Terraform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#panoramica">Panoramica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#setup-una-tantum">Setup una tantum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#deploy-applicativo">Deploy applicativo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#hostname-pubblico">Hostname pubblico</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="19-aws-terraform-deploy.html#host-aggiuntivi-api-app">Host aggiuntivi (api/app)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#verifica">Verifica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#creare-un-nuovo-store-primo-account-manager">1. Creare un nuovo store (+ primo account manager)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#account-dello-staff-gestione-da-parte-del-manager">2. Account dello staff (gestione da parte del manager)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="20-onboarding-utenti.html#alternativa-manuale-admin-keycloak-admin-console">Alternativa manuale (admin, Keycloak Admin Console)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="20-onboarding-utenti.html#riferimento-rapido-variabili-d-ambiente-coinvolte">3. Riferimento rapido: variabili d’ambiente coinvolte</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="21-supporto-clienti.html">Supporto clienti: runbook operativo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#onboarding-nuovo-cliente">1. Onboarding nuovo cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#aggiungere-un-account-a-uno-store-gia-esistente">2. Aggiungere un account a uno store già esistente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#reset-password-utente-bloccato">3. Reset password / utente bloccato</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#troubleshooting-dove-guardare-i-log">4. Troubleshooting: dove guardare i log</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="21-supporto-clienti.html#alert-automatici-alertmanager-slack">Alert automatici (Alertmanager → Slack)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#errori-applicativi-come-leggerli">5. Errori applicativi: come leggerli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="21-supporto-clienti.html#riferimento-rapido-variabili-d-ambiente">6. Riferimento rapido variabili d’ambiente</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="22-disaster-recovery.html">Disaster recovery: istanza EC2 di produzione ricreata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#individua-l-ultimo-recovery-point">1. Individua l’ultimo recovery point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-in-un-istanza-ec2-temporanea">2. Ripristina in un’istanza EC2 temporanea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#estrai-i-dump-postgres">3. Estrai i dump Postgres</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#ripristina-sull-istanza-di-produzione-nuova">4. Ripristina sull’istanza di produzione (nuova)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="24-temperature-log.html#fuori-scope">Fuori scope</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Forecast Module (Piano del giorno)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scopo">Scopo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metodo">Metodo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#segnale-di-consumo-e-suo-limite">Segnale di consumo e suo limite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#auto-miglioramento">Auto-miglioramento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lotti-a-rischio">Lotti a rischio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#endpoint-e-schema">Endpoint e schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-v1-forecast-daily-plan"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/daily-plan</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#avvio-a-freddo">Avvio a freddo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cache">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snapshot-e-pannello-impatto">Snapshot e pannello Impatto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notifica-mattutina">Notifica mattutina</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fase-3-trasformazioni-regole-di-conservazione-e-vincoli-haccp">Fase 3: Trasformazioni, regole di conservazione e vincoli HACCP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#suggerimenti-strutturati-di-trasformazione-ricette">Suggerimenti strutturati di trasformazione (Ricette)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#suggerimenti-di-cambio-conservazione-storage-shift">Suggerimenti di cambio conservazione (Storage Shift)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vincoli-sanitari-haccp-rigorosi">Vincoli sanitari HACCP rigorosi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cosa-non-fa">Cosa NON fa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#riferimenti">Riferimenti</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="27-onboarding-nuovo-cliente.html">Onboarding di un nuovo cliente: runbook per il socio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#prima-di-iniziare-raccogli-dal-cliente">1. Prima di iniziare: raccogli dal cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#creare-lo-store-e-il-manager">2. Creare lo store e il manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#consegna-delle-credenziali">3. Consegna delle credenziali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#primo-accesso-verifica-insieme-al-cliente">4. Primo accesso: verifica insieme al cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#come-funziona">Come funziona</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#convenzioni-dei-commit">Convenzioni dei Commit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#configurazione-locale">Configurazione Locale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#pipeline-di-rilascio-ci-cd">Pipeline di Rilascio (CI/CD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#bump-automatico-su-dev">Bump automatico su <code class="docutils literal notranslate"><span class="pre">dev</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#tag-e-release-automatici-su-main">Tag e Release automatici su <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="VERSIONING.html#rilascio-manuale-forzatura">Rilascio Manuale / Forzatura</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mermaid_diagrams.html">Diagrammi Mermaid — Restrackit Basi di Dati</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag1-png-schema-scheletro">diag1.png — Schema Scheletro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag2-png-ambito-auth-store">diag2.png — Ambito Auth &amp; Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag3-png-ambito-catalogo-prodotti">diag3.png — Ambito Catalogo Prodotti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag4-png-ambito-inventario-batch">diag4.png — Ambito Inventario &amp; Batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag5-png-ambito-cucina-ricette">diag5.png — Ambito Cucina &amp; Ricette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag6-png-ambito-preparazioni">diag6.png — Ambito Preparazioni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag7-png-ambito-notifiche">diag7.png — Ambito Notifiche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag8-png-schema-concettuale-finale-completo">diag8.png — Schema Concettuale Finale (completo)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag9-png-nav-1-registrazione-batch-via-ocr">diag9.png — Nav. 1: Registrazione batch via OCR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag10-png-nav-2-lotti-in-scadenza-per-store">diag10.png — Nav. 2: Lotti in scadenza per store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag11-png-nav-3-storico-spostamenti-di-un-batch">diag11.png — Nav. 3: Storico spostamenti di un batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag12-png-nav-4-eseguire-una-preparazione">diag12.png — Nav. 4: Eseguire una preparazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag13-png-nav-5-prodotti-con-regole-di-conservazione">diag13.png — Nav. 5: Prodotti con regole di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag14-png-nav-6-storico-preparazioni-per-ricetta">diag14.png — Nav. 6: Storico preparazioni per ricetta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mermaid_diagrams.html#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="relazione_basi_di_dati.html">RESTRACKIT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#struttura-dell-elaborato">STRUTTURA DELL’ELABORATO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#introduzione">1 – INTRODUZIONE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#analisi-dei-requisiti">2 – ANALISI DEI REQUISITI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#requisiti-in-linguaggio-naturale">2.1 – Requisiti in linguaggio naturale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#estrazione-dei-concetti-fondamentali">2.2 – Estrazione dei concetti fondamentali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#progetto-dello-schema-concettuale">3 – PROGETTO DELLO SCHEMA CONCETTUALE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-auth-store">3.1 – Sviluppo dell’ambito “Auth &amp; Store”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-catalogo-prodotti">3.2 – Sviluppo dell’ambito “Catalogo Prodotti”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-inventario-batch">3.3 – Sviluppo dell’ambito “Inventario &amp; Batch”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-cucina-ricette">3.4 – Sviluppo dell’ambito “Cucina &amp; Ricette”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-preparazioni">3.5 – Sviluppo dell’ambito “Preparazioni”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#sviluppo-dell-ambito-notifiche">3.6 – Sviluppo dell’ambito “Notifiche”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#anteprima-dello-schema-generale">3.7 – Anteprima dello schema generale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#specifiche-funzionali">4 – SPECIFICHE FUNZIONALI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#analisi-delle-funzionalita-richieste">4.1 – Analisi delle funzionalità richieste</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#registrazione-nuovo-batch-tramite-ocr">4.2 – Registrazione nuovo batch tramite OCR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#visualizzare-lotti-in-scadenza-per-store">4.3 – Visualizzare lotti in scadenza per store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#visualizzare-storico-spostamenti-di-un-batch">4.4 – Visualizzare storico spostamenti di un batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#eseguire-una-preparazione-consumare-batch">4.5 – Eseguire una preparazione (consumare batch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#visualizzare-prodotti-con-regole-di-conservazione">4.6 – Visualizzare prodotti con regole di conservazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#consultare-storico-preparazioni-per-ricetta">4.7 – Consultare storico preparazioni per ricetta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#aggiungere-o-modificare-prodotti-nel-catalogo">4.8 – Aggiungere o modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#il-progetto-logico">5 – IL PROGETTO LOGICO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#schemi-di-navigazione">5.1 – Schemi di navigazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#frequenza-e-costo-degli-accessi">5.2 – Frequenza e costo degli accessi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#trasformazioni-dello-schema-concettuale">5.3 – Trasformazioni dello schema concettuale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#progetto-logico-per-il-modello-relazionale">5.4 – Progetto logico per il modello relazionale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#traduzione-delle-operazioni-in-query-sql">5.5 – Traduzione delle operazioni in Query SQL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#il-progetto-fisico">6 – IL PROGETTO FISICO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#indicizzazione-di-attributi">6.1 – Indicizzazione di attributi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#ordinamento-su-attributi">6.2 – Ordinamento su attributi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#l-interfaccia-utente">7 – L’INTERFACCIA UTENTE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#il-manager">7.1 – Il Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relazione_basi_di_dati.html#l-operatore">7.2 – L’Operatore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slo.html#note">Note</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Restrackit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../markdown_docs.html">Documentazione Manuale (Markdown)</a></li>
+      <li class="breadcrumb-item active">Forecast Module (Piano del giorno)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/manual/26-forecast-module.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="forecast-module-piano-del-giorno">
+<h1>Forecast Module (Piano del giorno)<a class="headerlink" href="#forecast-module-piano-del-giorno" title="Link to this heading"></a></h1>
+<p>Il modulo <code class="docutils literal notranslate"><span class="pre">forecast</span></code> stima il consumo giornaliero di ogni prodotto dello store e segnala i lotti che, al ritmo previsto, non verranno consumati prima della scadenza.</p>
+<p>Endpoint: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/daily-plan</span></code>.</p>
+<hr class="docutils" />
+<section id="scopo">
+<h2>Scopo<a class="headerlink" href="#scopo" title="Link to this heading"></a></h2>
+<p>Supportare la decisione “quanto preparare oggi e quali lotti usare prima” con numeri derivati dallo storico reale dello store. Il modulo non modifica dati: legge preparazioni, lotti ed eventi di chiusura e restituisce un piano.</p>
+</section>
+<hr class="docutils" />
+<section id="metodo">
+<h2>Metodo<a class="headerlink" href="#metodo" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Finestra storica</strong>: le ultime 8 settimane (<code class="docutils literal notranslate"><span class="pre">WINDOW_WEEKS</span> <span class="pre">=</span> <span class="pre">8</span></code>). Il caricamento legge 4 settimane in più per la fase di backtest.</p></li>
+<li><p><strong>Soglia minima</strong>: servono almeno 28 giorni di storico (<code class="docutils literal notranslate"><span class="pre">MIN_HISTORY_DAYS</span> <span class="pre">=</span> <span class="pre">28</span></code>). Sotto soglia il prodotto non riceve previsione.</p></li>
+<li><p><strong>Giorni senza attività = chiusi</strong>: un giorno senza alcuna preparazione né chiusura lotto nello store è chiuso ed è escluso dalle medie; in un giorno aperto un prodotto non usato vale 0.</p></li>
+<li><p><strong>Media pesata per giorno della settimana</strong>: per ogni giorno della settimana (lunedì … domenica) la previsione è la media dei valori storici di quel giorno, con peso decrescente per i valori più vecchi (decadimento esponenziale, <code class="docutils literal notranslate"><span class="pre">DECAY</span> <span class="pre">=</span> <span class="pre">0.8</span></code> di default). Se un giorno della settimana ha meno di 2 campioni (<code class="docutils literal notranslate"><span class="pre">MIN_WEEKDAY_SAMPLES</span> <span class="pre">=</span> <span class="pre">2</span></code>), si usa la media complessiva.</p></li>
+<li><p><strong>Banda</strong>: la previsione è riportata come <code class="docutils literal notranslate"><span class="pre">mean</span> <span class="pre">±</span> <span class="pre">MAD</span></code> (mediana degli scostamenti assoluti dalla mediana), che fornisce <code class="docutils literal notranslate"><span class="pre">forecast_low</span></code> e <code class="docutils literal notranslate"><span class="pre">forecast_high</span></code>.</p></li>
+<li><p><strong>Confidenza</strong>: <code class="docutils literal notranslate"><span class="pre">high</span></code> o <code class="docutils literal notranslate"><span class="pre">low</span></code>. Un prodotto il cui consumo deriva in parte dal proxy <code class="docutils literal notranslate"><span class="pre">sold_out</span></code> (vedi sotto) è segnato con confidenza <code class="docutils literal notranslate"><span class="pre">low</span></code>.</p></li>
+</ul>
+<p>Per i lotti a rischio il calcolo è FEFO cumulativo: i lotti sono ordinati per scadenza, il consumo atteso nell’orizzonte viene assegnato prima ai lotti che scadono prima, e la parte che resta è la quantità a rischio.</p>
+</section>
+<hr class="docutils" />
+<section id="segnale-di-consumo-e-suo-limite">
+<h2>Segnale di consumo e suo limite<a class="headerlink" href="#segnale-di-consumo-e-suo-limite" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Fonte primaria</strong>: la somma di <code class="docutils literal notranslate"><span class="pre">PreparationItem.quantity_used</span></code> per prodotto, convertita nell’unità di visualizzazione.</p></li>
+<li><p><strong>Proxy <code class="docutils literal notranslate"><span class="pre">sold_out</span></code></strong>: per un lotto chiuso con motivo <code class="docutils literal notranslate"><span class="pre">sold_out</span></code> (esaurito in vendita, senza passare da ricette), la quota non spiegata dalle preparazioni (quantità del lotto meno l’uso registrato) viene distribuita sui giorni di vita del lotto. La distribuzione usa come pesi il profilo settimanale delle preparazioni dello store.</p></li>
+<li><p><strong>Limite</strong>: il proxy è una stima. Non misura le vendite reali e attribuisce il consumo ai giorni con il profilo generale dello store, non con le vendite del giorno. Per questo i prodotti che dipendono dal proxy hanno confidenza bassa. Il consumo di un prodotto venduto direttamente senza ricetta, e non registrato come <code class="docutils literal notranslate"><span class="pre">sold_out</span></code>, non è visibile al modulo.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="auto-miglioramento">
+<h2>Auto-miglioramento<a class="headerlink" href="#auto-miglioramento" title="Link to this heading"></a></h2>
+<p>Il modulo verifica la propria accuratezza sugli ultimi 28 giorni:</p>
+<ol class="arabic simple">
+<li><p><strong>Backtest</strong>: per ciascuno degli ultimi 28 giorni la previsione viene calcolata usando solo i dati precedenti a quel giorno. L’errore è l’errore assoluto pesato (WAPE).</p></li>
+<li><p><strong>Scelta del decadimento</strong>: si confrontano i valori <code class="docutils literal notranslate"><span class="pre">0.6</span></code>, <code class="docutils literal notranslate"><span class="pre">0.8</span></code> e <code class="docutils literal notranslate"><span class="pre">0.95</span></code>. Un valore diverso dal default viene scelto solo se migliora il WAPE di almeno 1 punto percentuale.</p></li>
+<li><p><strong>Fattore correttivo</strong>: se il rapporto previsto/reale è sistematicamente distante da 1, si applica un fattore moltiplicativo limitato all’intervallo 0.7–1.3.</p></li>
+<li><p><strong>Attivazione</strong>: la calibrazione è attiva solo con almeno 14 giorni valutabili nel backtest (<code class="docutils literal notranslate"><span class="pre">MIN_BACKTEST_SAMPLES</span> <span class="pre">=</span> <span class="pre">14</span></code>). Sotto questa soglia vale il metodo standard, senza correzioni.</p></li>
+</ol>
+<p>Il risultato del backtest è riportato in <code class="docutils literal notranslate"><span class="pre">error_pct</span></code> e il flag <code class="docutils literal notranslate"><span class="pre">adjusted</span></code> indica se la previsione è stata calibrata. I prodotti con quota proxy (<code class="docutils literal notranslate"><span class="pre">sold_out</span></code>) non vengono mai calibrati: il loro “reale” è già una stima, quindi hanno <code class="docutils literal notranslate"><span class="pre">error_pct</span></code> nullo, <code class="docutils literal notranslate"><span class="pre">adjusted</span> <span class="pre">=</span> <span class="pre">false</span></code> e confidenza <code class="docutils literal notranslate"><span class="pre">low</span></code>. Nessuna tabella viene scritta: la calibrazione è ricalcolata a ogni calcolo del piano.</p>
+</section>
+<hr class="docutils" />
+<section id="lotti-a-rischio">
+<h2>Lotti a rischio<a class="headerlink" href="#lotti-a-rischio" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Orizzonte</strong>: 14 giorni (<code class="docutils literal notranslate"><span class="pre">AT_RISK_LOOKAHEAD_DAYS</span> <span class="pre">=</span> <span class="pre">14</span></code>). Un lotto è candidato se scade entro l’orizzonte.</p></li>
+<li><p><strong>Con previsione</strong>: <code class="docutils literal notranslate"><span class="pre">at_risk_quantity</span></code> è la quantità che il consumo atteso non riesce a smaltire prima della scadenza, calcolata con il metodo FEFO cumulativo. Il lotto va usato entro il giorno precedente la data di scadenza locale: si conta il consumo da oggi (per intero) fino a quel giorno, quindi un lotto che scade domani conta solo il consumo di oggi e uno che scade oggi è interamente a rischio.</p></li>
+<li><p><strong>Senza previsione</strong>: senza storico sufficiente non esiste un consumo atteso. Compaiono solo i lotti che scadono entro 3 giorni (<code class="docutils literal notranslate"><span class="pre">IMMINENT_DAYS_NO_HISTORY</span> <span class="pre">=</span> <span class="pre">3</span></code>), con <code class="docutils literal notranslate"><span class="pre">insufficient_history</span> <span class="pre">=</span> <span class="pre">true</span></code> e <code class="docutils literal notranslate"><span class="pre">at_risk_quantity</span></code> nullo.</p></li>
+<li><p><strong>Suggerimento ricette</strong>: per i prodotti che entrano in una ricetta si indicano fino a 3 ricette (<code class="docutils literal notranslate"><span class="pre">MAX_RECIPE_SUGGESTIONS</span> <span class="pre">=</span> <span class="pre">3</span></code>), ordinate per frequenza di preparazione nelle ultime 8 settimane, con il numero di preparazioni stimate per consumare la quantità a rischio.</p></li>
+<li><p><strong>Lotti scaduti</strong>: un lotto con <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span></code> già passato non viene mai suggerito, né tra i lotti a rischio né tra le ricette. Vedi la sezione Cache.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="endpoint-e-schema">
+<h2>Endpoint e schema<a class="headerlink" href="#endpoint-e-schema" title="Link to this heading"></a></h2>
+<section id="get-v1-forecast-daily-plan">
+<h3><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/daily-plan</span></code><a class="headerlink" href="#get-v1-forecast-daily-plan" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Permesso: <code class="docutils literal notranslate"><span class="pre">INVENTORY_READ</span></code> (ruoli <code class="docutils literal notranslate"><span class="pre">chef</span></code> e <code class="docutils literal notranslate"><span class="pre">manager</span></code>; <code class="docutils literal notranslate"><span class="pre">admin</span></code> via <code class="docutils literal notranslate"><span class="pre">ADMIN_ALL</span></code>).</p></li>
+<li><p>Multi-tenancy: lo <code class="docutils literal notranslate"><span class="pre">store_id</span></code> viene dal token, come per gli altri endpoint.</p></li>
+<li><p>Risposta (<code class="docutils literal notranslate"><span class="pre">DailyPlan</span></code>):</p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"as_of"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-15"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timezone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Europe/Rome"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"forecasts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"product_master_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"product_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mozzarella"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kg"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"forecast_today"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"forecast_low"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"forecast_high"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"error_pct"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"adjusted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stock"</span><span class="p">:</span><span class="w"> </span><span class="mf">80.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"to_prepare"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"at_risk"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"batch_public_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"…"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lot_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L-2210"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"product_master_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"product_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mozzarella"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kg"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"residual"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"at_risk_quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"storage_expiry_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-20T06:00:00Z"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"days_left"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"insufficient_history"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"recipes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="nt">"public_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"…"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pizza"</span><span class="p">,</span><span class="w"> </span><span class="nt">"preparations_last_8w"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="nt">"suggested_preparations"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"history_days"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"days_needed"</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>I valori sono illustrativi. Lo schema completo è nel modello <code class="docutils literal notranslate"><span class="pre">DailyPlan</span></code> (<code class="docutils literal notranslate"><span class="pre">app/modules/forecast/schemas.py</span></code>) e nella documentazione OpenAPI.</p>
+<p>I due campi di avanzamento:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">history_days</span></code>: giorni trascorsi dal primo giorno di attività dello store (massimo 12 settimane); <code class="docutils literal notranslate"><span class="pre">0</span></code> per uno store senza attività (nessuna preparazione né chiusura lotto).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">days_needed</span></code>: giorni di storico richiesti per la prima previsione (<code class="docutils literal notranslate"><span class="pre">MIN_HISTORY_DAYS</span></code> = 28).</p></li>
+</ul>
+</section>
+<section id="avvio-a-freddo">
+<h3>Avvio a freddo<a class="headerlink" href="#avvio-a-freddo" title="Link to this heading"></a></h3>
+<p>Uno store nuovo non ha storico, quindi nelle prime 4 settimane non ci sono previsioni. Il cliente vede un testo di avanzamento, calcolato da <code class="docutils literal notranslate"><span class="pre">history_days</span></code> e <code class="docutils literal notranslate"><span class="pre">days_needed</span></code> (stessa frase nella pagina “Piano del giorno” e nel widget della dashboard). Il testo di avanzamento viene nascosto non appena esiste almeno una previsione:</p>
+<ul class="simple">
+<li><p>nessuna preparazione registrata (<code class="docutils literal notranslate"><span class="pre">history_days</span> <span class="pre">=</span> <span class="pre">0</span></code>): “Registra le prime preparazioni: servono almeno 28 giorni di storico per prevedere i consumi.”;</p></li>
+<li><p>storico parziale: “Hai N giorni di storico: le previsioni partono tra M giorni.”;</p></li>
+<li><p>storico sufficiente: nessun testo di avanzamento.</p></li>
+</ul>
+<p>Senza previsioni restano visibili solo i lotti che scadono entro 3 giorni (vedi “Lotti a rischio”).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cache">
+<h2>Cache<a class="headerlink" href="#cache" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Il piano calcolato è messo in cache Redis per 15 minuti (<code class="docutils literal notranslate"><span class="pre">ttl=900</span></code>), per store.</p></li>
+<li><p>La giacenza (<code class="docutils literal notranslate"><span class="pre">stock</span></code>) e <code class="docutils literal notranslate"><span class="pre">to_prepare</span></code> sono quelli del momento del calcolo: possono essere vecchi fino a 15 minuti.</p></li>
+<li><p>Ad ogni lettura, anche da cache, i lotti a rischio con <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span></code> già passato vengono rimossi dalla risposta. Un lotto scaduto non viene quindi mai suggerito, anche se era nel piano in cache. La giacenza può invece includere, per al massimo 15 minuti, un lotto scaduto nel frattempo.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="snapshot-e-pannello-impatto">
+<h2>Snapshot e pannello Impatto<a class="headerlink" href="#snapshot-e-pannello-impatto" title="Link to this heading"></a></h2>
+<p>Per misurare quanto il piano serve davvero, ogni giorno si salvano le previsioni e i lotti segnalati a rischio.</p>
+<ul class="simple">
+<li><p><strong>Tabelle</strong>: <code class="docutils literal notranslate"><span class="pre">forecast_snapshots</span></code> (una riga per store, giorno e prodotto: media, banda, confidenza) e <code class="docutils literal notranslate"><span class="pre">forecast_at_risk_snapshots</span></code> (un lotto a rischio alla prima segnalazione, con la quantità a rischio). Entrambe hanno RLS per store; si conservano 120 giorni.</p></li>
+<li><p><strong>Job</strong>: il cron arq <code class="docutils literal notranslate"><span class="pre">snapshot_forecasts_task</span></code> gira ogni ora al minuto <code class="docutils literal notranslate"><span class="pre">:10</span></code> e agisce per gli store per cui sono le 05:00 locali. È idempotente: rilanciarlo non duplica righe e un lotto resta registrato alla prima segnalazione. Se uno store fallisce gli altri proseguono.</p></li>
+<li><p><strong>Accuratezza reale</strong>: confronta la previsione salvata di ogni giorno con il consumo effettivo (preparazioni di quel giorno). Sono esclusi i giorni di chiusura e le previsioni a confidenza bassa.</p></li>
+<li><p><strong>Spreco evitato</strong>: lotti segnalati a rischio che poi sono stati chiusi <code class="docutils literal notranslate"><span class="pre">sold_out</span></code> dopo la segnalazione. È una <strong>stima</strong>: quantità a rischio per il lotto, in euro al prezzo dell’ultima riga di bolla confermata del prodotto. Limiti: conta solo i <code class="docutils literal notranslate"><span class="pre">sold_out</span></code> successivi alla segnalazione, somma solo quantità della stessa famiglia di unità, e i prodotti senza prezzo in bolla restano in quantità senza valore in euro.</p></li>
+<li><p><strong>Endpoint</strong>: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/impact</span></code> e <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/stats/forecast-impact</span></code>. Sono in sola lettura e non scrivono mai.</p></li>
+<li><p><strong>Conto alla rovescia</strong>: servono almeno 7 giorni di snapshot; prima il pannello mostra quanti ne mancano.</p></li>
+<li><p><strong>Seed demo</strong>: lo store demo ricostruisce 14 giorni di snapshot con il motore sullo storico (senza vedere il futuro), segnala alcuni lotti storici e crea una bolla confermata con i prezzi, così il pannello non è vuoto.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="notifica-mattutina">
+<h2>Notifica mattutina<a class="headerlink" href="#notifica-mattutina" title="Link to this heading"></a></h2>
+<p>Ogni mattina lo store riceve una notifica in-app con il riepilogo del Piano del giorno.</p>
+<ul class="simple">
+<li><p><strong>Orario</strong>: il cron arq <code class="docutils literal notranslate"><span class="pre">forecast_digest_task</span></code> gira ogni ora al minuto <code class="docutils literal notranslate"><span class="pre">:20</span></code> e agisce per gli store per cui sono le 07:00 locali, dopo lo snapshot delle 05:00.</p></li>
+<li><p><strong>Contenuto</strong>: numero di lotti a rischio (con i nomi dei primi tre prodotti, ordinati per urgenza) e numero di prodotti da preparare. Gravità <code class="docutils literal notranslate"><span class="pre">warning</span></code> se ci sono lotti a rischio, altrimenti <code class="docutils literal notranslate"><span class="pre">info</span></code>. Se non c’è nulla da segnalare non si scrive nulla. Il link nei dati della notifica porta a <code class="docutils literal notranslate"><span class="pre">#/forecast</span></code>; nella pagina Notifiche il tipo è mostrato come “Piano del giorno”.</p></li>
+<li><p><strong>Idempotenza</strong>: la notifica è identificata dal giorno del piano (<code class="docutils literal notranslate"><span class="pre">forecast-digest:&lt;data&gt;</span></code>), quindi rilanciare il job non la duplica.</p></li>
+<li><p><strong>Nessun opt-out</strong>: la notifica è sempre attiva per tutti gli store; il canale e solo in-app.</p></li>
+<li><p><strong>Esecuzione sequenziale</strong>: gli store sono processati uno dopo l’altro (un errore su uno non ferma gli altri); il tetto è il timeout arq di 300 secondi per esecuzione.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="fase-3-trasformazioni-regole-di-conservazione-e-vincoli-haccp">
+<h2>Fase 3: Trasformazioni, regole di conservazione e vincoli HACCP<a class="headerlink" href="#fase-3-trasformazioni-regole-di-conservazione-e-vincoli-haccp" title="Link to this heading"></a></h2>
+<p>La fase 3 arricchisce la gestione dei lotti a rischio con suggerimenti operativi di impiego e alternative di conservazione, garantendo la piena aderenza ai regolamenti comunitari sull’igiene alimentare (Reg. CE 852/2004 e Reg. CE 853/2004).</p>
+<section id="suggerimenti-strutturati-di-trasformazione-ricette">
+<h3>Suggerimenti strutturati di trasformazione (Ricette)<a class="headerlink" href="#suggerimenti-strutturati-di-trasformazione-ricette" title="Link to this heading"></a></h3>
+<p>Per ciascuna ricetta suggerita per valorizzare il lotto a rischio, vengono indicati:</p>
+<ul class="simple">
+<li><p><strong>Prodotto derivato</strong>: nome del semilavorato o prodotto finito ottenuto (<code class="docutils literal notranslate"><span class="pre">output_product_name</span></code>).</p></li>
+<li><p><strong>Metodo e durata di conservazione secondaria</strong>: metodo di conservazione (<code class="docutils literal notranslate"><span class="pre">output_storage_method</span></code>) e durata stimata in giorni (<code class="docutils literal notranslate"><span class="pre">estimated_shelf_life_days</span></code>), desunti dalla <code class="docutils literal notranslate"><span class="pre">ProductStorageRule</span></code> dello store configurata per il prodotto di destinazione.</p></li>
+</ul>
+</section>
+<section id="suggerimenti-di-cambio-conservazione-storage-shift">
+<h3>Suggerimenti di cambio conservazione (Storage Shift)<a class="headerlink" href="#suggerimenti-di-cambio-conservazione-storage-shift" title="Link to this heading"></a></h3>
+<p>Se per il prodotto del lotto esistono regole di conservazione per altri ambienti (es. abbattimento rapido e stoccaggio in freezer a -18°C):</p>
+<ul class="simple">
+<li><p>Viene calcolata la potenziale nuova data di scadenza tramite <code class="docutils literal notranslate"><span class="pre">compute_storage_expiry_at</span></code>.</p></li>
+<li><p>Viene indicato il guadagno in giorni di conservazione (<code class="docutils literal notranslate"><span class="pre">days_extended</span></code>).</p></li>
+<li><p>Vengono esplicitate le note igienico-sanitarie pertinenti.</p></li>
+</ul>
+</section>
+<section id="vincoli-sanitari-haccp-rigorosi">
+<h3>Vincoli sanitari HACCP rigorosi<a class="headerlink" href="#vincoli-sanitari-haccp-rigorosi" title="Link to this heading"></a></h3>
+<p>A tutela della sicurezza alimentare e conformemente ai principi HACCP:</p>
+<ol class="arabic simple">
+<li><p><strong>Divieto assoluto di ricongelamento a crudo:</strong> un lotto precedentemente decongelato (tracciato dallo storico <code class="docutils literal notranslate"><span class="pre">BatchStorageMove</span></code> con origine da storage freezer) non può essere ricongelato tal quale. L’opzione viene esclusa dai suggerimenti di spostamento ed è accompagnata da un warning: il prodotto può essere recuperato solo previa cottura termica completa in ricetta. A livello di dominio, ogni tentativo di spostamento solleva <code class="docutils literal notranslate"><span class="pre">BUS_HACCP_REFREEZE_FORBIDDEN</span></code> (<code class="docutils literal notranslate"><span class="pre">ERR_BUS_015</span></code>).</p></li>
+<li><p><strong>Divieto di congelamento “salvavita” tardivo:</strong> il congelamento è legittimo solo se effettuato su alimenti in piena freschezza (<code class="docutils literal notranslate"><span class="pre">days_left</span> <span class="pre">&gt;=</span> <span class="pre">1</span></code>). Se il lotto scade in giornata (<code class="docutils literal notranslate"><span class="pre">days_left</span> <span class="pre">&lt;=</span> <span class="pre">0</span></code>) o è già scaduto, il congelamento è vietato e solleva a dominio <code class="docutils literal notranslate"><span class="pre">BUS_HACCP_LATE_FREEZE_FORBIDDEN</span></code> (<code class="docutils literal notranslate"><span class="pre">ERR_BUS_016</span></code>).</p></li>
+<li><p><strong>Blocco uso e spostamento lotti scaduti:</strong> lotti con <code class="docutils literal notranslate"><span class="pre">storage_expiry_at</span> <span class="pre">&lt;</span> <span class="pre">now</span></code> non possono essere impiegati come ingredienti in alcuna preparazione né trasferiti di reparto, sollevando <code class="docutils literal notranslate"><span class="pre">BUS_BATCH_EXPIRED</span></code> (<code class="docutils literal notranslate"><span class="pre">ERR_BUS_017</span></code>).</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cosa-non-fa">
+<h2>Cosa NON fa<a class="headerlink" href="#cosa-non-fa" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Nessuna previsione per festività, trend o eventi</strong>: i giorni festivi sono trattati come giorni normali. Trend stagionali e eventi non sono modellati. Sono previsti nella fase 4.</p></li>
+<li><p><strong>I suggerimenti sono consigli</strong>: le ricette e le quantità proposte sono indicazioni basate sullo storico e sulle regole registrate. La decisione su cosa preparare e su quali lotti usare resta del titolare.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="riferimenti">
+<h2>Riferimenti<a class="headerlink" href="#riferimenti" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Logica di calcolo: <a class="reference internal" href="#../app/modules/forecast/engine.py"><span class="xref myst">engine.py</span></a></p></li>
+<li><p>Servizio e cache: <a class="reference internal" href="#../app/modules/forecast/service.py"><span class="xref myst">service.py</span></a></p></li>
+<li><p>Router: <a class="reference internal" href="#../app/modules/forecast/router.py"><span class="xref myst">router.py</span></a></p></li>
+<li><p>Schemi: <a class="reference internal" href="#../app/modules/forecast/schemas.py"><span class="xref myst">schemas.py</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="25-delivery-notes.html" class="btn btn-neutral float-left" title="Delivery Notes (bolle di consegna fornitori)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="27-onboarding-nuovo-cliente.html" class="btn btn-neutral float-right" title="Onboarding di un nuovo cliente: runbook per il socio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Restrackit Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

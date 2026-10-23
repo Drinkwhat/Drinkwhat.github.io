@@ -1,0 +1,91 @@
+# Onboarding di un nuovo cliente: runbook per il socio
+
+Checklist operativa, dall'accordo commerciale al primo giorno d'uso, per attivare un nuovo
+ristorante su Restrackit **senza toccare il codice**. Il dettaglio tecnico di endpoint, payload e
+rollback è in [20-onboarding-utenti.md](20-onboarding-utenti.md); i problemi successivi
+(login, "non vedo X") sono in [21-supporto-clienti.md](21-supporto-clienti.md).
+
+Serve un account Keycloak con ruolo `admin` (solo team interno). Un cliente = uno **store**; tutti
+gli store condividono lo stesso realm Keycloak, ma i dati sono isolati per `store_id` (RLS).
+
+## 1. Prima di iniziare: raccogli dal cliente
+
+| Dato | Note |
+|---|---|
+| Nome del locale | Diventa il nome dello store e, normalizzato, lo **slug** (es. "Trattoria da Mario" → `trattoria-da-mario`). Scrivilo come lo vuoi vedere in app: dopo la creazione non c'è una schermata per rinominarlo |
+| Fuso orario | Quasi sempre `Europe/Rome`. Governa scadenze, report giornalieri e i job delle 05:00/07:00 (previsioni) |
+| Nome, cognome, email del manager | Il primo account è un `manager` (titolare o responsabile di cucina) |
+| Username desiderato | Solo `a-z 0-9 _ -`, minimo 3 caratteri (es. `mario`). Lo username di login finale sarà `{slug}.{username}`, es. `trattoria-da-mario.mario` |
+| Come comunicare la password | Telefono o di persona. **Non** email/chat in chiaro: non c'è SMTP e la password non viene mai reinviata |
+
+## 2. Creare lo store e il manager
+
+1. Vai su [restrackit.it](https://restrackit.it) e premi **Accedi**.
+2. Accedi con le tue credenziali da **admin** (Keycloak ti chiede username e password).
+3. Dal menu apri la pagina **Onboarding** (`#/onboarding`).
+4. Compila *Nome store*, *Fuso orario*, *Username* ed *Email* del manager → **Crea store + manager**.
+5. Si apre una finestra con **username finale**, **password temporanea** e **Store ID**.
+   **La password compare una sola volta**: copiala subito. Se chiudi la finestra senza averla
+   copiata, vedi §5 (reset).
+6. Annota `Store ID` e username in un posto condiviso (mai la password).
+
+Errori frequenti:
+
+| Esito | Significato | Cosa fare |
+|---|---|---|
+| `409` | Username o email già usati nel realm (anche da un altro cliente) | Cambia username; se è l'email, usane un'altra |
+| `422` | Campo non valido (fuso orario, caratteri dello username) | Correggi e riprova |
+| `502` | Keycloak non risponde. Lo store appena creato viene cancellato in automatico | Riprova dopo qualche minuto; se persiste vedi i log (§6) |
+
+In alternativa alla UI: `POST /v1/onboarding/stores` (esempio `curl` in
+[20-onboarding-utenti.md § 1](20-onboarding-utenti.md)).
+
+## 3. Consegna delle credenziali
+
+1. Comunica al manager **username finale** e **password temporanea**, su canali separati se possibile.
+2. Al primo login Keycloak gli chiede di scegliere una nuova password (`UPDATE_PASSWORD`).
+3. Il login è **solo per username** (non email).
+
+## 4. Primo accesso: verifica insieme al cliente
+
+Fatti accompagnare dal manager (anche da remoto) e controlla:
+
+- [ ] Login riuscito e cambio password completato.
+- [ ] Vede solo il proprio store (nessun dato di altri locali).
+- [ ] Il fuso orario dello store è corretto.
+- [ ] Il manager apre la pagina **Staff** (`#/staff`) e crea i suoi chef: sceglie nome, cognome,
+      username e ruolo (`chef`/`manager`); la password temporanea di ogni chef la comunica lui a voce.
+      Limite: 20 account attivi per store.
+- [ ] Catalogo iniziale: categorie, unità di misura, metodi di conservazione e prodotti si
+      configurano dall'app (sezione prodotti/cataloghi). Con il cliente carica almeno i prodotti
+      che usa più spesso, così il primo carico/etichetta non parte da zero.
+- [ ] Un test reale: un carico (etichetta) o una preparazione, e verifica che compaia in inventario.
+
+> Stato dei cataloghi di un store nuovo: lo store parte **vuoto**; nessun seed automatico viene
+> eseguito dall'onboarding. Verifica dopo la prima creazione cosa vede il manager e segnala a chi
+> sviluppa se manca qualcosa di indispensabile.
+
+## 5. Problemi comuni
+
+| Situazione | Soluzione |
+|---|---|
+| Password temporanea persa | Il manager non può resettarsi da solo: reset da Keycloak Admin Console → *Users* → utente → *Credentials* → *Reset password*, con **Temporary** attivo. Per gli chef basta il manager (Staff → *Reset password*) |
+| Un chef non entra | Il manager controlla in **Staff** che l'account sia attivo, poi reset password |
+| Il cliente non vede nulla / vede lo store sbagliato | Controlla l'attributo `store_id` dell'utente in Keycloak (deve essere la lista con l'Store ID corretto) e che abbia **un solo** ruolo realm |
+| Username già usato da un altro store | Gli username sono unici nel realm: serve sempre il prefisso `{slug}.` |
+
+## 6. Dove guardare se qualcosa va storto
+
+Log, Sentry e dashboard sono descritti in [21-supporto-clienti.md § 4](21-supporto-clienti.md).
+Quando il cliente segnala un errore chiedi `error.code` e `request_id` (vedi
+[ERROR_CODES.md](ERROR_CODES.md)); l'audit di creazione/modifica account è nelle righe di log
+`Staff audit: ...`.
+
+## 7. Cosa **non** fare
+
+- Non riutilizzare `scripts/reset_chef.py` o `scripts/seed_db.py` su staging/produzione: sono per
+  l'ambiente locale e cancellano/ricreano dati demo.
+- Non creare utenti a mano su Keycloak se la UI basta: senza `store_id` o ruolo corretti l'utente
+  resta senza dati o senza permessi.
+- Non loggare né incollare in ticket/chat la password temporanea.
+- Non assegnare mai il ruolo `admin` a un cliente.

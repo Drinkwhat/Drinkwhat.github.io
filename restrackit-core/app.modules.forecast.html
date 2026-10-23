@@ -1,0 +1,1844 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.modules.forecast package &mdash; Restrackit 2.129.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20d98cc7"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="app.modules.inventory package" href="app.modules.inventory.html" />
+    <link rel="prev" title="app.modules.delivery_notes package" href="app.modules.delivery_notes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Restrackit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">app</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="app.html">app package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="app.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="app.core.html">app.core package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="app.modules.html">app.modules package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.services.html">app.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.shared.html">app.shared package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#app-database-module">app.database module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#app-main-module">app.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#app-worker-module">app.worker module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="markdown_docs.html">Documentazione Manuale (Markdown)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manual/00-technical-manual.html">📘 Documentazione Tecnica - Restrackit Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#vision-di-prodotto">0. Vision di Prodotto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#problema-che-risolve">0.1 Problema che risolve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#obiettivo-principale">0.2 Obiettivo principale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#valore-per-lutente">0.3 Valore per l’utente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#flusso-operativo-minimo-mvp">0.4 Flusso operativo minimo (MVP)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#statistiche-impatto-atteso">0.5 Statistiche: impatto atteso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#notifiche-coerenti-con-la-vision">0.6 Notifiche (coerenti con la vision)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#architettura-del-progetto">1. Architettura del Progetto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#struttura-ad-alto-livello">🏗️ Struttura ad Alto Livello</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#flusso-dei-dati-principale-analisi-etichetta">🔄 Flusso dei Dati Principale (Analisi Etichetta)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#struttura-delle-cartelle">2. Struttura delle Cartelle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#stack-tecnologico">3. Stack Tecnologico</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#configurazione-ambientale">4. Configurazione Ambientale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#setup-locale">Setup Locale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#flussi-di-sviluppo">5. Flussi di Sviluppo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#standard-di-codice">Standard di Codice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#git-flow-branching">Git Flow &amp; Branching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#ci-cd-pipeline">CI/CD Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#api-documentation">6. API Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#inventory-module-inventory">📦 Inventory Module (<code class="docutils literal notranslate"><span class="pre">/inventory</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#products-module-products">🏷️ Products Module (<code class="docutils literal notranslate"><span class="pre">/products</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#setup-module-setup-solo-admin">⚙️ Setup Module (<code class="docutils literal notranslate"><span class="pre">/setup</span></code>) — solo admin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#kitchen-module-kitchen">🍳 Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/kitchen</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#system">🏥 System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#database-schema">7. Database Schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#tabelle-principali">Tabelle Principali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#testing-strategy">8. Testing Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#deployment-guide">9. Deployment Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#dockerfile-multi-stage">Dockerfile (Multi-stage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#procedura-di-deploy">Procedura di Deploy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#monitoraggio">Monitoraggio</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#troubleshooting">10. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#errori-comuni">Errori Comuni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/00-technical-manual.html#ecosystem-rationale">11. Ecosystem &amp; Rationale</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/00-technical-manual.html#contatti-supporto">Contatti Supporto</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/01-quick-reference.html">Quick Reference Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#start-stop-standard">🚀 Start/Stop (standard)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#staging-environment">🚀 Staging Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#test">🧪 Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#db">🗄️ DB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#development-server-solo-locale">🚀 Development Server (solo locale)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#database-migrations">🗄️ Database Migrations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#testing">🧪 Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#linting-formatting">🔍 Linting &amp; Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#docker-commands">🐳 Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#git-workflow-issue-branch-commit-pr">🌿 Git Workflow (issue → branch → commit → PR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#common-api-calls">📡 Common API Calls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#health-check">Health Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#parse-label-text">Parse Label Text</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#confirm-batch">Confirm Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#get-products">Get Products</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#bulk-import-products">Bulk Import Products</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#roles-permissions">🔐 Roles &amp; Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#chef">Chef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#manager">Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#admin">Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#environment-variables">🌍 Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#debugging">🐛 Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#enable-debug-logging">Enable Debug Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#database-debug">Database Debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/01-quick-reference.html#notifications">Notifications</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#useful-links">📚 Useful Links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/01-quick-reference.html#observability-external-tools">🌍 Observability &amp; External Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/02-setup.html">Installation &amp; Setup Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#prerequisiti">Prerequisiti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#setup-rapido-consigliato">Setup Rapido (Consigliato)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#configura-environment">2. Configura Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#avvia-con-docker">3. Avvia con Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#verifica">4. Verifica</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#comandi-utili-makefile">Comandi Utili (Makefile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#setup-locale-senza-docker">Setup Locale (Senza Docker)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/02-setup.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#port-8000-in-uso">Port 8000 in uso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/02-setup.html#errori-database">Errori Database</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/03-architecture.html">Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#system-design">System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#technology-stack">Technology Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#backend">Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-data">AI &amp; Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#devops">DevOps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#key-components">Key Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#modular-architecture-app-modules">1. Modular Architecture (<code class="docutils literal notranslate"><span class="pre">app/modules/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#error-handling-app-core-errors-py">2. Error Handling (<code class="docutils literal notranslate"><span class="pre">app/core/errors.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ai-agent-app-services-ai-agent-py">3. AI Agent (<code class="docutils literal notranslate"><span class="pre">app/services/ai_agent.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#caching-system-app-shared-cache-py">4. Caching System (<code class="docutils literal notranslate"><span class="pre">app/shared/cache.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#orm-loading-strategy-app-modules-models-py">8. ORM Loading Strategy (<code class="docutils literal notranslate"><span class="pre">app/modules/*/models.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#background-tasks-app-worker-py">5. Background Tasks (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#allergen-management-app-shared-allergens-py">6. Allergen Management (<code class="docutils literal notranslate"><span class="pre">app/shared/allergens.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#ocr-post-processing-app-services-ocr-post-processing-py">7. OCR Post-Processing (<code class="docutils literal notranslate"><span class="pre">app/services/ocr_post_processing.py</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#data-flow-label-text-analysis">Data Flow: Label Text Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/03-architecture.html#multi-tenancy-security">Multi-Tenancy &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#row-level-security-rls">1. Row Level Security (RLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#authentication-keycloak-oidc">2. Authentication (Keycloak OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#opaque-uuid-api-ids">3. Opaque UUID API IDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/03-architecture.html#monitoring-observability">4. Monitoring &amp; Observability</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/04-api-reference.html">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#core-headers-tracing-multi-tenancy">Core Headers (Tracing &amp; Multi-tenancy)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#health">Health</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-health"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#inventory-module-v1-inventory">Inventory Module (<code class="docutils literal notranslate"><span class="pre">/v1/inventory</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-parse-text"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/parse-text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-confirm"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/confirm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-v1-inventory-batch-batch-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/inventory/batch/{batch_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-batch-batch-id-move-storage"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/batch/{batch_id}/move-storage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-inventory-batch-batch-id-complete"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/inventory/batch/{batch_id}/complete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-batch-batch-id-events"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}/events</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-inventory-batch-batch-id-history"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/inventory/batch/{batch_id}/history</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#products-module-v1-products">Products Module (<code class="docutils literal notranslate"><span class="pre">/v1/products</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-products-allergens"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/allergens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-products-bulk-load"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/products/bulk-load</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-products-list"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-v1-products-product-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/products/{product_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#categories-v1-categories">Categories (<code class="docutils literal notranslate"><span class="pre">/v1/categories</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-categories"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-categories"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-v1-categories-category-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/categories/{category_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#units-of-measure-v1-units-of-measure">Units of Measure (<code class="docutils literal notranslate"><span class="pre">/v1/units-of-measure</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-units-of-measure"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-units-of-measure"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/units-of-measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-v1-units-of-measure-uom-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/units-of-measure/{uom_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#legacy-removed-conservation-methods">Legacy (removed): Conservation Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#storage-methods-v1-storage-methods">Storage Methods (<code class="docutils literal notranslate"><span class="pre">/v1/storage-methods</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-storage-methods"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-storage-methods"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/storage-methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/storage-methods/{method_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-v1-storage-methods-method-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/storage-methods/{method_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#product-storage-rules-v1-products-product-id-storage-rules">Product Storage Rules (<code class="docutils literal notranslate"><span class="pre">/v1/products/{product_id}/storage-rules</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#get-v1-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-products-product-id-storage-rules"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/products/{product_id}/storage-rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#put-v1-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/v1/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#delete-v1-products-product-id-storage-rules-rule-id"><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/v1/products/{product_id}/storage-rules/{rule_id}</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#kitchen-module-v1-kitchen">Kitchen Module (<code class="docutils literal notranslate"><span class="pre">/v1/kitchen</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#ricette">Ricette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#preparazioni">Preparazioni</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#stats-module-v1-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/v1/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#forecast-module-v1-forecast">Forecast Module (<code class="docutils literal notranslate"><span class="pre">/v1/forecast</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#setup-module-v1-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/v1/setup</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/setup/seed-demo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#common-error-codes">Common Error Codes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/05-database-schema.html">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#entity-relationship-diagram">Entity Relationship Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#table-definitions">Table Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#stores"><code class="docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#storage-methods"><code class="docutils literal notranslate"><span class="pre">storage_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#product-storage-rules"><code class="docutils literal notranslate"><span class="pre">product_storage_rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#categories"><code class="docutils literal notranslate"><span class="pre">categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#units-of-measure"><code class="docutils literal notranslate"><span class="pre">units_of_measure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#products-master"><code class="docutils literal notranslate"><span class="pre">products_master</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batches"><code class="docutils literal notranslate"><span class="pre">batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#delivery-notes-bolle-fornitori">Delivery notes (bolle fornitori)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#batch-storage-moves"><code class="docutils literal notranslate"><span class="pre">batch_storage_moves</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipes"><code class="docutils literal notranslate"><span class="pre">recipes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#recipe-ingredients"><code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#preparations-e-preparation-items"><code class="docutils literal notranslate"><span class="pre">preparations</span></code> e <code class="docutils literal notranslate"><span class="pre">preparation_items</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#notifications"><code class="docutils literal notranslate"><span class="pre">notifications</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#relationships-high-level">Relationships (high level)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#dual-id-architecture">Dual-ID Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#data-integrity">Data Integrity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/05-database-schema.html#row-level-security-rls">Row Level Security (RLS)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/05-database-schema.html#migrations">Migrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/06-docker-deployment.html">Docker Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#docker-architecture">Docker Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#files">Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#dockerfile"><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-files-deploy">Docker Compose files (<code class="docutils literal notranslate"><span class="pre">deploy/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#build-locally">Build Locally</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#build-with-compose">Build with Compose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#running">Running</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-recommended">Docker Compose (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#staging-deployment-via-makefile">Staging Deployment (via Makefile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#standalone-docker">Standalone Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#environment-configuration">Environment Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#env-for-docker"><code class="docutils literal notranslate"><span class="pre">.env</span></code> for Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-secrets-production">Docker Secrets (Production)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#log-rotation-management">Log Rotation &amp; Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#volume-management">Volume Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#application-volumes">Application Volumes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-volume">Database Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#named-volumes">Named Volumes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#networking">Networking</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#docker-compose-network">Docker Compose Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#port-mapping">Port Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#external-access">External Access</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#health-checks">Health Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#application">Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#manual-check">Manual Check</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#persistence">Persistence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#data-persistence">Data Persistence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-backup">Database Backup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#view-logs">View Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#execute-commands">Execute Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#inspect-container">Inspect Container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#remove-dev-settings">Remove Dev Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#security">Security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#reverse-proxy-nginx">Reverse Proxy (nginx)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#ssl-tls">SSL/TLS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#container-registry">Container Registry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#push-to-github-container-registry">Push to GitHub Container Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#container-won-t-start">Container Won’t Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#database-connection-issues">Database Connection Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/06-docker-deployment.html#permission-errors">Permission Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/06-docker-deployment.html#cleanup">Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/07-cicd-pipeline.html">CI/CD Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#diagramma-pipeline-mermaid">Diagramma pipeline (Mermaid)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-workflow-ci-yml">CI Workflow (<code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#ci-jobs-current">CI Jobs (current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#contract-testing-schemathesis">Contract testing (Schemathesis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-semgrep-is-not-inside-quality">Why semgrep is not inside quality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#why-autofix-is-limited-on-prs">Why autofix is limited on PRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#autofix-current-behavior">Autofix (current behavior)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#docker-build-workflow-docker-build-yml">Docker Build Workflow (<code class="docutils literal notranslate"><span class="pre">docker-build.yml</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#trigger-events">Trigger events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#jobs-current">Jobs (current)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#runner-selection-self-hosted-github-hosted">Runner selection (self-hosted + GitHub-hosted)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#self-hosted-runners-do-not-have-automatic-org-access-to-github-token-so-a-manual-pat-is-required-for-private-packages-in-organization-repositories">(Self-hosted runners do not have automatic org access to <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code>, so a manual PAT is required
+for private packages in organization repositories.)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#execution-flow">Execution Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#pull-request">Pull Request</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#main-branch-push">Main Branch Push</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#version-tag">Version Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#openapi-schema-export-release-yml-tag-and-release">OpenAPI schema export (<code class="docutils literal notranslate"><span class="pre">release.yml</span></code> – <code class="docutils literal notranslate"><span class="pre">tag-and-release</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#status-checks">Status Checks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#required-checks-main-branch">Required Checks (main branch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#view-status">View Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#debugging">Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#view-workflow-runs">View Workflow Runs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#check-logs">Check Logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#common-issues">Common issues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#github-secrets">GitHub Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#caching">Caching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#parallel-jobs">Parallel Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#branch-strategy">Branch Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#semantic-versioning">Semantic Versioning</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/07-cicd-pipeline.html#monitoring">Monitoring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#notifications">Notifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/07-cicd-pipeline.html#metrics">Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/08-environment-config.html">Environment Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#come-vengono-caricate-le-variabili">Come vengono caricate le variabili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#file-env">File <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#variabili-applicative-lette-dallapp">Variabili applicative (lette dall’app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#google-ai">Google / AI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#database">Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#keycloak-oidc">Keycloak (OIDC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#cors">CORS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#logging-lette-dal-modulo-logging">Logging (lette dal modulo logging)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#variabili-infrastrutturali-docker-compose">Variabili “infrastrutturali” (Docker Compose)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#best-practice">Best practice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/08-environment-config.html#secrets-management">Secrets Management</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/08-environment-config.html#environment-variables-summary">Environment Variables Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/09-auth.html">Authentication &amp; Authorization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#flusso-di-autenticazione-oidc">Flusso di autenticazione (OIDC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#configurazione-keycloak">Configurazione Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#ruoli-e-permessi">Ruoli e permessi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#esempi-curl">Esempi (curl)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#endpoint-utili">Endpoint utili</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/10-error-handling.html">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#type-definitions">Type Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#errorinfo-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorInfo</span></code> (TypedDict)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#errorpayload-errorresponse-typeddict"><code class="docutils literal notranslate"><span class="pre">ErrorPayload</span></code> / <code class="docutils literal notranslate"><span class="pre">ErrorResponse</span></code> (TypedDict)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#exception-classes">Exception Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#apperror-base"><code class="docutils literal notranslate"><span class="pre">AppError</span></code> (Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#validationerror-400"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> (400)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#externalserviceerror-502"><code class="docutils literal notranslate"><span class="pre">ExternalServiceError</span></code> (502)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#parsingerror-422"><code class="docutils literal notranslate"><span class="pre">ParsingError</span></code> (422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#businesslogicerror-404-409-422"><code class="docutils literal notranslate"><span class="pre">BusinessLogicError</span></code> (404/409/422)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#databaseerror-409-500"><code class="docutils literal notranslate"><span class="pre">DatabaseError</span></code> (409/500)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#systemerror-500"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code> (500)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#exception-handling-pattern">Exception Handling Pattern</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#try-catch-raise">Try-Catch-Raise</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-handler-pattern">Error Handler Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#logging-integration">Logging Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#log-on-error">Log on Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#log-levels">Log Levels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#do">✅ Do</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#don-t">❌ Don’t</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#testing-errors">Testing Errors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#pytest">pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#with-client">With Client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#error-response-format">Error Response Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#standard-format">Standard Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#with-original-exception-details">With Original Exception Details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#http-status-codes">HTTP Status Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#fail-open-architecture">Fail-Open Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#background-job-status">Background Job Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#production-considerations">Production Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-code-usage">Error Code Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#error-tracking">Error Tracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/10-error-handling.html#internationalization-i18n">Internationalization (i18n)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#get-message"><code class="docutils literal notranslate"><span class="pre">get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/10-error-handling.html#coverage">Coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/11-contributing.html">Guida Team (contribuzioni)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#clona-il-repo">1. Clona il repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#setup-ambiente">2. Setup ambiente</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#crea-branch-dalla-issue">3. Crea branch dalla issue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#dev-workflow-pratico">Dev workflow (pratico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#regole-base">Regole base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#test">Test</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#write-tests">Write Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#run-tests">Run Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#test-coverage">Test Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#pull-request">Pull Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#push-branch">1. Push branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#apri-pr">2. Apri PR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#pr-title">PR Title</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#pr-description">PR Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#review">3. Review</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#merge">4. Merge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#adding-features">Adding Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#new-api-endpoint">New API Endpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#database-migration">Database Migration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#documentation">Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#update-docs">Update Docs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#add-to-index">Add to Index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#docstrings">DocStrings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#common-tasks">Common Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#setup-local-development">Setup Local Development</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#run-all-checks">Run All Checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#update-dependencies">Update Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#build-docker-image">Build Docker Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#issues">Issues</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#report-bug">Report Bug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#request-feature">Request Feature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#singleton-service-best-practices">Singleton &amp; Service Best Practices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-asincrone-e-stateful-class-service">1. Risorse Asincrone e Stateful (Class Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#risorse-sincrone-e-stateless-lru-cache">2. Risorse Sincrone e Stateless (&#64;lru_cache)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#serializzazione-e-background-jobs">3. Serializzazione e Background Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#code-review-checklist">Code Review Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#community">Community</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#communication">Communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/11-contributing.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/11-contributing.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/12-issue-management.html">Gestione delle Issue e Suddivisione del Lavoro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#gerarchia-delle-issue">1. Gerarchia delle Issue</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#issue-principale-epic-feature-macro-bug">🔹 Issue Principale (Epic / Feature / Macro-Bug)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#sub-issue-task-sub-task">🔸 Sub-Issue (Task / Sub-task)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#criteri-di-decomposizione">2. Criteri di Decomposizione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#regole-d-oro-per-la-scomposizione">Regole d’Oro per la Scomposizione</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#nomenclatura-e-etichettatura">3. Nomenclatura e Etichettatura</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#formato-titolo">Formato Titolo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#tipi-prefissi">Tipi (Prefissi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#etichette-labels">Etichette (Labels)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#template-standardizzato-issue">4. Template Standardizzato Issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#esempi-pratici-di-suddivisione">5. Esempi Pratici di Suddivisione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#scenario-a-nuova-funzionalita-sviluppo-auth">Scenario A: Nuova Funzionalità (Sviluppo Auth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#scenario-b-bug-fixing-errore-500-su-upload">Scenario B: Bug Fixing (Errore 500 su Upload)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/12-issue-management.html#scenario-c-refactoring-pulizia-codice">Scenario C: Refactoring (Pulizia Codice)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#workflow-e-tracciamento">6. Workflow e Tracciamento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/12-issue-management.html#checklist-di-validazione-definition-of-ready">7. Checklist di Validazione (Definition of Ready)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/13-kitchen-module.html">🍳 Kitchen Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#overview">1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#data-models">2. Data Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipe-recipes">📖 Recipe (<code class="docutils literal notranslate"><span class="pre">recipes</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipeingredient-recipe-ingredients">🥕 RecipeIngredient (<code class="docutils literal notranslate"><span class="pre">recipe_ingredients</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparation-preparations">👨‍🍳 Preparation (<code class="docutils literal notranslate"><span class="pre">preparations</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparationitem-preparation-items">📦 PreparationItem (<code class="docutils literal notranslate"><span class="pre">preparation_items</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#haccp-compliance-expiry-logic">3. HACCP Compliance &amp; Expiry Logic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#expiry-date-calculation">🧮 Expiry Date Calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#semilavorati-pre-preparations">4. Semilavorati (Pre-preparations)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#api-endpoints">5. API Endpoints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#recipes-management">Recipes Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#availability-check">Availability Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#preparation-recording">Preparation Recording</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#usage-flow">6. Usage Flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-1-define-a-recipe">Step 1: Define a Recipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-2-check-availability">Step 2: Check Availability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/13-kitchen-module.html#step-3-record-preparation">Step 3: Record Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/13-kitchen-module.html#permissions">7. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/14-logging.html">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#example-env">Example <code class="docutils literal notranslate"><span class="pre">.env</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#log-formats">Log Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#json-default-production">JSON (Default – Production)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#text-development">Text (Development)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#architecture">Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#module-app-core-logging-py">Module: <code class="docutils literal notranslate"><span class="pre">app/core/logging.py</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#setup-logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#customjsonformatter"><code class="docutils literal notranslate"><span class="pre">CustomJsonFormatter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#basic-logging">Basic Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#structured-extra-fields">Structured Extra Fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#exception-logging">Exception Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#observability-stack">Observability Stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#sentry-errors-profiling">Sentry (Errors &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#apitally-api-analytics">Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#pulsetic-uptime-monitoring">Pulsetic (Uptime Monitoring)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#tracing-with-x-request-id">Tracing with X-Request-ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#log-management-docker">Log Management (Docker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#dozzle-real-time-web-logs">Dozzle (Real-time Web Logs)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#specialized-logging">Specialized Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#background-worker-app-worker-py">Background Worker (<code class="docutils literal notranslate"><span class="pre">app/worker.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#storage-cleanup">Storage Cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#integration-with-error-handling">Integration with Error Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#design-decisions">Design Decisions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-stdout-only">Why stdout only?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#sentry-release-secrets">Sentry Release Secrets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/14-logging.html#why-derive-timestamp-from-record-created">Why derive <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from <code class="docutils literal notranslate"><span class="pre">record.created</span></code>?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#production-checklist">Production Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#monitoring-observability">🚀 Monitoring &amp; Observability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#sentry-error-tracking-profiling">1. Sentry (Error Tracking &amp; Profiling)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#apitally-api-analytics">2. Apitally (API Analytics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#dozzle-real-time-logs">3. Dozzle (Real-time Logs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#pulsetic-uptime-monitoring">4. Pulsetic (Uptime Monitoring)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#quality-security">🛠️ Quality &amp; Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#sonarqube-static-analysis">5. SonarQube (Static Analysis)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#codecov-test-coverage">6. Codecov (Test Coverage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#trivy-container-security">7. Trivy (Container Security)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/15-observability-quality-stack.html#semgrep-bandit-sast">8. Semgrep &amp; Bandit (SAST)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#dati-utilizzati">Dati utilizzati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#multi-tenancy-store">Multi-tenancy (store)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#api-reference-stats">API Reference (<code class="docutils literal notranslate"><span class="pre">/stats</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-preparations-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/preparations/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-recipes-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-recipes-top-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/recipes/top-series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-kitchen-ingredients-top"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/kitchen/ingredients/top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#note-su-bucket-e-week">Note su bucket e “week”</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/18-production-completion.html">Completamento Produzione (Preparazione + Lotto)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#permessi-rbac">Permessi (RBAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#ui-operatore-ui">UI Operatore (<code class="docutils literal notranslate"><span class="pre">/ui</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-preparazione-completata">1) Conferma “Preparazione completata”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-lotto-concluso">2) Conferma “Lotto concluso”</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#vincolo-di-sequenzialita">Vincolo di sequenzialità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-fine-preparazione">Conferma fine preparazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#conferma-fine-lotto">Conferma fine lotto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#lista-motivi-i18n">Lista motivi (i18n)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/18-production-completion.html#storico-eventi-del-lotto">Storico eventi del lotto</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#persistenza-e-tracciabilita">Persistenza e tracciabilità</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/18-production-completion.html#notifiche-automatiche-team">Notifiche automatiche (team)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/19-aws-terraform-deploy.html">Deploy su AWS con Terraform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#panoramica">Panoramica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#setup-una-tantum">Setup una tantum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#deploy-applicativo">Deploy applicativo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#hostname-pubblico">Hostname pubblico</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#host-aggiuntivi-api-app">Host aggiuntivi (api/app)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#keycloak-realm-id">Keycloak realm ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#verifica">Verifica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#backup">Backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/19-aws-terraform-deploy.html#bucket-foto-delle-pulizie">Bucket foto delle pulizie</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/20-onboarding-utenti.html">Onboarding: nuovo store e nuovi account</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#creare-un-nuovo-store-primo-account-manager">1. Creare un nuovo store (+ primo account manager)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#account-dello-staff-gestione-da-parte-del-manager">2. Account dello staff (gestione da parte del manager)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/20-onboarding-utenti.html#alternativa-manuale-admin-keycloak-admin-console">Alternativa manuale (admin, Keycloak Admin Console)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/20-onboarding-utenti.html#riferimento-rapido-variabili-d-ambiente-coinvolte">3. Riferimento rapido: variabili d’ambiente coinvolte</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/21-supporto-clienti.html">Supporto clienti: runbook operativo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/21-supporto-clienti.html#onboarding-nuovo-cliente">1. Onboarding nuovo cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/21-supporto-clienti.html#aggiungere-un-account-a-uno-store-gia-esistente">2. Aggiungere un account a uno store già esistente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/21-supporto-clienti.html#reset-password-utente-bloccato">3. Reset password / utente bloccato</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/21-supporto-clienti.html#troubleshooting-dove-guardare-i-log">4. Troubleshooting: dove guardare i log</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/21-supporto-clienti.html#alert-automatici-alertmanager-slack">Alert automatici (Alertmanager → Slack)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/21-supporto-clienti.html#errori-applicativi-come-leggerli">5. Errori applicativi: come leggerli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/21-supporto-clienti.html#riferimento-rapido-variabili-d-ambiente">6. Riferimento rapido variabili d’ambiente</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/22-disaster-recovery.html">Disaster recovery: istanza EC2 di produzione ricreata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#individua-l-ultimo-recovery-point">1. Individua l’ultimo recovery point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#ripristina-in-un-istanza-ec2-temporanea">2. Ripristina in un’istanza EC2 temporanea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#estrai-i-dump-postgres">3. Estrai i dump Postgres</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#ripristina-sull-istanza-di-produzione-nuova">4. Ripristina sull’istanza di produzione (nuova)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#verifica-il-realm-id-di-keycloak">5. Verifica il realm_id di Keycloak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#pulizia">6. Pulizia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/22-disaster-recovery.html#prerequisiti-non-coperti-da-questo-runbook">Prerequisiti non coperti da questo runbook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/23-cleaning-routines.html">Cleaning Routines (pulizie HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#job-arq-ogni-15-minuti">Job arq (ogni 15 minuti)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#endpoint">Endpoint</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/23-cleaning-routines.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#foto-opzionali">Foto opzionali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#errori">Errori</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/23-cleaning-routines.html#note-per-il-client-mobile">Note per il client (mobile)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/24-temperature-log.html">Registro temperature (HACCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#modello">Modello</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#regole">Regole</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#api-v1-temperature">API (<code class="docutils literal notranslate"><span class="pre">/v1/temperature</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#metodo-di-conservazione-e-ui-web">Metodo di conservazione e UI web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#piano-orario-e-da-fare-oggi">Piano orario e “Da fare oggi”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/24-temperature-log.html#fuori-scope">Fuori scope</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/25-delivery-notes.html">Delivery Notes (bolle di consegna fornitori)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#panoramica-e-flusso">Panoramica e flusso</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/25-delivery-notes.html#worker">Worker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#stati">Stati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#sicurezza">Sicurezza</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#costi-e-modelli">Costi e modelli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#interfaccia-web">Interfaccia web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#dati">Dati</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/26-forecast-module.html">Forecast Module (Piano del giorno)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#scopo">Scopo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#metodo">Metodo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#segnale-di-consumo-e-suo-limite">Segnale di consumo e suo limite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#auto-miglioramento">Auto-miglioramento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#lotti-a-rischio">Lotti a rischio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#endpoint-e-schema">Endpoint e schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#get-v1-forecast-daily-plan"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/daily-plan</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#avvio-a-freddo">Avvio a freddo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#cache">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#snapshot-e-pannello-impatto">Snapshot e pannello Impatto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#notifica-mattutina">Notifica mattutina</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#fase-3-trasformazioni-regole-di-conservazione-e-vincoli-haccp">Fase 3: Trasformazioni, regole di conservazione e vincoli HACCP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#suggerimenti-strutturati-di-trasformazione-ricette">Suggerimenti strutturati di trasformazione (Ricette)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#suggerimenti-di-cambio-conservazione-storage-shift">Suggerimenti di cambio conservazione (Storage Shift)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#vincoli-sanitari-haccp-rigorosi">Vincoli sanitari HACCP rigorosi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#cosa-non-fa">Cosa NON fa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#riferimenti">Riferimenti</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html">Onboarding di un nuovo cliente: runbook per il socio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#prima-di-iniziare-raccogli-dal-cliente">1. Prima di iniziare: raccogli dal cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#creare-lo-store-e-il-manager">2. Creare lo store e il manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#consegna-delle-credenziali">3. Consegna delle credenziali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#primo-accesso-verifica-insieme-al-cliente">4. Primo accesso: verifica insieme al cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual/VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#come-funziona">Come funziona</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#convenzioni-dei-commit">Convenzioni dei Commit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#esempi">Esempi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#configurazione-locale">Configurazione Locale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#pipeline-di-rilascio-ci-cd">Pipeline di Rilascio (CI/CD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#bump-automatico-su-dev">Bump automatico su <code class="docutils literal notranslate"><span class="pre">dev</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#tag-e-release-automatici-su-main">Tag e Release automatici su <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/VERSIONING.html#rilascio-manuale-forzatura">Rilascio Manuale / Forzatura</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#configurazione">Configurazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/VERSIONING.html#validazioni-pre-commit-ci">Validazioni (pre-commit + CI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/mermaid_diagrams.html">Diagrammi Mermaid — Restrackit Basi di Dati</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag1-png-schema-scheletro">diag1.png — Schema Scheletro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag2-png-ambito-auth-store">diag2.png — Ambito Auth &amp; Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag3-png-ambito-catalogo-prodotti">diag3.png — Ambito Catalogo Prodotti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag4-png-ambito-inventario-batch">diag4.png — Ambito Inventario &amp; Batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag5-png-ambito-cucina-ricette">diag5.png — Ambito Cucina &amp; Ricette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag6-png-ambito-preparazioni">diag6.png — Ambito Preparazioni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag7-png-ambito-notifiche">diag7.png — Ambito Notifiche</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag8-png-schema-concettuale-finale-completo">diag8.png — Schema Concettuale Finale (completo)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag9-png-nav-1-registrazione-batch-via-ocr">diag9.png — Nav. 1: Registrazione batch via OCR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag10-png-nav-2-lotti-in-scadenza-per-store">diag10.png — Nav. 2: Lotti in scadenza per store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag11-png-nav-3-storico-spostamenti-di-un-batch">diag11.png — Nav. 3: Storico spostamenti di un batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag12-png-nav-4-eseguire-una-preparazione">diag12.png — Nav. 4: Eseguire una preparazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag13-png-nav-5-prodotti-con-regole-di-conservazione">diag13.png — Nav. 5: Prodotti con regole di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag14-png-nav-6-storico-preparazioni-per-ricetta">diag14.png — Nav. 6: Storico preparazioni per ricetta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/mermaid_diagrams.html#diag15-png-nav-7-aggiungere-modificare-prodotti-nel-catalogo">diag15.png — Nav. 7: Aggiungere/modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/relazione_basi_di_dati.html">RESTRACKIT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#struttura-dell-elaborato">STRUTTURA DELL’ELABORATO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#introduzione">1 – INTRODUZIONE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#analisi-dei-requisiti">2 – ANALISI DEI REQUISITI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#requisiti-in-linguaggio-naturale">2.1 – Requisiti in linguaggio naturale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#estrazione-dei-concetti-fondamentali">2.2 – Estrazione dei concetti fondamentali</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#progetto-dello-schema-concettuale">3 – PROGETTO DELLO SCHEMA CONCETTUALE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#sviluppo-dell-ambito-auth-store">3.1 – Sviluppo dell’ambito “Auth &amp; Store”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#sviluppo-dell-ambito-catalogo-prodotti">3.2 – Sviluppo dell’ambito “Catalogo Prodotti”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#sviluppo-dell-ambito-inventario-batch">3.3 – Sviluppo dell’ambito “Inventario &amp; Batch”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#sviluppo-dell-ambito-cucina-ricette">3.4 – Sviluppo dell’ambito “Cucina &amp; Ricette”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#sviluppo-dell-ambito-preparazioni">3.5 – Sviluppo dell’ambito “Preparazioni”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#sviluppo-dell-ambito-notifiche">3.6 – Sviluppo dell’ambito “Notifiche”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#anteprima-dello-schema-generale">3.7 – Anteprima dello schema generale</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#specifiche-funzionali">4 – SPECIFICHE FUNZIONALI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#analisi-delle-funzionalita-richieste">4.1 – Analisi delle funzionalità richieste</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#registrazione-nuovo-batch-tramite-ocr">4.2 – Registrazione nuovo batch tramite OCR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#visualizzare-lotti-in-scadenza-per-store">4.3 – Visualizzare lotti in scadenza per store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#visualizzare-storico-spostamenti-di-un-batch">4.4 – Visualizzare storico spostamenti di un batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#eseguire-una-preparazione-consumare-batch">4.5 – Eseguire una preparazione (consumare batch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#visualizzare-prodotti-con-regole-di-conservazione">4.6 – Visualizzare prodotti con regole di conservazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#consultare-storico-preparazioni-per-ricetta">4.7 – Consultare storico preparazioni per ricetta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#aggiungere-o-modificare-prodotti-nel-catalogo">4.8 – Aggiungere o modificare prodotti nel catalogo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#il-progetto-logico">5 – IL PROGETTO LOGICO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#schemi-di-navigazione">5.1 – Schemi di navigazione</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#frequenza-e-costo-degli-accessi">5.2 – Frequenza e costo degli accessi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#trasformazioni-dello-schema-concettuale">5.3 – Trasformazioni dello schema concettuale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#progetto-logico-per-il-modello-relazionale">5.4 – Progetto logico per il modello relazionale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#traduzione-delle-operazioni-in-query-sql">5.5 – Traduzione delle operazioni in Query SQL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#il-progetto-fisico">6 – IL PROGETTO FISICO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#indicizzazione-di-attributi">6.1 – Indicizzazione di attributi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#ordinamento-su-attributi">6.2 – Ordinamento su attributi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#l-interfaccia-utente">7 – L’INTERFACCIA UTENTE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#il-manager">7.1 – Il Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/relazione_basi_di_dati.html#l-operatore">7.2 – L’Operatore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/relazione_basi_di_dati.html#glossario">8 – GLOSSARIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/slo.html">Service Level Objectives — Restrackit Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/slo.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/slo.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/slo.html#worker-arq">Worker arq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/slo.html#alert-routing">Alert Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/slo.html#grafana">Grafana</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/slo.html#note">Note</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Restrackit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">app</a></li>
+          <li class="breadcrumb-item"><a href="app.html">app package</a></li>
+          <li class="breadcrumb-item"><a href="app.modules.html">app.modules package</a></li>
+      <li class="breadcrumb-item active">app.modules.forecast package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/app.modules.forecast.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="app-modules-forecast-package">
+<h1>app.modules.forecast package<a class="headerlink" href="#app-modules-forecast-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-forecast-digest-module">
+<h2>app.modules.forecast.digest module<a class="headerlink" href="#app-modules-forecast-digest-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-app.modules.forecast.engine">
+<span id="app-modules-forecast-engine-module"></span><h2>app.modules.forecast.engine module<a class="headerlink" href="#module-app.modules.forecast.engine" title="Link to this heading"></a></h2>
+<p>Matematica pura della previsione consumi (nessun accesso a DB né a FastAPI).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Forecast">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">Forecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#Forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.Forecast" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Consumo atteso in un giorno: media pesata e banda <code class="docutils literal notranslate"><span class="pre">mean</span> <span class="pre">±</span> <span class="pre">MAD</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<em>float</em>)</p></li>
+<li><p><strong>low</strong> (<em>float</em>)</p></li>
+<li><p><strong>high</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Forecast.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#app.modules.forecast.engine.Forecast.mean" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Forecast.low">
+<span class="sig-name descname"><span class="pre">low</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#app.modules.forecast.engine.Forecast.low" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Forecast.high">
+<span class="sig-name descname"><span class="pre">high</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#app.modules.forecast.engine.Forecast.high" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Forecast.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#app.modules.forecast.engine.Forecast.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<em>float</em>)</p></li>
+<li><p><strong>low</strong> (<em>float</em>)</p></li>
+<li><p><strong>high</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.forecast_by_weekday">
+<span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">forecast_by_weekday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#forecast_by_weekday"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.forecast_by_weekday" title="Link to this definition"></a></dt>
+<dd><p>Previsione del consumo per giorno della settimana (0=lunedì … 6=domenica).</p>
+<p>Usa solo i giorni di apertura dello store nelle ultime <code class="docutils literal notranslate"><span class="pre">WINDOW_WEEKS</span></code> settimane
+(oggi escluso). Un giorno aperto senza consumo del prodotto vale 0. Con meno di due
+campioni per un giorno della settimana si usa la media su tutti i giorni aperti.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series</strong> (<em>dict</em><em>[</em><em>date</em><em>, </em><em>float</em><em>]</em>) – Consumo del prodotto per data locale (solo giorni con consumo).</p></li>
+<li><p><strong>open_days</strong> (<em>set</em><em>[</em><em>date</em><em>]</em>) – Date locali in cui lo store ha avuto attività.</p></li>
+<li><p><strong>today</strong> (<em>date</em>) – Data locale odierna.</p></li>
+<li><p><strong>decay</strong> (<em>float</em>) – Decadimento dei pesi (più basso = più sensibile al recente).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code> se lo storico è sotto <code class="docutils literal notranslate"><span class="pre">MIN_HISTORY_DAYS</span></code>
+o non ci sono giorni aperti nella finestra.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, <a class="reference internal" href="#app.modules.forecast.engine.Forecast" title="app.modules.forecast.engine.Forecast">Forecast</a>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.expected_consumption">
+<span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">expected_consumption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#expected_consumption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.expected_consumption" title="Link to this definition"></a></dt>
+<dd><p>Consumo atteso cumulato tra <code class="docutils literal notranslate"><span class="pre">start</span></code> e <code class="docutils literal notranslate"><span class="pre">end</span></code> inclusi (0 se l’intervallo è vuoto).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forecasts</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><a class="reference internal" href="#app.modules.forecast.engine.Forecast" title="app.modules.forecast.engine.Forecast"><em>Forecast</em></a><em>]</em>)</p></li>
+<li><p><strong>start</strong> (<em>date</em>)</p></li>
+<li><p><strong>end</strong> (<em>date</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.spread_weighted">
+<span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">spread_weighted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#spread_weighted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.spread_weighted" title="Link to this definition"></a></dt>
+<dd><p>Distribuisce <code class="docutils literal notranslate"><span class="pre">total</span></code> sui giorni da <code class="docutils literal notranslate"><span class="pre">start</span></code> a <code class="docutils literal notranslate"><span class="pre">end</span></code> inclusi, pesando il giorno.</p>
+<p>Il peso di un giorno è <code class="docutils literal notranslate"><span class="pre">weights[giorno_della_settimana]</span></code>. Se la somma dei pesi sul
+periodo è 0 la distribuzione è in parti uguali; se <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">&lt;</span> <span class="pre">start</span></code> tutto il totale cade
+su <code class="docutils literal notranslate"><span class="pre">start</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total</strong> (<em>float</em>) – Quantità da distribuire.</p></li>
+<li><p><strong>start</strong> (<em>date</em>) – Primo giorno.</p></li>
+<li><p><strong>end</strong> (<em>date</em>) – Ultimo giorno (incluso).</p></li>
+<li><p><strong>weights</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em>) – Peso per giorno della settimana (0=lunedì … 6=domenica).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>quota per giorno, con somma uguale a <code class="docutils literal notranslate"><span class="pre">total</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[date, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.at_risk_quantities">
+<span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">at_risk_quantities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#at_risk_quantities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.at_risk_quantities" title="Link to this definition"></a></dt>
+<dd><p>Quantità di ogni lotto che il consumo atteso non riuscirà a smaltire prima della scadenza.</p>
+<p>Metodo FEFO cumulativo: i lotti vengono ordinati per scadenza e il consumo atteso
+fino alla scadenza di ciascun lotto viene prima assorbito dai lotti in scadenza
+precedente. Il residuo del lotto è ciò che resta non coperto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lots</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>float</em><em>, </em><em>date</em><em>]</em><em>]</em>) – Tuple <code class="docutils literal notranslate"><span class="pre">(batch_id,</span> <span class="pre">residuo,</span> <span class="pre">scadenza)</span></code> di UN solo prodotto.</p></li>
+<li><p><strong>forecasts</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><a class="reference internal" href="#app.modules.forecast.engine.Forecast" title="app.modules.forecast.engine.Forecast"><em>Forecast</em></a><em>]</em>) – Previsione per giorno della settimana.</p></li>
+<li><p><strong>today</strong> (<em>date</em>) – Data locale odierna (primo giorno del consumo atteso, incluso).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>quantità a rischio per <code class="docutils literal notranslate"><span class="pre">batch_id</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Backtest">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">Backtest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_days</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#Backtest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.Backtest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Esito del backtest: errore assoluto pesato (WAPE) e rapporto previsto/reale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wape</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>bias</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>n_days</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Backtest.wape">
+<span class="sig-name descname"><span class="pre">wape</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#app.modules.forecast.engine.Backtest.wape" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Backtest.bias">
+<span class="sig-name descname"><span class="pre">bias</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#app.modules.forecast.engine.Backtest.bias" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Backtest.n_days">
+<span class="sig-name descname"><span class="pre">n_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#app.modules.forecast.engine.Backtest.n_days" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Backtest.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_days</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#app.modules.forecast.engine.Backtest.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wape</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>bias</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>n_days</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Calibrated">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">Calibrated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_pct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjusted</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#Calibrated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.Calibrated" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Previsione dopo la calibrazione, con l’errore osservato nel backtest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forecasts</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><a class="reference internal" href="#app.modules.forecast.engine.Forecast" title="app.modules.forecast.engine.Forecast"><em>Forecast</em></a><em>]</em>)</p></li>
+<li><p><strong>error_pct</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>adjusted</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Calibrated.forecasts">
+<span class="sig-name descname"><span class="pre">forecasts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#app.modules.forecast.engine.Forecast" title="app.modules.forecast.engine.Forecast"><span class="pre">Forecast</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#app.modules.forecast.engine.Calibrated.forecasts" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Calibrated.error_pct">
+<span class="sig-name descname"><span class="pre">error_pct</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#app.modules.forecast.engine.Calibrated.error_pct" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Calibrated.adjusted">
+<span class="sig-name descname"><span class="pre">adjusted</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#app.modules.forecast.engine.Calibrated.adjusted" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.Calibrated.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_pct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjusted</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#app.modules.forecast.engine.Calibrated.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forecasts</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><a class="reference internal" href="#app.modules.forecast.engine.Forecast" title="app.modules.forecast.engine.Forecast"><em>Forecast</em></a><em>]</em>)</p></li>
+<li><p><strong>error_pct</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>adjusted</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.backtest">
+<span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">backtest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#backtest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.backtest" title="Link to this definition"></a></dt>
+<dd><p>Ripredice gli ultimi <code class="docutils literal notranslate"><span class="pre">BACKTEST_DAYS</span></code> giorni usando solo i dati precedenti a ciascuno.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series</strong> (<em>dict</em><em>[</em><em>date</em><em>, </em><em>float</em><em>]</em>) – Consumo del prodotto per data locale.</p></li>
+<li><p><strong>open_days</strong> (<em>set</em><em>[</em><em>date</em><em>]</em>) – Date locali di apertura dello store.</p></li>
+<li><p><strong>today</strong> (<em>date</em>) – Data locale odierna (esclusa dal backtest).</p></li>
+<li><p><strong>decay</strong> (<em>float</em>) – Decadimento dei pesi da valutare.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>WAPE e bias; <code class="docutils literal notranslate"><span class="pre">None</span></code> se non ci sono giorni valutabili o il reale è 0.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#app.modules.forecast.engine.Backtest" title="app.modules.forecast.engine.Backtest">Backtest</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.modules.forecast.engine.calibrate">
+<span class="sig-prename descclassname"><span class="pre">app.modules.forecast.engine.</span></span><span class="sig-name descname"><span class="pre">calibrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/engine.html#calibrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.modules.forecast.engine.calibrate" title="Link to this definition"></a></dt>
+<dd><p>Sceglie il decadimento migliore e corregge l’errore sistematico, in base al backtest.</p>
+<p>Con meno di <code class="docutils literal notranslate"><span class="pre">MIN_BACKTEST_SAMPLES</span></code> giorni valutabili vale il metodo standard e
+<code class="docutils literal notranslate"><span class="pre">error_pct</span></code> è <code class="docutils literal notranslate"><span class="pre">None</span></code>. Il fattore correttivo <code class="docutils literal notranslate"><span class="pre">1/bias</span></code> è limitato a
+<code class="docutils literal notranslate"><span class="pre">[BIAS_MIN,</span> <span class="pre">BIAS_MAX]</span></code> e ignorato se entro <code class="docutils literal notranslate"><span class="pre">BIAS_TOLERANCE</span></code> da 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series</strong> (<em>dict</em><em>[</em><em>date</em><em>, </em><em>float</em><em>]</em>) – Consumo del prodotto per data locale.</p></li>
+<li><p><strong>open_days</strong> (<em>set</em><em>[</em><em>date</em><em>]</em>) – Date locali di apertura dello store.</p></li>
+<li><p><strong>today</strong> (<em>date</em>) – Data locale odierna.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code> se lo storico è insufficiente per prevedere.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#app.modules.forecast.engine.Calibrated" title="app.modules.forecast.engine.Calibrated">Calibrated</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="app-modules-forecast-impact-module">
+<h2>app.modules.forecast.impact module<a class="headerlink" href="#app-modules-forecast-impact-module" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-forecast-models-module">
+<h2>app.modules.forecast.models module<a class="headerlink" href="#app-modules-forecast-models-module" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-forecast-router-module">
+<h2>app.modules.forecast.router module<a class="headerlink" href="#app-modules-forecast-router-module" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-forecast-schemas-module">
+<h2>app.modules.forecast.schemas module<a class="headerlink" href="#app-modules-forecast-schemas-module" title="Link to this heading"></a></h2>
+<p>Modelli Pydantic di risposta del modulo forecast.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">ForecastConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#ForecastConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Affidabilità della previsione di un prodotto.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">HIGH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'high'</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOW</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'low'</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">RecipeSuggestion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preparations_last_8w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggested_preparations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_product_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_storage_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimated_shelf_life_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#RecipeSuggestion"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Ricetta che usa un prodotto a rischio, ordinata per frequenza di preparazione.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>public_id</strong> (<em>UUID</em>)</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+<li><p><strong>preparations_last_8w</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>suggested_preparations</strong> (<em>Annotated</em><em>[</em><em>int</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>output_product_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>output_storage_method</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>estimated_shelf_life_days</strong> (<em>Annotated</em><em>[</em><em>int</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">public_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">preparations_last_8w</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">suggested_preparations</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">output_product_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">output_storage_method</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">estimated_shelf_life_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">StorageMoveSuggestion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_method_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_method_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimated_expiry_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_extended</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">haccp_notes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#StorageMoveSuggestion"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Suggerimento di cambio metodo di conservazione conforme HACCP (es. congelamento).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage_method_public_id</strong> (<em>UUID</em>)</p></li>
+<li><p><strong>storage_method_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>estimated_expiry_at</strong> (<em>datetime</em>)</p></li>
+<li><p><strong>days_extended</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>haccp_notes</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">storage_method_public_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">storage_method_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">estimated_expiry_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">days_extended</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">haccp_notes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductForecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_master_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecast_today</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecast_low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecast_high</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_pct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjusted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_prepare</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#ProductForecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Consumo previsto oggi per un prodotto, nell’unità di visualizzazione.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_master_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>unit</strong> (<em>str</em>)</p></li>
+<li><p><strong>forecast_today</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>forecast_low</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>forecast_high</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>confidence</strong> (<em>ForecastConfidence</em>)</p></li>
+<li><p><strong>error_pct</strong> (<em>Annotated</em><em>[</em><em>float</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>adjusted</strong> (<em>bool</em>)</p></li>
+<li><p><strong>stock</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>to_prepare</strong> (<em>Annotated</em><em>[</em><em>float</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">product_master_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">product_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">forecast_today</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">forecast_low</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">forecast_high</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">confidence</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ForecastConfidence</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">error_pct</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">adjusted</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">stock</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">to_prepare</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">AtRiskBatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lot_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_master_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at_risk_quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_expiry_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insufficient_history</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_moves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">haccp_warnings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#AtRiskBatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Lotto che si prevede di non consumare prima della scadenza.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_public_id</strong> (<em>UUID</em>)</p></li>
+<li><p><strong>lot_code</strong> (<em>str</em>)</p></li>
+<li><p><strong>product_master_id</strong> (<em>int</em>)</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>unit</strong> (<em>str</em>)</p></li>
+<li><p><strong>residual</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>at_risk_quantity</strong> (<em>Annotated</em><em>[</em><em>float</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>storage_expiry_at</strong> (<em>datetime</em>)</p></li>
+<li><p><strong>days_left</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>insufficient_history</strong> (<em>bool</em>)</p></li>
+<li><p><strong>recipes</strong> (<em>list</em><em>[</em><em>RecipeSuggestion</em><em>]</em>)</p></li>
+<li><p><strong>storage_moves</strong> (<em>list</em><em>[</em><em>StorageMoveSuggestion</em><em>]</em>)</p></li>
+<li><p><strong>haccp_warnings</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">batch_public_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lot_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">product_master_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">product_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">residual</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">at_risk_quantity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">storage_expiry_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">days_left</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">insufficient_history</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">recipes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">RecipeSuggestion</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">storage_moves</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">StorageMoveSuggestion</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">haccp_warnings</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">DailyPlan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at_risk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_needed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">28</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#DailyPlan"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Piano del giorno: previsioni per prodotto e lotti a rischio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>as_of</strong> (<em>date</em>)</p></li>
+<li><p><strong>timezone</strong> (<em>str</em>)</p></li>
+<li><p><strong>forecasts</strong> (<em>list</em><em>[</em><em>ProductForecast</em><em>]</em>)</p></li>
+<li><p><strong>at_risk</strong> (<em>list</em><em>[</em><em>AtRiskBatch</em><em>]</em>)</p></li>
+<li><p><strong>history_days</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>days_needed</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">as_of</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">date</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">timezone</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">forecasts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ProductForecast</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">at_risk</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">AtRiskBatch</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">history_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">days_needed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">AccuracyImpact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_evaluated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">products_evaluated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy_pct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#AccuracyImpact"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Accuratezza reale delle previsioni salvate, confrontate col consumo effettivo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>days_evaluated</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>products_evaluated</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>accuracy_pct</strong> (<em>Annotated</em><em>[</em><em>float</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>, </em><em>Le</em><em>(</em><em>le=100</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">days_evaluated</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">products_evaluated</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">accuracy_pct</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">AvoidedQuantity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#AvoidedQuantity"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Quantità di spreco evitato in un’unità di visualizzazione.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unit</strong> (<em>str</em>)</p></li>
+<li><p><strong>quantity</strong> (<em>Annotated</em><em>[</em><em>float</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">quantity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">WasteImpact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lots_flagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lots_open</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lots_consumed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lots_expired</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoided</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoided_value_eur</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priced_lots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#WasteImpact"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Esito dei lotti segnalati a rischio negli ultimi giorni (stima).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lots_flagged</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>lots_open</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>lots_consumed</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>lots_expired</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>avoided</strong> (<em>list</em><em>[</em><em>AvoidedQuantity</em><em>]</em>)</p></li>
+<li><p><strong>avoided_value_eur</strong> (<em>Annotated</em><em>[</em><em>float</em><em> | </em><em>None</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>priced_lots</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lots_flagged</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lots_open</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lots_consumed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lots_expired</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">avoided</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">AvoidedQuantity</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">avoided_value_eur</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">priced_lots</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.forecast.schemas.</span></span><span class="sig-name descname"><span class="pre">ForecastImpact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_needed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waste</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/forecast/schemas.html#ForecastImpact"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Pannello “Impatto”: accuratezza reale e spreco evitato.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_days</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>snapshot_days</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=0</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>days_needed</strong> (<em>Annotated</em><em>[</em><em>int</em><em>, </em><em>Ge</em><em>(</em><em>ge=1</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>accuracy</strong> (<em>AccuracyImpact</em>)</p></li>
+<li><p><strong>waste</strong> (<em>WasteImpact</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">window_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">snapshot_days</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">days_needed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">accuracy</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AccuracyImpact</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">waste</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">WasteImpact</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="app-modules-forecast-service-module">
+<h2>app.modules.forecast.service module<a class="headerlink" href="#app-modules-forecast-service-module" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-forecast-snapshots-module">
+<h2>app.modules.forecast.snapshots module<a class="headerlink" href="#app-modules-forecast-snapshots-module" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="app.modules.delivery_notes.html" class="btn btn-neutral float-left" title="app.modules.delivery_notes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="app.modules.inventory.html" class="btn btn-neutral float-right" title="app.modules.inventory package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Restrackit Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

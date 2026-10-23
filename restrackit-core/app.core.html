@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.core package &mdash; Restrackit 2.126.0 documentation</title>
+  <title>app.core package &mdash; Restrackit 2.129.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=32b2a75a"></script>
+      <script src="_static/documentation_options.js?v=20d98cc7"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -273,6 +273,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#stats-module-v1-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/v1/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#forecast-module-v1-forecast">Forecast Module (<code class="docutils literal notranslate"><span class="pre">/v1/forecast</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/04-api-reference.html#setup-module-v1-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/v1/setup</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="manual/04-api-reference.html#post-v1-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/setup/seed-demo</span></code></a></li>
 </ul>
@@ -843,6 +844,40 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#valori-anomali-e-tetto-agli-accodamenti">Valori anomali e tetto agli accodamenti</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#limiti-noti">Limiti noti</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#come-misurare">Come misurare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/26-forecast-module.html">Forecast Module (Piano del giorno)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#scopo">Scopo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#metodo">Metodo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#segnale-di-consumo-e-suo-limite">Segnale di consumo e suo limite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#auto-miglioramento">Auto-miglioramento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#lotti-a-rischio">Lotti a rischio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#endpoint-e-schema">Endpoint e schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#get-v1-forecast-daily-plan"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/daily-plan</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#avvio-a-freddo">Avvio a freddo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#cache">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#snapshot-e-pannello-impatto">Snapshot e pannello Impatto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#notifica-mattutina">Notifica mattutina</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#fase-3-trasformazioni-regole-di-conservazione-e-vincoli-haccp">Fase 3: Trasformazioni, regole di conservazione e vincoli HACCP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#suggerimenti-strutturati-di-trasformazione-ricette">Suggerimenti strutturati di trasformazione (Ricette)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#suggerimenti-di-cambio-conservazione-storage-shift">Suggerimenti di cambio conservazione (Storage Shift)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/26-forecast-module.html#vincoli-sanitari-haccp-rigorosi">Vincoli sanitari HACCP rigorosi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#cosa-non-fa">Cosa NON fa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/26-forecast-module.html#riferimenti">Riferimenti</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html">Onboarding di un nuovo cliente: runbook per il socio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#prima-di-iniziare-raccogli-dal-cliente">1. Prima di iniziare: raccogli dal cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#creare-lo-store-e-il-manager">2. Creare lo store e il manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#consegna-delle-credenziali">3. Consegna delle credenziali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#primo-accesso-verifica-insieme-al-cliente">4. Primo accesso: verifica insieme al cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1786,6 +1821,21 @@ azioni correttive (sia lato client che lato osservabilità).</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_HACCP_REFREEZE_FORBIDDEN">
+<span class="sig-name descname"><span class="pre">BUS_HACCP_REFREEZE_FORBIDDEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_015'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_HACCP_REFREEZE_FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_HACCP_LATE_FREEZE_FORBIDDEN">
+<span class="sig-name descname"><span class="pre">BUS_HACCP_LATE_FREEZE_FORBIDDEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_016'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_HACCP_LATE_FREEZE_FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.BUS_BATCH_EXPIRED">
+<span class="sig-name descname"><span class="pre">BUS_BATCH_EXPIRED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_017'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.BUS_BATCH_EXPIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.error_catalog.ErrorCode.DB_CONNECTION_ERROR">
 <span class="sig-name descname"><span class="pre">DB_CONNECTION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_DB_001'</span></span><a class="headerlink" href="#app.core.error_catalog.ErrorCode.DB_CONNECTION_ERROR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -2003,6 +2053,21 @@ action (str): Azione suggerita per risolvere o mitigare.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.core.errors.ErrorCode.BUS_DDT_LINE_NOT_CONFIRMABLE">
 <span class="sig-name descname"><span class="pre">BUS_DDT_LINE_NOT_CONFIRMABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_014'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.BUS_DDT_LINE_NOT_CONFIRMABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorCode.BUS_HACCP_REFREEZE_FORBIDDEN">
+<span class="sig-name descname"><span class="pre">BUS_HACCP_REFREEZE_FORBIDDEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_015'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.BUS_HACCP_REFREEZE_FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorCode.BUS_HACCP_LATE_FREEZE_FORBIDDEN">
+<span class="sig-name descname"><span class="pre">BUS_HACCP_LATE_FREEZE_FORBIDDEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_016'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.BUS_HACCP_LATE_FREEZE_FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.core.errors.ErrorCode.BUS_BATCH_EXPIRED">
+<span class="sig-name descname"><span class="pre">BUS_BATCH_EXPIRED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ERR_BUS_017'</span></span><a class="headerlink" href="#app.core.errors.ErrorCode.BUS_BATCH_EXPIRED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

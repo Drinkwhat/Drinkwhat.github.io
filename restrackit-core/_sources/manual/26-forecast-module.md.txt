@@ -1,0 +1,194 @@
+# Forecast Module (Piano del giorno)
+
+Il modulo `forecast` stima il consumo giornaliero di ogni prodotto dello store e segnala i lotti che, al ritmo previsto, non verranno consumati prima della scadenza.
+
+Endpoint: `GET /v1/forecast/daily-plan`.
+
+---
+
+## Scopo
+
+Supportare la decisione “quanto preparare oggi e quali lotti usare prima” con numeri derivati dallo storico reale dello store. Il modulo non modifica dati: legge preparazioni, lotti ed eventi di chiusura e restituisce un piano.
+
+---
+
+## Metodo
+
+- **Finestra storica**: le ultime 8 settimane (`WINDOW_WEEKS = 8`). Il caricamento legge 4 settimane in più per la fase di backtest.
+- **Soglia minima**: servono almeno 28 giorni di storico (`MIN_HISTORY_DAYS = 28`). Sotto soglia il prodotto non riceve previsione.
+- **Giorni senza attività = chiusi**: un giorno senza alcuna preparazione né chiusura lotto nello store è chiuso ed è escluso dalle medie; in un giorno aperto un prodotto non usato vale 0.
+- **Media pesata per giorno della settimana**: per ogni giorno della settimana (lunedì … domenica) la previsione è la media dei valori storici di quel giorno, con peso decrescente per i valori più vecchi (decadimento esponenziale, `DECAY = 0.8` di default). Se un giorno della settimana ha meno di 2 campioni (`MIN_WEEKDAY_SAMPLES = 2`), si usa la media complessiva.
+- **Banda**: la previsione è riportata come `mean ± MAD` (mediana degli scostamenti assoluti dalla mediana), che fornisce `forecast_low` e `forecast_high`.
+- **Confidenza**: `high` o `low`. Un prodotto il cui consumo deriva in parte dal proxy `sold_out` (vedi sotto) è segnato con confidenza `low`.
+
+Per i lotti a rischio il calcolo è FEFO cumulativo: i lotti sono ordinati per scadenza, il consumo atteso nell'orizzonte viene assegnato prima ai lotti che scadono prima, e la parte che resta è la quantità a rischio.
+
+---
+
+## Segnale di consumo e suo limite
+
+- **Fonte primaria**: la somma di `PreparationItem.quantity_used` per prodotto, convertita nell'unità di visualizzazione.
+- **Proxy `sold_out`**: per un lotto chiuso con motivo `sold_out` (esaurito in vendita, senza passare da ricette), la quota non spiegata dalle preparazioni (quantità del lotto meno l'uso registrato) viene distribuita sui giorni di vita del lotto. La distribuzione usa come pesi il profilo settimanale delle preparazioni dello store.
+- **Limite**: il proxy è una stima. Non misura le vendite reali e attribuisce il consumo ai giorni con il profilo generale dello store, non con le vendite del giorno. Per questo i prodotti che dipendono dal proxy hanno confidenza bassa. Il consumo di un prodotto venduto direttamente senza ricetta, e non registrato come `sold_out`, non è visibile al modulo.
+
+---
+
+## Auto-miglioramento
+
+Il modulo verifica la propria accuratezza sugli ultimi 28 giorni:
+
+1. **Backtest**: per ciascuno degli ultimi 28 giorni la previsione viene calcolata usando solo i dati precedenti a quel giorno. L'errore è l'errore assoluto pesato (WAPE).
+2. **Scelta del decadimento**: si confrontano i valori `0.6`, `0.8` e `0.95`. Un valore diverso dal default viene scelto solo se migliora il WAPE di almeno 1 punto percentuale.
+3. **Fattore correttivo**: se il rapporto previsto/reale è sistematicamente distante da 1, si applica un fattore moltiplicativo limitato all'intervallo 0.7–1.3.
+4. **Attivazione**: la calibrazione è attiva solo con almeno 14 giorni valutabili nel backtest (`MIN_BACKTEST_SAMPLES = 14`). Sotto questa soglia vale il metodo standard, senza correzioni.
+
+Il risultato del backtest è riportato in `error_pct` e il flag `adjusted` indica se la previsione è stata calibrata. I prodotti con quota proxy (`sold_out`) non vengono mai calibrati: il loro "reale" è già una stima, quindi hanno `error_pct` nullo, `adjusted = false` e confidenza `low`. Nessuna tabella viene scritta: la calibrazione è ricalcolata a ogni calcolo del piano.
+
+---
+
+## Lotti a rischio
+
+- **Orizzonte**: 14 giorni (`AT_RISK_LOOKAHEAD_DAYS = 14`). Un lotto è candidato se scade entro l'orizzonte.
+- **Con previsione**: `at_risk_quantity` è la quantità che il consumo atteso non riesce a smaltire prima della scadenza, calcolata con il metodo FEFO cumulativo. Il lotto va usato entro il giorno precedente la data di scadenza locale: si conta il consumo da oggi (per intero) fino a quel giorno, quindi un lotto che scade domani conta solo il consumo di oggi e uno che scade oggi è interamente a rischio.
+- **Senza previsione**: senza storico sufficiente non esiste un consumo atteso. Compaiono solo i lotti che scadono entro 3 giorni (`IMMINENT_DAYS_NO_HISTORY = 3`), con `insufficient_history = true` e `at_risk_quantity` nullo.
+- **Suggerimento ricette**: per i prodotti che entrano in una ricetta si indicano fino a 3 ricette (`MAX_RECIPE_SUGGESTIONS = 3`), ordinate per frequenza di preparazione nelle ultime 8 settimane, con il numero di preparazioni stimate per consumare la quantità a rischio.
+- **Lotti scaduti**: un lotto con `storage_expiry_at` già passato non viene mai suggerito, né tra i lotti a rischio né tra le ricette. Vedi la sezione Cache.
+
+---
+
+## Endpoint e schema
+
+### `GET /v1/forecast/daily-plan`
+
+- Permesso: `INVENTORY_READ` (ruoli `chef` e `manager`; `admin` via `ADMIN_ALL`).
+- Multi-tenancy: lo `store_id` viene dal token, come per gli altri endpoint.
+- Risposta (`DailyPlan`):
+
+```json
+{
+  "as_of": "2026-10-15",
+  "timezone": "Europe/Rome",
+  "forecasts": [
+    {
+      "product_master_id": 12,
+      "product_name": "mozzarella",
+      "unit": "kg",
+      "forecast_today": 0.5,
+      "forecast_low": 0.3,
+      "forecast_high": 0.7,
+      "confidence": "high",
+      "error_pct": 4.2,
+      "adjusted": false,
+      "stock": 80.0,
+      "to_prepare": null
+    }
+  ],
+  "at_risk": [
+    {
+      "batch_public_id": "…",
+      "lot_code": "L-2210",
+      "product_master_id": 12,
+      "product_name": "mozzarella",
+      "unit": "kg",
+      "residual": 20.0,
+      "at_risk_quantity": 17.5,
+      "storage_expiry_at": "2026-10-20T06:00:00Z",
+      "days_left": 5,
+      "insufficient_history": false,
+      "recipes": [
+        {"public_id": "…", "name": "pizza", "preparations_last_8w": 40, "suggested_preparations": 35}
+      ]
+    }
+  ],
+  "history_days": 40,
+  "days_needed": 28
+}
+```
+
+I valori sono illustrativi. Lo schema completo è nel modello `DailyPlan` (`app/modules/forecast/schemas.py`) e nella documentazione OpenAPI.
+
+I due campi di avanzamento:
+- `history_days`: giorni trascorsi dal primo giorno di attività dello store (massimo 12 settimane); `0` per uno store senza attività (nessuna preparazione né chiusura lotto).
+- `days_needed`: giorni di storico richiesti per la prima previsione (`MIN_HISTORY_DAYS` = 28).
+
+### Avvio a freddo
+
+Uno store nuovo non ha storico, quindi nelle prime 4 settimane non ci sono previsioni. Il cliente vede un testo di avanzamento, calcolato da `history_days` e `days_needed` (stessa frase nella pagina "Piano del giorno" e nel widget della dashboard). Il testo di avanzamento viene nascosto non appena esiste almeno una previsione:
+- nessuna preparazione registrata (`history_days = 0`): "Registra le prime preparazioni: servono almeno 28 giorni di storico per prevedere i consumi.";
+- storico parziale: "Hai N giorni di storico: le previsioni partono tra M giorni.";
+- storico sufficiente: nessun testo di avanzamento.
+
+Senza previsioni restano visibili solo i lotti che scadono entro 3 giorni (vedi "Lotti a rischio").
+
+---
+
+## Cache
+
+- Il piano calcolato è messo in cache Redis per 15 minuti (`ttl=900`), per store.
+- La giacenza (`stock`) e `to_prepare` sono quelli del momento del calcolo: possono essere vecchi fino a 15 minuti.
+- Ad ogni lettura, anche da cache, i lotti a rischio con `storage_expiry_at` già passato vengono rimossi dalla risposta. Un lotto scaduto non viene quindi mai suggerito, anche se era nel piano in cache. La giacenza può invece includere, per al massimo 15 minuti, un lotto scaduto nel frattempo.
+
+---
+
+## Snapshot e pannello Impatto
+
+Per misurare quanto il piano serve davvero, ogni giorno si salvano le previsioni e i lotti segnalati a rischio.
+
+- **Tabelle**: `forecast_snapshots` (una riga per store, giorno e prodotto: media, banda, confidenza) e `forecast_at_risk_snapshots` (un lotto a rischio alla prima segnalazione, con la quantità a rischio). Entrambe hanno RLS per store; si conservano 120 giorni.
+- **Job**: il cron arq `snapshot_forecasts_task` gira ogni ora al minuto `:10` e agisce per gli store per cui sono le 05:00 locali. È idempotente: rilanciarlo non duplica righe e un lotto resta registrato alla prima segnalazione. Se uno store fallisce gli altri proseguono.
+- **Accuratezza reale**: confronta la previsione salvata di ogni giorno con il consumo effettivo (preparazioni di quel giorno). Sono esclusi i giorni di chiusura e le previsioni a confidenza bassa.
+- **Spreco evitato**: lotti segnalati a rischio che poi sono stati chiusi `sold_out` dopo la segnalazione. È una **stima**: quantità a rischio per il lotto, in euro al prezzo dell'ultima riga di bolla confermata del prodotto. Limiti: conta solo i `sold_out` successivi alla segnalazione, somma solo quantità della stessa famiglia di unità, e i prodotti senza prezzo in bolla restano in quantità senza valore in euro.
+- **Endpoint**: `GET /v1/forecast/impact` e `GET /v1/stats/forecast-impact`. Sono in sola lettura e non scrivono mai.
+- **Conto alla rovescia**: servono almeno 7 giorni di snapshot; prima il pannello mostra quanti ne mancano.
+- **Seed demo**: lo store demo ricostruisce 14 giorni di snapshot con il motore sullo storico (senza vedere il futuro), segnala alcuni lotti storici e crea una bolla confermata con i prezzi, così il pannello non è vuoto.
+
+---
+
+## Notifica mattutina
+
+Ogni mattina lo store riceve una notifica in-app con il riepilogo del Piano del giorno.
+
+- **Orario**: il cron arq `forecast_digest_task` gira ogni ora al minuto `:20` e agisce per gli store per cui sono le 07:00 locali, dopo lo snapshot delle 05:00.
+- **Contenuto**: numero di lotti a rischio (con i nomi dei primi tre prodotti, ordinati per urgenza) e numero di prodotti da preparare. Gravità `warning` se ci sono lotti a rischio, altrimenti `info`. Se non c'è nulla da segnalare non si scrive nulla. Il link nei dati della notifica porta a `#/forecast`; nella pagina Notifiche il tipo è mostrato come "Piano del giorno".
+- **Idempotenza**: la notifica è identificata dal giorno del piano (`forecast-digest:<data>`), quindi rilanciare il job non la duplica.
+- **Nessun opt-out**: la notifica è sempre attiva per tutti gli store; il canale e solo in-app.
+- **Esecuzione sequenziale**: gli store sono processati uno dopo l'altro (un errore su uno non ferma gli altri); il tetto è il timeout arq di 300 secondi per esecuzione.
+
+---
+
+## Fase 3: Trasformazioni, regole di conservazione e vincoli HACCP
+
+La fase 3 arricchisce la gestione dei lotti a rischio con suggerimenti operativi di impiego e alternative di conservazione, garantendo la piena aderenza ai regolamenti comunitari sull'igiene alimentare (Reg. CE 852/2004 e Reg. CE 853/2004).
+
+### Suggerimenti strutturati di trasformazione (Ricette)
+Per ciascuna ricetta suggerita per valorizzare il lotto a rischio, vengono indicati:
+- **Prodotto derivato**: nome del semilavorato o prodotto finito ottenuto (`output_product_name`).
+- **Metodo e durata di conservazione secondaria**: metodo di conservazione (`output_storage_method`) e durata stimata in giorni (`estimated_shelf_life_days`), desunti dalla `ProductStorageRule` dello store configurata per il prodotto di destinazione.
+
+### Suggerimenti di cambio conservazione (Storage Shift)
+Se per il prodotto del lotto esistono regole di conservazione per altri ambienti (es. abbattimento rapido e stoccaggio in freezer a -18°C):
+- Viene calcolata la potenziale nuova data di scadenza tramite `compute_storage_expiry_at`.
+- Viene indicato il guadagno in giorni di conservazione (`days_extended`).
+- Vengono esplicitate le note igienico-sanitarie pertinenti.
+
+### Vincoli sanitari HACCP rigorosi
+A tutela della sicurezza alimentare e conformemente ai principi HACCP:
+1. **Divieto assoluto di ricongelamento a crudo:** un lotto precedentemente decongelato (tracciato dallo storico `BatchStorageMove` con origine da storage freezer) non può essere ricongelato tal quale. L'opzione viene esclusa dai suggerimenti di spostamento ed è accompagnata da un warning: il prodotto può essere recuperato solo previa cottura termica completa in ricetta. A livello di dominio, ogni tentativo di spostamento solleva `BUS_HACCP_REFREEZE_FORBIDDEN` (`ERR_BUS_015`).
+2. **Divieto di congelamento "salvavita" tardivo:** il congelamento è legittimo solo se effettuato su alimenti in piena freschezza (`days_left >= 1`). Se il lotto scade in giornata (`days_left <= 0`) o è già scaduto, il congelamento è vietato e solleva a dominio `BUS_HACCP_LATE_FREEZE_FORBIDDEN` (`ERR_BUS_016`).
+3. **Blocco uso e spostamento lotti scaduti:** lotti con `storage_expiry_at < now` non possono essere impiegati come ingredienti in alcuna preparazione né trasferiti di reparto, sollevando `BUS_BATCH_EXPIRED` (`ERR_BUS_017`).
+
+---
+
+## Cosa NON fa
+
+- **Nessuna previsione per festività, trend o eventi**: i giorni festivi sono trattati come giorni normali. Trend stagionali e eventi non sono modellati. Sono previsti nella fase 4.
+- **I suggerimenti sono consigli**: le ricette e le quantità proposte sono indicazioni basate sullo storico e sulle regole registrate. La decisione su cosa preparare e su quali lotti usare resta del titolare.
+
+---
+
+## Riferimenti
+
+- Logica di calcolo: [engine.py](../app/modules/forecast/engine.py)
+- Servizio e cache: [service.py](../app/modules/forecast/service.py)
+- Router: [router.py](../app/modules/forecast/router.py)
+- Schemi: [schemas.py](../app/modules/forecast/schemas.py)

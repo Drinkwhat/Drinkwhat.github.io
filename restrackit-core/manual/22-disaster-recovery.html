@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Disaster recovery: istanza EC2 di produzione ricreata &mdash; Restrackit 2.126.0 documentation</title>
+  <title>Disaster recovery: istanza EC2 di produzione ricreata &mdash; Restrackit 2.129.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=32b2a75a"></script>
+      <script src="../_static/documentation_options.js?v=20d98cc7"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -273,6 +273,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#stats-module-v1-stats">Stats Module (<code class="docutils literal notranslate"><span class="pre">/v1/stats</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#forecast-module-v1-forecast">Forecast Module (<code class="docutils literal notranslate"><span class="pre">/v1/forecast</span></code>)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="04-api-reference.html#setup-module-v1-setup">Setup Module (<code class="docutils literal notranslate"><span class="pre">/v1/setup</span></code>)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="04-api-reference.html#post-v1-setup-seed-demo"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/v1/setup/seed-demo</span></code></a></li>
 </ul>
@@ -845,6 +846,40 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#come-misurare">Come misurare</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="26-forecast-module.html">Forecast Module (Piano del giorno)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#scopo">Scopo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#metodo">Metodo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#segnale-di-consumo-e-suo-limite">Segnale di consumo e suo limite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#auto-miglioramento">Auto-miglioramento</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#lotti-a-rischio">Lotti a rischio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#endpoint-e-schema">Endpoint e schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="26-forecast-module.html#get-v1-forecast-daily-plan"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/v1/forecast/daily-plan</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="26-forecast-module.html#avvio-a-freddo">Avvio a freddo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#cache">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#snapshot-e-pannello-impatto">Snapshot e pannello Impatto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#notifica-mattutina">Notifica mattutina</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#fase-3-trasformazioni-regole-di-conservazione-e-vincoli-haccp">Fase 3: Trasformazioni, regole di conservazione e vincoli HACCP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="26-forecast-module.html#suggerimenti-strutturati-di-trasformazione-ricette">Suggerimenti strutturati di trasformazione (Ricette)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="26-forecast-module.html#suggerimenti-di-cambio-conservazione-storage-shift">Suggerimenti di cambio conservazione (Storage Shift)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="26-forecast-module.html#vincoli-sanitari-haccp-rigorosi">Vincoli sanitari HACCP rigorosi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#cosa-non-fa">Cosa NON fa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="26-forecast-module.html#riferimenti">Riferimenti</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="27-onboarding-nuovo-cliente.html">Onboarding di un nuovo cliente: runbook per il socio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#prima-di-iniziare-raccogli-dal-cliente">1. Prima di iniziare: raccogli dal cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#creare-lo-store-e-il-manager">2. Creare lo store e il manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#consegna-delle-credenziali">3. Consegna delle credenziali</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#primo-accesso-verifica-insieme-al-cliente">4. Primo accesso: verifica insieme al cliente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -981,10 +1016,14 @@ solo dallo snapshot giornaliero di AWS Backup, non dalla nuova istanza vuota.</p
 attesi.</p>
 <section id="individua-l-ultimo-recovery-point">
 <h2>1. Individua l’ultimo recovery point<a class="headerlink" href="#individua-l-ultimo-recovery-point" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>backup<span class="w"> </span>list-recovery-points-by-backup-vault<span class="w"> </span>--backup-vault-name<span class="w"> </span>restrackit-backup-vault<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s1">'RecoveryPoints[].[RecoveryPointArn,CreationDate]'</span><span class="w"> </span>--output<span class="w"> </span>table
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>backup<span class="w"> </span>list-recovery-points-by-backup-vault<span class="w"> </span>--backup-vault-name<span class="w"> </span>restrackit-prod-backup-vault<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>eu-south-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s1">'sort_by(RecoveryPoints,&amp;CreationDate)[].[RecoveryPointArn,CreationDate,Status]'</span><span class="w"> </span>--output<span class="w"> </span>table
 </pre></div>
 </div>
+<p>Il nome del vault e’ <code class="docutils literal notranslate"><span class="pre">${project_name}-backup-vault</span></code> (<code class="docutils literal notranslate"><span class="pre">terraform/backup.tf</span></code>), con
+<code class="docutils literal notranslate"><span class="pre">project_name</span> <span class="pre">=</span> <span class="pre">restrackit-prod</span></code>. Con un nome sbagliato AWS risponde <code class="docutils literal notranslate"><span class="pre">AccessDeniedException</span></code>,
+non “vault non trovato”.</p>
 <p>Prendi l’ARN piu’ recente precedente all’incidente.</p>
 </section>
 <section id="ripristina-in-un-istanza-ec2-temporanea">
@@ -1001,6 +1040,15 @@ esegue un backup a livello di istanza (AMI + volumi EBS). Da console AWS Backup
 <p>Attendi il completamento (<code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">backup</span> <span class="pre">describe-restore-job</span> <span class="pre">--restore-job-id</span> <span class="pre">...</span></code>),
 poi recupera l’IP pubblico della nuova istanza temporanea dalla console EC2.
 <strong>Questa istanza e’ solo per estrarre i dati: non sostituisce quella gestita da Terraform.</strong></p>
+<blockquote>
+<div><p><strong>Attenzione</strong>: l’istanza ripristinata si avvia con la configurazione di produzione e i
+container possono ripartire da soli (restart policy). Il worker arq potrebbe eseguire i
+cron job (es. notifiche di scadenza) sul database copiato, con notifiche duplicate ai
+clienti, e Traefik prova a rinnovare i certificati dello stesso dominio. Appena puoi
+entrare via SSH, ferma lo stack con <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">stop</span></code> (il solo <code class="docutils literal notranslate"><span class="pre">restrackit-db</span></code> e
+<code class="docutils literal notranslate"><span class="pre">restrackit-keycloak-db</span></code> servono per i dump: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span> <span class="pre">restrackit-db</span> <span class="pre">restrackit-keycloak-db</span></code>),
+e se possibile ripristina con un security group senza ingresso pubblico.</p>
+</div></blockquote>
 </section>
 <section id="estrai-i-dump-postgres">
 <h2>3. Estrai i dump Postgres<a class="headerlink" href="#estrai-i-dump-postgres" title="Link to this heading"></a></h2>
