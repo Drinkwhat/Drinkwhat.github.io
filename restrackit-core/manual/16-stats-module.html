@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stats Module (Dashboard Manager) &mdash; Restrackit 2.129.1 documentation</title>
+  <title>Stats Module (Dashboard Manager) &mdash; Restrackit 2.141.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=20d98cc7"></script>
+      <script src="../_static/documentation_options.js?v=d27ddec8"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -468,6 +468,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="09-auth.html#esempi-curl">Esempi (curl)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="09-auth.html#endpoint-utili">Endpoint utili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09-auth.html#hardening-del-realm-in-produzione">Hardening del Realm in Produzione</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="10-error-handling.html">Error Handling</a><ul>
@@ -701,6 +702,7 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#production-checklist">Production Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#traefik-access-log-e-blocco-scanner-667">Traefik: access log e blocco scanner (#667)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
@@ -719,6 +721,7 @@ for private packages in organization repositories.)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#audit-delle-query-lente-pg-stat-statements">Audit delle query lente (<code class="docutils literal notranslate"><span class="pre">pg_stat_statements</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Stats Module (Dashboard Manager)</a><ul>
@@ -734,6 +737,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-stats-inventory-waste-report"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste-report</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
@@ -834,7 +838,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#api">API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#stati">Stati</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
-<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="25-delivery-notes.html#confezioni-sigillate-e-apertura-537">Confezioni sigillate e apertura (#537)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#sicurezza">Sicurezza</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#configurazione">Configurazione</a></li>
@@ -878,6 +885,14 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
 <li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
 <li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="28-cve-response.html">Gestione dei CVE: processo e tempi di rientro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#come-vengono-rilevati-i-cve">Come vengono rilevati i CVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#responsabile-e-tempi-di-rientro">Responsabile e tempi di rientro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#passi-operativi">Passi operativi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#eccezioni-in-trivyignore">Eccezioni in <code class="docutils literal notranslate"><span class="pre">.trivyignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#pannello-di-controllo">Pannello di controllo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1182,8 +1197,19 @@ I risultati sono ordinati per <code class="docutils literal notranslate"><span c
 </pre></div>
 </div>
 </section>
-</section>
 <hr class="docutils" />
+<section id="get-stats-inventory-waste-report">
+<h3><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste-report</span></code><a class="headerlink" href="#get-stats-inventory-waste-report" title="Link to this heading"></a></h3>
+<p>Report sprechi del periodo con <strong>valore in euro</strong> e confronto col periodo precedente (#486).</p>
+<ul class="simple">
+<li><p><strong>Parametri</strong>: <code class="docutils literal notranslate"><span class="pre">date_from</span></code>, <code class="docutils literal notranslate"><span class="pre">date_to</span></code> (default: ultimi 30 giorni).</p></li>
+<li><p><strong>Spreco</strong>: quantità indicata alla chiusura del lotto (<code class="docutils literal notranslate"><span class="pre">wasted_quantity</span></code>/<code class="docutils literal notranslate"><span class="pre">wasted_unit</span></code>), sommata per prodotto nell’unità di visualizzazione (kg, litri, pezzi).</p></li>
+<li><p><strong>Prezzo</strong>: ultimo prezzo di acquisto da bolla fornitore confermata (stessa fonte dell’impatto del forecast). Un prodotto senza prezzo resta nell’elenco con <code class="docutils literal notranslate"><span class="pre">value_eur</span> <span class="pre">=</span> <span class="pre">null</span></code> e non entra nel totale: il valore non viene mai stimato.</p></li>
+<li><p><strong>Risposta</strong>: <code class="docutils literal notranslate"><span class="pre">items</span></code> (per prodotto: <code class="docutils literal notranslate"><span class="pre">lots</span></code>, <code class="docutils literal notranslate"><span class="pre">wasted_quantity</span></code>, <code class="docutils literal notranslate"><span class="pre">wasted_unit</span></code>, <code class="docutils literal notranslate"><span class="pre">unit_price_eur</span></code>, <code class="docutils literal notranslate"><span class="pre">value_eur</span></code>), <code class="docutils literal notranslate"><span class="pre">totals</span></code>, <code class="docutils literal notranslate"><span class="pre">previous_totals</span></code> (periodo di pari durata che termina subito prima di <code class="docutils literal notranslate"><span class="pre">date_from</span></code>), <code class="docutils literal notranslate"><span class="pre">lots_delta</span></code>, <code class="docutils literal notranslate"><span class="pre">value_delta_eur</span></code>.</p></li>
+<li><p><strong>Permesso</strong>: <code class="docutils literal notranslate"><span class="pre">STATS_READ</span></code>. Nessun campo prezzo su <code class="docutils literal notranslate"><span class="pre">ProductMaster</span></code>: il costo arriva dalle bolle.</p></li>
+</ul>
+</section>
+</section>
 <section id="ui-dashboard-ui-stats">
 <h2>UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)<a class="headerlink" href="#ui-dashboard-ui-stats" title="Link to this heading"></a></h2>
 <p>La pagina “Stats” mostra:</p>

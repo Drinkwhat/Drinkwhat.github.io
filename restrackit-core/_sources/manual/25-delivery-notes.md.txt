@@ -138,7 +138,10 @@ Per ogni riga, in ordine:
    secondo ≥ 0,05; tra **0,6** e 0,9 (o non univoco) è ambiguo; sotto 0,6 è sconosciuto. Gli
    stessi token in ordine diverso valgono 0,9; token di un nome contenuti nell'altro
    (`latte` / `latte intero`) valgono **0,85**: non bastano da soli per accettare, vanno
-   all'LLM tra i candidati.
+   all'LLM tra i candidati. Il database sceglie per ogni riga i 20 prodotti più vicini
+   (`pg_trgm`, `app/shared/name_score.py`, indice GIN sul nome) e `match_description` classifica
+   solo quelli: il catalogo dello store non viene più caricato in memoria. Un esito sconosciuto
+   ha punteggio 0 se nessun candidato supera la soglia di recupero.
 3. **LLM solo sui candidati**: le righe ambigue vanno a Gemini con al massimo 5 candidati; un
    ID fuori dai candidati diventa «nessun prodotto».
 
@@ -161,6 +164,22 @@ chiamate a Gemini. Il metodo (`match_method`) è `alias`, `fuzzy`,
   prodotto tra i metodi con regola (conteggio del metodo corrente dei lotti, non di ingresso).
   Se esiste una regola ma nessun metodo è deducibile, il flag bloccante
   `metodo_conservazione_da_scegliere` obbliga a sceglierlo.
+
+### Confezioni sigillate e apertura (#537)
+
+I prodotti con `ProductMaster.secondary_starts_at_opening = true` (confezionati; default `false`,
+lo sfuso non cambia) distinguono **sigillato** da **aperto**. L'azione
+`POST /v1/inventory/batch/{id}/open` (`version`, `quantity` opzionale) registra `Batch.opened_at`,
+l'evento `BATCH_OPENED` e imposta `storage_expiry_at = min(apertura + durata regola, scadenza del
+fornitore)`. Con una quantità minore di quella del lotto si crea un lotto figlio aperto
+(`parent_batch_id`) e il padre resta sigillato col residuo. Un lotto già aperto, esaurito o
+scaduto, un prodotto senza flag o senza regola, una quantità eccessiva e una versione vecchia
+rispondono con errori chiari; due aperture parallele non si sovrappongono (optimistic locking).
+**Carico da bolla.** Per un prodotto confezionato la conferma crea il lotto sigillato con
+`storage_expiry_at` = scadenza del fornitore a fine giornata (`expiry_estimated = false`): non serve
+una regola di conservazione all'arrivo e, se esiste, non viene usata. La scadenza in bolla è
+obbligatoria: senza, la riga resta in bozza con il flag bloccante `scadenza_mancante`. Per lo sfuso
+non cambia nulla. Restano da collegare la scansione dell'etichetta e l'uso in cucina.
 
 ---
 

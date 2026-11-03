@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Authentication &amp; Authorization &mdash; Restrackit 2.129.1 documentation</title>
+  <title>Authentication &amp; Authorization &mdash; Restrackit 2.141.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=20d98cc7"></script>
+      <script src="../_static/documentation_options.js?v=d27ddec8"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -468,6 +468,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#esempi-curl">Esempi (curl)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#endpoint-utili">Endpoint utili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hardening-del-realm-in-produzione">Hardening del Realm in Produzione</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="10-error-handling.html">Error Handling</a><ul>
@@ -701,6 +702,7 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="14-logging.html#production-checklist">Production Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14-logging.html#traefik-access-log-e-blocco-scanner-667">Traefik: access log e blocco scanner (#667)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
@@ -719,6 +721,7 @@ for private packages in organization repositories.)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="15-observability-quality-stack.html#audit-delle-query-lente-pg-stat-statements">Audit delle query lente (<code class="docutils literal notranslate"><span class="pre">pg_stat_statements</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
@@ -734,6 +737,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="16-stats-module.html#get-stats-inventory-waste-report"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste-report</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
@@ -834,7 +838,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#api">API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#stati">Stati</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
-<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="25-delivery-notes.html#confezioni-sigillate-e-apertura-537">Confezioni sigillate e apertura (#537)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#sicurezza">Sicurezza</a></li>
 <li class="toctree-l3"><a class="reference internal" href="25-delivery-notes.html#configurazione">Configurazione</a></li>
@@ -878,6 +885,14 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
 <li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
 <li class="toctree-l3"><a class="reference internal" href="27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="28-cve-response.html">Gestione dei CVE: processo e tempi di rientro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#come-vengono-rilevati-i-cve">Come vengono rilevati i CVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#responsabile-e-tempi-di-rientro">Responsabile e tempi di rientro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#passi-operativi">Passi operativi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#eccezioni-in-trivyignore">Eccezioni in <code class="docutils literal notranslate"><span class="pre">.trivyignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#pannello-di-controllo">Pannello di controllo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1081,6 +1096,18 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authoriz
 <li><p>OpenAPI/Swagger UI: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/docs</span></code></p></li>
 <li><p>ReDoc: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/redoc</span></code></p></li>
 <li><p>Logout (Keycloak): <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/auth/logout</span></code> (redirect)</p></li>
+</ul>
+</section>
+<section id="hardening-del-realm-in-produzione">
+<h2>Hardening del Realm in Produzione<a class="headerlink" href="#hardening-del-realm-in-produzione" title="Link to this heading"></a></h2>
+<p>Le impostazioni di sicurezza per l’ambiente di produzione sono applicate in modo idempotente da <code class="docutils literal notranslate"><span class="pre">scripts/provision_keycloak_realm.sh</span></code> e rispecchiate in <code class="docutils literal notranslate"><span class="pre">keycloak-realm-config/realm-export-prod.json</span></code>:</p>
+<ul class="simple">
+<li><p><strong>SSL Required</strong>: <code class="docutils literal notranslate"><span class="pre">external</span></code> (richiede TLS per tutte le richieste esterne tramite terminazione HTTPS su Traefik).</p></li>
+<li><p><strong>Protezione Brute Force</strong>: abilitata (<code class="docutils literal notranslate"><span class="pre">bruteForceProtected:</span> <span class="pre">true</span></code>, max 5 tentativi prima del blocco temporaneo incrementale).</p></li>
+<li><p><strong>Token Lifespan</strong>: Access Token limitato a 5 minuti (<code class="docutils literal notranslate"><span class="pre">accessTokenLifespan:</span> <span class="pre">300</span></code>) e Refresh Token Rotation abilitata (<code class="docutils literal notranslate"><span class="pre">revokeRefreshToken:</span> <span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">refreshTokenMaxReuse:</span> <span class="pre">0</span></code>).</p></li>
+<li><p><strong>Registrazione Self-Service</strong>: disabilitata (<code class="docutils literal notranslate"><span class="pre">registrationAllowed:</span> <span class="pre">false</span></code>). La creazione utenti avviene esclusivamente tramite onboarding o gestione staff autorizzata.</p></li>
+<li><p><strong>Password Policy</strong>: lunghezza minima 10 caratteri con maiuscola, minuscola e cifra numerica.</p></li>
+<li><p><strong>Protezione Attributi</strong>: <code class="docutils literal notranslate"><span class="pre">unmanagedAttributePolicy:</span> <span class="pre">ADMIN_EDIT</span></code> impedisce la modifica autonoma dell’attributo <code class="docutils literal notranslate"><span class="pre">store_id</span></code> da parte degli utenti.</p></li>
 </ul>
 </section>
 </section>

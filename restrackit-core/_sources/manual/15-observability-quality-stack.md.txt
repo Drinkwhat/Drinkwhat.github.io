@@ -69,3 +69,19 @@ Tutti questi strumenti sono integrati nel flusso di lavoro tramite:
 1. **GitHub Actions**: Che fungono da "orchestratore" eseguendo i controlli di sicurezza e qualità a ogni commit.
 2. **Docker Compose**: Che integra Dozzle e Traefik per rendere l'osservabilità parte integrante dell'infrastruttura di staging e produzione.
 3. **OpenTelemetry/Tracing**: Tramite l'uso di `X-Request-ID` che permette di correlare un log in Dozzle con un evento in Sentry.
+
+## Audit delle query lente (`pg_stat_statements`)
+
+L'estensione è precaricata nei compose di local, staging e produzione e creata dalla migrazione `a1c4e7b9d2f6` (#240). Dopo il primo riavvio del container `db` si interroga con `make shell-db`:
+
+```sql
+-- Le 20 query con il tempo medio più alto
+SELECT left(query, 80) AS query, calls, round(mean_exec_time::numeric, 2) AS mean_ms
+FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 20;
+
+-- Tabelle lette più spesso in sequenziale che via indice
+SELECT relname, seq_scan, idx_scan
+FROM pg_stat_user_tables WHERE seq_scan > idx_scan ORDER BY seq_scan DESC;
+```
+
+Gli indici si aggiungono solo per le query che risultano lente in produzione, non in via preventiva.

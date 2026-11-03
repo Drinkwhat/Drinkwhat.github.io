@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app package &mdash; Restrackit 2.129.1 documentation</title>
+  <title>app package &mdash; Restrackit 2.141.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=20d98cc7"></script>
+      <script src="_static/documentation_options.js?v=d27ddec8"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -468,6 +468,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#esempi-curl">Esempi (curl)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#endpoint-utili">Endpoint utili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#hardening-del-realm-in-produzione">Hardening del Realm in Produzione</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/10-error-handling.html">Error Handling</a><ul>
@@ -701,6 +702,7 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#production-checklist">Production Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#traefik-access-log-e-blocco-scanner-667">Traefik: access log e blocco scanner (#667)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
@@ -719,6 +721,7 @@ for private packages in organization repositories.)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#audit-delle-query-lente-pg-stat-statements">Audit delle query lente (<code class="docutils literal notranslate"><span class="pre">pg_stat_statements</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
@@ -734,6 +737,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-waste-report"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste-report</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
@@ -834,7 +838,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#api">API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#stati">Stati</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/25-delivery-notes.html#confezioni-sigillate-e-apertura-537">Confezioni sigillate e apertura (#537)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#sicurezza">Sicurezza</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#configurazione">Configurazione</a></li>
@@ -878,6 +885,14 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/28-cve-response.html">Gestione dei CVE: processo e tempi di rientro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#come-vengono-rilevati-i-cve">Come vengono rilevati i CVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#responsabile-e-tempi-di-rientro">Responsabile e tempi di rientro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#passi-operativi">Passi operativi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#eccezioni-in-trivyignore">Eccezioni in <code class="docutils literal notranslate"><span class="pre">.trivyignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#pannello-di-controllo">Pannello di controllo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1180,6 +1195,10 @@ for private packages in organization repositories.)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.security">app.core.security module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.sentry_filters">app.core.sentry_filters module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.sentry_filters.drop_404_transactions"><code class="docutils literal notranslate"><span class="pre">drop_404_transactions()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.html#module-app.core.telemetry">app.core.telemetry module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.core.html#app.core.telemetry.setup_otel"><code class="docutils literal notranslate"><span class="pre">setup_otel()</span></code></a></li>
 </ul>
@@ -1223,6 +1242,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-models-module">app.modules.delivery_notes.models module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.parsing">app.modules.delivery_notes.parsing module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#module-app.modules.delivery_notes.presenters">app.modules.delivery_notes.presenters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-repository-module">app.modules.delivery_notes.repository module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-review-module">app.modules.delivery_notes.review module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-router-module">app.modules.delivery_notes.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.delivery_notes.html#app-modules-delivery-notes-schemas-module">app.modules.delivery_notes.schemas module</a></li>
@@ -1237,6 +1257,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#module-app.modules.forecast.engine">app.modules.forecast.engine module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#app-modules-forecast-impact-module">app.modules.forecast.impact module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#app-modules-forecast-models-module">app.modules.forecast.models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#app-modules-forecast-repository-module">app.modules.forecast.repository module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#app-modules-forecast-router-module">app.modules.forecast.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#app-modules-forecast-schemas-module">app.modules.forecast.schemas module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.forecast.html#app-modules-forecast-service-module">app.modules.forecast.service module</a></li>
@@ -1248,6 +1269,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.cursor">app.modules.inventory.cursor module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#module-app.modules.inventory.expiry">app.modules.inventory.expiry module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-models-module">app.modules.inventory.models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-repository-module">app.modules.inventory.repository module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-router-module">app.modules.inventory.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-schemas-module">app.modules.inventory.schemas module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.inventory.html#app-modules-inventory-service-module">app.modules.inventory.service module</a></li>
@@ -1256,6 +1278,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.modules.kitchen.html">app.modules.kitchen package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-models-module">app.modules.kitchen.models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-repository-module">app.modules.kitchen.repository module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-router-module">app.modules.kitchen.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-schemas-module">app.modules.kitchen.schemas module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.kitchen.html#app-modules-kitchen-service-module">app.modules.kitchen.service module</a></li>
@@ -1281,6 +1304,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-categories-router-module">app.modules.products.categories_router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-models-module">app.modules.products.models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-repository-module">app.modules.products.repository module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-router-module">app.modules.products.router module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-schemas-module">app.modules.products.schemas module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.modules.products.html#app-modules-products-service-module">app.modules.products.service module</a></li>
@@ -1431,6 +1455,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app.shared.html#app.shared.mixins.TimestampVersionMixin.version"><code class="docutils literal notranslate"><span class="pre">TimestampVersionMixin.version</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.name_score">app.shared.name_score module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.shared.html#app.shared.name_score.name_score"><code class="docutils literal notranslate"><span class="pre">name_score()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.shared.html#module-app.shared.rate_limit">app.shared.rate_limit module</a><ul>

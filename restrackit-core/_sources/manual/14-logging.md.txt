@@ -290,3 +290,15 @@ Tests cover:
 For related documentation:
 - [Environment Configuration](08-environment-config.md) — all environment variables
 - [Error Handling](10-error-handling.md) — exception hierarchy and error codes
+
+---
+
+## Traefik: access log e blocco scanner (#667)
+
+In produzione Traefik scrive un **access log JSON su stdout** (visibile con `docker logs restrackit-traefik`), ruotato dal driver `json-file` (50 MB x 10 file). Header (`Authorization` incluso) e URL (`RequestPath`, `RequestLine`) non vengono loggati, perché `/auth/logout` riceve `id_token_hint` nella query string. Restano IP client, metodo, host, status, router e servizio.
+
+Il router `scanner-block` (`deploy/prod/traefik/dynamic-pantry-mcp.yml`, priorità 200) risponde **403** direttamente da Traefik alle richieste verso percorsi tipici degli scanner (`.env`, `.git`, `.php`, `wp-*`, `phpinfo`, `keyfile`...), senza inoltrarle all'app. Per contare le richieste bloccate e vedere da quali IP arrivano (i percorsi sono visibili in Sentry):
+
+```bash
+docker logs restrackit-traefik --since 720h 2>&1 | grep '"RouterName":"scanner-block@file"' | grep -o '"ClientHost":"[^"]*"' | sort | uniq -c | sort -rn | head
+```

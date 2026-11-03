@@ -190,6 +190,16 @@ curl -H "Authorization: Bearer ${TOKEN}" -H "x-target-store: 1" \
 
 ---
 
+### `GET /stats/inventory/waste-report`
+
+Report sprechi del periodo con **valore in euro** e confronto col periodo precedente (#486).
+
+- **Parametri**: `date_from`, `date_to` (default: ultimi 30 giorni).
+- **Spreco**: quantità indicata alla chiusura del lotto (`wasted_quantity`/`wasted_unit`), sommata per prodotto nell'unità di visualizzazione (kg, litri, pezzi).
+- **Prezzo**: ultimo prezzo di acquisto da bolla fornitore confermata (stessa fonte dell'impatto del forecast). Un prodotto senza prezzo resta nell'elenco con `value_eur = null` e non entra nel totale: il valore non viene mai stimato.
+- **Risposta**: `items` (per prodotto: `lots`, `wasted_quantity`, `wasted_unit`, `unit_price_eur`, `value_eur`), `totals`, `previous_totals` (periodo di pari durata che termina subito prima di `date_from`), `lots_delta`, `value_delta_eur`.
+- **Permesso**: `STATS_READ`. Nessun campo prezzo su `ProductMaster`: il costo arriva dalle bolle.
+
 ## UI Dashboard (`/ui/#/stats`)
 
 La pagina “Stats” mostra:

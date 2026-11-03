@@ -71,3 +71,14 @@ curl -H "Authorization: Bearer ${TOKEN}" \
 - OpenAPI/Swagger UI: `GET /docs`
 - ReDoc: `GET /redoc`
 - Logout (Keycloak): `GET /auth/logout` (redirect)
+
+## Hardening del Realm in Produzione
+
+Le impostazioni di sicurezza per l'ambiente di produzione sono applicate in modo idempotente da `scripts/provision_keycloak_realm.sh` e rispecchiate in `keycloak-realm-config/realm-export-prod.json`:
+
+- **SSL Required**: `external` (richiede TLS per tutte le richieste esterne tramite terminazione HTTPS su Traefik).
+- **Protezione Brute Force**: abilitata (`bruteForceProtected: true`, max 5 tentativi prima del blocco temporaneo incrementale).
+- **Token Lifespan**: Access Token limitato a 5 minuti (`accessTokenLifespan: 300`) e Refresh Token Rotation abilitata (`revokeRefreshToken: true`, `refreshTokenMaxReuse: 0`).
+- **Registrazione Self-Service**: disabilitata (`registrationAllowed: false`). La creazione utenti avviene esclusivamente tramite onboarding o gestione staff autorizzata.
+- **Password Policy**: lunghezza minima 10 caratteri con maiuscola, minuscola e cifra numerica.
+- **Protezione Attributi**: `unmanagedAttributePolicy: ADMIN_EDIT` impedisce la modifica autonoma dell'attributo `store_id` da parte degli utenti.

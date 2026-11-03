@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.modules.products package &mdash; Restrackit 2.129.1 documentation</title>
+  <title>app.modules.products package &mdash; Restrackit 2.141.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=20d98cc7"></script>
+      <script src="_static/documentation_options.js?v=d27ddec8"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -468,6 +468,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#multi-tenancy-e-selezione-store">Multi-tenancy e selezione store</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#esempi-curl">Esempi (curl)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#endpoint-utili">Endpoint utili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/09-auth.html#hardening-del-realm-in-produzione">Hardening del Realm in Produzione</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/10-error-handling.html">Error Handling</a><ul>
@@ -701,6 +702,7 @@ for private packages in organization repositories.)</a></li>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#testing">Testing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#production-checklist">Production Checklist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/14-logging.html#traefik-access-log-e-blocco-scanner-667">Traefik: access log e blocco scanner (#667)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/15-observability-quality-stack.html">Observability &amp; Quality Stack Rationale</a><ul>
@@ -719,6 +721,7 @@ for private packages in organization repositories.)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#integrazione-orchestrata">🔄 Integrazione Orchestrata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/15-observability-quality-stack.html#audit-delle-query-lente-pg-stat-statements">Audit delle query lente (<code class="docutils literal notranslate"><span class="pre">pg_stat_statements</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/16-stats-module.html">Stats Module (Dashboard Manager)</a><ul>
@@ -734,6 +737,7 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-overview"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/overview</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-batches-series"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/batches/series</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-waste"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual/16-stats-module.html#get-stats-inventory-waste-report"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/stats/inventory/waste-report</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="manual/16-stats-module.html#ui-dashboard-ui-stats">UI Dashboard (<code class="docutils literal notranslate"><span class="pre">/ui/#/stats</span></code>)</a></li>
@@ -834,7 +838,10 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#api">API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#stati">Stati</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#matching-a-livelli">Matching a livelli</a></li>
-<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#scadenza-e-metodo-di-conservazione">Scadenza e metodo di conservazione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual/25-delivery-notes.html#confezioni-sigillate-e-apertura-537">Confezioni sigillate e apertura (#537)</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#conferma-sicurezza-concorrente">Conferma: sicurezza concorrente</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#sicurezza">Sicurezza</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/25-delivery-notes.html#configurazione">Configurazione</a></li>
@@ -878,6 +885,14 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#problemi-comuni">5. Problemi comuni</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#dove-guardare-se-qualcosa-va-storto">6. Dove guardare se qualcosa va storto</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manual/27-onboarding-nuovo-cliente.html#cosa-non-fare">7. Cosa <strong>non</strong> fare</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual/28-cve-response.html">Gestione dei CVE: processo e tempi di rientro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#come-vengono-rilevati-i-cve">Come vengono rilevati i CVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#responsabile-e-tempi-di-rientro">Responsabile e tempi di rientro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#passi-operativi">Passi operativi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#eccezioni-in-trivyignore">Eccezioni in <code class="docutils literal notranslate"><span class="pre">.trivyignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual/28-cve-response.html#pannello-di-controllo">Pannello di controllo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="manual/ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
@@ -1016,6 +1031,9 @@ for private packages in organization repositories.)</a></li>
 </section>
 <section id="app-modules-products-models-module">
 <h2>app.modules.products.models module<a class="headerlink" href="#app-modules-products-models-module" title="Link to this heading"></a></h2>
+</section>
+<section id="app-modules-products-repository-module">
+<h2>app.modules.products.repository module<a class="headerlink" href="#app-modules-products-repository-module" title="Link to this heading"></a></h2>
 </section>
 <section id="app-modules-products-router-module">
 <h2>app.modules.products.router module<a class="headerlink" href="#app-modules-products-router-module" title="Link to this heading"></a></h2>
@@ -1243,7 +1261,7 @@ for private packages in organization repositories.)</a></li>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secondary_starts_at_opening</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema per la creazione di un prodotto.</p>
 <dl class="field-list simple">
@@ -1252,6 +1270,7 @@ for private packages in organization repositories.)</a></li>
 <li><p><strong>name</strong> (<em>Annotated</em><em>[</em><em>str</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=200</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>category</strong> (<em>str</em>)</p></li>
 <li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>secondary_starts_at_opening</strong> (<em>bool</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1268,6 +1287,11 @@ for private packages in organization repositories.)</a></li>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">secondary_starts_at_opening</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1314,7 +1338,7 @@ for private packages in organization repositories.)</a></li>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secondary_starts_at_opening</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Schema per l’aggiornamento di un prodotto.</p>
 <dl class="field-list simple">
@@ -1324,6 +1348,7 @@ for private packages in organization repositories.)</a></li>
 <li><p><strong>name</strong> (<em>Annotated</em><em>[</em><em>str</em><em> | </em><em>None</em><em>, </em><em>MinLen</em><em>(</em><em>min_length=1</em><em>)</em><em>, </em><em>MaxLen</em><em>(</em><em>max_length=200</em><em>)</em><em>]</em>)</p></li>
 <li><p><strong>category</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>secondary_starts_at_opening</strong> (<em>bool</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1345,6 +1370,11 @@ for private packages in organization repositories.)</a></li>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">allergens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">secondary_starts_at_opening</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1391,7 +1421,7 @@ for private packages in organization repositories.)</a></li>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergen_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gluten_free</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.modules.products.schemas.</span></span><span class="sig-name descname"><span class="pre">ProductResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergen_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secondary_starts_at_opening</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allergens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gluten_free</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/modules/products/schemas.html#ProductResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Risposta con i dati di un prodotto.</p>
 <dl class="field-list simple">
@@ -1401,6 +1431,7 @@ for private packages in organization repositories.)</a></li>
 <li><p><strong>name</strong> (<em>str</em>)</p></li>
 <li><p><strong>category</strong> (<em>str</em>)</p></li>
 <li><p><strong>allergen_mask</strong> (<em>int</em>)</p></li>
+<li><p><strong>secondary_starts_at_opening</strong> (<em>bool</em>)</p></li>
 <li><p><strong>allergens</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
 <li><p><strong>gluten_free</strong> (<em>bool</em>)</p></li>
 <li><p><strong>created_at</strong> (<em>datetime</em>)</p></li>
@@ -1428,6 +1459,11 @@ for private packages in organization repositories.)</a></li>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">allergen_mask</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">secondary_starts_at_opening</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
