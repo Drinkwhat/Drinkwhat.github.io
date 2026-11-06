@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Environment Configuration &mdash; Restrackit 2.141.0 documentation</title>
+  <title>Environment Configuration &mdash; Restrackit 2.147.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=d27ddec8"></script>
+      <script src="../_static/documentation_options.js?v=2df3655f"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -895,6 +895,23 @@ for private packages in organization repositories.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="28-cve-response.html#pannello-di-controllo">Pannello di controllo</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="29-push-notifications.html">Notifiche push (SNS)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="29-push-notifications.html#api-dei-dispositivi">API dei dispositivi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="29-push-notifications.html#flusso-di-invio">Flusso di invio</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="29-push-notifications.html#payload">Payload</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="29-push-notifications.html#ciclo-di-vita-di-endpoint-e-token">Ciclo di vita di endpoint e token</a></li>
+<li class="toctree-l3"><a class="reference internal" href="29-push-notifications.html#configurazione">Configurazione</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="29-push-notifications.html#terraform-terraform-push-tf">Terraform (<code class="docutils literal notranslate"><span class="pre">terraform/push.tf</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="29-push-notifications.html#rollout">Rollout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="29-push-notifications.html#prima-publish-reale">Prima <code class="docutils literal notranslate"><span class="pre">Publish</span></code> reale</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ERROR_CODES.html">Catalogo Codici Errore Restrackit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="VERSIONING.html">Sistema di Versionamento Automatico</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="VERSIONING.html#come-funziona">Come funziona</a><ul>
@@ -1287,6 +1304,16 @@ REDIS_URL=redis://localhost:6379/0
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">50</span></code></p></td>
 <td><p>Bolle massime al giorno per store</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PUSH_ENABLED</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Abilita le notifiche push via SNS (vedi <code class="docutils literal notranslate"><span class="pre">29-push-notifications.md</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SNS_PLATFORM_APP_ARN_FCM</span></code></p></td>
+<td><p>Se abilitato</p></td>
+<td><p>vuoto</p></td>
+<td><p>ARN della platform application SNS per FCM (Android)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DELIVERY_NOTES_PRICE_PER_MTOK_IN_USD</span></code></p></td>
 <td><p>No</p></td>

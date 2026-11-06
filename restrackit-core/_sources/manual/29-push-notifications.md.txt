@@ -1,0 +1,136 @@
+# Notifiche push (SNS)
+
+Il modulo `app/modules/devices/` registra i **token push** dei dispositivi mobili e
+`app/modules/notifications/push.py` li raggiunge tramite **Amazon SNS** (FCM per Android e iOS:
+su iOS è FCM a inoltrare ad APNs). Le push si affiancano alle notifiche in-app già esistenti (scadenze, pulizie): non le
+sostituiscono. Spento di default (`PUSH_ENABLED=false`).
+
+---
+
+## API dei dispositivi
+
+| Metodo | Percorso | Corpo | Risposta |
+|---|---|---|---|
+| `PUT` | `/v1/devices` | `{"token": "<1..512 caratteri>", "platform": "android" \| "ios"}` | `{"public_id": ...}` |
+| `DELETE` | `/v1/devices` | `{"token": "..."}` | `204`, idempotente |
+
+- Il token di `DELETE` va nel **corpo JSON**, non nel percorso: così non finisce in URL e log.
+- L'unicità del token è **per store**: vincolo `(store_id, token)`. `PUT` è un upsert e aggiorna
+  anche la data di ultima registrazione.
+- L'app mobile chiama `PUT` a ogni avvio e al refresh del token, `DELETE` al logout.
+
+---
+
+## Flusso di invio
+
+1. Un servizio crea una notifica (riga `notifications`) e mette in coda il job arq
+   `send_push_task`.
+2. Il job legge i dispositivi dello store e fa una `Publish` per endpoint SNS distinto. L'endpoint
+   si crea o si riabilita altrove: in `DeviceService.register`, al `PUT /v1/devices`
+   (`CreatePlatformEndpoint`, poi sempre `GetEndpointAttributes` e, se serve,
+   `SetEndpointAttributes`). Le righe senza endpoint (piattaforma senza ARN configurato o token
+   registrato con `PUSH_ENABLED=false`) vengono saltate.
+3. Se SNS segnala l'endpoint non valido, la riga del dispositivo viene eliminata.
+
+Regole:
+
+- **Push solo alla nascita**: parte solo quando la riga di notifica viene **inserita**, non
+  quando il cron la ri-upserta (pulizie scadute ogni 15 minuti, scadenze giornaliere). Niente
+  ripetizioni.
+- Le scadenze producono **una sola push aggregata per store**.
+- Solo i **titoli** sono generici. Il corpo è il messaggio della notifica e può contenere nomi di
+  routine di pulizia e di prodotti (riepilogo previsioni): compaiono nella schermata di blocco
+  del telefono, ma non sono dati personali. Titolo e corpo sono troncati a 100 e 200 caratteri.
+- Una notifica di scadenza eliminata dall'utente mentre il lotto è ancora scaduto viene
+  ricreata alla corsa delle 07:00 successiva e genera di nuovo la push (come già avviene in-app).
+- **Retry solo se non è partito nulla**: se almeno una `Publish` è riuscita non si ripete il
+  job, per non duplicare la push agli endpoint già raggiunti. Meglio una push mancante di una
+  doppia.
+
+### Payload
+
+Il messaggio è un JSON (stringa) con `MessageStructure="json"`; per FCM la forma è
+
+```json
+{"fcmV1Message": {"message": {"notification": {...}, "data": {...}}}}
+```
+
+Dettagli del formato: <https://docs.aws.amazon.com/sns/latest/dg/sns-fcm-v1-payloads.html>.
+
+---
+
+## Ciclo di vita di endpoint e token
+
+**L'app non elimina mai gli endpoint SNS** (il ruolo IAM non ha `sns:DeleteEndpoint`). SNS
+disabilita da solo gli endpoint morti; una nuova registrazione (`PUT`) dello stesso token li
+riabilita (`SetEndpointAttributes` con `Enabled=true`), anche quando `CreatePlatformEndpoint`
+restituisce l'endpoint esistente ma disabilitato.
+
+Una riga di dispositivo viene eliminata:
+
+- al logout (`DELETE /v1/devices`);
+- quando un utente staff viene disattivato o eliminato;
+- quando SNS segnala l'endpoint non valido durante una `Publish`;
+- dalla **potatura giornaliera** (`prune_device_tokens_task`, ore 04:00): righe non riviste da
+  30 giorni.
+
+**Rischio residuo noto**: se un dispositivo passa a un altro store senza fare logout, il vecchio
+store può ancora inviargli push fino al `DELETE` o alla potatura dei 30 giorni.
+
+---
+
+## Configurazione
+
+| Variabile | Default | Descrizione |
+|---|---|---|
+| `PUSH_ENABLED` | `false` | Interruttore generale (spento: nessuna push, i job escono subito) |
+| `SNS_PLATFORM_APP_ARN_FCM` | vuoto | ARN della platform application FCM (Android e iOS) |
+| `AWS_REGION` | `eu-south-1` | Regione di SNS |
+
+Le variabili sono parametri SSM (`push_enabled`, `sns_platform_app_arn_fcm`) resi in `.env` da `scripts/render_env_from_ssm.sh`.
+
+### Terraform (`terraform/push.tf`)
+
+La platform application si crea solo se la credenziale è valorizzata (variabili `sensitive`,
+da passare con `TF_VAR_*`, mai in file committati):
+
+- FCM: `push_fcm_service_account_json` (JSON del service account Firebase, FCM v1).
+
+Non esiste una application APNs: la chiave APNs `.p8` va caricata in Firebase (Impostazioni
+progetto, Cloud Messaging, app iOS). L'ARN è nell'output `push_fcm_platform_application_arn`:
+copiarlo nel parametro SSM. La policy IAM
+`push_sns` sul ruolo dell'istanza concede solo `CreatePlatformEndpoint` (sulle application) e
+`GetEndpointAttributes`, `SetEndpointAttributes`, `Publish` (sugli endpoint
+`endpoint/GCM/<nome app>/*`).
+
+---
+
+## Rollout
+
+1. Applicare Terraform e copiare gli ARN nei parametri SSM, **lasciando `PUSH_ENABLED=false`**.
+2. Rigenerare l'SDK mobile (`packages/restrackit_sdk`) e rilasciare l'app con Firebase.
+3. Provare una `Publish` reale su **un dispositivo Android e uno iOS** prima di attivare.
+4. Solo allora `PUSH_ENABLED=true`.
+
+Note:
+
+- I token registrati con `PUSH_ENABLED=false` non hanno endpoint: lo ottengono al primo `PUT`
+  dopo l'attivazione, cioè al prossimo avvio dell'app.
+- iOS usa il **token FCM** (`getToken()`, non `getAPNSToken()`) con `platform: "ios"`: FCM
+  gestisce sandbox e produzione, quindi anche le build di debug ricevono le push. Prerequisito:
+  chiave APNs caricata in Firebase.
+
+### Prima `Publish` reale
+
+Leggere l'endpoint dalla riga del dispositivo (`SELECT endpoint_arn FROM device_tokens WHERE
+operator_id = '<sub>';`) e pubblicare con la stessa forma del payload:
+
+```bash
+aws sns publish --region eu-south-1 --target-arn <endpoint_arn> --message-structure json \
+  --message '{"default": "prova", "GCM": "{\"fcmV1Message\": {\"message\": {\"notification\": {\"title\": \"Prova\", \"body\": \"prova\"}, \"data\": {\"notification_id\": \"0\", \"type\": \"test\"}}}}"}'
+```
+
+Il messaggio è lo stesso per Android e iOS: il payload reale aggiunge `apns.payload.aps.sound`.
+
+Punti aperti da chiudere con la prova su dispositivo: lo scopo della chiave `default` nel
+messaggio SNS e se all'endpoint vada il Firebase Installation ID o il registration token.
