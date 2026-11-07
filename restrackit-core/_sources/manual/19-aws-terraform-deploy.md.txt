@@ -10,7 +10,7 @@ Un'unica istanza EC2 (`t3.small` di default) in `eu-south-1`, provisionata via T
 Elastic IP, con certificati TLS reali via Let's Encrypt (HTTP-01). L'hostname pubblico
 e' configurabile tramite il parametro SSM `/restrackit/prod/public_hostname` (vedi
 "Hostname pubblico" sotto): di default (`CHANGE_ME`) si usa `<elastic-ip>.sslip.io`,
-ma puo' essere un dominio proprio o un hostname DuckDNS.
+ma puo' essere un dominio proprio.
 
 ## Setup una tantum
 
@@ -68,7 +68,7 @@ errore.
 ## Hostname pubblico
 
 Per default il deploy calcola l'hostname da `<elastic-ip>.sslip.io`. Per usare un dominio
-proprio o un servizio gratuito come [DuckDNS](https://www.duckdns.org):
+proprio:
 
 1. Il record `A` `api.restrackit.it` verso l'Elastic IP è creato da `terraform/dns.tf` (zona
    Route53 `restrackit.it`; variabili `domain_name` e `dns_zone_name`). Con un dominio
@@ -81,14 +81,19 @@ proprio o un servizio gratuito come [DuckDNS](https://www.duckdns.org):
 
 ### Host aggiuntivi (api/app)
 
-Prod resta su `public_hostname` = `restrackit.duckdns.org`: Keycloak (`KC_HOSTNAME_STRICT`)
-emette login e token solo su quell'host, e l'app mobile punta lì. In più rispondono
+Prod usa `public_hostname` = `auth.restrackit.it`: Keycloak (`KC_HOSTNAME_STRICT`) emette
+login e token solo su quell'host (un solo hostname alla volta). In più rispondono
 `api.restrackit.it` (parametro SSM `alt_hostname`) e `app.restrackit.it` (`ui_hostname`),
 record in `terraform/dns.tf`. Con `CHANGE_ME` ciascuno coincide con `public_hostname`.
-Aggiungi i nuovi origin a `cors_origins`. In produzione `/ui/config.json` costruisce il
-`redirect_uri` OIDC dall'host della richiesta; il login passa comunque da Keycloak su
-`public_hostname`. Per spostare l'host principale su `api.restrackit.it` pubblica prima una
-release mobile con la nuova base URL, poi cambia `public_hostname`.
+Il record `A` di `auth.restrackit.it` non è in `terraform/dns.tf`: va creato sull'Elastic IP.
+Aggiorna anche `public_base_url` e `cors_origins`. In produzione `/ui/config.json` costruisce
+il `redirect_uri` OIDC dall'host della richiesta; il login passa comunque da Keycloak su
+`public_hostname`.
+
+Ordine di rollout per cambiare l'host principale (taglio netto, gli utenti rifanno il login):
+DNS `auth.restrackit.it` -> parametri SSM -> deploy core -> l'app mobile cambia
+`KEYCLOAK_ISSUER` in `https://auth.restrackit.it/auth/realms/restrackit`. Core non valida
+`iss`, quindi non serve altro lato API.
 
 Per tornare a `sslip.io` basta rimettere il parametro a `CHANGE_ME` (o eliminarlo).
 

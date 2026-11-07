@@ -1047,7 +1047,7 @@ for private packages in organization repositories.)</a></li>
 Elastic IP, con certificati TLS reali via Let’s Encrypt (HTTP-01). L’hostname pubblico
 e’ configurabile tramite il parametro SSM <code class="docutils literal notranslate"><span class="pre">/restrackit/prod/public_hostname</span></code> (vedi
 “Hostname pubblico” sotto): di default (<code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code>) si usa <code class="docutils literal notranslate"><span class="pre">&lt;elastic-ip&gt;.sslip.io</span></code>,
-ma puo’ essere un dominio proprio o un hostname DuckDNS.</p>
+ma puo’ essere un dominio proprio.</p>
 </section>
 <section id="setup-una-tantum">
 <h2>Setup una tantum<a class="headerlink" href="#setup-una-tantum" title="Link to this heading"></a></h2>
@@ -1116,7 +1116,7 @@ errore.</p>
 <section id="hostname-pubblico">
 <h2>Hostname pubblico<a class="headerlink" href="#hostname-pubblico" title="Link to this heading"></a></h2>
 <p>Per default il deploy calcola l’hostname da <code class="docutils literal notranslate"><span class="pre">&lt;elastic-ip&gt;.sslip.io</span></code>. Per usare un dominio
-proprio o un servizio gratuito come <a class="reference external" href="https://www.duckdns.org">DuckDNS</a>:</p>
+proprio:</p>
 <ol class="arabic simple">
 <li><p>Il record <code class="docutils literal notranslate"><span class="pre">A</span></code> <code class="docutils literal notranslate"><span class="pre">api.restrackit.it</span></code> verso l’Elastic IP è creato da <code class="docutils literal notranslate"><span class="pre">terraform/dns.tf</span></code> (zona
 Route53 <code class="docutils literal notranslate"><span class="pre">restrackit.it</span></code>; variabili <code class="docutils literal notranslate"><span class="pre">domain_name</span></code> e <code class="docutils literal notranslate"><span class="pre">dns_zone_name</span></code>). Con un dominio
@@ -1129,14 +1129,18 @@ hostname (HTTP-01), quindi il DNS deve gia’ risolvere sull’IP prima del depl
 </ol>
 <section id="host-aggiuntivi-api-app">
 <h3>Host aggiuntivi (api/app)<a class="headerlink" href="#host-aggiuntivi-api-app" title="Link to this heading"></a></h3>
-<p>Prod resta su <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code> = <code class="docutils literal notranslate"><span class="pre">restrackit.duckdns.org</span></code>: Keycloak (<code class="docutils literal notranslate"><span class="pre">KC_HOSTNAME_STRICT</span></code>)
-emette login e token solo su quell’host, e l’app mobile punta lì. In più rispondono
+<p>Prod usa <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code> = <code class="docutils literal notranslate"><span class="pre">auth.restrackit.it</span></code>: Keycloak (<code class="docutils literal notranslate"><span class="pre">KC_HOSTNAME_STRICT</span></code>) emette
+login e token solo su quell’host (un solo hostname alla volta). In più rispondono
 <code class="docutils literal notranslate"><span class="pre">api.restrackit.it</span></code> (parametro SSM <code class="docutils literal notranslate"><span class="pre">alt_hostname</span></code>) e <code class="docutils literal notranslate"><span class="pre">app.restrackit.it</span></code> (<code class="docutils literal notranslate"><span class="pre">ui_hostname</span></code>),
 record in <code class="docutils literal notranslate"><span class="pre">terraform/dns.tf</span></code>. Con <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> ciascuno coincide con <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>.
-Aggiungi i nuovi origin a <code class="docutils literal notranslate"><span class="pre">cors_origins</span></code>. In produzione <code class="docutils literal notranslate"><span class="pre">/ui/config.json</span></code> costruisce il
-<code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> OIDC dall’host della richiesta; il login passa comunque da Keycloak su
-<code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>. Per spostare l’host principale su <code class="docutils literal notranslate"><span class="pre">api.restrackit.it</span></code> pubblica prima una
-release mobile con la nuova base URL, poi cambia <code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>.</p>
+Il record <code class="docutils literal notranslate"><span class="pre">A</span></code> di <code class="docutils literal notranslate"><span class="pre">auth.restrackit.it</span></code> non è in <code class="docutils literal notranslate"><span class="pre">terraform/dns.tf</span></code>: va creato sull’Elastic IP.
+Aggiorna anche <code class="docutils literal notranslate"><span class="pre">public_base_url</span></code> e <code class="docutils literal notranslate"><span class="pre">cors_origins</span></code>. In produzione <code class="docutils literal notranslate"><span class="pre">/ui/config.json</span></code> costruisce
+il <code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> OIDC dall’host della richiesta; il login passa comunque da Keycloak su
+<code class="docutils literal notranslate"><span class="pre">public_hostname</span></code>.</p>
+<p>Ordine di rollout per cambiare l’host principale (taglio netto, gli utenti rifanno il login):
+DNS <code class="docutils literal notranslate"><span class="pre">auth.restrackit.it</span></code> -&gt; parametri SSM -&gt; deploy core -&gt; l’app mobile cambia
+<code class="docutils literal notranslate"><span class="pre">KEYCLOAK_ISSUER</span></code> in <code class="docutils literal notranslate"><span class="pre">https://auth.restrackit.it/auth/realms/restrackit</span></code>. Core non valida
+<code class="docutils literal notranslate"><span class="pre">iss</span></code>, quindi non serve altro lato API.</p>
 <p>Per tornare a <code class="docutils literal notranslate"><span class="pre">sslip.io</span></code> basta rimettere il parametro a <code class="docutils literal notranslate"><span class="pre">CHANGE_ME</span></code> (o eliminarlo).</p>
 </section>
 </section>
